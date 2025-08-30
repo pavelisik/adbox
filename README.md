@@ -1,3 +1,39 @@
+# ADBOX - доска объявлений
+
+Веб-приложение на Angular, позволяющее пользователям просматривать и создавать объявления.
+
+## Установка и запуск проекта
+
+1. Клонируйте репозиторий:
+
+```bash
+git clone https://github.com/pavelisik/adbox.git
+```
+
+2. Перейдите в директорию проекта:
+
+```bash
+cd adbox
+```
+
+3. Установите зависимости:
+
+```bash
+npm install
+```
+
+4. Запустите проект в режиме разработки:
+
+```bash
+npm start
+```
+
+5. Откройте приложение в браузере по адресу:
+
+```
+http://localhost:4200
+```
+
 # Adbox
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
