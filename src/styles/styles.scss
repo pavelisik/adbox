@@ -3,6 +3,7 @@
 @use 'reset';
 @use 'typography';
 @use 'utilities';
+@import 'primeicons/primeicons.css';
 
 body {
     background: var(--white-color);
@@ -61,18 +62,22 @@ summary::before {
     cursor: pointer;
 }
 
-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 12px;
+.p-button {
     border: none;
     white-space: nowrap;
-    line-height: 143%;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.15s ease-in-out;
+}
+
+.p-button-outlined {
+    border: 1px solid;
+}
+
+.p-button-label {
+    line-height: 20px;
+}
+
+.p-button-outlined:not(:disabled):hover,
+.p-button-text:not(:disabled):hover {
+    background: transparent;
 }
 
 .container {

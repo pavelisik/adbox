@@ -12,25 +12,18 @@
 }
 
 .header-top__signin-btn {
-    color: var(--white-color);
-    background-color: transparent;
     padding: 8px 0px;
-    width: 70px;
 
-    &:hover {
-        color: var(--gray-300-color);
+    &:not(:disabled):hover {
+        color: var(--p-blue-100);
     }
 }
 
 .header-top__add-btn {
-    color: var(--white-color);
-    background-color: var(--blue-color);
     padding: 6px 12px;
     gap: 4px;
-    width: 179px;
-    font-weight: 500;
 
-    &:hover {
-        background-color: var(--blue-semi-color);
+    .p-button-label {
+        font-weight: 500;
     }
 }

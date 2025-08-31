@@ -12,4 +12,23 @@
     --gray-500-color: #64748b;
     --gray-300-color: #cbd5e1;
     --gray-200-color: #e2e8f0;
+
+    /* Переменные PrimeNG */
+    /* кнопка */
+    --p-button-primary-color: var(--white-color);
+    --p-button-primary-background: var(--p-blue-500);
+    --p-button-primary-border-color: var(--p-blue-500);
+    --p-button-border-radius: 4px;
+    --p-button-padding-y: 8px;
+    --p-button-padding-x: 12px;
+    --p-button-gap: 8px;
+    --p-button-primary-hover-background: var(--p-blue-600);
+    --p-button-primary-hover-color: var(--white-color);
+    --p-button-primary-hover-border-color: var(--p-blue-600);
+    --p-button-label-font-weight: 400;
+    /* текстовая кнопка */
+    --p-button-text-primary-color: var(--white-color);
+    /* кнопка c обводкой*/
+    --p-button-outlined-primary-border-color: var(--p-blue-500);
+    --p-button-outlined-primary-color: var(--p-blue-500);
 }

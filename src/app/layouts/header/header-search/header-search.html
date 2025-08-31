@@ -1,14 +1,14 @@
 <div class="header-search__container container">
     <h3 class="header-search__title h3">Доска объявлений</h3>
-    <button class="header-search__menu-btn">
-        <svg icon="list-nested" width="20" height="20"></svg>
-        Все категории
+    <button pButton outlined class="header-search__menu-btn">
+        <svg pButtonIcon icon="list-nested" width="20" height="20"></svg>
+        <span pButtonLabel>Все категории</span>
     </button>
     <form class="header-search__form">
         <input type="text" placeholder="Поиск по объявлениям" />
-        <button type="submit" class="header-search__search-btn">
-            Найти
-            <svg icon="search" width="16" height="16"></svg>
+        <button pButton type="submit" class="header-search__search-btn">
+            <span pButtonLabel>Найти</span>
+            <svg pButtonIcon icon="search" width="16" height="16"></svg>
         </button>
     </form>
 </div>

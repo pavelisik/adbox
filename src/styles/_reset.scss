@@ -4,8 +4,6 @@
 *::after {
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
-    border: 0;
 }
 
 /* Prevent font size inflation */
@@ -28,15 +26,15 @@ body {
 }
 
 /* Set shorter line heights on headings and interactive elements */
-// h1,
-// h2,
-// h3,
-// h4,
-// button,
-// input,
-// label {
-//     line-height: 1.1;
-// }
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+    line-height: 1.1;
+}
 
 /* Balance text wrapping on headings */
 h1,
