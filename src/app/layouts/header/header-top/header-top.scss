@@ -1,0 +1,36 @@
+:host {
+    display: block;
+    background-color: var(--dark-color);
+    padding: 8px 0;
+}
+
+.header-top__container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
+}
+
+.header-top__signin-btn {
+    color: var(--white-color);
+    background-color: transparent;
+    padding: 8px 0px;
+    width: 70px;
+
+    &:hover {
+        color: var(--gray-300-color);
+    }
+}
+
+.header-top__add-btn {
+    color: var(--white-color);
+    background-color: var(--blue-color);
+    padding: 6px 12px;
+    gap: 4px;
+    width: 179px;
+    font-weight: 500;
+
+    &:hover {
+        background-color: var(--blue-semi-color);
+    }
+}
