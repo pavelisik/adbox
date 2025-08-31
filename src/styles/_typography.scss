@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('../assets/fonts/InterVariable.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('../assets/fonts/InterVariable-Italic.woff2') format('woff2');
+}
+
+:root {
+    font-family: 'Inter', sans-serif;
+}
+
+.sm-400 {
+    font-weight: 400;
+}
+
+.sm-500 {
+    font-weight: 500;
+}
+
+.sm-600 {
+    font-weight: 600;
+}
+
+.med-600 {
+    font-weight: 600;
+}
+
+.big-700 {
+    font-weight: 700;
+}
+
+h3,
+.h3 {
+    font-size: 30px;
+    line-height: 120%;
+}
+
+h4,
+.h4 {
+    font-size: 24px;
+    line-height: 133%;
+}
+
+h6,
+.h6 {
+    font-size: 18px;
+    line-height: 133%;
+}
+
+.base {
+    font-size: 16px;
+    line-height: 150%;
+}
