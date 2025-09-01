@@ -1,0 +1,15 @@
+@if (advert) {
+<a class="item__img-wrapper" [href]="advert.link">
+    <img class="item__img" [src]="advert.image" [alt]="advert.title" />
+</a>
+<div class="item__text-block">
+    <h6 class="item__title h6 fw-600">
+        <a [href]="advert.link">{{ advert.title }}</a>
+    </h6>
+    <span class="item__price h6 fw-600">
+        {{ advert.price }}
+    </span>
+    <span class="item__address">{{ advert.address }}</span>
+    <span class="item__time">{{ advert.time }}</span>
+</div>
+}
