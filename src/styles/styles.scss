@@ -53,6 +53,7 @@ summary::before {
     cursor: pointer;
 }
 
+/* стили по-умолчанию для элементов PrimeNG */
 .p-button {
     border: none;
     white-space: nowrap;
@@ -62,13 +63,52 @@ summary::before {
     border: 1px solid;
 }
 
-.p-button-label {
-    line-height: 20px;
-}
-
 .p-button-outlined:not(:disabled):hover,
 .p-button-text:not(:disabled):hover {
     background: transparent;
+}
+
+.p-invalid:hover,
+.p-invalid:focus {
+    border-color: var(--error-color);
+}
+
+.p-dialog {
+    border: none;
+    font-size: 16px;
+
+    input {
+        width: 368px;
+        height: 48px;
+        line-height: 24px;
+        padding: 12px;
+    }
+
+    .p-message-text {
+        margin-top: 2px;
+    }
+
+    .p-dialog-close-button {
+        color: var(--gray-600-color);
+
+        &:hover {
+            color: var(--dark-color);
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+
+        button {
+            margin-top: 8px;
+            padding: 12px 40px;
+            line-height: 24px;
+            height: 48px;
+        }
+    }
 }
 
 .container {

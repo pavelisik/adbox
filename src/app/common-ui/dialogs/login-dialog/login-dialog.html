@@ -1,7 +1,35 @@
-<p-dialog header="Авторизация" [(visible)]="visible" modal="true" [closable]="true">
+<p-dialog
+    header="Авторизация"
+    [(visible)]="visible"
+    modal="true"
+    [closable]="true"
+    (onShow)="onShow()"
+    (onHide)="close()"
+>
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-        <input pInputText placeholder="Логин" formControlName="username" />
-        <input pInputText type="password" placeholder="Пароль" formControlName="password" />
+        <div class="dialog-form__field">
+            <input
+                pInputText
+                placeholder="Логин"
+                formControlName="username"
+                [invalid]="isInvalid('username')"
+            />
+            @if (isInvalid('username')) {
+            <p-message severity="error" size="small" variant="simple">Введите логин</p-message>
+            }
+        </div>
+        <div class="dialog-form__field">
+            <input
+                pInputText
+                type="password"
+                placeholder="Пароль"
+                formControlName="password"
+                [invalid]="isInvalid('password')"
+            />
+            @if (isInvalid('password')) {
+            <p-message severity="error" size="small" variant="simple">Введите пароль</p-message>
+            }
+        </div>
         <button pButton type="submit" label="Войти"></button>
     </form>
 </p-dialog>
