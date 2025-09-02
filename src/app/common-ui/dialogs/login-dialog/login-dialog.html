@@ -1,0 +1,7 @@
+<p-dialog header="Авторизация" [(visible)]="visible" modal="true" [closable]="true">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <input pInputText placeholder="Логин" formControlName="username" />
+        <input pInputText type="password" placeholder="Пароль" formControlName="password" />
+        <button pButton type="submit" label="Войти"></button>
+    </form>
+</p-dialog>
