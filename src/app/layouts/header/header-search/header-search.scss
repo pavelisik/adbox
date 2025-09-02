@@ -28,8 +28,7 @@
     }
 
     &:not(:disabled):hover {
-        color: var(--gray-700-color);
-        border-color: var(--gray-700-color);
+        border-color: var(--gray-400-color);
     }
 }
 
@@ -37,13 +36,14 @@
     flex: 1;
     display: flex;
     align-items: center;
-}
 
-.header-search__form input {
-    flex: 1;
-    border-radius: 4px 0 0 4px;
-    height: 36px;
-    border-right: none;
+    input {
+        flex: 1;
+        border-radius: 4px 0 0 4px;
+        line-height: 20px;
+        height: 36px;
+        border-right: none;
+    }
 }
 
 .header-search__search-btn {

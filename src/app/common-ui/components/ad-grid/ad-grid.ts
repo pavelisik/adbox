@@ -31,7 +31,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 3,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -40,7 +40,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 4,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -49,7 +49,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 5,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -58,7 +58,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 6,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -67,7 +67,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 7,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -76,7 +76,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 8,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -85,7 +85,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 9,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -94,7 +94,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 10,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -103,7 +103,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 11,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',
@@ -112,7 +112,7 @@ export class AdGrid {
             link: '/',
         },
         {
-            id: 2,
+            id: 12,
             title: 'Гитара Fender 02',
             price: 20000,
             address: 'Москва, Ленинский проспект',

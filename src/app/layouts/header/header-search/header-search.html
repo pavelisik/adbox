@@ -4,8 +4,8 @@
         <svg pButtonIcon icon="list-nested" width="20" height="20"></svg>
         <span pButtonLabel>Все категории</span>
     </button>
-    <form class="header-search__form">
-        <input type="text" placeholder="Поиск по объявлениям" />
+    <form class="header-search__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+        <input pInputText type="text" placeholder="Поиск по объявлениям" formControlName="search" />
         <button pButton type="submit" class="header-search__search-btn">
             <span pButtonLabel>Найти</span>
             <svg pButtonIcon icon="search" width="16" height="16"></svg>
