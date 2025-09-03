@@ -1,8 +1,15 @@
 <div class="header-top__container container">
+    @if (authService.isAuth) {
+    <button pButton text class="header-top__signin-btn" (click)="authService.logout()">
+        <svg pButtonIcon icon="person" width="20" height="20"></svg>
+        <span pButtonLabel>Выйти</span>
+    </button>
+    } @else {
     <button pButton text class="header-top__signin-btn" (click)="openLoginDialog()">
         <svg pButtonIcon icon="person" width="20" height="20"></svg>
         <span pButtonLabel>Войти</span>
     </button>
+    }
     <button pButton class="header-top__add-btn">
         <span pButtonLabel>Новое объявление</span>
         <svg pButtonIcon icon="plus" width="20" height="20"></svg>

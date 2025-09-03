@@ -101,6 +101,7 @@ summary::before {
         color: var(--gray-600-color);
         width: 100%;
         padding: 6px;
+        border: none;
 
         &:hover {
             color: var(--dark-color);

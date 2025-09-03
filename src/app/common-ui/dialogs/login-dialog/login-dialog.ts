@@ -23,27 +23,13 @@ export class LoginDialog {
 
     visible = this.authService.loginDialogOpen;
 
+    searchForm = this.fb.nonNullable.group({
+        search: [''],
+    });
+
     loginForm = this.fb.nonNullable.group({
-        login: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(4),
-                    Validators.maxLength(64),
-                ],
-            },
-        ],
-        password: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(8),
-                    Validators.maxLength(50),
-                ],
-            },
-        ],
+        login: ['', Validators.required],
+        password: ['', Validators.required],
     });
 
     getControlError(controlName: string): string | null {
@@ -54,33 +40,22 @@ export class LoginDialog {
             return controlName === 'login' ? 'Введите логин' : 'Введите пароль';
         }
 
-        if (control.errors['minlength']) {
-            const requiredLength = control.errors['minlength'].requiredLength;
-            const symbolWord = controlName === 'login' ? 'символа' : 'символов';
-            return `Минимум ${requiredLength} ${symbolWord}`;
-        }
-
-        if (control.errors['maxlength']) {
-            const requiredLength = control.errors['maxlength'].requiredLength;
-            const symbolWord = controlName === 'login' ? 'символа' : 'символов';
-            return `Максимум ${requiredLength} ${symbolWord}`;
-        }
-
         return 'Неверное значение';
     }
 
-    onShow() {
+    resetFormState() {
         this.isSubmitted.set(false);
         this.loginForm.reset();
         this.loginError.set('');
         this.isPasswordVisible.set(false);
     }
 
+    onShow() {
+        this.resetFormState();
+    }
+
     onClose() {
-        this.isSubmitted.set(false);
-        this.loginForm.reset();
-        this.loginError.set('');
-        this.isPasswordVisible.set(false);
+        this.resetFormState();
         this.authService.closeLoginDialog();
     }
 
@@ -114,7 +89,7 @@ export class LoginDialog {
                         'Ошибка: ' + (err.message ?? 'Неизвестная ошибка. Попробуйте снова')
                     );
                 }
-                console.log('Ошибка авторизации:', err.error.errors[0]);
+                console.log('Ошибка авторизации:', err?.error?.errors?.[0] ?? err.message);
             },
         });
     }
