@@ -1,0 +1,23 @@
+.dialog-form__password-input {
+    position: relative;
+}
+
+.dialog-form__password-eye-btn {
+    position: absolute;
+    padding: 10px;
+    top: 5px;
+    right: 6px;
+    background: none;
+    border: none;
+    color: var(--gray-400-color);
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--gray-600-color);
+    }
+
+    &.active {
+        color: var(--gray-600-color);
+    }
+}

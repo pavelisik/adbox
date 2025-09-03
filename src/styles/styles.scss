@@ -63,6 +63,15 @@ summary::before {
     border: 1px solid;
 }
 
+.p-button-loading-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.p-hidden {
+    display: none;
+}
+
 .p-button-outlined:not(:disabled):hover,
 .p-button-text:not(:disabled):hover {
     background: transparent;
@@ -90,6 +99,8 @@ summary::before {
 
     .p-dialog-close-button {
         color: var(--gray-600-color);
+        width: 100%;
+        padding: 6px;
 
         &:hover {
             color: var(--dark-color);
@@ -105,8 +116,11 @@ summary::before {
         button {
             margin-top: 8px;
             padding: 12px 40px;
-            line-height: 24px;
             height: 48px;
+        }
+
+        .p-button-label {
+            line-height: 24px;
         }
     }
 }
