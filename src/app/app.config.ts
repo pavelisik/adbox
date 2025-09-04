@@ -8,7 +8,8 @@ import { providePrimeNG } from 'primeng/config';
 import { MyPreset } from './mypreset';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authTokenInterceptor } from '@app/auth/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -29,6 +30,6 @@ export const appConfig: ApplicationConfig = {
         provideBrowserGlobalErrorListeners(),
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
-        provideHttpClient(),
+        provideHttpClient(withInterceptors([authTokenInterceptor])),
     ],
 };

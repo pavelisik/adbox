@@ -13,5 +13,11 @@ import { AdvertService } from '@app/data/services/advert-service';
 export class HomePage {
     advertService = inject(AdvertService);
 
-    advert$ = this.advertService.getAdvert('24fefe92-753f-48fb-99c6-5ba7f5060ad6');
+    // advert$ = this.advertService.getAdvert('24fefe92-753f-48fb-99c6-5ba7f5060ad6');
+
+    adverts$ = this.advertService.searchAdverts({
+        search: '',
+        showNonActive: true,
+        category: 'c40f82b1-511a-4293-8c71-44bbb2b1e36c',
+    });
 }

@@ -1,0 +1,5 @@
+@if (advert$ | async; as advert) {
+{{ advert | json }}
+} @else {
+<p>Загрузка...</p>
+}

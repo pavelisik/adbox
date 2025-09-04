@@ -18,6 +18,12 @@ export interface Advert {
     cost: number;
 }
 
+export interface AdvertSearchRequest {
+    search: string;
+    showNonActive: boolean;
+    category: string;
+}
+
 // ПОТОМ ВОТ ТАКОЕ ОБЪЯВЛЕНИЕ ЗАТИПИЗИРОВАТЬ
 
 // {

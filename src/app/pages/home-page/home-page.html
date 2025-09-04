@@ -1,5 +1,9 @@
 <h4 class="h4 fw-600 mb-24">Рекомендации для вас</h4>
-@if (advert$ | async; as advert) {
-<p>{{ advert.name }}</p>
+
+@if (adverts$ | async; as adverts) {
+<app-ad-grid [adverts]="adverts" width="full"></app-ad-grid>
+} @else {
+<p>Загрузка...</p>
 }
+
 <app-ad-grid width="full"></app-ad-grid>
