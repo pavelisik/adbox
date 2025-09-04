@@ -5,10 +5,11 @@ import type { Advert, AdvertDemo } from '@app/data/interfaces/advert';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ImagesService } from '@app/data/services/images-service';
+import { PricePipe } from '@app/helpers/pipes/price-pipe';
 
 @Component({
     selector: 'li[app-ad-grid-item]',
-    imports: [RelativeDatePipe, AsyncPipe, RouterLink],
+    imports: [RelativeDatePipe, AsyncPipe, RouterLink, PricePipe],
     templateUrl: './ad-grid-item.html',
     styleUrl: './ad-grid-item.scss',
 })

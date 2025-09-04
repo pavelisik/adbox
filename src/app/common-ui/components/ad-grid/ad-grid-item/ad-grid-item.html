@@ -3,16 +3,14 @@
     @if (image$ | async; as img) {
     <img class="item__img" [src]="img" [alt]="advert.name" />
     } @else {
-    <p>нет фото</p>
+    <p>Загрузка фото...</p>
     }
 </a>
 <div class="item__text-block">
     <h6 class="item__title h6 fw-600">
         <a [routerLink]="['/advert', advert.id]">{{ advert.name }}</a>
     </h6>
-    <span class="item__price h6 fw-600">
-        {{ advert.cost }}
-    </span>
+    <span class="item__price h6 fw-600"> {{ advert.cost | price }} </span>
     <span class="item__address">{{ advert.location }}</span>
     <span class="item__time">{{ advert.createdAt | relativeDate }}</span>
 </div>

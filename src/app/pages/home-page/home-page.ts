@@ -15,9 +15,12 @@ export class HomePage {
 
     // advert$ = this.advertService.getAdvert('24fefe92-753f-48fb-99c6-5ba7f5060ad6');
 
-    adverts$ = this.advertService.searchAdverts({
-        search: '',
-        showNonActive: true,
-        category: 'c40f82b1-511a-4293-8c71-44bbb2b1e36c',
-    });
+    adverts$ = this.advertService.searchAdverts(
+        {
+            search: '',
+            showNonActive: true,
+            category: 'f2de4a69-1f28-4264-8f11-86b6f85d7b77',
+        },
+        8
+    );
 }

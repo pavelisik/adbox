@@ -14,7 +14,7 @@ export class AdvertService {
         return this.http.get<Advert>(`${this.baseApiUrl}${id}`);
     }
 
-    searchAdverts(params: AdvertSearchRequest, limit = 5) {
+    searchAdverts(params: AdvertSearchRequest, limit = 4) {
         return this.http
             .post<Advert[]>(`${this.baseApiUrl}search`, params)
             .pipe(map((res) => res.slice(0, limit)));
