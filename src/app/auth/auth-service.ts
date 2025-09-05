@@ -12,7 +12,8 @@ export class AuthService {
     router = inject(Router);
     cookieService = inject(CookieService);
 
-    loginDialogOpen = signal(false);
+    loginDialogOpen = signal<boolean>(false);
+    redirectUrl = signal<string | null>(null);
     baseApiUrl = 'http://dzitskiy.ru:5000/Auth/';
 
     token = signal<string | null>(this.cookieService.get('token') || null);
@@ -21,35 +22,21 @@ export class AuthService {
         return !!this.token();
     }
 
-    private redirectUrl: string | null = null;
-
-    setRedirectUrl(url: string) {
-        this.redirectUrl = url;
-    }
-
-    getRedirectUrl() {
-        return this.redirectUrl;
-    }
-
-    clearRedirectUrl() {
-        this.redirectUrl = null;
-    }
-
     login(payload: { login: string; password: string }) {
         return this.http
             .post<string>(`${this.baseApiUrl}Login`, payload)
-            .pipe(tap((val) => this.saveTokens(val)));
+            .pipe(tap((val) => this.saveToken(val)));
     }
 
-    saveTokens(res: string) {
+    saveToken(res: string) {
         this.token.set(res);
         this.cookieService.set('token', res);
 
-        if (this.redirectUrl) {
-            this.router.navigateByUrl(this.redirectUrl);
-            this.clearRedirectUrl();
-        } else {
-            this.router.navigate(['']);
+        const url = this.redirectUrl();
+
+        if (url) {
+            this.router.navigateByUrl(url);
+            this.redirectUrl.set(null);
         }
     }
 

@@ -20,10 +20,7 @@ export const appConfig: ApplicationConfig = {
                 options: {
                     prefix: 'p',
                     darkModeSelector: false || 'none',
-                    cssLayer: {
-                        name: 'primeng',
-                        order: 'app-styles, primeng, another-css-library',
-                    },
+                    cssLayer: true,
                 },
             },
         }),

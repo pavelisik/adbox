@@ -1,32 +1,20 @@
 @if (advert) {
-<a class="item__img-wrapper" [routerLink]="['/advert', advert.id]">
-    @if (image$ | async; as img) {
-    <img class="item__img" [src]="img" [alt]="advert.name" />
-    } @else {
-    <p>Загрузка фото...</p>
-    }
+<a class="item__img-outer-wrapper" [routerLink]="['/advert', advert.id]">
+    <div class="item__img-wrapper">
+        @if (image$ | async; as img) {
+        <img class="item__img" [src]="img" [alt]="advert.name" />
+        } @else {
+        <p>Загрузка фото...</p>
+        }
+    </div>
 </a>
-<div class="item__text-block">
-    <h6 class="item__title h6 fw-600">
-        <a [routerLink]="['/advert', advert.id]">{{ advert.name }}</a>
-    </h6>
+<h6 class="item__title h6 fw-600">
+    <a [routerLink]="['/advert', advert.id]">{{ advert.name }}</a>
+</h6>
+<div class="item__info-block">
     <span class="item__price h6 fw-600"> {{ advert.cost | price }} </span>
     <span class="item__address">{{ advert.location }}</span>
     <span class="item__time">{{ advert.createdAt | relativeDate }}</span>
 </div>
 
-} @if (advertDemo) {
-<a class="item__img-wrapper" [href]="advertDemo.link">
-    <img class="item__img" [src]="advertDemo.image" [alt]="advertDemo.title" />
-</a>
-<div class="item__text-block">
-    <h6 class="item__title h6 fw-600">
-        <a [href]="advertDemo.link">{{ advertDemo.title }}</a>
-    </h6>
-    <span class="item__price h6 fw-600">
-        {{ advertDemo.price }}
-    </span>
-    <span class="item__address">{{ advertDemo.address }}</span>
-    <span class="item__time">{{ advertDemo.time }}</span>
-</div>
 }

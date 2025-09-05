@@ -1,5 +1,4 @@
 @use 'variables';
-@use 'mixins';
 @use 'reset';
 @use 'typography';
 @use 'utilities';
@@ -101,11 +100,15 @@ summary::before {
         color: var(--gray-600-color);
         width: 100%;
         padding: 6px;
-        border: none;
+        outline: none;
 
         &:hover {
             color: var(--dark-color);
         }
+    }
+
+    .p-dialog-header-icon:focus {
+        outline: none;
     }
 
     form {
