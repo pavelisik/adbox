@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginDialog } from './common-ui/dialogs/login-dialog/login-dialog';
+import { LoginDialog } from '@app/shared/dialogs/login-dialog/login-dialog';
 
 @Component({
     selector: 'app-root',

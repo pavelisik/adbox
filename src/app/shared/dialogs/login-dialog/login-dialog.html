@@ -1,0 +1,67 @@
+<p-dialog
+    header="Авторизация"
+    [(visible)]="visible"
+    modal="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    (onShow)="onShow()"
+    (onHide)="onClose()"
+>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="dialog-form__field">
+            <input
+                pInputText
+                placeholder="Логин"
+                formControlName="login"
+                autocomplete="username"
+                [class.ng-invalid]="false"
+                [invalid]="!!getControlError('login')"
+            />
+            @if (getControlError('login')) {
+            <p-message severity="error" size="small" variant="simple">{{
+                getControlError('login')
+            }}</p-message>
+            }
+        </div>
+        <div class="dialog-form__field">
+            <div class="dialog-form__password-input">
+                <input
+                    pInputText
+                    [type]="isPasswordVisible() ? 'text' : 'password'"
+                    placeholder="Пароль"
+                    formControlName="password"
+                    autocomplete="current-password"
+                    [class.ng-invalid]="false"
+                    [invalid]="!!getControlError('password')"
+                />
+                <span
+                    class="dialog-form__password-eye-btn"
+                    [title]="isPasswordVisible() ? 'Скрыть пароль' : 'Показать пароль'"
+                    [class.active]="isPasswordVisible()"
+                    (click)="isPasswordVisible.set(!isPasswordVisible())"
+                >
+                    <span
+                        class="pi"
+                        [class.pi-eye-slash]="!isPasswordVisible()"
+                        [class.pi-eye]="isPasswordVisible()"
+                    ></span>
+                </span>
+            </div>
+            @if (getControlError('password')) {
+            <p-message severity="error" size="small" variant="simple">{{
+                getControlError('password')
+            }}</p-message>
+            }
+        </div>
+        @if (loginError()) {
+        <p-message severity="error" size="small" variant="simple">{{ loginError() }}</p-message>
+        }
+        <button
+            pButton
+            type="submit"
+            [label]="isLoading() ? 'Вход' : 'Войти'"
+            [loading]="isLoading()"
+        ></button>
+    </form>
+</p-dialog>

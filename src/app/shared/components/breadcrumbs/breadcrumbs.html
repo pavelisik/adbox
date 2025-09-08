@@ -1,0 +1,8 @@
+<p-breadcrumb [model]="items">
+    <ng-template #item let-item>
+        <a>
+            {{ item.label }}
+        </a>
+    </ng-template>
+    <ng-template #separator>&middot;</ng-template>
+</p-breadcrumb>

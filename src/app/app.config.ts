@@ -9,7 +9,7 @@ import { MyPreset } from './mypreset';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authTokenInterceptor } from '@app/auth/auth.interceptor';
+import { authTokenInterceptor } from '@app/core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [

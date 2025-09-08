@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from '@app/auth/auth-service';
-import { SvgIcon } from '@app/common-ui/components/svg-icon/svg-icon';
+import { AuthService } from '@app/core/auth/services';
+import { SvgIcon } from '@app/shared/components/svg-icon/svg-icon';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
