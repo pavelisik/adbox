@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Advert, AdvertSearchRequest } from '@app/data/interfaces/advert';
+import type { Advert, AdvertFull, AdvertSearchRequest } from '@app/data/interfaces/advert';
 import { map } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,7 @@ export class AdvertService {
     baseApiUrl = 'http://dzitskiy.ru:5000/Advert/';
 
     getAdvert(id: string) {
-        return this.http.get<Advert>(`${this.baseApiUrl}${id}`);
+        return this.http.get<AdvertFull>(`${this.baseApiUrl}${id}`);
     }
 
     searchAdverts(params: AdvertSearchRequest, limit = 4) {

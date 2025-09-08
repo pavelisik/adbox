@@ -1,4 +1,7 @@
 @if (advert$ | async; as advert) {
+
+<app-breadcrumbs [advert]="advert"></app-breadcrumbs>
+
 {{ advert | json }}
 } @else {
 <p>Загрузка...</p>
