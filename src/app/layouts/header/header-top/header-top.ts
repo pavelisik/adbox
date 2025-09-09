@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { AuthService } from '@app/core/auth/services';
+import { AuthService, AuthStateService } from '@app/core/auth/services';
 import { SvgIcon } from '@app/shared/components/svg-icon/svg-icon';
+import { LoginDialogService } from '@app/shared/dialogs/login-dialog/services/login-dialog.service';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
@@ -11,8 +12,6 @@ import { ButtonModule } from 'primeng/button';
 })
 export class HeaderTop {
     authService = inject(AuthService);
-
-    openLoginDialog() {
-        this.authService.openLoginDialog();
-    }
+    authStateService = inject(AuthStateService);
+    loginDialogService = inject(LoginDialogService);
 }

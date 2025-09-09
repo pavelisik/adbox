@@ -1,18 +1,21 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '@app/core/auth/services';
+import { AuthStateService } from '@app/core/auth/services';
+import { LoginDialogService } from '@app/shared/dialogs/login-dialog/services/login-dialog.service';
 
 export const canActivateAuth: CanActivateFn = (route, state) => {
-    const authService = inject(AuthService);
+    const authStateService = inject(AuthStateService);
+    const loginDialogService = inject(LoginDialogService);
+
     const router = inject(Router);
 
-    if (authService.isAuth) {
+    if (authStateService.isAuth) {
         return true;
     }
 
     // сохраняем url на который хотим попасть
-    authService.redirectUrl.set(state.url);
-    authService.openLoginDialog();
+    loginDialogService.redirectUrl.set(state.url);
+    loginDialogService.openLoginDialog();
 
     return router.createUrlTree(['']);
 };

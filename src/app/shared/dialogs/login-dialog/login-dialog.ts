@@ -1,3 +1,4 @@
+import { LoginDialogService } from './services/login-dialog.service';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';
@@ -14,6 +15,7 @@ import { MessageModule } from 'primeng/message';
 })
 export class LoginDialog {
     authService = inject(AuthService);
+    loginDialogService = inject(LoginDialogService);
     fb = inject(FormBuilder);
 
     isSubmitted = signal<boolean>(false);
@@ -21,7 +23,7 @@ export class LoginDialog {
     isPasswordVisible = signal<boolean>(false);
     loginError = signal<string>('');
 
-    visible = this.authService.loginDialogOpen;
+    visible = this.loginDialogService.loginDialogOpen;
 
     searchForm = this.fb.nonNullable.group({
         search: [''],
@@ -56,7 +58,7 @@ export class LoginDialog {
 
     onClose() {
         this.resetFormState();
-        this.authService.closeLoginDialog();
+        this.loginDialogService.closeLoginDialog();
     }
 
     onLogin() {

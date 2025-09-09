@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import type { MenuItem } from 'primeng/api';
-import type { AdvertFull } from '@app/data/interfaces/advert';
+import type { FullAdvert } from '@app/pages/adverts-list/domains';
 import { CITIES } from '@app/data/constants/cities';
 import { CategoryService } from '@app/data/services/category-service';
 import { firstValueFrom } from 'rxjs';
@@ -13,7 +13,7 @@ import { firstValueFrom } from 'rxjs';
     styleUrl: './breadcrumbs.scss',
 })
 export class Breadcrumbs {
-    @Input() advert: AdvertFull | null = null;
+    @Input() advert: FullAdvert | null = null;
     items: MenuItem[] = [];
     categoryService = inject(CategoryService);
 

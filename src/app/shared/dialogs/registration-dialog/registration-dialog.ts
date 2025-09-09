@@ -5,6 +5,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
+import { LoginDialogService } from '@app/shared/dialogs/login-dialog/services/login-dialog.service';
 
 @Component({
     selector: 'app-registration-dialog',
@@ -14,6 +15,7 @@ import { MessageModule } from 'primeng/message';
 })
 export class RegistrationDialog {
     authService = inject(AuthService);
+    loginDialogService = inject(LoginDialogService);
     fb = inject(FormBuilder);
 
     isSubmitted = signal<boolean>(false);
@@ -21,7 +23,7 @@ export class RegistrationDialog {
     isPasswordVisible = signal<boolean>(false);
     loginError = signal<string>('');
 
-    visible = this.authService.loginDialogOpen;
+    visible = this.loginDialogService.loginDialogOpen;
 
     loginForm = this.fb.nonNullable.group({
         login: [
@@ -81,7 +83,7 @@ export class RegistrationDialog {
         this.loginForm.reset();
         this.loginError.set('');
         this.isPasswordVisible.set(false);
-        this.authService.closeLoginDialog();
+        this.loginDialogService.closeLoginDialog();
     }
 
     onLogin() {

@@ -1,56 +1,33 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { tap } from 'rxjs';
+import { AuthLoginRequestToDTOAdapter } from '@app/core/auth/adapters';
+import { AuthLoginRequest } from '@app/core/auth/domains';
+import { AuthStateService } from '@app/core/auth/services/auth.state.service';
+import { AuthApiService } from '@app/infrastructure/authorization/services/auth.api.service';
+import { LoginDialogService } from '@app/shared/dialogs/login-dialog/services/login-dialog.service';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    http = inject(HttpClient);
+    private readonly apiService = inject(AuthApiService);
+    private readonly authStateService = inject(AuthStateService);
+    private readonly loginDialogService = inject(LoginDialogService);
     router = inject(Router);
-    cookieService = inject(CookieService);
 
-    loginDialogOpen = signal<boolean>(false);
-    redirectUrl = signal<string | null>(null);
-    baseApiUrl = 'http://dzitskiy.ru:5000/Auth/';
-
-    token = signal<string | null>(this.cookieService.get('token') || null);
-
-    get isAuth() {
-        return !!this.token();
-    }
-
-    login(payload: { login: string; password: string }) {
-        return this.http
-            .post<string>(`${this.baseApiUrl}Login`, payload)
-            .pipe(tap((val) => this.saveToken(val)));
-    }
-
-    saveToken(res: string) {
-        this.token.set(res);
-        this.cookieService.set('token', res);
-
-        const url = this.redirectUrl();
-
-        if (url) {
-            this.router.navigateByUrl(url);
-            this.redirectUrl.set(null);
-        }
+    login(params: AuthLoginRequest): Observable<string> {
+        const request = AuthLoginRequestToDTOAdapter(params);
+        return this.apiService.login(request).pipe(
+            tap((val) => {
+                this.authStateService.saveToken(val);
+                this.loginDialogService.loginRedirect();
+            })
+        );
     }
 
     logout() {
-        this.cookieService.delete('token');
-        this.token.set(null);
+        this.authStateService.deleteToken();
         this.router.navigate(['']);
-    }
-
-    openLoginDialog() {
-        this.loginDialogOpen.set(true);
-    }
-
-    closeLoginDialog() {
-        this.loginDialogOpen.set(false);
     }
 }

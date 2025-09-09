@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Advert } from '@app/data/interfaces/advert';
+import type { ShortAdvert } from '@app/pages/adverts-list/domains';
 import { AdGridItem } from '@app/shared/components/ad-grid/ad-grid-item/ad-grid-item';
 
 @Component({
@@ -9,6 +9,6 @@ import { AdGridItem } from '@app/shared/components/ad-grid/ad-grid-item/ad-grid-
     styleUrl: './ad-grid.scss',
 })
 export class AdGrid {
-    @Input() adverts: Advert[] = [];
+    @Input() adverts: ShortAdvert[] = [];
     @Input() width: 'full' | 'short' = 'full';
 }

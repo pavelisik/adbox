@@ -1,4 +1,4 @@
-import { AuthService } from '@app/core/auth/services';
+import { AuthService, AuthStateService } from '@app/core/auth/services';
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 
@@ -9,8 +9,8 @@ const addToken = (req: HttpRequest<any>, token: string) => {
 };
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
-    const authService = inject(AuthService);
-    const token = authService.token();
+    const authStateService = inject(AuthStateService);
+    const token = authStateService.token();
 
     if (req.url.includes('/Auth/Login')) {
         return next(req);
