@@ -1,4 +1,4 @@
-export interface AdvertFull {
+export interface FullAdvert {
     category: {
         id: string;
         name: string;

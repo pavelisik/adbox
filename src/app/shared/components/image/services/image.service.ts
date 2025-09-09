@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ImageService {
     private readonly apiService = inject(ImagesApiService);
 
-    getImage(id: string): Observable<Blob> {
+    getImage(id: string): Observable<string> {
         return this.apiService.getImage(id);
     }
 }

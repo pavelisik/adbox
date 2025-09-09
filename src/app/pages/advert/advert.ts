@@ -4,7 +4,7 @@ import { AsyncPipe, JsonPipe } from '@angular/common';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { switchMap } from 'rxjs';
 import { Breadcrumbs } from '@app/shared/components/breadcrumbs/breadcrumbs';
-import { AdvertService } from '@app/shared/services/advert.service';
+import { AdvertService } from '@app/shared/services';
 
 @Component({
     selector: 'app-advert',

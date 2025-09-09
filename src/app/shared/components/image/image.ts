@@ -8,12 +8,9 @@ import { environment } from '@env/environment';
     styleUrl: './image.scss',
 })
 export class Image {
-    // @Input() imageId: string = '';
-    // @Input() alt: string | null = null;
+    imageSrc = input<string | null>(null);
+    alt = input<string | null>(null);
 
-    imageId = input<string>('');
-    alt = input<string>('');
-    imageUrl = computed(() => `${environment.baseApiURL}/Images/${this.imageId()}`);
-
-    protected readonly environment = environment;
+    // imageId = input<string>('');
+    // imageUrl = computed(() => `${environment.baseApiURL}/Images/${this.imageId()}`);
 }

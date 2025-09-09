@@ -1,10 +1,10 @@
 import { Component, inject, Input } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import type { MenuItem } from 'primeng/api';
-import type { FullAdvert } from '@app/pages/adverts-list/domains';
-import { CITIES } from '@app/data/constants/cities';
-import { CategoryService } from '@app/data/services/category-service';
+import { CITIES } from './data/cities';
 import { firstValueFrom } from 'rxjs';
+import { FullAdvert } from '@app/pages/advert/domains';
+import { CategoryService } from '@app/shared/services';
 
 @Component({
     selector: 'app-breadcrumbs',

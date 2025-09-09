@@ -5,10 +5,10 @@
     gap: 2px;
     margin: 0 auto;
 
-    &:hover .item__img {
-        transform: scale(1.03);
-        transform-origin: center;
-    }
+    // &:hover .item__img {
+    //     transform: scale(1.03);
+    //     transform-origin: center;
+    // }
 
     &:hover .item__title {
         color: var(--info-color);
@@ -22,20 +22,20 @@
     overflow: hidden;
 }
 
-.item__img-wrapper {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+// .item__img-wrapper {
+//     height: 100%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+// }
 
-.item__img {
-    min-width: 100%;
-    min-height: 100%;
-    image-rendering: auto;
-    object-fit: fill;
-    transition: all 0.15s ease;
-}
+// .item__img {
+//     min-width: 100%;
+//     min-height: 100%;
+//     image-rendering: auto;
+//     object-fit: fill;
+//     transition: all 0.15s ease;
+// }
 
 .item__info-block {
     display: flex;

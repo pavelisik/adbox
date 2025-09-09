@@ -1,5 +1,5 @@
 import { ShortAdvert } from '../domains';
-import { ShortAdvertDTO } from '@app/infrastructure/adverts/dto';
+import { ShortAdvertDTO } from '@app/infrastructure/advert/dto';
 
 export const ShortAdvertFromDTOAdapter = (data: ShortAdvertDTO): ShortAdvert => {
     return {

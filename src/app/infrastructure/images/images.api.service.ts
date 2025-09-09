@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 
 @Injectable({
@@ -9,7 +9,9 @@ import { environment } from '@env/environment';
 export class ImagesApiService {
     private readonly http = inject(HttpClient);
 
-    getImage(id: string): Observable<Blob> {
-        return this.http.get<Blob>(`${environment.baseApiURL}/Images/${id}`);
+    getImage(id: string): Observable<string> {
+        return this.http
+            .get(`${environment.baseApiURL}/Images/${id}`, { responseType: 'blob' })
+            .pipe(map((blob) => URL.createObjectURL(blob)));
     }
 }

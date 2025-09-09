@@ -1,21 +1,14 @@
 @if (advert) {
 <a class="item__img-outer-wrapper" [routerLink]="['/advert', advert.id]">
-    <!-- <app-image [imageId]="advert.imagesIds[0]" [alt]="advert.name"></app-image> -->
-    <div class="item__img-wrapper">
-        <img
-            class="item__img"
-            [src]="`http://dzitskiy.ru:5000/Images/${advert.imagesIds[0]}`"
-            [alt]="advert.name"
-        />
-    </div>
-
-    <!-- <div class="item__img-wrapper">
-        @if (image$ | async; as img) {
-        <img class="item__img" [src]="img" [alt]="advert.name" />
-        } @else {
-        <p>Загрузка фото...</p>
-        }
-    </div> -->
+    @if (image$ | async; as img) {
+    <app-image [imageSrc]="img" [alt]="advert.name"></app-image>
+    } @else {
+    <p>Загрузка фото...</p>
+    }
+    <!-- @if (advert.imagesIds[0]) {
+    <app-image [imageId]="advert.imagesIds[0]" [alt]="advert.name"></app-image>
+    } @else {
+    <p>Загрузка фото...</p> } -->
 </a>
 <h6 class="item__title h6 fw-600">
     <a [routerLink]="['/advert', advert.id]">{{ advert.name }}</a>

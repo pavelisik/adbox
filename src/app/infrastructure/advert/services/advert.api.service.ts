@@ -7,7 +7,7 @@ import { environment } from '@env/environment';
 @Injectable({
     providedIn: 'root',
 })
-export class AdvertsApiService {
+export class AdvertApiService {
     private readonly http = inject(HttpClient);
 
     getAdvert(id: string): Observable<FullAdvertDTO> {

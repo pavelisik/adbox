@@ -1,5 +1,5 @@
 import { FullAdvert } from '../domains';
-import { FullAdvertDTO } from '@app/infrastructure/adverts/dto';
+import { FullAdvertDTO } from '@app/infrastructure/advert/dto';
 
 export const FullAdvertFromDTOAdapter = (data: FullAdvertDTO): FullAdvert => {
     return {

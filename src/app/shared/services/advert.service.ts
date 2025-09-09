@@ -1,18 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { AdvertsApiService } from '@app/infrastructure/adverts/services/adverts.api.service';
+import { AdvertApiService } from '@app/infrastructure/advert/services/advert.api.service';
 import {
     AdvertSearchRequestToDTOAdapter,
-    FullAdvertFromDTOAdapter,
     ShortAdvertFromDTOAdapter,
 } from '@app/pages/adverts-list/adapters';
-import { AdvertSearchRequest, FullAdvert, ShortAdvert } from '@app/pages/adverts-list/domains';
+import { FullAdvertFromDTOAdapter } from '@app/pages/advert/adapters';
+import { AdvertSearchRequest, ShortAdvert } from '@app/pages/adverts-list/domains';
+import { FullAdvert } from '@app/pages/advert/domains';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AdvertService {
-    private readonly apiService = inject(AdvertsApiService);
+    private readonly apiService = inject(AdvertApiService);
 
     getAdvert(id: string): Observable<FullAdvert> {
         return this.apiService.getAdvert(id).pipe(map((res) => FullAdvertFromDTOAdapter(res)));
