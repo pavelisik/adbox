@@ -1,0 +1,15 @@
+.advert {
+    display: grid;
+    grid-template-columns: 1fr 416px;
+}
+
+.advert__title,
+.advert__price {
+    display: block;
+    margin-bottom: 16px;
+}
+
+.advert__show-phone-btn {
+    width: 100%;
+    padding: 20px;
+}

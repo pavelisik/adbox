@@ -2,6 +2,30 @@
 
 <app-breadcrumbs [advert]="advert"></app-breadcrumbs>
 
+<div class="advert">
+    <div class="advert-left">
+        <h1 class="advert__title h3 fw-600">{{ advert.name }}</h1>
+        <div class="advert__image-gallery">галлерея изображений<br />{{ advert.imagesIds }}</div>
+    </div>
+    <div class="advert-right">
+        <span class="advert__price h3 fw-600">{{ advert.cost | price }}</span>
+        <button pButton class="advert__show-phone-btn">
+            <svg pButtonIcon icon="plus" width="20" height="20"></svg>
+            <span pButtonLabel>Показать номер телефона</span>
+        </button>
+
+        <div class="advert__address">
+            <h3>Адрес</h3>
+            <span>{{ advert.location }}</span>
+            <a href="/">Открыть на карте</a>
+        </div>
+        <div class="advert__desc">
+            <h3>Описание</h3>
+            <p>{{ advert.description }}</p>
+        </div>
+    </div>
+</div>
+<br /><br /><br />
 {{ advert | json }}
 } @else {
 <p>Загрузка...</p>

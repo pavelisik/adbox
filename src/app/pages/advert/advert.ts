@@ -5,10 +5,13 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { switchMap } from 'rxjs';
 import { Breadcrumbs } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
+import { PricePipe } from '@app/shared/pipes';
+import { ButtonModule } from 'primeng/button';
+import { SvgIcon } from '@app/shared/components';
 
 @Component({
     selector: 'app-advert',
-    imports: [AsyncPipe, JsonPipe, BreadcrumbModule, Breadcrumbs],
+    imports: [AsyncPipe, JsonPipe, BreadcrumbModule, Breadcrumbs, PricePipe, ButtonModule, SvgIcon],
     templateUrl: './advert.html',
     styleUrl: './advert.scss',
 })
