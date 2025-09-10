@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import type { ShortAdvert } from '@app/pages/adverts-list/domains';
-import { AdGridItem } from '@app/shared/components/ad-grid/ad-grid-item/ad-grid-item';
+import { AdGridItem } from '@app/shared/components/ad-grid-item/ad-grid-item';
 
 @Component({
     selector: 'app-ad-grid',

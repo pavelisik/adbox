@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthLoginRequestToDTOAdapter } from '@app/core/auth/adapters';
 import { AuthLoginRequest } from '@app/core/auth/domains';
-import { AuthStateService } from '@app/core/auth/services/auth.state.service';
-import { AuthApiService } from '@app/infrastructure/authorization/services/auth.api.service';
-import { LoginDialogService } from '@app/shared/dialogs/login-dialog/services/login-dialog.service';
+import { AuthStateService } from '@app/core/auth/services';
+import { AuthApiService } from '@app/infrastructure/authorization/services';
+import { LoginDialogService } from '@app/shared/services';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({

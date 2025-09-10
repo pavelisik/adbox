@@ -1,12 +1,11 @@
 import { Component, inject, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import type { ShortAdvert } from '@app/pages/adverts-list/domains';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
-import { RelativeDatePipe } from '@app/shared/pipes';
-import { PricePipe } from '@app/shared/pipes';
-import { Image } from '../../image/image';
-import { ImageService } from '@app/shared/components/image/services';
+import { ShortAdvert } from '@app/pages/adverts-list/domains';
+import { RelativeDatePipe, PricePipe } from '@app/shared/pipes';
+import { Image } from '@app/shared/components/image/image';
+import { ImageService } from '@app/shared/services';
 
 @Component({
     selector: 'li[app-ad-grid-item]',

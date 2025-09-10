@@ -1,7 +1,7 @@
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
-export const MyPreset = definePreset(Aura, {
+export const PrimePreset = definePreset(Aura, {
     semantic: {
         primary: {
             50: '{blue.50}',

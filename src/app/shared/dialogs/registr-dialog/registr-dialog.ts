@@ -5,15 +5,15 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
-import { LoginDialogService } from '@app/shared/dialogs/login-dialog/services/login-dialog.service';
+import { LoginDialogService } from '@app/shared/services';
 
 @Component({
     selector: 'app-registration-dialog',
     imports: [DialogModule, ReactiveFormsModule, ButtonModule, InputTextModule, MessageModule],
-    templateUrl: './registration-dialog.html',
-    styleUrl: './registration-dialog.scss',
+    templateUrl: './registr-dialog.html',
+    styleUrl: './registr-dialog.scss',
 })
-export class RegistrationDialog {
+export class RegistrDialog {
     authService = inject(AuthService);
     loginDialogService = inject(LoginDialogService);
     fb = inject(FormBuilder);

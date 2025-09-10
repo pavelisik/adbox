@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { AdvertApiService } from '@app/infrastructure/advert/services/advert.api.service';
+import { AdvertApiService } from '@app/infrastructure/advert/services';
 import {
     AdvertSearchRequestToDTOAdapter,
     ShortAdvertFromDTOAdapter,

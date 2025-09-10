@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { switchMap } from 'rxjs';
-import { Breadcrumbs } from '@app/shared/components/breadcrumbs/breadcrumbs';
+import { Breadcrumbs } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
 
 @Component({

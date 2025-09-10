@@ -5,18 +5,18 @@ import {
 } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
-import { MyPreset } from './mypreset';
+import { PrimePreset } from '@app/prime-preset';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authTokenInterceptor } from '@app/core/interceptors/auth.interceptor';
+import { authTokenInterceptor } from '@app/core/interceptors';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimationsAsync(),
         providePrimeNG({
             theme: {
-                preset: MyPreset,
+                preset: PrimePreset,
                 options: {
                     prefix: 'p',
                     darkModeSelector: false || 'none',

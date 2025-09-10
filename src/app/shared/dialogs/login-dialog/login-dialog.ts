@@ -1,4 +1,4 @@
-import { LoginDialogService } from './services/login-dialog.service';
+import { LoginDialogService } from '@app/shared/services';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';

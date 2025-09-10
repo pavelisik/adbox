@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { SvgIcon } from '@app/shared/components/svg-icon/svg-icon';
+import { SvgIcon } from '@app/shared/components';
 
 @Component({
     selector: 'app-header-search',
