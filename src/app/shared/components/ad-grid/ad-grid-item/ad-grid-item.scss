@@ -5,37 +5,21 @@
     gap: 2px;
     margin: 0 auto;
 
-    // &:hover .item__img {
-    //     transform: scale(1.03);
-    //     transform-origin: center;
-    // }
-
     &:hover .item__title {
         color: var(--info-color);
     }
 }
 
-.item__img-outer-wrapper {
+.item__img {
     aspect-ratio: 26 / 20;
     border-radius: 4px;
     margin-bottom: 6px;
     overflow: hidden;
+
+    .item__img-skeleton {
+        aspect-ratio: 26 / 20;
+    }
 }
-
-// .item__img-wrapper {
-//     height: 100%;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-// }
-
-// .item__img {
-//     min-width: 100%;
-//     min-height: 100%;
-//     image-rendering: auto;
-//     object-fit: fill;
-//     transition: all 0.15s ease;
-// }
 
 .item__info-block {
     display: flex;

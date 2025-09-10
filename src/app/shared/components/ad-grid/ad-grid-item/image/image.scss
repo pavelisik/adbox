@@ -1,21 +1,23 @@
-:host {
-    &:hover .item__img {
-        transform: scale(1.03);
-        transform-origin: center;
-    }
-}
-
-.item__img-wrapper {
+.image-wrapper {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.item__img {
+.image-skeleton {
+    aspect-ratio: 26 / 20;
+}
+
+.image {
     min-width: 100%;
     min-height: 100%;
     image-rendering: auto;
     object-fit: fill;
-    transition: all 0.15s ease;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+
+    &.loaded {
+        opacity: 1;
+    }
 }

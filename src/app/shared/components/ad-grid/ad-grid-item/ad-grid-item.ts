@@ -4,12 +4,13 @@ import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ShortAdvert } from '@app/pages/adverts-list/domains';
 import { RelativeDatePipe, PricePipe } from '@app/shared/pipes';
-import { Image } from '@app/shared/components/image/image';
+import { Image } from './image/image';
 import { ImageService } from '@app/shared/services';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
     selector: 'li[app-ad-grid-item]',
-    imports: [RelativeDatePipe, RouterLink, PricePipe, AsyncPipe, Image],
+    imports: [RelativeDatePipe, RouterLink, PricePipe, AsyncPipe, Image, SkeletonModule],
     templateUrl: './ad-grid-item.html',
     styleUrl: './ad-grid-item.scss',
 })

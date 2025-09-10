@@ -5,7 +5,7 @@
     [class.ad-grid_short]="width === 'short'"
 >
     @for (advert of adverts; track advert.id) {
-    <li app-ad-grid-item [advert]="advert"></li>
+    <li app-ad-grid-item [advert]="advert" class="ad-grid__item"></li>
     }
 </ul>
 }

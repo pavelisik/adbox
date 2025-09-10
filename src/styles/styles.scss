@@ -145,6 +145,12 @@ summary::before {
     margin-top: 16px;
 }
 
+.ad-grid__item:hover .image {
+    transform: scale(1.02);
+    transform-origin: center;
+    transition: transform 0.15s ease;
+}
+
 @media (min-width: 768px) {
     .page-content {
         gap: 24px;

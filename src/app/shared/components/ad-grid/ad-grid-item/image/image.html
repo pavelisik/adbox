@@ -1,0 +1,12 @@
+<div class="image-wrapper">
+    @if (!isLoaded()) {
+    <p-skeleton class="image-skeleton" height="235px" />
+    }
+    <img
+        class="image"
+        [src]="imageSrc()"
+        [alt]="alt()"
+        (load)="onLoad()"
+        [class.loaded]="isLoaded()"
+    />
+</div>

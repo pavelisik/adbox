@@ -1,14 +1,10 @@
 @if (advert) {
-<a class="item__img-outer-wrapper" [routerLink]="['/advert', advert.id]">
+<a class="item__img" [routerLink]="['/advert', advert.id]">
     @if (image$ | async; as img) {
     <app-image [imageSrc]="img" [alt]="advert.name"></app-image>
     } @else {
-    <p>Загрузка фото...</p>
+    <p-skeleton height="235px" class="item__img-skeleton" />
     }
-    <!-- @if (advert.imagesIds[0]) {
-    <app-image [imageId]="advert.imagesIds[0]" [alt]="advert.name"></app-image>
-    } @else {
-    <p>Загрузка фото...</p> } -->
 </a>
 <h6 class="item__title h6 fw-600">
     <a [routerLink]="['/advert', advert.id]">{{ advert.name }}</a>
