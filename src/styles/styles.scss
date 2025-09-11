@@ -2,6 +2,7 @@
 @use 'reset';
 @use 'typography';
 @use 'utilities';
+@use 'primeng';
 @import 'primeicons/primeicons.css';
 
 body {
@@ -50,87 +51,6 @@ summary {
 summary::before {
     content: '';
     cursor: pointer;
-}
-
-/* стили по-умолчанию для элементов PrimeNG */
-.p-button {
-    border: none;
-    white-space: nowrap;
-}
-
-.p-button-outlined {
-    border: 1px solid;
-}
-
-.p-button-loading-icon {
-    width: 14px;
-    height: 14px;
-}
-
-.p-hidden {
-    display: none;
-}
-
-.p-button-outlined:not(:disabled):hover,
-.p-button-text:not(:disabled):hover {
-    background: transparent;
-}
-
-.p-invalid:hover,
-.p-invalid:focus {
-    border-color: var(--error-color);
-}
-
-.p-breadcrumb-separator {
-    font-size: 30px;
-}
-
-.p-dialog {
-    border: none;
-    font-size: 16px;
-
-    input {
-        width: 368px;
-        height: 48px;
-        line-height: 24px;
-        padding: 12px;
-    }
-
-    .p-message-text {
-        margin-top: 2px;
-    }
-
-    .p-dialog-close-button {
-        color: var(--gray-600-color);
-        width: 100%;
-        padding: 6px;
-        outline: none;
-
-        &:hover {
-            color: var(--dark-color);
-        }
-    }
-
-    .p-dialog-header-icon:focus {
-        outline: none;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-
-        button {
-            margin-top: 8px;
-            padding: 12px 40px;
-            height: 48px;
-        }
-
-        .p-button-label {
-            line-height: 24px;
-        }
-    }
 }
 
 .container {

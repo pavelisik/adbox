@@ -1,0 +1,201 @@
+/* переназначил css переменные PrimeNG */
+
+:root {
+    /* кнопка */
+    --p-button-primary-color: var(--white-color);
+    --p-button-primary-background: var(--primary-color);
+    --p-button-primary-border-color: var(--primary-color);
+    --p-button-border-radius: 4px;
+    --p-button-padding-y: 8px;
+    --p-button-padding-x: 12px;
+    --p-button-gap: 8px;
+    --p-button-primary-hover-background: var(--primary-600-color);
+    --p-button-primary-hover-color: var(--white-color);
+    --p-button-primary-hover-border-color: var(--primary-600-color);
+    --p-button-label-font-weight: 400;
+    /* текстовая кнопка */
+    --p-button-text-primary-color: var(--primary-color);
+    /* кнопка c обводкой*/
+    --p-button-outlined-primary-border-color: var(--primary-color);
+    --p-button-outlined-primary-color: var(--primary-color);
+    /* текстовый input */
+    --p-inputtext-color: var(--dark-color);
+    --p-inputtext-padding-y: 8px;
+    --p-inputtext-padding-x: 12px;
+    --p-inputtext-border-color: var(--gray-300-color);
+    --p-inputtext-border-radius: 4px;
+    --p-inputtext-hover-border-color: var(--gray-400-color);
+    --p-inputtext-focus-border-color: var(--gray-400-color);
+    --p-inputtext-invalid-border-color: var(--error-color);
+
+    /* диалоговое окно */
+    --p-dialog-border-radius: 8px;
+    --p-dialog-background: var(--white-color);
+    --p-dialog-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --p-dialog-color: var(--dark-color);
+    --p-dialog-header-padding: 24px;
+    --p-dialog-content-padding: 0 24px 24px 24px;
+    --p-dialog-title-font-weight: 600;
+    --p-dialog-title-font-size: 24px;
+
+    --p-message-text-font-weight: 400;
+    --p-message-text-sm-font-size: 14px;
+
+    --p-message-error-color: var(--error-color);
+    --p-message-error-simple-color: var(--error-color);
+
+    // хлебные крошки
+    --p-breadcrumb-padding: 0px;
+    --p-breadcrumb-gap: 8px;
+    --p-breadcrumb-separator-color: var(--gray-500-color);
+
+    // скелетоны
+    --p-skeleton-background: var(--gray-200-color);
+    --p-skeleton-border-radius: 4px;
+
+    // галлерея изображений
+    --p-galleria-thumbnails-content-padding: 24px 0px;
+
+    /* образцы цветов PrimeNG */
+    /* all blue colors */
+    // --p-blue-50: #eff6ff;
+    // --p-blue-100: #dbeafe;
+    // --p-blue-200: #bfdbfe;
+    // --p-blue-300: #93c5fd;
+    // --p-blue-400: #60a5fa;
+    // --p-blue-500: #3b82f6;
+    // --p-blue-600: #2563eb;
+    // --p-blue-700: #1d4ed8;
+    // --p-blue-800: #1e40af;
+    // --p-blue-900: #1e3a8a;
+    // --p-blue-950: #172554;
+
+    /* all sky colors */
+    // --p-sky-50: #f0f9ff;
+    // --p-sky-100: #e0f2fe;
+    // --p-sky-200: #bae6fd;
+    // --p-sky-300: #7dd3fc;
+    // --p-sky-400: #38bdf8;
+    // --p-sky-500: #0ea5e9;
+    // --p-sky-600: #0284c7;
+    // --p-sky-700: #0369a1;
+    // --p-sky-800: #075985;
+    // --p-sky-900: #0c4a6e;
+    // --p-sky-950: #082f49;
+
+    /* all slate colors */
+    // --p-slate-50: #f8fafc;
+    // --p-slate-100: #f1f5f9;
+    // --p-slate-200: #e2e8f0;
+    // --p-slate-300: #cbd5e1;
+    // --p-slate-400: #94a3b8;
+    // --p-slate-500: #64748b;
+    // --p-slate-600: #475569;
+    // --p-slate-700: #334155;
+    // --p-slate-800: #1e293b;
+    // --p-slate-900: #0f172a;
+    // --p-slate-950: #020617;
+}
+
+/* кастомные стили для элементов PrimeNG */
+
+.p-button {
+    border: none;
+    white-space: nowrap;
+}
+
+.p-button-outlined {
+    border: 1px solid;
+}
+
+.p-button-loading-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.p-hidden {
+    display: none;
+}
+
+.p-button-outlined:not(:disabled):hover,
+.p-button-text:not(:disabled):hover {
+    background: transparent;
+}
+
+.p-invalid:hover,
+.p-invalid:focus {
+    border-color: var(--error-color);
+}
+
+.p-breadcrumb-separator {
+    font-size: 30px;
+}
+
+.p-galleria {
+    border: none;
+    border-radius: 0px;
+}
+
+.p-galleria-thumbnails-content {
+    max-width: 782px;
+}
+
+.p-galleria-thumbnail-items {
+    gap: 12px;
+}
+
+.p-items-hidden .p-galleria-thumbnail-item {
+    visibility: visible;
+}
+
+.p-galleria-thumbnail-item {
+    flex: 0 0 auto !important;
+}
+
+.p-dialog {
+    border: none;
+    font-size: 16px;
+
+    input {
+        width: 368px;
+        height: 48px;
+        line-height: 24px;
+        padding: 12px;
+    }
+
+    .p-message-text {
+        margin-top: 2px;
+    }
+
+    .p-dialog-close-button {
+        color: var(--gray-600-color);
+        width: 100%;
+        padding: 6px;
+        outline: none;
+
+        &:hover {
+            color: var(--dark-color);
+        }
+    }
+
+    .p-dialog-header-icon:focus {
+        outline: none;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+
+        button {
+            margin-top: 8px;
+            padding: 12px 40px;
+            height: 48px;
+        }
+
+        .p-button-label {
+            line-height: 24px;
+        }
+    }
+}

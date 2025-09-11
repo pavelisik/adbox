@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import type { MenuItem } from 'primeng/api';
 import { CITIES } from './data/cities';
@@ -13,7 +13,7 @@ import { CategoryService } from '@app/shared/services';
     styleUrl: './breadcrumbs.scss',
 })
 export class Breadcrumbs {
-    @Input() advert: FullAdvert | null = null;
+    advert = input<FullAdvert | null>(null);
     items: MenuItem[] = [];
     categoryService = inject(CategoryService);
 
@@ -33,13 +33,13 @@ export class Breadcrumbs {
         const items: MenuItem[] = [];
 
         // название города
-        const city = this.extractCity(this.advert.location);
+        const city = this.extractCity(this.advert()!.location);
         if (city) {
             items.push({ label: city });
         }
 
         // родительская категория
-        const parentCatID = this.advert.category?.parentId;
+        const parentCatID = this.advert()!.category?.parentId;
         if (parentCatID) {
             try {
                 const category = await firstValueFrom(
@@ -54,7 +54,7 @@ export class Breadcrumbs {
         }
 
         // основная категория
-        const cat = this.advert.category?.name;
+        const cat = this.advert()!.category?.name;
         if (cat) {
             items.push({ label: cat });
         }

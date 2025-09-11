@@ -1,6 +1,6 @@
-@if (advert) {
+@if (advert(); as advert) {
 <a class="item__img" [routerLink]="['/advert', advert.id]">
-    @if (image$ | async; as img) {
+    @if (advert.imagesIds[0] | imageFromId | async; as img) {
     <app-image [imageSrc]="img" [alt]="advert.name"></app-image>
     } @else {
     <p-skeleton height="235px" class="item__img-skeleton" />
@@ -14,5 +14,4 @@
     <span class="item__address">{{ advert.location }}</span>
     <span class="item__time">{{ advert.createdAt | relativeDate }}</span>
 </div>
-
 }

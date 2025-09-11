@@ -28,7 +28,8 @@
     }
 
     &:not(:disabled):hover {
-        border-color: var(--gray-400-color);
+        border-color: var(--gray-600-color);
+        color: var(--gray-600-color);
     }
 }
 
