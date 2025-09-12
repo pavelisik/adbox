@@ -1,6 +1,5 @@
-@if (advert$ | async; as advert) {
-
-<app-breadcrumbs [advert]="advert"></app-breadcrumbs>
+@if (advert(); as advert) {
+<app-breadcrumbs [items]="breadcrumbs()"></app-breadcrumbs>
 
 <div class="advert">
     <div class="advert-left">
