@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
 import { ImagesFromIdsPipe } from '@app/shared/pipes/images-from-ids.pipe';
 

@@ -12,6 +12,7 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbsService } from '@app/shared/services/breadcrumbs.service';
 import { FullAdvert } from '@app/pages/advert/domains';
+import { AuthStateService } from '@app/core/auth/services';
 
 @Component({
     selector: 'app-advert',
@@ -23,6 +24,7 @@ export class Advert implements OnInit {
     private advertService = inject(AdvertService);
     private categoryService = inject(CategoryService);
     private breadcrumbsService = inject(BreadcrumbsService);
+    authStateService = inject(AuthStateService);
     route = inject(ActivatedRoute);
 
     advert = signal<FullAdvert | null>(null);

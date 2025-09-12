@@ -65,7 +65,31 @@ summary::before {
     margin-top: 16px;
 }
 
-.ad-grid__item:hover .image {
+.image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gray-100-color);
+    color: var(--gray-300-color);
+
+    &.small {
+        height: 235px;
+        aspect-ratio: 26 / 20;
+        .pi {
+            font-size: 60px;
+        }
+    }
+    &.big {
+        height: 570px;
+        border-radius: 4px;
+        .pi {
+            font-size: 100px;
+        }
+    }
+}
+
+.ad-grid__item:hover .image,
+.ad-grid__item:hover .image-placeholder {
     transform: scale(1.02);
     transform-origin: center;
     transition: transform 0.15s ease;

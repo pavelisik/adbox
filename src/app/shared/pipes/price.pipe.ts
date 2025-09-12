@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class PricePipe implements PipeTransform {
     transform(value: number | null | undefined): string {
         if (value == null) return '';
-        const formatted = new Intl.NumberFormat('ru-RU').format(value);
+        const formatted = new Intl.NumberFormat('ru-RU').format(Math.trunc(value));
         return `${formatted} ₽`;
     }
 }

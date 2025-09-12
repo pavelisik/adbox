@@ -10,7 +10,7 @@
     </div>
     <div class="advert-right">
         <span class="advert__price h3 fw-600">{{ advert.cost | price }}</span>
-        <button pButton class="advert__show-phone-btn">
+        <button pButton class="advert__show-phone-btn" [disabled]="!authStateService.isAuth">
             <svg pButtonIcon icon="phone" width="28" height="28"></svg>
             <span pButtonLabel class="h5">Показать номер телефона</span>
         </button>

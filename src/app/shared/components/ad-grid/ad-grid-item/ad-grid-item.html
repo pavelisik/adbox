@@ -7,7 +7,7 @@
     }
 </a>
 <h6 class="item__title h6 fw-600">
-    <a [routerLink]="['/advert', advert.id]">{{ advert.name }}</a>
+    <a [routerLink]="['/advert', advert.id]" [title]="advert.name">{{ advert.name }}</a>
 </h6>
 <div class="item__info-block">
     <span class="item__price h6 fw-600"> {{ advert.cost | price }} </span>

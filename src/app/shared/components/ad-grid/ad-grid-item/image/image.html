@@ -1,12 +1,18 @@
 <div class="image-wrapper">
-    @if (!isLoaded()) {
+    @if (imageSrc() == 'empty') {
+    <div class="image-placeholder small" [title]="'Объявление «' + alt() + '»'">
+        <span class="pi pi-images"></span>
+    </div>
+    } @else { @if (!isLoaded()) {
     <p-skeleton class="image-skeleton" height="235px" />
     }
     <img
         class="image"
         [src]="imageSrc()"
         [alt]="alt()"
+        [title]="'Объявление «' + alt() + '»'"
         (load)="onLoad()"
         [class.loaded]="isLoaded()"
     />
+    }
 </div>

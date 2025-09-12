@@ -1,4 +1,8 @@
-@if (imagesIds(); as ids) { @if (ids | imagesFromIds | async; as imagesSrc) {
+@if (imagesIds(); as ids) { @if (ids.length === 0) {
+<div class="image-placeholder big">
+    <span class="pi pi-images"></span>
+</div>
+} @else { @if (ids | imagesFromIds | async; as imagesSrc) {
 <p-galleria [value]="imagesSrc" [showThumbnailNavigators]="false" [numVisible]="6">
     <ng-template #item let-src>
         <img [src]="src" class="img-gallery__item" />
@@ -9,6 +13,4 @@
 </p-galleria>
 } @else {
 <p>Загрузка изображений...</p>
-} } @else {
-<p>Нет изображений</p>
-}
+} } }
