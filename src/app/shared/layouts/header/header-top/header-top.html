@@ -1,10 +1,11 @@
 <div class="header-top__container container">
-    @if (authStateService.isAuth) {
-    <button pButton text class="header-top__signin-btn" (click)="authService.logout()">
+    @if (authStateService.isAuth) { @if (currentUser$ | async; as user) {
+    <button pButton text class="header-top__signin-btn" (click)="menu.toggle($event)">
         <svg pButtonIcon icon="person" width="20" height="20"></svg>
-        <span pButtonLabel>Выйти</span>
+        <span pButtonLabel>{{ user.name }}</span>
     </button>
-    } @else {
+    <p-tieredmenu #menu [model]="items" [popup]="true" appendTo="body" />
+    } } @else {
     <button
         pButton
         text
@@ -15,7 +16,12 @@
         <span pButtonLabel>Войти</span>
     </button>
     }
-    <button pButton class="header-top__add-btn" [routerLink]="['/user/advert-add']">
+    <button
+        pButton
+        class="header-top__add-btn"
+        [routerLink]="['/user/advert-add']"
+        [disabled]="!authStateService.isAuth"
+    >
         <span pButtonLabel>Новое объявление</span>
         <svg pButtonIcon icon="plus" width="20" height="20"></svg>
     </button>
