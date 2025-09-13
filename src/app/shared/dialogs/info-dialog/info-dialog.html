@@ -1,0 +1,19 @@
+<p-dialog
+    [header]="userName()"
+    [(visible)]="visible"
+    modal="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    (onHide)="onClose()"
+    [style]="{ width: '500px' }"
+>
+    <span class="h3 fw-400 blue-color">{{ phoneNumber() | phoneFormat }}</span>
+    <p-divider />
+    <p>Правила безопасных сделок:</p>
+    <ul>
+        <li>Храните в тайне почту, данные паспорта и банковской карты</li>
+        <li>Игнорируйте ссылки на оплату, которые присылает собеседник</li>
+        <li>Никому не говорите коды из смс и пуш-уведомлений</li>
+    </ul>
+</p-dialog>

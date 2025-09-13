@@ -56,6 +56,10 @@
     // галлерея изображений
     --p-galleria-thumbnails-content-padding: 24px 0px;
 
+    // разделитель
+    --p-divider-content-color: var(--gray-200-color);
+    --p-divider-horizontal-padding: 16px 0px;
+
     /* образцы цветов PrimeNG */
     /* all blue colors */
     // --p-blue-50: #eff6ff;
@@ -155,6 +159,27 @@
 .p-dialog {
     border: none;
     font-size: 16px;
+
+    p,
+    ul {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 15px;
+    }
+
+    li::before {
+        content: '•';
+        margin-right: 10px;
+        display: inline-block;
+    }
 
     input {
         width: 368px;

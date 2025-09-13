@@ -1,2 +1,2 @@
-export * from './price.pipe';
-export * from './relative-date.pipe';
+export * from './price-format.pipe';
+export * from './date-format.pipe';

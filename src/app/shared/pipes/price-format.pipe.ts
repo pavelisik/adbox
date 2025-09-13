@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'price',
+    name: 'priceFormat',
 })
-export class PricePipe implements PipeTransform {
+export class PriceFormatPipe implements PipeTransform {
     transform(value: number | null | undefined): string {
         if (value == null) return '';
         const formatted = new Intl.NumberFormat('ru-RU').format(Math.trunc(value));

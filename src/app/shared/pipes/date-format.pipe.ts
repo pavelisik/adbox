@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'relativeDate',
+    name: 'dateFormat',
 })
-export class RelativeDatePipe implements PipeTransform {
+export class DateFormatPipe implements PipeTransform {
     private timeFormat = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit' });
     private fullFormat = new Intl.DateTimeFormat('ru-RU', {
         day: 'numeric',

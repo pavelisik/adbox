@@ -4,7 +4,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { of, switchMap, tap } from 'rxjs';
 import { Breadcrumbs } from '@app/shared/components';
 import { AdvertService, CategoryService } from '@app/shared/services';
-import { PricePipe } from '@app/shared/pipes';
+import { PriceFormatPipe } from '@app/shared/pipes';
 import { ButtonModule } from 'primeng/button';
 import { SvgIcon } from '@app/shared/components';
 import { ImageGallery } from '@app/shared/components/image-gallery/image-gallery';
@@ -13,10 +13,20 @@ import { MenuItem } from 'primeng/api';
 import { BreadcrumbsService } from '@app/shared/services/breadcrumbs.service';
 import { FullAdvert } from '@app/pages/advert/domains';
 import { AuthStateService } from '@app/core/auth/services';
+import { InfoDialogService } from '@app/shared/services/info-dialog.service';
+import { InfoDialog } from '@app/shared/dialogs/info-dialog/info-dialog';
 
 @Component({
     selector: 'app-advert',
-    imports: [BreadcrumbModule, Breadcrumbs, PricePipe, ButtonModule, SvgIcon, ImageGallery],
+    imports: [
+        BreadcrumbModule,
+        Breadcrumbs,
+        PriceFormatPipe,
+        ButtonModule,
+        SvgIcon,
+        ImageGallery,
+        InfoDialog,
+    ],
     templateUrl: './advert.html',
     styleUrl: './advert.scss',
 })
@@ -24,6 +34,7 @@ export class Advert implements OnInit {
     private advertService = inject(AdvertService);
     private categoryService = inject(CategoryService);
     private breadcrumbsService = inject(BreadcrumbsService);
+    infoDialogService = inject(InfoDialogService);
     authStateService = inject(AuthStateService);
     route = inject(ActivatedRoute);
 

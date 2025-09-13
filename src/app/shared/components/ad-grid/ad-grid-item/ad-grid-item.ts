@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ShortAdvert } from '@app/pages/adverts-list/domains';
-import { RelativeDatePipe, PricePipe } from '@app/shared/pipes';
+import { DateFormatPipe, PriceFormatPipe } from '@app/shared/pipes';
 import { Image } from './image/image';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ImageFromIdPipe } from '../../../pipes/image-from-id.pipe';
@@ -10,9 +10,9 @@ import { ImageFromIdPipe } from '../../../pipes/image-from-id.pipe';
 @Component({
     selector: 'li[app-ad-grid-item]',
     imports: [
-        RelativeDatePipe,
+        DateFormatPipe,
         RouterLink,
-        PricePipe,
+        PriceFormatPipe,
         AsyncPipe,
         Image,
         SkeletonModule,
