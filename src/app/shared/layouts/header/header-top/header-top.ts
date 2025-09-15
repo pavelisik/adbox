@@ -7,10 +7,18 @@ import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenuItem } from 'primeng/api';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
     selector: 'app-header-top',
-    imports: [SvgIcon, ButtonModule, RouterLink, AsyncPipe, TieredMenuModule],
+    imports: [
+        SvgIcon,
+        ButtonModule,
+        RouterLink,
+        AsyncPipe,
+        TieredMenuModule,
+        ProgressSpinnerModule,
+    ],
     templateUrl: './header-top.html',
     styleUrl: './header-top.scss',
 })

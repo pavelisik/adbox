@@ -39,6 +39,16 @@
     }
 }
 
+.header-top__spinner {
+    width: 20px;
+    height: 20px;
+    margin: 8px 0px;
+    --p-progressspinner-color-one: var(--white-color);
+    --p-progressspinner-color-two: var(--white-color);
+    --p-progressspinner-color-three: var(--white-color);
+    --p-progressspinner-color-four: var(--white-color);
+}
+
 .header-top__add-btn {
     padding: 6px 12px;
     margin-left: 24px;
