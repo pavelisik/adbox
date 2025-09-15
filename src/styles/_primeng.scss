@@ -60,6 +60,20 @@
     --p-divider-content-color: var(--gray-200-color);
     --p-divider-horizontal-padding: 16px 0px;
 
+    // выпадающее меню
+    --p-tieredmenu-color: var(--dark-color);
+    --p-tieredmenu-border-color: none;
+    --p-tieredmenu-border-radius: 4px;
+    --p-tieredmenu-shadow:
+        0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --p-tieredmenu-list-padding: 0px;
+    --p-tieredmenu-list-gap: 0px;
+    --p-tieredmenu-item-color: var(--dark-color);
+    --p-tieredmenu-item-focus-color: var(--dark-color);
+    --p-tieredmenu-item-focus-background: var(--gray-100-color);
+    --p-tieredmenu-item-padding: 8px 16px;
+    --p-tieredmenu-item-gap: 0px;
+
     /* образцы цветов PrimeNG */
     /* all blue colors */
     // --p-blue-50: #eff6ff;
@@ -154,6 +168,14 @@
 
 .p-galleria-thumbnail-item {
     flex: 0 0 auto !important;
+}
+
+.p-tieredmenu {
+    min-width: fit-content;
+}
+
+.p-tieredmenu-item-label {
+    line-height: 20px;
 }
 
 .p-dialog {

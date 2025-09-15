@@ -1,20 +1,23 @@
 <div class="header-top__container container">
-    @if (authStateService.isAuth) { @if (currentUser$ | async; as user) {
-    <button pButton text class="header-top__signin-btn" (click)="menu.toggle($event)">
-        <svg pButtonIcon icon="person" width="20" height="20"></svg>
-        <span pButtonLabel>{{ user.name }}</span>
-    </button>
-    <p-tieredmenu #menu [model]="items" [popup]="true" appendTo="body" />
-    } } @else {
-    <button
-        pButton
-        text
-        class="header-top__signin-btn"
-        (click)="loginDialogService.openLoginDialog()"
-    >
-        <svg pButtonIcon icon="person" width="20" height="20"></svg>
-        <span pButtonLabel>Войти</span>
-    </button>
+    @if (authStateService.isAuth) {
+        @if (currentUser$ | async; as user) {
+            <button pButton text class="header-top__signin-btn" (click)="menu.toggle($event)">
+                <svg pButtonIcon icon="person" width="20" height="20"></svg>
+                <span pButtonLabel>{{ user.name }}</span>
+                <svg pButtonIcon icon="chevron-down" width="8" height="8"></svg>
+            </button>
+            <p-tieredmenu #menu [model]="items" [popup]="true" styleClass="header-top__user-menu" />
+        }
+    } @else {
+        <button
+            pButton
+            text
+            class="header-top__signin-btn"
+            (click)="loginDialogService.openLoginDialog()"
+        >
+            <svg pButtonIcon icon="person" width="20" height="20"></svg>
+            <span pButtonLabel>Войти</span>
+        </button>
     }
     <button
         pButton

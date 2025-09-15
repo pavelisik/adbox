@@ -22,13 +22,13 @@ export class HeaderTop {
 
     currentUser$ = this.userProfileStoreService.currentUser();
 
-    // переделать в виде шаблона наверное
-    items: MenuItem[] = [];
-    ngOnInit() {
-        this.items = [
-            { label: 'Мои объявления', routerLink: '/user/profile' },
-            { label: 'Настройки', routerLink: '/user/settings' },
-            { label: 'Выйти', command: () => this.authService.logout() },
-        ];
-    }
+    items: MenuItem[] = [
+        { label: 'Мои объявления', routerLink: '/user/profile' },
+        { label: 'Настройки', routerLink: '/user/settings' },
+        {
+            label: 'Выйти',
+            command: () => this.authService.logout(),
+            styleClass: 'menu-item-logout',
+        },
+    ];
 }

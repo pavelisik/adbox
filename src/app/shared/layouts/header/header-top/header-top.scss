@@ -13,9 +13,29 @@
 .header-top__signin-btn {
     color: var(--white-color);
     padding: 8px 0px;
+    gap: 4px;
+
+    .p-button-label {
+        margin-left: 4px;
+    }
 
     &:not(:disabled):hover {
         color: var(--p-blue-100);
+    }
+}
+
+// без ng-deep и important не получилось
+::ng-deep .header-top__user-menu {
+    top: 42px !important;
+    transform: translateX(calc(-100% + 82px)) !important;
+
+    .p-tieredmenu-item-label {
+        text-align: right;
+        width: 100%;
+    }
+
+    .menu-item-logout .p-tieredmenu-item-label {
+        color: var(--error-color);
     }
 }
 
