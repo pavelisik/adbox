@@ -24,10 +24,9 @@
     }
 }
 
-// без ng-deep и important не получилось
+// без ng-deep не получилось
 ::ng-deep .header-top__user-menu {
-    top: 42px !important;
-    transform: translateX(calc(-100% + 82px)) !important;
+    transform: translateX(calc(-100% + 82px));
 
     .p-tieredmenu-item-label {
         text-align: right;

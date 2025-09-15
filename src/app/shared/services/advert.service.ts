@@ -19,11 +19,11 @@ export class AdvertService {
         return this.apiService.getAdvert(id).pipe(map((res) => FullAdvertFromDTOAdapter(res)));
     }
 
-    searchAdverts(params: AdvertSearchRequest, limit = 4): Observable<ShortAdvert[]> {
+    searchAdverts(params: AdvertSearchRequest, limit = 8): Observable<ShortAdvert[]> {
         const request = AdvertSearchRequestToDTOAdapter(params);
         return this.apiService.searchAdverts(request).pipe(
             map((res) => res.map((item) => ShortAdvertFromDTOAdapter(item))),
-            map((res) => res.slice(0, limit))
+            map((res) => res.slice(0, limit)),
         );
     }
 }

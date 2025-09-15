@@ -8,7 +8,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class BreadcrumbsService {
     // получаем название города из адреса
-    // временное решение с использованием списка городов
+    // временное решение с использованием списка городов (можно вынести в адаптер и добавить city)
     private extractCity(address: string): string | null {
         if (!address) return null;
         return (

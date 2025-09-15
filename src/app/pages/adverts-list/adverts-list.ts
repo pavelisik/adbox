@@ -17,9 +17,8 @@ export class AdvertsList {
         {
             search: '',
             showNonActive: true,
-            // category: 'c40f82b1-511a-4293-8c71-44bbb2b1e36c',
             category: 'f2de4a69-1f28-4264-8f11-86b6f85d7b77',
         },
-        10
+        10,
     );
 }

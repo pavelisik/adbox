@@ -71,12 +71,12 @@ export class LoginDialog {
         this.loginError.set('');
 
         const { login, password } = this.loginForm.value;
-        console.log('Отправлены логин и пароль:', login, password);
+        // console.log('Отправлены логин и пароль:', login, password);
 
         this.authService.login(this.loginForm.getRawValue()).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
-                console.log(`Получен токен: ${res}`);
+                // console.log(`Получен токен: ${res}`);
                 this.onClose();
             },
             error: (err) => {
@@ -88,10 +88,10 @@ export class LoginDialog {
                     this.loginError.set('Произошла ошибка. Попробуйте позже');
                 } else {
                     this.loginError.set(
-                        'Ошибка: ' + (err.message ?? 'Неизвестная ошибка. Попробуйте снова')
+                        'Ошибка: ' + (err.message ?? 'Неизвестная ошибка. Попробуйте снова'),
                     );
                 }
-                console.log('Ошибка авторизации:', err?.error?.errors?.[0] ?? err.message);
+                // console.log('Ошибка авторизации:', err?.error?.errors?.[0] ?? err.message);
             },
         });
     }
