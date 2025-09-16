@@ -1,9 +1,9 @@
+import { ShortCategoryDTO } from "@app/infrastructure/categories/dto";
+import { ShortUserDTO } from "@app/infrastructure/users/dto";
+
+
 export interface FullAdvertDTO {
-    category: {
-        id: string;
-        name: string;
-        parentId: string;
-    };
+    category: ShortCategoryDTO;
     cost: number;
     created: string;
     description: string;
@@ -14,8 +14,5 @@ export interface FullAdvertDTO {
     location: string;
     name: string;
     phone: string;
-    user: {
-        id: string;
-        name: string;
-    };
+    user: ShortUserDTO;
 }

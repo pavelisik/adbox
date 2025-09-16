@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthLoginRequestToDTOAdapter } from '@app/core/auth/adapters';
 import { AuthLoginRequest } from '@app/core/auth/domains';
 import { AuthStateService } from '@app/core/auth/services';
 import { AuthApiService } from '@app/infrastructure/authorization/services';
@@ -17,12 +16,11 @@ export class AuthService {
     router = inject(Router);
 
     login(params: AuthLoginRequest): Observable<string> {
-        const request = AuthLoginRequestToDTOAdapter(params);
-        return this.apiService.login(request).pipe(
+        return this.apiService.login(params).pipe(
             tap((val) => {
                 this.authStateService.saveToken(val);
                 this.loginDialogService.loginRedirect();
-            })
+            }),
         );
     }
 

@@ -1,5 +1,5 @@
-import { Category } from '../domains';
 import { CategoryDTO } from '@app/infrastructure/categories/dto';
+import { Category } from '@app/pages/advert/domains';
 
 export const CategoryFromDTOAdapter = (data: CategoryDTO): Category => {
     return {

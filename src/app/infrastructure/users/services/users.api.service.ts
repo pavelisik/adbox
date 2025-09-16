@@ -1,8 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { UserDTO } from '@app/infrastructure/users/dto';
+import { UserFromDTOAdapter } from '@app/infrastructure/users/adapters';
+import { User } from '@app/core/auth/domains';
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +12,9 @@ import { UserDTO } from '@app/infrastructure/users/dto';
 export class UsersApiService {
     private readonly http = inject(HttpClient);
 
-    currentUser(): Observable<UserDTO> {
-        return this.http.get<UserDTO>(`${environment.baseApiURL}/Users/current`);
+    currentUser(): Observable<User> {
+        return this.http
+            .get<UserDTO>(`${environment.baseApiURL}/Users/current`)
+            .pipe(map((res) => UserFromDTOAdapter(res)));
     }
 }

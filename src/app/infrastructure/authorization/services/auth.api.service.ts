@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AuthLoginRequestDTO, AuthRegisterRequestDTO } from '../dto';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
+import { AuthLoginRequestDTO, AuthRegisterRequestDTO } from '@app/infrastructure/authorization/dto';
+import { AuthLoginRequestToDTOAdapter } from '@app/infrastructure/authorization/adapters';
+import { AuthLoginRequest } from '@app/core/auth/domains';
 
 @Injectable({
     providedIn: 'root',
@@ -10,8 +12,9 @@ import { environment } from '@env/environment';
 export class AuthApiService {
     private readonly http = inject(HttpClient);
 
-    login(params: AuthLoginRequestDTO): Observable<string> {
-        return this.http.post<string>(`${environment.baseApiURL}/Auth/Login`, params);
+    login(params: AuthLoginRequest): Observable<string> {
+        const request: AuthLoginRequestDTO = AuthLoginRequestToDTOAdapter(params);
+        return this.http.post<string>(`${environment.baseApiURL}/Auth/Login`, request);
     }
 
     register(params: AuthRegisterRequestDTO): Observable<void> {

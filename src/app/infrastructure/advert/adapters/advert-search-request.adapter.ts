@@ -1,5 +1,6 @@
-import { AdvertSearchRequest } from '../domains';
+
 import { AdvertSearchRequestDTO } from '@app/infrastructure/advert/dto';
+import { AdvertSearchRequest } from '@app/pages/adverts-list/domains';
 
 export const AdvertSearchRequestToDTOAdapter = (
     request: AdvertSearchRequest

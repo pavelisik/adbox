@@ -1,9 +1,8 @@
+import { ShortUser } from "@app/core/auth/domains";
+import { ShortCategory } from "@app/pages/advert/domains";
+
 export interface FullAdvert {
-    category: {
-        id: string;
-        name: string;
-        parentId: string;
-    };
+    category: ShortCategory;
     cost: number;
     created: string;
     description: string;
@@ -14,8 +13,5 @@ export interface FullAdvert {
     location: string;
     name: string;
     phone: string;
-    user: {
-        id: string;
-        name: string;
-    };
+    user: ShortUser;
 }
