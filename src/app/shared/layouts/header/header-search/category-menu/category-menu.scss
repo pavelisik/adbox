@@ -1,0 +1,20 @@
+.category-menu__wrapper {
+    display: grid;
+    grid-template-columns: 282px 1fr;
+    gap: 48px;
+    padding-top: 32px;
+}
+
+.category-menu__parents-list {
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.category-menu__parents-list-item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--dark-color);
+}

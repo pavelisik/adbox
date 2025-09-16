@@ -2,8 +2,8 @@
     <h3 class="header-search__title h3 fw-700">
         <a [routerLink]="['']">Доска объявлений</a>
     </h3>
-    <button pButton outlined class="header-search__menu-btn">
-        <svg pButtonIcon icon="list-nested" width="20" height="20"></svg>
+    <button pButton outlined class="header-search__menu-btn" (click)="menu.toggle($event)">
+        <svg pButtonIcon [icon]="menuButtonIcon" width="20" height="20"></svg>
         <span pButtonLabel>Все категории</span>
     </button>
     <form class="header-search__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
@@ -14,3 +14,6 @@
         </button>
     </form>
 </div>
+<p-popover #menu styleClass="category-menu" (onShow)="onMenuShow()" (onHide)="onMenuHide()">
+    <app-category-menu (categorySelected)="menu.hide()"></app-category-menu>
+</p-popover>

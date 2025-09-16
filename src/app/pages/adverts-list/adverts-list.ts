@@ -1,8 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { AdGrid } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-adverts-list',
@@ -12,13 +14,18 @@ import { AdvertService } from '@app/shared/services';
 })
 export class AdvertsList {
     advertService = inject(AdvertService);
+    route = inject(ActivatedRoute);
 
-    adverts$ = this.advertService.searchAdverts(
-        {
-            search: '',
-            showNonActive: true,
-            category: 'f2de4a69-1f28-4264-8f11-86b6f85d7b77',
-        },
-        10,
+    adverts$ = this.route.queryParams.pipe(
+        switchMap((params) =>
+            this.advertService.searchAdverts(
+                {
+                    search: params['search'] ?? '',
+                    showNonActive: params['showNonActive'] ?? true,
+                    category: params['category'] ?? null,
+                },
+                10,
+            ),
+        ),
     );
 }

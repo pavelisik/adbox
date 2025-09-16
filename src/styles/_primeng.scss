@@ -74,6 +74,17 @@
     --p-tieredmenu-item-padding: 8px 16px;
     --p-tieredmenu-item-gap: 0px;
 
+    // листбокс для категорий
+    --p-listbox-list-padding: 0px;
+    --p-listbox-list-gap: 0px;
+
+    --p-listbox-option-padding: 8px 12px;
+    --p-listbox-option-border-radius: 8px;
+    --p-listbox-option-color: var(--dark-color);
+
+    --p-listbox-option-focus-background: var(--gray-100-color);
+    --p-listbox-option-focus-color: var(--dark-color);
+
     /* образцы цветов PrimeNG */
     /* all blue colors */
     // --p-blue-50: #eff6ff;
@@ -176,6 +187,11 @@
 
 .p-tieredmenu-item-label {
     line-height: 20px;
+}
+
+.p-listbox-option {
+    line-height: 24px;
+    font-size: 16px;
 }
 
 .p-dialog {

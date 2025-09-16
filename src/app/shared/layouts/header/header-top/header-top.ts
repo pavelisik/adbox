@@ -30,7 +30,7 @@ export class HeaderTop {
 
     currentUser$ = this.userProfileStoreService.currentUser();
 
-    items: MenuItem[] = [
+    menuItems: MenuItem[] = [
         { label: 'Мои объявления', routerLink: '/user/profile' },
         { label: 'Настройки', routerLink: '/user/settings' },
         {

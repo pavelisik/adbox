@@ -7,14 +7,14 @@ import { AdvertService, CategoryService } from '@app/shared/services';
 import { PriceFormatPipe } from '@app/shared/pipes';
 import { ButtonModule } from 'primeng/button';
 import { SvgIcon } from '@app/shared/components';
-import { ImageGallery } from '@app/shared/components/image-gallery/image-gallery';
+import { ImageGallery } from '@app/shared/components';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MenuItem } from 'primeng/api';
-import { BreadcrumbsService } from '@app/shared/services/breadcrumbs.service';
+import { BreadcrumbsService } from '@app/shared/services';
 import { FullAdvert } from '@app/pages/advert/domains';
 import { AuthStateService } from '@app/core/auth/services';
-import { InfoDialogService } from '@app/shared/services/info-dialog.service';
-import { InfoDialog } from '@app/shared/dialogs/info-dialog/info-dialog';
+import { InfoDialogService } from '@app/shared/services';
+import { InfoDialog } from '@app/shared/dialogs';
 
 @Component({
     selector: 'app-advert',
@@ -50,7 +50,7 @@ export class Advert implements OnInit {
             this.advert.set(advert ?? null);
             this.parentId.set(advert.category?.parentId ?? null);
         }),
-        takeUntilDestroyed()
+        takeUntilDestroyed(),
     );
 
     category$ = toObservable(this.parentId).pipe(
@@ -63,11 +63,11 @@ export class Advert implements OnInit {
         tap((cat) => {
             if (this.advert()) {
                 this.breadcrumbs.set(
-                    this.breadcrumbsService.buildForAdvert(this.advert()!, cat?.name)
+                    this.breadcrumbsService.buildForAdvert(this.advert()!, cat?.name),
                 );
             }
         }),
-        takeUntilDestroyed()
+        takeUntilDestroyed(),
     );
 
     ngOnInit() {

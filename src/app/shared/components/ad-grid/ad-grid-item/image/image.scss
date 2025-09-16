@@ -14,10 +14,4 @@
     min-height: 100%;
     image-rendering: auto;
     object-fit: fill;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-
-    &.loaded {
-        opacity: 1;
-    }
 }

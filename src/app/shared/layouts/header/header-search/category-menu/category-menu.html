@@ -1,0 +1,46 @@
+<div class="category-menu__wrapper container">
+    <p-listbox
+        [options]="parentCategories"
+        optionLabel="name"
+        focusOnHover="true"
+        selectOnFocus="false"
+        highlightOnSelect="false"
+        autoOptionFocus="true"
+        class="category-menu__parents-list"
+        scrollHeight="100%"
+    >
+        <ng-template pTemplate="item" let-item>
+            <a
+                [routerLink]="['/adverts']"
+                [queryParams]="{ category: item.id }"
+                queryParamsHandling="merge"
+                (click)="onClickCategory()"
+                (mouseenter)="onHoverParent(item)"
+                class="category-menu__parents-list-item"
+            >
+                <span>{{ item.name }}</span>
+                <svg pButtonIcon icon="chevron-right" width="16" height="16"></svg>
+            </a>
+        </ng-template>
+    </p-listbox>
+
+    @if (activeParent(); as parent) {
+        <div class="category-menu__childs-list">
+            <h3>{{ parent.name }}</h3>
+            <ul>
+                @for (child of parent.childs; track child.id) {
+                    <li>
+                        <a
+                            [routerLink]="['/adverts']"
+                            [queryParams]="{ category: child.id }"
+                            queryParamsHandling="merge"
+                            (click)="onClickCategory()"
+                        >
+                            {{ child.name }}
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+</div>

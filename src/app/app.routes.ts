@@ -16,7 +16,9 @@ export const routes: Routes = [
         path: '',
         component: MainLayout,
         children: [
-            { path: '', component: AdvertsList },
+            // { path: '', component: AdvertsList },
+            { path: '', redirectTo: 'adverts', pathMatch: 'full' },
+            { path: 'adverts', component: AdvertsList },
             { path: 'advert/:id', component: Advert },
             { path: 'search', component: Search },
             {

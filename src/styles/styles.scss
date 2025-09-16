@@ -65,6 +65,27 @@ summary::before {
     margin-top: 16px;
 }
 
+.category-menu {
+    position: absolute;
+    z-index: 104;
+    top: 137px !important;
+    left: 0px;
+    width: 100%;
+    height: calc(-137px + 100vh);
+    background-color: var(--white-color);
+    border: none;
+    border-radius: 0px;
+
+    .p-popover-content {
+        padding: 0px;
+    }
+
+    &::before,
+    &::after {
+        content: none;
+    }
+}
+
 .image-placeholder {
     display: flex;
     align-items: center;
