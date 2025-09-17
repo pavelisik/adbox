@@ -17,4 +17,10 @@ export class CategoriesApiService {
             .get<CategoryDTO>(`${environment.baseApiURL}/Categories/${id}`)
             .pipe(map((res) => CategoryFromDTOAdapter(res)));
     }
+
+    getAllCategories(): Observable<Category[]> {
+        return this.http
+            .get<CategoryDTO[]>(`${environment.baseApiURL}/Categories`)
+            .pipe(map((res) => res.map((item) => CategoryFromDTOAdapter(item))));
+    }
 }

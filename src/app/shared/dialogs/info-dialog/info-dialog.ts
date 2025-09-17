@@ -1,8 +1,8 @@
 import { Component, inject, input } from '@angular/core';
-import { InfoDialogService } from '@app/shared/services/info-dialog.service';
+import { InfoDialogService } from '@app/shared/services';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
-import { PhoneFormatPipe } from '../../pipes/phone-format.pipe';
+import { PhoneFormatPipe } from '@app/shared/pipes';
 
 @Component({
     selector: 'app-info-dialog',

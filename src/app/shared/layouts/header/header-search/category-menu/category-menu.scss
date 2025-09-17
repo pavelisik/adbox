@@ -1,4 +1,10 @@
+:host {
+    display: block;
+    height: 100%;
+}
+
 .category-menu__wrapper {
+    height: 100%;
     display: grid;
     grid-template-columns: 282px 1fr;
     gap: 48px;

@@ -1,50 +1,52 @@
 <div class="category-menu__wrapper container">
-    <p-listbox
-        [options]="categories"
-        optionLabel="name"
-        focusOnHover="false"
-        selectOnFocus="false"
-        highlightOnSelect="false"
-        autoOptionFocus="true"
-        class="category-menu__parents-list"
-        scrollHeight="100%"
-    >
-        <ng-template pTemplate="item" let-item>
-            <a
-                [routerLink]="['/adverts']"
-                [queryParams]="{ category: item.id }"
-                queryParamsHandling="merge"
-                (click)="onClickCategory()"
-                (mouseenter)="onHoverParent(item)"
-                class="category-menu__parents-list-item"
-            >
-                <span>{{ item.name }}</span>
-                <svg pButtonIcon icon="chevron-right" width="16" height="16"></svg>
-            </a>
-        </ng-template>
-    </p-listbox>
+    @if (categories$ | async | categoriesTransform; as categories) {
+        <p-listbox
+            [options]="categories"
+            optionLabel="name"
+            focusOnHover="false"
+            selectOnFocus="false"
+            highlightOnSelect="false"
+            autoOptionFocus="true"
+            class="category-menu__parents-list"
+            scrollHeight="100%"
+        >
+            <ng-template pTemplate="item" let-item>
+                <a
+                    [routerLink]="['/adverts']"
+                    [queryParams]="{ category: item.id }"
+                    queryParamsHandling="merge"
+                    (click)="onClickCategory()"
+                    (mouseenter)="onHoverParent(item)"
+                    class="category-menu__parents-list-item"
+                >
+                    <span>{{ item.name }}</span>
+                    <svg pButtonIcon icon="chevron-right" width="16" height="16"></svg>
+                </a>
+            </ng-template>
+        </p-listbox>
 
-    @if (activeParent(); as parentCategory) {
-        <div class="category-menu__childs-list">
-            <span class="h4 fw-600">
-                {{ parentCategory.name }}
-                <svg icon="chevron-right-h4" width="16" height="16"></svg>
-            </span>
-            <ul>
-                @for (childCategory of parentCategory.childs; track childCategory.id) {
-                    <li class="base">
-                        <a
-                            [routerLink]="['/adverts']"
-                            [queryParams]="{ category: childCategory.id }"
-                            queryParamsHandling="merge"
-                            (click)="onClickCategory()"
-                        >
-                            {{ childCategory.name }}
-                            <svg icon="chevron-right" width="14" height="14"></svg>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
+        @if (activeParent(); as parentCategory) {
+            <div class="category-menu__childs-list">
+                <span class="h4 fw-600">
+                    {{ parentCategory.name }}
+                    <svg icon="chevron-right-h4" width="16" height="16"></svg>
+                </span>
+                <ul>
+                    @for (childCategory of parentCategory.childs; track childCategory.id) {
+                        <li class="base">
+                            <a
+                                [routerLink]="['/adverts']"
+                                [queryParams]="{ category: childCategory.id }"
+                                queryParamsHandling="merge"
+                                (click)="onClickCategory()"
+                            >
+                                {{ childCategory.name }}
+                                <svg icon="chevron-right" width="14" height="14"></svg>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
     }
 </div>

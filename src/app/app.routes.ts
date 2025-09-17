@@ -1,36 +1,47 @@
 import { Routes } from '@angular/router';
 import { canActivateAuth } from '@app/core/guards';
-import { MainLayout } from '@app/shared/layouts';
-import {
-    AdvertsList,
-    Advert,
-    AdvertAdd,
-    NotFound,
-    UserProfile,
-    Search,
-    Settings,
-} from '@app/pages';
 
 export const routes: Routes = [
     {
         path: '',
-        component: MainLayout,
+        loadComponent: () => import('@app/shared/layouts').then((m) => m.MainLayout),
         children: [
-            // { path: '', component: AdvertsList },
+            // { path: '', loadComponent: () => import('@app/pages').then((m) => m.AdvertsList) },
             { path: '', redirectTo: 'adverts', pathMatch: 'full' },
-            { path: 'adverts', component: AdvertsList },
-            { path: 'advert/:id', component: Advert },
-            { path: 'search', component: Search },
+            {
+                path: 'adverts',
+                loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
+            },
+            {
+                path: 'advert/:id',
+                loadComponent: () => import('@app/pages').then((m) => m.Advert),
+            },
+            {
+                path: 'search',
+                loadComponent: () => import('@app/pages').then((m) => m.Search),
+            },
             {
                 path: 'user',
                 canActivate: [canActivateAuth],
                 children: [
-                    { path: 'profile', component: UserProfile },
-                    { path: 'settings', component: Settings },
-                    { path: 'advert-add', component: AdvertAdd },
+                    {
+                        path: 'profile',
+                        loadComponent: () => import('@app/pages').then((m) => m.UserProfile),
+                    },
+                    {
+                        path: 'settings',
+                        loadComponent: () => import('@app/pages').then((m) => m.Settings),
+                    },
+                    {
+                        path: 'advert-add',
+                        loadComponent: () => import('@app/pages').then((m) => m.AdvertAdd),
+                    },
                 ],
             },
-            { path: '**', component: NotFound },
+            {
+                path: '**',
+                loadComponent: () => import('@app/pages').then((m) => m.NotFound),
+            },
         ],
     },
 ];

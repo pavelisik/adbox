@@ -2,5 +2,5 @@ export interface Category {
     id: string;
     name: string;
     parentId: string;
-    childs: Category[];
+    childs?: Category[];
 }
