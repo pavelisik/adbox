@@ -1,8 +1,8 @@
 <div class="category-menu__wrapper container">
     <p-listbox
-        [options]="parentCategories"
+        [options]="categories"
         optionLabel="name"
-        focusOnHover="true"
+        focusOnHover="false"
         selectOnFocus="false"
         highlightOnSelect="false"
         autoOptionFocus="true"
@@ -24,19 +24,23 @@
         </ng-template>
     </p-listbox>
 
-    @if (activeParent(); as parent) {
+    @if (activeParent(); as parentCategory) {
         <div class="category-menu__childs-list">
-            <h3>{{ parent.name }}</h3>
+            <span class="h4 fw-600">
+                {{ parentCategory.name }}
+                <svg icon="chevron-right-h4" width="16" height="16"></svg>
+            </span>
             <ul>
-                @for (child of parent.childs; track child.id) {
-                    <li>
+                @for (childCategory of parentCategory.childs; track childCategory.id) {
+                    <li class="base">
                         <a
                             [routerLink]="['/adverts']"
-                            [queryParams]="{ category: child.id }"
+                            [queryParams]="{ category: childCategory.id }"
                             queryParamsHandling="merge"
                             (click)="onClickCategory()"
                         >
-                            {{ child.name }}
+                            {{ childCategory.name }}
+                            <svg icon="chevron-right" width="14" height="14"></svg>
                         </a>
                     </li>
                 }

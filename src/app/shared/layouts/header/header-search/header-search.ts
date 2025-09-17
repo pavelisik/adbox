@@ -25,12 +25,15 @@ export class HeaderSearch {
     private router = inject(Router);
     fb = inject(FormBuilder);
     menuButtonIcon = 'list-nested';
+    menuButtonActive = false;
 
     onMenuShow() {
+        this.menuButtonActive = true;
         this.menuButtonIcon = 'close';
     }
 
     onMenuHide() {
+        this.menuButtonActive = false;
         this.menuButtonIcon = 'list-nested';
     }
 

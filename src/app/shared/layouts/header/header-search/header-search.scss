@@ -27,9 +27,23 @@
         display: none;
     }
 
+    &.active,
     &:not(:disabled):hover {
-        border-color: var(--gray-600-color);
-        color: var(--gray-600-color);
+        box-shadow: 0 3px 8px var(--gray-100-color);
+    }
+
+    .icon-stack {
+        width: 20px;
+        height: 20px;
+    }
+
+    .icon-stack svg {
+        position: absolute;
+        transition: opacity 0.1s ease;
+        opacity: 0;
+    }
+    .icon-stack svg.show {
+        opacity: 1;
     }
 }
 

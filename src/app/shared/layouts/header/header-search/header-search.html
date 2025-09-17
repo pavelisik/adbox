@@ -2,8 +2,30 @@
     <h3 class="header-search__title h3 fw-700">
         <a [routerLink]="['']">Доска объявлений</a>
     </h3>
-    <button pButton outlined class="header-search__menu-btn" (click)="menu.toggle($event)">
-        <svg pButtonIcon [icon]="menuButtonIcon" width="20" height="20"></svg>
+    <button
+        pButton
+        outlined
+        class="header-search__menu-btn"
+        [class.active]="menuButtonActive"
+        (click)="menu.toggle($event)"
+    >
+        <!-- <svg pButtonIcon [icon]="menuButtonIcon" width="20" height="20"></svg> -->
+        <div class="icon-stack">
+            <svg
+                pButtonIcon
+                icon="list-nested"
+                [class.show]="!menuButtonActive"
+                width="20"
+                height="20"
+            ></svg>
+            <svg
+                pButtonIcon
+                icon="close"
+                [class.show]="menuButtonActive"
+                width="20"
+                height="20"
+            ></svg>
+        </div>
         <span pButtonLabel>Все категории</span>
     </button>
     <form class="header-search__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">

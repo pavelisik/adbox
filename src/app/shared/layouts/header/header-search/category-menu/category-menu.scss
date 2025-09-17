@@ -18,3 +18,45 @@
     align-items: center;
     color: var(--dark-color);
 }
+
+.category-menu__childs-list {
+    padding-top: 4px;
+    max-width: 700px;
+
+    .h4 {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        cursor: default;
+    }
+
+    svg {
+        margin-top: 2px;
+    }
+
+    ul {
+        margin-top: 34px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 30px;
+        row-gap: 8px;
+        list-style: none;
+
+        a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            padding: 8px 12px;
+            transition: all 0.2s;
+        }
+
+        a:hover {
+            background: var(--gray-100-color);
+        }
+
+        svg {
+            margin-bottom: 3px;
+        }
+    }
+}
