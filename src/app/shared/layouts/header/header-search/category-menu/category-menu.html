@@ -1,12 +1,10 @@
 <div class="category-menu__wrapper container">
-    @if (categories$ | async | categoriesTransform; as categories) {
+    @if (categories$ | async; as categories) {
         <p-listbox
             [options]="categories"
             optionLabel="name"
             focusOnHover="false"
-            selectOnFocus="false"
             highlightOnSelect="false"
-            autoOptionFocus="true"
             class="category-menu__parents-list"
             scrollHeight="100%"
         >
@@ -18,6 +16,7 @@
                     (click)="onClickCategory()"
                     (mouseenter)="onHoverParent(item)"
                     class="category-menu__parents-list-item"
+                    [class.is-active]="activeParent()?.id === item.id"
                 >
                     <span>{{ item.name }}</span>
                     <svg pButtonIcon icon="chevron-right" width="16" height="16"></svg>
@@ -39,6 +38,8 @@
                                 [queryParams]="{ category: childCategory.id }"
                                 queryParamsHandling="merge"
                                 (click)="onClickCategory()"
+                                (mouseenter)="onHoverChild(childCategory)"
+                                [class.is-active]="activeChild()?.id === childCategory.id"
                             >
                                 {{ childCategory.name }}
                                 <svg icon="chevron-right" width="14" height="14"></svg>

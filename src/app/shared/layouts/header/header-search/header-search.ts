@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
@@ -27,9 +27,12 @@ export class HeaderSearch {
     menuButtonIcon = 'list-nested';
     menuButtonActive = false;
 
+    @ViewChild('categoryMenu') categoryMenu!: CategoryMenu;
+
     onMenuShow() {
         this.menuButtonActive = true;
         this.menuButtonIcon = 'close';
+        this.categoryMenu.initActiveCategory();
     }
 
     onMenuHide() {

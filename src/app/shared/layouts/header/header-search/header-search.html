@@ -36,5 +36,5 @@
     </form>
 </div>
 <p-popover #menu styleClass="category-menu" (onShow)="onMenuShow()" (onHide)="onMenuHide()">
-    <app-category-menu (categorySelected)="menu.hide()"></app-category-menu>
+    <app-category-menu #categoryMenu (categorySelected)="menu.hide()"></app-category-menu>
 </p-popover>
