@@ -1,1 +1,10 @@
-<p>search works!</p>
+<h4 class="h4 fw-600 mb-16">Объявления по запросу «попугаи»</h4>
+<div class="page-content">
+    <app-sidebar></app-sidebar>
+    <div>
+        <app-ad-grid-header></app-ad-grid-header>
+        @if (adverts$ | async; as adverts) {
+            <app-ad-grid [adverts]="adverts" width="short"></app-ad-grid>
+        } @else {}
+    </div>
+</div>

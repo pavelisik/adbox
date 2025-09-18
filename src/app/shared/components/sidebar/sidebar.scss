@@ -1,0 +1,30 @@
+.sb-filter {
+    display: flex;
+    flex-direction: column;
+}
+
+.sb-filter__submit-btn {
+    padding: 12px;
+}
+
+.sb-filter__category {
+    display: flex;
+    flex-direction: column;
+}
+
+// .sb-filter-price input {
+//     line-height: 150%;
+// }
+
+// .sb-filter-price-inputs {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//     gap: 8px;
+// }
+
+@media (min-width: 992px) {
+    .sb-filter-price-inputs {
+        flex-direction: row;
+    }
+}

@@ -1,0 +1,24 @@
+<aside>
+    <div class="sb-filter mt-9">
+        <div class="sb-filter__category mb-16">
+            <div class="h6 fw-600 mb-12">Все категории</div>
+            <p-panelmenu [model]="menuItems" class="sb-filter__category-menu" />
+        </div>
+
+        <div class="sb-filter__price mb-24">
+            <span class="h6 fw-600">Цена</span>
+        </div>
+
+        <button pButton type="submit" class="sb-filter__submit-btn">
+            <span pButtonLabel class="base">Показать объявления</span>
+        </button>
+    </div>
+
+    <!-- <fieldset class="sb-filter-price mb-24">
+        <legend class="base sm-600 mb-8">Цена</legend>
+        <div class="sb-filter-price-inputs">
+            <input class="base" type="text" placeholder="Цена от" />
+            <input class="base" type="text" placeholder="до, руб." />
+        </div>
+    </fieldset> -->
+</aside>

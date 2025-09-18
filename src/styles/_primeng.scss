@@ -83,6 +83,19 @@
     --p-listbox-option-focus-background: var(--white-color);
     --p-listbox-option-focus-color: var(--dark-color);
 
+    // меню для фильтра категорий
+    --p-panelmenu-gap: 8px;
+    --p-panelmenu-panel-color: var(--dark-color);
+    --p-panelmenu-panel-border-radius: 8px;
+    --p-panelmenu-panel-padding: 0px;
+    --p-panelmenu-item-gap: 8px;
+    --p-panelmenu-item-padding: 0px;
+    --p-panelmenu-item-color: var(--primary-color);
+    --p-panelmenu-item-focus-background: var(--white-color);
+    --p-panelmenu-item-focus-color: var(--dark-color);
+    --p-panelmenu-submenu-indent: 32px;
+    --p-panelmenu-item-icon-color: var(--primary-color);
+
     /* образцы цветов PrimeNG */
     /* all blue colors */
     // --p-blue-50: #eff6ff;
@@ -190,6 +203,41 @@
 .p-listbox-option {
     line-height: 24px;
     font-size: 16px;
+}
+
+.p-panelmenu-panel {
+    border: none;
+}
+
+.p-panelmenu-header-label,
+.p-panelmenu-item-label {
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.p-panelmenu-submenu {
+    padding-left: 32px;
+}
+
+.p-panelmenu-item {
+    padding-top: 8px;
+}
+
+.p-panelmenu-header-link {
+    padding-left: 20px;
+}
+
+.p-panelmenu-header-link:has(svg) {
+    padding-left: 0;
+}
+
+.p-panelmenu-header-link:hover .p-panelmenu-header-icon {
+    color: var(--dark-color);
+}
+
+.p-panelmenu-header-icon {
+    width: 12px;
+    height: 12px;
 }
 
 .p-dialog {
