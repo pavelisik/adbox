@@ -1,11 +1,16 @@
-<div class="ad-grid-header base">
-    <span class="ad-grid-header__title">Всего найдено 1 234 объявления</span>
-    <div class="ad-grid-header-sort">
+<div class="ad-grid-header base mb-16">
+    <span class="ad-grid-header__ad-count">Всего найдено 1 234 объявления</span>
+    <form class="ad-grid-header__ad-sort" [formGroup]="sortForm">
         <label for="sort">Сортировка по:</label>
-        <select id="sort">
-            <option value="newest">Новизне</option>
-            <option value="price">Цене</option>
-            <option value="date">Дате</option>
-        </select>
-    </div>
+        <p-select
+            [options]="sortTypes"
+            optionLabel="name"
+            optionValue="value"
+            formControlName="sort"
+        >
+            <ng-template #selectedItem let-selectedOption>
+                <div class="ad-grid-header__ad-sort-select">{{ selectedOption.name }}</div>
+            </ng-template>
+        </p-select>
+    </form>
 </div>

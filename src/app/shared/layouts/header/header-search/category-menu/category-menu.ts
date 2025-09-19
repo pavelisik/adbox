@@ -5,7 +5,7 @@ import { SvgIcon } from '@app/shared/components';
 import { Router, RouterLink } from '@angular/router';
 import { Category } from '@app/pages/advert/domains';
 import { CategoryService } from '@app/shared/services';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { findCategoryFromId, transformCategories } from '@app/shared/utils';
 
@@ -24,11 +24,10 @@ export class CategoryMenu {
     categorySelected = output<void>();
 
     categories$ = this.categoryService.getAllCategories().pipe(
-        map((cats) => {
-            const transformedCats = transformCategories(cats);
-            this.categories = transformedCats;
-            this.initActiveCategory(transformedCats);
-            return transformedCats;
+        map((cats) => transformCategories(cats)),
+        tap((cats) => {
+            this.categories = cats;
+            this.initActiveCategory(cats);
         }),
     );
 

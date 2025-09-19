@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Category } from '@app/pages/advert/domains';
 import { CategoryService } from '@app/shared/services';
 import { transformCategories } from '@app/shared/utils';
@@ -6,31 +6,31 @@ import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { map } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-sidebar',
-    imports: [PanelMenuModule, ButtonModule],
+    imports: [PanelMenuModule, ButtonModule, InputNumberModule, AsyncPipe],
     templateUrl: './sidebar.html',
     styleUrl: './sidebar.scss',
 })
-export class Sidebar implements OnInit {
+export class Sidebar {
     private readonly categoryService = inject(CategoryService);
 
-    menuItems: MenuItem[] = [];
+    categoriesMenuItems$ = this.categoryService.getAllCategories().pipe(
+        map((cats) => transformCategories(cats)),
+        map((cats) => this.buildMenuItems(cats)),
+    );
 
-    ngOnInit() {
-        this.categoryService
-            .getAllCategories()
-            .pipe(map((cats) => transformCategories(cats)))
-            .subscribe((transformed) => {
-                this.menuItems = this.buildMenuItems(transformed);
-            });
-    }
-
+    // трансформируем массив со всеми категориями для вывода меню фильтра
     private buildMenuItems(categories: Category[]): MenuItem[] {
-        return categories.map((cat) => ({
-            label: cat.name,
-            items: cat.childs?.length ? this.buildMenuItems(cat.childs) : undefined,
-        }));
+        return categories.map((cat) => {
+            const item: MenuItem = { label: cat.name };
+            if (cat.childs?.length) {
+                item.items = this.buildMenuItems(cat.childs);
+            }
+            return item;
+        });
     }
 }

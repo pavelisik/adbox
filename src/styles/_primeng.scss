@@ -28,6 +28,25 @@
     --p-inputtext-focus-border-color: var(--gray-400-color);
     --p-inputtext-invalid-border-color: var(--error-color);
 
+    /* select */
+    --p-select-border-color: var(--gray-300-color);
+    --p-select-border-radius: 4px;
+    --p-select-hover-border-color: var(--gray-400-color);
+    --p-select-focus-border-color: var(--gray-400-color);
+    --p-select-padding-y: 8px 8px;
+    --p-select-padding-x: 8px 12px;
+    --p-select-color: var(--dark-color);
+    --p-select-dropdown-color: var(--dark-color);
+    --p-select-overlay-color: var(--dark-color);
+    --p-select-overlay-border-color: var(--gray-200-color);
+    --p-select-overlay-border-radius: 4px;
+    --p-select-list-padding: 0px;
+    --p-select-list-gap: 0px;
+    --p-select-option-selected-focus-background: var(--gray-100-color);
+    --p-select-option-selected-focus-color: var(--dark-color);
+    --p-select-option-selected-background: inherit;
+    --p-select-option-selected-color: inherit;
+
     /* диалоговое окно */
     --p-dialog-border-radius: 8px;
     --p-dialog-background: var(--white-color);
@@ -40,7 +59,6 @@
 
     --p-message-text-font-weight: 400;
     --p-message-text-sm-font-size: 14px;
-
     --p-message-error-color: var(--error-color);
     --p-message-error-simple-color: var(--error-color);
 
@@ -238,6 +256,25 @@
 .p-panelmenu-header-icon {
     width: 12px;
     height: 12px;
+}
+
+.p-inputnumber-input {
+    width: 100%;
+    line-height: 24px;
+}
+
+.p-select-dropdown {
+    padding: 8px 16px 8px 0px;
+    width: auto;
+
+    svg {
+        width: 14px;
+    }
+}
+
+.p-select-overlay {
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .p-dialog {

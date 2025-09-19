@@ -3,32 +3,29 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+    padding-top: 2px;
 }
 
-.ad-grid-header .ads-count {
+.ad-grid-header__ad-count {
     text-align: right;
-    padding-top: 10px;
+    padding-top: 8px;
     padding-bottom: 8px;
     color: var(--gray-500-color);
 }
 
-.ad-grid-header .sort {
+.ad-grid-header__ad-sort {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 12px;
 }
 
-.ad-grid-header .sort select {
-    width: 200px;
-}
-
-.ad-grid-header .sort option {
-    line-height: 150px;
+.ad-grid-header__ad-sort-select {
+    width: 150px;
 }
 
 @media (min-width: 768px) {
-    .ad-grid-header .sort {
+    .ad-grid-header__ad-sort {
         flex-direction: row;
         align-items: center;
     }
@@ -39,7 +36,7 @@
         flex-direction: row;
         align-items: center;
     }
-    .ad-grid-header .ads-count {
+    .ad-grid-header__ad-count {
         text-align: left;
     }
 }
