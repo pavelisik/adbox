@@ -1,11 +1,11 @@
-<div class="header-search__container container">
-    <h3 class="header-search__title h3 fw-700">
+<div class="search-bar__container container">
+    <h3 class="search-bar__title h3 fw-700">
         <a [routerLink]="['']">Доска объявлений</a>
     </h3>
     <button
         pButton
         outlined
-        class="header-search__menu-btn"
+        class="search-bar__menu-btn"
         [class.active]="menuButtonActive"
         (click)="menu.toggle($event)"
     >
@@ -27,9 +27,9 @@
         </div>
         <span pButtonLabel>Все категории</span>
     </button>
-    <form class="header-search__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <form class="search-bar__form" [formGroup]="searchForm" (ngSubmit)="onSearch()">
         <input pInputText type="text" placeholder="Поиск по объявлениям" formControlName="search" />
-        <button pButton type="submit" class="header-search__search-btn">
+        <button pButton type="submit" class="search-bar__search-btn">
             <span pButtonLabel>Найти</span>
             <svg pButtonIcon icon="search" width="16" height="16"></svg>
         </button>

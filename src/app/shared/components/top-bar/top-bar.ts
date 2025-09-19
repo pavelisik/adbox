@@ -10,7 +10,7 @@ import { MenuItem } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
-    selector: 'app-header-top',
+    selector: 'app-top-bar',
     imports: [
         SvgIcon,
         ButtonModule,
@@ -19,10 +19,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         TieredMenuModule,
         ProgressSpinnerModule,
     ],
-    templateUrl: './header-top.html',
-    styleUrl: './header-top.scss',
+    templateUrl: './top-bar.html',
+    styleUrl: './top-bar.scss',
 })
-export class HeaderTop {
+export class TopBar {
     authService = inject(AuthService);
     authStateService = inject(AuthStateService);
     userProfileStoreService = inject(UserProfileStoreService);

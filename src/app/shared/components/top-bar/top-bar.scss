@@ -4,13 +4,13 @@
     padding: 8px 0;
 }
 
-.header-top__container {
+.top-bar__container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
 
-.header-top__signin-btn {
+.top-bar__signin-btn {
     color: var(--white-color);
     padding: 8px 0px;
     gap: 4px;
@@ -25,7 +25,7 @@
 }
 
 // без ng-deep не получилось
-::ng-deep .header-top__user-menu {
+::ng-deep .top-bar__user-menu {
     transform: translateX(calc(-100% + 82px));
 
     .p-tieredmenu-item-label {
@@ -38,7 +38,7 @@
     }
 }
 
-.header-top__spinner {
+.top-bar__spinner {
     width: 20px;
     height: 20px;
     margin: 8px 0px;
@@ -48,7 +48,7 @@
     --p-progressspinner-color-four: var(--white-color);
 }
 
-.header-top__add-btn {
+.top-bar__add-btn {
     padding: 6px 12px;
     margin-left: 24px;
     gap: 4px;

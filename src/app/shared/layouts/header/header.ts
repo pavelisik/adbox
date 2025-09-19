@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { HeaderTop } from './header-top/header-top';
-import { HeaderSearch } from './header-search/header-search';
+import { SearchBar, TopBar } from '@app/shared/components';
 
 @Component({
     selector: 'app-header',
-    imports: [HeaderTop, HeaderSearch],
+    imports: [TopBar, SearchBar],
     templateUrl: './header.html',
     styleUrl: './header.scss',
 })

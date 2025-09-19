@@ -1,19 +1,30 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { AdGrid } from '@app/shared/components';
+import { AdGrid, Sidebar, AdGridHeader } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [AdGrid, AsyncPipe],
+    imports: [AdGrid, AsyncPipe, Sidebar, AdGridHeader],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })
 export class AdvertsList {
-    advertService = inject(AdvertService);
-    route = inject(ActivatedRoute);
+    private readonly advertService = inject(AdvertService);
+    private readonly route = inject(ActivatedRoute);
+    readonly isMain = toSignal(
+        this.route.data.pipe(map((data) => (data['isMain'] as boolean) ?? false)),
+        {
+            initialValue: false,
+        },
+    );
+
+    readonly searchQuery = toSignal(this.route.queryParams.pipe(map((p) => p['search'] ?? '')), {
+        initialValue: '',
+    });
 
     adverts$ = this.route.queryParams.pipe(
         switchMap((params) =>

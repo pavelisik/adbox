@@ -6,8 +6,11 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('@app/shared/layouts').then((m) => m.MainLayout),
         children: [
-            // { path: '', loadComponent: () => import('@app/pages').then((m) => m.AdvertsList) },
-            { path: '', redirectTo: 'adverts', pathMatch: 'full' },
+            {
+                path: '',
+                data: { isMain: true },
+                loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
+            },
             {
                 path: 'adverts',
                 loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
@@ -15,10 +18,6 @@ export const routes: Routes = [
             {
                 path: 'advert/:id',
                 loadComponent: () => import('@app/pages').then((m) => m.Advert),
-            },
-            {
-                path: 'search',
-                loadComponent: () => import('@app/pages').then((m) => m.Search),
             },
             {
                 path: 'user',

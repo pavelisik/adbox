@@ -8,7 +8,7 @@ import { CategoryMenu } from './category-menu/category-menu';
 import { PopoverModule } from 'primeng/popover';
 
 @Component({
-    selector: 'app-header-search',
+    selector: 'app-search-bar',
     imports: [
         SvgIcon,
         InputTextModule,
@@ -18,10 +18,10 @@ import { PopoverModule } from 'primeng/popover';
         CategoryMenu,
         PopoverModule,
     ],
-    templateUrl: './header-search.html',
-    styleUrl: './header-search.scss',
+    templateUrl: './search-bar.html',
+    styleUrl: './search-bar.scss',
 })
-export class HeaderSearch {
+export class SearchBar {
     private router = inject(Router);
     fb = inject(FormBuilder);
     menuButtonIcon = 'list-nested';
