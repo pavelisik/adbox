@@ -48,7 +48,7 @@ export class CategoryMenu {
 
     // установка активной категории если есть в параметре (если нет - ставим первую)
     initActiveCategory(categories: Category[] = this.categories) {
-        const queryCategoryId = this.router.routerState.snapshot.root.queryParams['category'];
+        const queryCategoryId = this.router.routerState.snapshot.root.queryParams['catId'];
         if (queryCategoryId) {
             // используем функцию для поиска категории по id
             const foundCategory = findCategoryFromId(categories, queryCategoryId);

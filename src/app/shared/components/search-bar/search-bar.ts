@@ -52,5 +52,7 @@ export class SearchBar {
             queryParams: { search: value },
             queryParamsHandling: 'merge',
         });
+
+        this.searchForm.reset({ search: '' });
     }
 }

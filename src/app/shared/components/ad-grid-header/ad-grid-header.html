@@ -1,16 +1,18 @@
 <div class="ad-grid-header base mb-16">
-    <span class="ad-grid-header__ad-count">Всего найдено 1 234 объявления</span>
-    <form class="ad-grid-header__ad-sort" [formGroup]="sortForm">
-        <label for="sort">Сортировка по:</label>
-        <p-select
-            [options]="sortTypes"
-            optionLabel="name"
-            optionValue="value"
-            formControlName="sort"
-        >
-            <ng-template #selectedItem let-selectedOption>
-                <div class="ad-grid-header__ad-sort-select">{{ selectedOption.name }}</div>
-            </ng-template>
-        </p-select>
-    </form>
+    <span class="ad-grid-header__ad-count">{{ advertsCount() | advertsCount }}</span>
+    @if (advertsCount()) {
+        <form class="ad-grid-header__ad-sort" [formGroup]="sortForm">
+            <label for="sort">Сортировка по:</label>
+            <p-select
+                [options]="sortTypes"
+                optionLabel="name"
+                optionValue="value"
+                formControlName="sort"
+            >
+                <ng-template #selectedItem let-selectedOption>
+                    <div class="ad-grid-header__ad-sort-select">{{ selectedOption.name }}</div>
+                </ng-template>
+            </p-select>
+        </form>
+    }
 </div>

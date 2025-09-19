@@ -11,7 +11,7 @@
             <ng-template pTemplate="item" let-item>
                 <a
                     [routerLink]="['/adverts']"
-                    [queryParams]="{ category: item.id }"
+                    [queryParams]="{ catId: item.id, catName: item.name }"
                     queryParamsHandling="merge"
                     (click)="onClickCategory()"
                     (mouseenter)="onHoverParent(item)"
@@ -35,7 +35,10 @@
                         <li class="base">
                             <a
                                 [routerLink]="['/adverts']"
-                                [queryParams]="{ category: childCategory.id }"
+                                [queryParams]="{
+                                    catId: childCategory.id,
+                                    catName: childCategory.name,
+                                }"
                                 queryParamsHandling="merge"
                                 (click)="onClickCategory()"
                                 (mouseenter)="onHoverChild(childCategory)"
