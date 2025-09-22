@@ -5,12 +5,12 @@ import { ButtonModule } from 'primeng/button';
 import { map } from 'rxjs';
 
 @Component({
-    selector: 'app-filters-picked',
+    selector: 'app-picked-filters',
     imports: [ButtonModule],
-    templateUrl: './filters-picked.html',
-    styleUrl: './filters-picked.scss',
+    templateUrl: './picked-filters.html',
+    styleUrl: './picked-filters.scss',
 })
-export class FiltersPicked {
+export class PickedFilters {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 

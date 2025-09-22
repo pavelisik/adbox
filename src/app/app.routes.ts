@@ -1,23 +1,27 @@
 import { Routes } from '@angular/router';
-import { canActivateAuth } from '@app/core/guards';
+import { canActivateAuth, canActivatePublic } from '@app/core/guards';
 
 export const routes: Routes = [
     {
         path: '',
         loadComponent: () => import('@app/shared/layouts').then((m) => m.MainLayout),
+        canActivate: [canActivatePublic],
         children: [
             {
                 path: '',
                 data: { isMain: true },
                 loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
+                canActivate: [canActivatePublic],
             },
             {
                 path: 'adverts',
                 loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
+                canActivate: [canActivatePublic],
             },
             {
                 path: 'advert/:id',
                 loadComponent: () => import('@app/pages').then((m) => m.Advert),
+                canActivate: [canActivatePublic],
             },
             {
                 path: 'user',
@@ -40,6 +44,7 @@ export const routes: Routes = [
             {
                 path: '**',
                 loadComponent: () => import('@app/pages').then((m) => m.NotFound),
+                canActivate: [canActivatePublic],
             },
         ],
     },

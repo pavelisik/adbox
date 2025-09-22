@@ -10,12 +10,12 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-sidebar',
+    selector: 'app-ad-sidebar-filters',
     imports: [PanelMenuModule, ButtonModule, InputNumberModule, AsyncPipe],
-    templateUrl: './sidebar.html',
-    styleUrl: './sidebar.scss',
+    templateUrl: './ad-sidebar-filters.html',
+    styleUrl: './ad-sidebar-filters.scss',
 })
-export class Sidebar {
+export class AdSidebarFilters {
     private readonly categoryService = inject(CategoryService);
 
     categoriesMenuItems$ = this.categoryService.getAllCategories().pipe(

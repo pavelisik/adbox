@@ -26,6 +26,10 @@ export class AuthService {
 
     logout() {
         this.authStateService.deleteToken();
-        this.router.navigate(['']);
+        if (this.authStateService.isOnProtectedRoute()) {
+            this.router.navigate(['']);
+        } else {
+            window.location.reload();
+        }
     }
 }

@@ -1,16 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { AdGrid, Sidebar, TopFilters } from '@app/shared/components';
+import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
-import { AdvertsTitle } from '@app/shared/components/adverts-title/adverts-title';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [AdGrid, AsyncPipe, Sidebar, TopFilters, ButtonModule, AdvertsTitle],
+    imports: [AdGrid, AsyncPipe, AdSidebarFilters, AdTopFilters, ButtonModule, AdTitle],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })
