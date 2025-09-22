@@ -1,23 +1,23 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { AdGrid, Sidebar, AdGridHeader } from '@app/shared/components';
+import { AdGrid, Sidebar, TopFilters } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AdvertsTitlePipe } from '@app/shared/pipes';
 import { ButtonModule } from 'primeng/button';
+import { AdvertsTitle } from '@app/shared/components/adverts-title/adverts-title';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [AdGrid, AsyncPipe, Sidebar, AdGridHeader, AdvertsTitlePipe, ButtonModule],
+    imports: [AdGrid, AsyncPipe, Sidebar, TopFilters, ButtonModule, AdvertsTitle],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })
 export class AdvertsList {
     private readonly advertService = inject(AdvertService);
     private readonly route = inject(ActivatedRoute);
-    private readonly router = inject(Router);
+
     readonly isMain = toSignal(
         this.route.data.pipe(map((data) => (data['isMain'] as boolean) ?? false)),
         {
@@ -45,13 +45,4 @@ export class AdvertsList {
             ),
         ),
     );
-
-    // очищаем параметр из строки запроса
-    clearQuery(params: string[]) {
-        const queryParams = { ...this.route.snapshot.queryParams };
-        params.forEach((param) => delete queryParams[param]);
-        this.router.navigate(['/adverts'], {
-            queryParams,
-        });
-    }
 }

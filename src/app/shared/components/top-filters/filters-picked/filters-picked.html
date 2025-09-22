@@ -1,0 +1,24 @@
+@if (searchQuery()) {
+    <button pButton (click)="clearQuery(['search'])" [rounded]="true">
+        <span pButtonLabel>{{ searchQuery() }}</span>
+        <i class="pi pi-times" pButtonIcon></i>
+    </button>
+}
+@if (catName()) {
+    <button pButton (click)="clearQuery(['catId', 'catName'])" [rounded]="true">
+        <span pButtonLabel>Категория: {{ catName() }}</span>
+        <i class="pi pi-times" pButtonIcon></i>
+    </button>
+}
+@if (searchQuery() || catName()) {
+    <button
+        pButton
+        (click)="clearQuery(['search', 'catId', 'catName'])"
+        [rounded]="true"
+        class="filters-picked__clear-all"
+        severity="secondary"
+    >
+        <span pButtonLabel>Сбросить фильтры</span>
+        <i class="pi pi-times" pButtonIcon></i>
+    </button>
+}

@@ -1,0 +1,6 @@
+<h4 class="h4 fw-600 mb-16">
+    {{ advertsCount() | advertsCount }}
+    @if (catQuery()) {
+        {{ `в категории «${catQuery()}»` }}
+    }
+</h4>

@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'advertsCount',
 })
 export class AdvertsCountPipe implements PipeTransform {
-    transform(count: number | null | undefined): string {
+    transform(count: number | null): string {
         if (!count) {
             return 'Не найдено объявлений';
         }
@@ -21,6 +21,6 @@ export class AdvertsCountPipe implements PipeTransform {
             word = 'объявления';
         }
 
-        return `Всего найдено ${count} ${word}`;
+        return `Найдено ${count} ${word}`;
     }
 }

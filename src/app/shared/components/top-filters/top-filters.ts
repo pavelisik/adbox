@@ -1,15 +1,15 @@
 import { Component, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
-import { AdvertsCountPipe } from '@app/shared/pipes';
+import { FiltersPicked } from './filters-picked/filters-picked';
 
 @Component({
-    selector: 'app-ad-grid-header',
-    imports: [SelectModule, ReactiveFormsModule, AdvertsCountPipe],
-    templateUrl: './ad-grid-header.html',
-    styleUrl: './ad-grid-header.scss',
+    selector: 'app-top-filters',
+    imports: [SelectModule, ReactiveFormsModule, FiltersPicked],
+    templateUrl: './top-filters.html',
+    styleUrl: './top-filters.scss',
 })
-export class AdGridHeader {
+export class TopFilters {
     fb = inject(FormBuilder);
     advertsCount = input<number | null>(null);
 

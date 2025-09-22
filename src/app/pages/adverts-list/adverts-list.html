@@ -4,20 +4,20 @@
         <app-ad-grid [adverts]="adverts" width="full"></app-ad-grid>
     }
 } @else {
-    <h4 class="h4 fw-600 mb-16">{{ searchQuery() | advertsTitle: catName() }}</h4>
-    @if (searchQuery()) {
-        <button pButton (click)="clearQuery(['search'])">{{ searchQuery() }} ✖</button>&nbsp;
-    }
-    @if (catName()) {
-        <button pButton (click)="clearQuery(['catId', 'catName'])">{{ catName() }} ✖</button>
-    }
-    <div class="page-content">
-        <app-sidebar></app-sidebar>
-        <div>
-            @if (adverts$ | async; as adverts) {
-                <app-ad-grid-header [advertsCount]="adverts.length"></app-ad-grid-header>
+    @if (adverts$ | async; as adverts) {
+        <app-adverts-title
+            [advertsCount]="adverts.length"
+            [catQuery]="catName()"
+        ></app-adverts-title>
+        <div class="page-content">
+            <app-sidebar></app-sidebar>
+            <div>
+                <app-top-filters [advertsCount]="adverts.length"></app-top-filters>
+                @if (adverts.length < 1) {
+                    <p>По точному совпадению результатов не найдено</p>
+                }
                 <app-ad-grid [adverts]="adverts" width="short"></app-ad-grid>
-            } @else {}
+            </div>
         </div>
-    </div>
+    }
 }

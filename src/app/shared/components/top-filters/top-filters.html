@@ -1,0 +1,20 @@
+<div class="top-filters mb-16">
+    <div class="top-filters__wrapped">
+        <app-filters-picked></app-filters-picked>
+        @if (advertsCount()) {
+            <form class="top-filters__ad-sort base" [formGroup]="sortForm">
+                <label for="sort">Сортировка по:</label>
+                <p-select
+                    [options]="sortTypes"
+                    optionLabel="name"
+                    optionValue="value"
+                    formControlName="sort"
+                >
+                    <ng-template #selectedItem let-selectedOption>
+                        <div class="top-filters__ad-sort-select">{{ selectedOption.name }}</div>
+                    </ng-template>
+                </p-select>
+            </form>
+        }
+    </div>
+</div>

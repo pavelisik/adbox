@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    button {
+        align-items: baseline;
+    }
+
+    button i {
+        font-size: 12px;
+    }
+}

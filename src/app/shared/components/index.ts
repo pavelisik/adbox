@@ -1,5 +1,5 @@
 export * from './ad-grid/ad-grid';
-export * from './ad-grid-header/ad-grid-header';
+export * from './top-filters/top-filters';
 export * from './breadcrumbs/breadcrumbs';
 export * from './image-gallery/image-gallery';
 export * from './search-bar/search-bar';
