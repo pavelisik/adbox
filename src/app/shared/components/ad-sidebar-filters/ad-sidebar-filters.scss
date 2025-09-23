@@ -8,6 +8,32 @@
     flex-direction: column;
 }
 
+.ad-sidebar-filters__category-menu-item {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    color: inherit;
+
+    svg {
+        transition: transform 0.1s ease;
+        transform: rotate(0deg);
+    }
+
+    svg.expanded {
+        transform: rotate(90deg);
+    }
+
+    .no-childs {
+        margin-left: 18px;
+    }
+
+    &.is-active {
+        color: var(--dark-color);
+    }
+}
+
 .ad-sidebar-filters__price-inputs {
     display: flex;
     flex-direction: column;

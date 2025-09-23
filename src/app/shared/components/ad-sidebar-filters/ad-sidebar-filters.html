@@ -1,8 +1,30 @@
 <aside class="ad-sidebar-filters mt-9">
     <div class="ad-sidebar-filters__category mb-16">
         <div class="h6 fw-600 mb-12">Все категории</div>
-        @if (categoriesMenuItems$ | async; as categoriesMenuItems) {
-            <p-panelmenu [model]="categoriesMenuItems" class="ad-sidebar-filters__category-menu" />
+        @if (categoriesMenuItems(); as categoriesMenuItems) {
+            <p-panelmenu [model]="categoriesMenuItems">
+                <ng-template #item let-item>
+                    <a
+                        [routerLink]="['/adverts']"
+                        [queryParams]="{ catId: item['data'].id, catName: item['data'].name }"
+                        queryParamsHandling="merge"
+                        class="ad-sidebar-filters__category-menu-item base"
+                        [class.is-active]="activeItem() === item['data']"
+                    >
+                        @if (item.items) {
+                            <svg
+                                icon="chevron-right-panelmenu"
+                                width="10"
+                                height="10"
+                                [class.expanded]="item.expanded"
+                            ></svg>
+                        }
+                        <span [class.no-childs]="item.isRoot && !item.items">
+                            {{ item.label }}
+                        </span>
+                    </a>
+                </ng-template>
+            </p-panelmenu>
         } @else {
             <p>Загрузка...</p>
         }

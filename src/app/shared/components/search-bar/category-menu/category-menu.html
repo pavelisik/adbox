@@ -1,5 +1,5 @@
 <div class="category-menu__wrapper container">
-    @if (categories$ | async; as categories) {
+    @if (categories(); as categories) {
         <p-listbox
             [options]="categories"
             optionLabel="name"

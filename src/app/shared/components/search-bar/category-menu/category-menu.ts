@@ -1,35 +1,32 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, output, signal } from '@angular/core';
 import { ListboxModule } from 'primeng/listbox';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { SvgIcon } from '@app/shared/components';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Category } from '@app/pages/advert/domains';
-import { CategoryService } from '@app/shared/services';
-import { map, tap } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
-import { findCategoryFromId, transformCategories } from '@app/shared/utils';
+import { CategoryStore } from '@app/shared/services';
+import { findCategoryFromId } from '@app/shared/utils';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'app-category-menu',
-    imports: [ListboxModule, TieredMenuModule, SvgIcon, RouterLink, AsyncPipe],
+    imports: [ListboxModule, TieredMenuModule, SvgIcon, RouterLink],
     templateUrl: './category-menu.html',
     styleUrl: './category-menu.scss',
 })
 export class CategoryMenu {
-    private readonly categoryService = inject(CategoryService);
-    private readonly router = inject(Router);
-    private categories: Category[] = [];
+    private readonly categoryStore = inject(CategoryStore);
+    private readonly route = inject(ActivatedRoute);
+    readonly categories = this.categoryStore.allCategories;
+
     activeParent = signal<Category | null>(null);
     activeChild = signal<Category | null>(null);
     categorySelected = output<void>();
 
-    categories$ = this.categoryService.getAllCategories().pipe(
-        map((cats) => transformCategories(cats)),
-        tap((cats) => {
-            this.categories = cats;
-            this.initActiveCategory(cats);
-        }),
-    );
+    queryCategoryId = toSignal(this.route.queryParams.pipe(map((p) => p['catId'] ?? '')), {
+        initialValue: '',
+    });
 
     // активная родительская категория при наведении
     onHoverParent(item: Category) {
@@ -47,11 +44,10 @@ export class CategoryMenu {
     }
 
     // установка активной категории если есть в параметре (если нет - ставим первую)
-    initActiveCategory(categories: Category[] = this.categories) {
-        const queryCategoryId = this.router.routerState.snapshot.root.queryParams['catId'];
-        if (queryCategoryId) {
+    initActiveCategory(categories: Category[] = this.categories()) {
+        if (this.queryCategoryId()) {
             // используем функцию для поиска категории по id
-            const foundCategory = findCategoryFromId(categories, queryCategoryId);
+            const foundCategory = findCategoryFromId(categories, this.queryCategoryId());
             if (foundCategory) {
                 this.activeParent.set(foundCategory.parent ?? categories[0] ?? null);
                 this.activeChild.set(foundCategory.child ?? null);
@@ -60,5 +56,14 @@ export class CategoryMenu {
         }
         this.activeParent.set(categories[0] ?? null);
         this.activeChild.set(null);
+    }
+
+    // устанавливаем активную категорию
+    constructor() {
+        effect(() => {
+            if (this.categories().length) {
+                this.initActiveCategory(this.categories());
+            }
+        });
     }
 }
