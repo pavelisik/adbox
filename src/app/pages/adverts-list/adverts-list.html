@@ -4,16 +4,19 @@
         <app-ad-grid [adverts]="adverts" width="full"></app-ad-grid>
     }
 } @else {
-    @if (adverts$ | async; as adverts) {
-        <app-ad-title [advertsCount]="adverts.length" [catQuery]="catName()"></app-ad-title>
+    @if (filteredAdverts()) {
+        <app-ad-title
+            [advertsCount]="filteredAdverts().length"
+            [catQuery]="queryParams().catName"
+        ></app-ad-title>
         <div class="page-content">
             <app-ad-sidebar-filters></app-ad-sidebar-filters>
             <div>
-                <app-ad-top-filters [advertsCount]="adverts.length"></app-ad-top-filters>
-                @if (adverts.length < 1) {
+                <app-ad-top-filters [advertsCount]="filteredAdverts().length"></app-ad-top-filters>
+                @if (filteredAdverts().length < 1) {
                     <p>По точному совпадению результатов не найдено</p>
                 }
-                <app-ad-grid [adverts]="adverts" width="short"></app-ad-grid>
+                <app-ad-grid [adverts]="filteredAdverts()" width="short"></app-ad-grid>
             </div>
         </div>
     }

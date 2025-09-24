@@ -1,91 +1,118 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Category } from '@app/pages/advert/domains';
 import { CategoryStore } from '@app/shared/services';
-import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SvgIcon } from '@app/shared/components/svg-icon/svg-icon';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { findCategoryFromId } from '@app/shared/utils';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AdvertsQueryParams, CategoryMenuItem } from '@app/pages/adverts-list/domains';
 
 @Component({
     selector: 'app-ad-sidebar-filters',
-    imports: [PanelMenuModule, ButtonModule, InputNumberModule, SvgIcon, RouterLink],
+    imports: [
+        PanelMenuModule,
+        ButtonModule,
+        InputNumberModule,
+        SvgIcon,
+        RouterLink,
+        ReactiveFormsModule,
+    ],
     templateUrl: './ad-sidebar-filters.html',
     styleUrl: './ad-sidebar-filters.scss',
 })
 export class AdSidebarFilters {
     private readonly categoryStore = inject(CategoryStore);
     private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly fb = inject(FormBuilder);
+
     readonly categories = this.categoryStore.allCategories;
+    readonly activeItem = signal<Category | null>(null);
 
-    activeItem = signal<Category | null>(null);
-
-    queryCategoryId = toSignal(this.route.queryParams.pipe(map((p) => p['catId'] ?? '')), {
-        initialValue: '',
+    readonly queryParams = toSignal(this.route.queryParams, {
+        initialValue: {} as AdvertsQueryParams,
     });
 
+    filterForm: FormGroup = this.fb.group({
+        minPrice: [null],
+        maxPrice: [null],
+    });
+
+    onSubmit() {
+        const { minPrice, maxPrice } = this.filterForm.value;
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { minPrice, maxPrice },
+            queryParamsHandling: 'merge',
+        });
+    }
+
     // преобразованные категории для вывода меню
-    categoriesMenuItems = computed(() => this.buildMenuItems(this.categories()));
+    categoriesMenuItems = computed<CategoryMenuItem[]>(() =>
+        this.buildMenuItems(this.categories()),
+    );
 
     // трансформируем массив со всеми категориями для вывода меню фильтра
-    private buildMenuItems(categories: Category[], isRoot = true): MenuItem[] {
+    private buildMenuItems(categories: Category[], isRootItem = true): CategoryMenuItem[] {
         return categories.map((cat) => {
-            const item: MenuItem = {
+            const item: CategoryMenuItem = {
                 label: cat.name,
                 data: cat,
-                isRoot,
+                isRootItem,
             };
-            if (cat.childs?.length) {
-                item.items = this.buildMenuItems(cat.childs, false);
-            }
+            if (cat.childs) item.items = this.buildMenuItems(cat.childs, false);
             return item;
         });
     }
 
-    // принудительное раскрытие пункта меню родителя
-    private expandParent(parentId: string) {
-        const menuItem = this.categoriesMenuItems().find((item) => item['data'].id === parentId);
-        if (menuItem) {
-            menuItem['expanded'] = true;
-        }
+    // принудительное раскрытие пункта меню
+    private expandItem(itemId: string) {
+        const menuItem = this.categoriesMenuItems().find((item) => item.data.id === itemId);
+        if (menuItem) menuItem.expanded = true;
     }
 
     // принудительное закрытие всех пунктов меню
-    private collapseAll(menuItems: MenuItem[]) {
-        menuItems.forEach((item) => {
-            item['expanded'] = false;
-        });
+    private collapseAll(menuItems: CategoryMenuItem[]) {
+        menuItems.forEach((item) => (item.expanded = false));
     }
 
-    // установка активной категории если есть в параметре
+    // установка активной категории по id в параметре
     initActiveCategory(categories: Category[]) {
-        if (this.queryCategoryId()) {
-            // используем функцию для поиска категории по id (без разделения на родительские и дочерние)
-            const foundCategory = findCategoryFromId(categories, this.queryCategoryId(), false);
-            if (foundCategory) {
-                this.activeItem.set(foundCategory.item ?? null);
-                this.collapseAll(this.categoriesMenuItems());
-                if (foundCategory.child && foundCategory.parent) {
-                    this.expandParent(foundCategory.parent.id);
-                }
-            }
-        } else {
-            // если нет в параметре - сбрасываем активный пункт меню и все сворачиваем
+        // принудительно сворачиваем все категории
+        this.collapseAll(this.categoriesMenuItems());
+        // если нет id - сбрасываем активный пункт меню
+        if (!this.queryParams().catId) {
             this.activeItem.set(null);
-            this.collapseAll(this.categoriesMenuItems());
+            return;
+        }
+        // поиск категории по id (без разделения на родительские и дочерние)
+        const foundCategory = findCategoryFromId(categories, this.queryParams().catId, false);
+        if (foundCategory) {
+            this.activeItem.set(foundCategory.item ?? null);
+            if (foundCategory.child && foundCategory.parent) {
+                // если активная категория вложенная - разворачиваем родительскую
+                this.expandItem(foundCategory.parent.id);
+            } else {
+                // если активная категория не вложенная - разворачиваем ее
+                this.expandItem(this.queryParams().catId);
+            }
         }
     }
 
-    // устанавливаем активную категорию
     constructor() {
         effect(() => {
-            if (this.categories().length) {
-                this.initActiveCategory(this.categories());
-            }
+            // устанавливаем активную категорию
+            if (this.categories()) this.initActiveCategory(this.categories());
+        });
+        effect(() => {
+            this.filterForm.patchValue({
+                minPrice: this.queryParams().minPrice ? Number(this.queryParams().minPrice) : null,
+                maxPrice: this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null,
+            });
         });
     }
 }

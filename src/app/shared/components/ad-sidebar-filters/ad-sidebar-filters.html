@@ -1,58 +1,60 @@
-<aside class="ad-sidebar-filters mt-9">
-    <div class="ad-sidebar-filters__category mb-16">
-        <div class="h6 fw-600 mb-12">Все категории</div>
-        @if (categoriesMenuItems(); as categoriesMenuItems) {
-            <p-panelmenu [model]="categoriesMenuItems">
-                <ng-template #item let-item>
-                    <a
-                        [routerLink]="['/adverts']"
-                        [queryParams]="{ catId: item['data'].id, catName: item['data'].name }"
-                        queryParamsHandling="merge"
-                        class="ad-sidebar-filters__category-menu-item base"
-                        [class.is-active]="activeItem() === item['data']"
-                    >
-                        @if (item.items) {
-                            <svg
-                                icon="chevron-right-panelmenu"
-                                width="10"
-                                height="10"
-                                [class.expanded]="item.expanded"
-                            ></svg>
-                        }
-                        <span [class.no-childs]="item.isRoot && !item.items">
-                            {{ item.label }}
-                        </span>
-                    </a>
-                </ng-template>
-            </p-panelmenu>
-        } @else {
-            <p>Загрузка...</p>
-        }
-    </div>
-
-    <div class="ad-sidebar-filters__price mb-24">
-        <div class="base fw-600 mb-8">Цена</div>
-        <div class="ad-sidebar-filters__price-inputs base">
-            <p-inputnumber
-                inputId="integeronly"
-                placeholder="Цена от"
-                mode="currency"
-                currency="RUB"
-                [minFractionDigits]="0"
-                formControlName="minPrice"
-            />
-            <p-inputnumber
-                inputId="integeronly"
-                placeholder="до, руб."
-                mode="currency"
-                currency="RUB"
-                [minFractionDigits]="0"
-                formControlName="maxPrice"
-            />
+<aside>
+    <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="ad-sidebar-filters mt-9">
+        <div class="ad-sidebar-filters__category mb-16">
+            <div class="h6 fw-600 mb-12">Все категории</div>
+            @if (categoriesMenuItems(); as categoriesMenuItems) {
+                <p-panelmenu [model]="categoriesMenuItems">
+                    <ng-template #item let-item>
+                        <a
+                            [routerLink]="[]"
+                            [queryParams]="{ catId: item.data.id, catName: item.data.name }"
+                            queryParamsHandling="merge"
+                            class="ad-sidebar-filters__category-menu-item base"
+                            [class.is-active]="activeItem() === item.data"
+                        >
+                            @if (item.items?.length) {
+                                <svg
+                                    icon="chevron-right-panelmenu"
+                                    width="10"
+                                    height="10"
+                                    [class.expanded]="item.expanded"
+                                ></svg>
+                            }
+                            <span [class.no-childs]="item.isRootItem && !item.items?.length">
+                                {{ item.label }}
+                            </span>
+                        </a>
+                    </ng-template>
+                </p-panelmenu>
+            } @else {
+                <p>Загрузка...</p>
+            }
         </div>
-    </div>
-
-    <button pButton type="submit" class="ad-sidebar-filters__submit-btn">
-        <span pButtonLabel class="base">Показать объявления</span>
-    </button>
+        <div class="ad-sidebar-filters__price mb-24">
+            <div class="base fw-600 mb-8">Цена</div>
+            <div class="ad-sidebar-filters__price-inputs base">
+                <p-inputnumber
+                    formControlName="minPrice"
+                    placeholder="Цена от"
+                    mode="currency"
+                    currency="RUB"
+                    currencyDisplay="symbol"
+                    locale="ru-RU"
+                    [minFractionDigits]="0"
+                />
+                <p-inputnumber
+                    formControlName="maxPrice"
+                    placeholder="до, руб."
+                    mode="currency"
+                    currency="RUB"
+                    currencyDisplay="symbol"
+                    locale="ru-RU"
+                    [minFractionDigits]="0"
+                />
+            </div>
+        </div>
+        <button pButton type="submit" class="ad-sidebar-filters__submit-btn">
+            <span pButtonLabel class="base">Показать объявления</span>
+        </button>
+    </form>
 </aside>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
+import { AdvertsQueryParams } from '@app/pages/adverts-list/domains';
 
 @Component({
     selector: 'app-adverts-list',
@@ -19,17 +20,11 @@ export class AdvertsList {
 
     readonly isMain = toSignal(
         this.route.data.pipe(map((data) => (data['isMain'] as boolean) ?? false)),
-        {
-            initialValue: false,
-        },
+        { initialValue: false },
     );
 
-    searchQuery = toSignal(this.route.queryParams.pipe(map((p) => p['search'] ?? '')), {
-        initialValue: '',
-    });
-
-    catName = toSignal(this.route.queryParams.pipe(map((p) => p['catName'] ?? '')), {
-        initialValue: '',
+    readonly queryParams = toSignal(this.route.queryParams, {
+        initialValue: {} as AdvertsQueryParams,
     });
 
     adverts$ = this.route.queryParams.pipe(
@@ -44,4 +39,17 @@ export class AdvertsList {
             ),
         ),
     );
+
+    advertsRaw = toSignal(this.adverts$, { initialValue: [] });
+
+    filteredAdverts = computed(() => {
+        const minPrice = this.queryParams().minPrice ? Number(this.queryParams().minPrice) : null;
+        const maxPrice = this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null;
+
+        return this.advertsRaw().filter((advert) => {
+            if (minPrice !== null && advert.cost < minPrice) return false;
+            if (maxPrice !== null && advert.cost > maxPrice) return false;
+            return true;
+        });
+    });
 }

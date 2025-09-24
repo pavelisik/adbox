@@ -1,19 +1,39 @@
-@if (searchQuery()) {
+@if (queryParams().search) {
     <button pButton (click)="clearQuery(['search'])" [rounded]="true">
-        <span pButtonLabel>{{ searchQuery() }}</span>
+        <span pButtonLabel>{{ queryParams().search }}</span>
         <i class="pi pi-times" pButtonIcon></i>
     </button>
 }
-@if (catName()) {
+@if (queryParams().catName) {
     <button pButton (click)="clearQuery(['catId', 'catName'])" [rounded]="true">
-        <span pButtonLabel>Категория: {{ catName() }}</span>
+        <span pButtonLabel>Категория: {{ queryParams().catName }}</span>
         <i class="pi pi-times" pButtonIcon></i>
     </button>
 }
-@if (searchQuery() || catName()) {
+@if (queryParams().minPrice || queryParams().maxPrice) {
+    <button pButton (click)="clearQuery(['minPrice', 'maxPrice'])" [rounded]="true">
+        <span pButtonLabel>
+            Цена:
+            @if (queryParams().minPrice) {
+                от {{ +queryParams().minPrice | priceFormat }}
+            }
+            @if (queryParams().maxPrice) {
+                до {{ +queryParams().maxPrice | priceFormat }}
+            }
+        </span>
+        <i class="pi pi-times" pButtonIcon></i>
+    </button>
+}
+
+@if (
+    queryParams().search ||
+    queryParams().catName ||
+    queryParams().minPrice ||
+    queryParams().maxPrice
+) {
     <button
         pButton
-        (click)="clearQuery(['search', 'catId', 'catName'])"
+        (click)="clearQuery(['search', 'catId', 'catName', 'minPrice', 'maxPrice'])"
         [rounded]="true"
         class="filters-picked__clear-all"
         severity="secondary"
