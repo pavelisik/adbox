@@ -1,7 +1,7 @@
 @if (isMain()) {
     <h4 class="h4 fw-600 mb-24">Рекомендации для вас</h4>
-    @if (adverts$ | async; as adverts) {
-        <app-ad-grid [adverts]="adverts" width="full"></app-ad-grid>
+    @if (filteredAdverts()) {
+        <app-ad-grid [adverts]="filteredAdverts()" width="full"></app-ad-grid>
     }
 } @else {
     @if (filteredAdverts()) {

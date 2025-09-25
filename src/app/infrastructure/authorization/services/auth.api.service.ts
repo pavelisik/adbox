@@ -3,8 +3,11 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { AuthLoginRequestDTO, AuthRegisterRequestDTO } from '@app/infrastructure/authorization/dto';
-import { AuthLoginRequestToDTOAdapter } from '@app/infrastructure/authorization/adapters';
-import { AuthLoginRequest } from '@app/core/auth/domains';
+import {
+    AuthLoginRequestToDTOAdapter,
+    AuthRegisterRequestToDTOAdapter,
+} from '@app/infrastructure/authorization/adapters';
+import { AuthLoginRequest, AuthRegisterRequest } from '@app/core/auth/domains';
 
 @Injectable({
     providedIn: 'root',
@@ -17,7 +20,8 @@ export class AuthApiService {
         return this.http.post<string>(`${environment.baseApiURL}/Auth/Login`, request);
     }
 
-    register(params: AuthRegisterRequestDTO): Observable<void> {
-        return this.http.post<void>(`${environment.baseApiURL}/Auth/Register`, params);
+    register(params: AuthRegisterRequest): Observable<string> {
+        const request: AuthRegisterRequestDTO = AuthRegisterRequestToDTOAdapter(params);
+        return this.http.post<string>(`${environment.baseApiURL}/Auth/Register`, params);
     }
 }

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginDialog } from '@app/shared/dialogs';
+import { LoginDialog, RegisterDialog } from '@app/shared/dialogs';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, LoginDialog],
+    imports: [RouterOutlet, LoginDialog, RegisterDialog, ToastModule],
     templateUrl: './app.html',
     styleUrl: './app.scss',
 })

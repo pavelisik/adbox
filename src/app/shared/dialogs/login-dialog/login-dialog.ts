@@ -14,9 +14,9 @@ import { MessageModule } from 'primeng/message';
     styleUrl: './login-dialog.scss',
 })
 export class LoginDialog {
-    authService = inject(AuthService);
-    loginDialogService = inject(LoginDialogService);
-    fb = inject(FormBuilder);
+    private readonly authService = inject(AuthService);
+    private readonly loginDialogService = inject(LoginDialogService);
+    private readonly fb = inject(FormBuilder);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -24,10 +24,6 @@ export class LoginDialog {
     loginError = signal<string>('');
 
     visible = this.loginDialogService.loginDialogOpen;
-
-    searchForm = this.fb.nonNullable.group({
-        search: [''],
-    });
 
     loginForm = this.fb.nonNullable.group({
         login: ['', Validators.required],
@@ -61,7 +57,7 @@ export class LoginDialog {
         this.loginDialogService.closeLoginDialog();
     }
 
-    onLogin() {
+    onSubmit() {
         this.isSubmitted.set(true);
         this.loginForm.markAllAsTouched();
 
@@ -70,7 +66,7 @@ export class LoginDialog {
         this.isLoading.set(true);
         this.loginError.set('');
 
-        const { login, password } = this.loginForm.value;
+        // const { login, password } = this.loginForm.value;
         // console.log('Отправлены логин и пароль:', login, password);
 
         this.authService.login(this.loginForm.getRawValue()).subscribe({
@@ -81,7 +77,6 @@ export class LoginDialog {
             },
             error: (err) => {
                 this.isLoading.set(false);
-
                 if (err.status === 400) {
                     this.loginError.set('Неверный логин или пароль. Попробуйте снова');
                 } else if (err.status === 500) {

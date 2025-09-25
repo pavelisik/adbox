@@ -5,3 +5,4 @@ export * from './category.store.service';
 export * from './image.service';
 export * from './info-dialog.service';
 export * from './login-dialog.service';
+export * from './register-dialog.service';

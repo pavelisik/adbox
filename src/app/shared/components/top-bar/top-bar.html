@@ -25,6 +25,14 @@
             <svg pButtonIcon icon="person" width="20" height="20"></svg>
             <span pButtonLabel>Войти</span>
         </button>
+        <button
+            pButton
+            text
+            class="top-bar__signin-btn"
+            (click)="registerDialogService.openRegisterDialog()"
+        >
+            <span pButtonLabel>Регистрация</span>
+        </button>
     }
     <button
         pButton

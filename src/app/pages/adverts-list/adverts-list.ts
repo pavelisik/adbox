@@ -1,5 +1,4 @@
 import { Component, computed, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +9,7 @@ import { AdvertsQueryParams } from '@app/pages/adverts-list/domains';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [AdGrid, AsyncPipe, AdSidebarFilters, AdTopFilters, ButtonModule, AdTitle],
+    imports: [AdGrid, AdSidebarFilters, AdTopFilters, ButtonModule, AdTitle],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })

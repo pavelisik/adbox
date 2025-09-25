@@ -1,5 +1,5 @@
 <p-dialog
-    header="Авторизация"
+    header="Регистрация"
     [(visible)]="visible"
     modal="true"
     [draggable]="false"
@@ -8,7 +8,7 @@
     (onShow)="onShow()"
     (onHide)="onClose()"
 >
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="dialog-form__field">
             <input
                 pInputText
@@ -21,6 +21,21 @@
             @if (getControlError('login')) {
                 <p-message severity="error" size="small" variant="simple">{{
                     getControlError('login')
+                }}</p-message>
+            }
+        </div>
+        <div class="dialog-form__field">
+            <input
+                pInputText
+                placeholder="Имя"
+                formControlName="name"
+                autocomplete="name"
+                [class.ng-invalid]="false"
+                [invalid]="!!getControlError('name')"
+            />
+            @if (getControlError('name')) {
+                <p-message severity="error" size="small" variant="simple">{{
+                    getControlError('name')
                 }}</p-message>
             }
         </div>
@@ -54,13 +69,15 @@
                 }}</p-message>
             }
         </div>
-        @if (loginError()) {
-            <p-message severity="error" size="small" variant="simple">{{ loginError() }}</p-message>
+        @if (registerError()) {
+            <p-message severity="error" size="small" variant="simple">{{
+                registerError()
+            }}</p-message>
         }
         <button
             pButton
             type="submit"
-            [label]="isLoading() ? 'Вход' : 'Войти'"
+            [label]="isLoading() ? 'Регистрация' : 'Зарегистрироваться'"
             [loading]="isLoading()"
         ></button>
     </form>

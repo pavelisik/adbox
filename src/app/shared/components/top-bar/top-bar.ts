@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthService, AuthStateService, UserProfileStoreService } from '@app/core/auth/services';
 import { SvgIcon } from '@app/shared/components';
-import { LoginDialogService } from '@app/shared/services';
+import { LoginDialogService, RegisterDialogService } from '@app/shared/services';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
@@ -27,6 +27,7 @@ export class TopBar {
     authStateService = inject(AuthStateService);
     userProfileStoreService = inject(UserProfileStoreService);
     loginDialogService = inject(LoginDialogService);
+    registerDialogService = inject(RegisterDialogService);
 
     currentUser$ = this.userProfileStoreService.currentUser();
 
