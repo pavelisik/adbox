@@ -5,4 +5,5 @@ export interface AdvertsQueryParams {
     catName?: string;
     minPrice?: string;
     maxPrice?: string;
+    sort?: 'date' | 'cheaper' | 'expensive';
 }

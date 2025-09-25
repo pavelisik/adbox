@@ -109,6 +109,7 @@ export class AdSidebarFilters {
             if (this.categories()) this.initActiveCategory(this.categories());
         });
         effect(() => {
+            // считываем значения минимальной и максимальной цены из параметров в форму
             this.filterForm.patchValue({
                 minPrice: this.queryParams().minPrice ? Number(this.queryParams().minPrice) : null,
                 maxPrice: this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null,

@@ -1,8 +1,8 @@
-<div class="ad-top-filters mb-16">
+<div class="ad-top-filters mb-24">
     <app-picked-filters></app-picked-filters>
     @if (advertsCount()) {
         <form class="ad-top-filters__sort base" [formGroup]="sortForm">
-            <label for="sort">Сортировка по:</label>
+            <label for="sort">Сортировка:</label>
             <p-select
                 [options]="sortTypes"
                 optionLabel="name"

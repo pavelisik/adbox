@@ -45,11 +45,29 @@ export class AdvertsList {
     filteredAdverts = computed(() => {
         const minPrice = this.queryParams().minPrice ? Number(this.queryParams().minPrice) : null;
         const maxPrice = this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null;
+        const sortType = this.queryParams().sort ?? 'date';
 
-        return this.advertsRaw().filter((advert) => {
+        // фильтр по цене
+        let result = this.advertsRaw().filter((advert) => {
             if (minPrice !== null && advert.cost < minPrice) return false;
             if (maxPrice !== null && advert.cost > maxPrice) return false;
             return true;
         });
+
+        // выбранная сортировка
+        switch (sortType) {
+            case 'cheaper':
+                result = [...result].sort((a, b) => a.cost - b.cost);
+                break;
+            case 'expensive':
+                result = [...result].sort((a, b) => b.cost - a.cost);
+                break;
+            default:
+                result = [...result].sort(
+                    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+                );
+        }
+
+        return result;
     });
 }

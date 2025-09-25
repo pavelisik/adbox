@@ -1,9 +1,10 @@
 .ad-top-filters {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: flex-end;
+    justify-content: space-between;
     padding-top: 2px;
+    gap: 20px;
 }
 
 .ad-top-filters__sort {
@@ -11,6 +12,7 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 12px;
+    white-space: nowrap;
 }
 
 .ad-top-filters__sort-select {
@@ -27,6 +29,6 @@
 @media (min-width: 992px) {
     .ad-top-filters {
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
     }
 }

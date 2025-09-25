@@ -14,6 +14,7 @@
             <div>
                 <app-ad-top-filters [advertsCount]="filteredAdverts().length"></app-ad-top-filters>
                 @if (filteredAdverts().length < 1) {
+                    <!-- эта надпись выводится еще и при загрузке!! это плохо  -->
                     <p>По точному совпадению результатов не найдено</p>
                 }
                 <app-ad-grid [adverts]="filteredAdverts()" width="short"></app-ad-grid>
