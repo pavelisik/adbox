@@ -54,6 +54,15 @@
                 }}</p-message>
             }
         </div>
+        <!-- <div class="remember-me">
+            <p-checkbox
+                inputId="rememberMe"
+                formControlName="rememberMe"
+                [binary]="true"
+            ></p-checkbox>
+            <label for="rememberMe">Запомнить меня</label>
+        </div>
+        <div>Забыли пароль?</div> -->
         @if (loginError()) {
             <p-message severity="error" size="small" variant="simple">{{ loginError() }}</p-message>
         }

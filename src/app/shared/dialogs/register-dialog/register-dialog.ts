@@ -122,10 +122,13 @@ export class RegisterDialog {
             next: (res) => {
                 // console.log(`Зарегистрирован новый пользователь с id: ${res}`);
                 this.authService
-                    .login({
-                        login: this.registerForm.getRawValue().login,
-                        password: this.registerForm.getRawValue().password,
-                    })
+                    .login(
+                        {
+                            login: this.registerForm.getRawValue().login,
+                            password: this.registerForm.getRawValue().password,
+                        },
+                        false,
+                    )
                     .subscribe({
                         next: (res) => {
                             this.isLoading.set(false);

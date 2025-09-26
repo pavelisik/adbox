@@ -12,9 +12,13 @@ export class AuthStateService {
         return !!this.token();
     }
 
-    saveToken(token: string) {
+    saveToken(token: string, rememberMe: boolean) {
         this.token.set(token);
-        this.cookieService.set('token', token);
+        if (rememberMe) {
+            this.cookieService.set('token', token, 30);
+        } else {
+            this.cookieService.set('token', token);
+        }
     }
 
     deleteToken() {

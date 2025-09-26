@@ -10,18 +10,24 @@
     justify-content: flex-end;
 }
 
-.top-bar__signin-btn {
+.top-bar__signin-btn,
+.top-bar__register-btn {
     color: var(--white-color);
     padding: 8px 0px;
     gap: 4px;
 
-    .p-button-label {
-        margin-left: 4px;
+    svg {
+        margin-right: 4px;
     }
 
     &:not(:disabled):hover {
         color: var(--p-blue-100);
     }
+}
+
+.top-bar__separator {
+    color: var(--white-color);
+    padding: 0px 8px;
 }
 
 // без ng-deep не получилось

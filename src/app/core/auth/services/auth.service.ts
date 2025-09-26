@@ -17,10 +17,10 @@ export class AuthService {
     private readonly notify = inject(NotificationService);
     router = inject(Router);
 
-    login(params: AuthLoginRequest): Observable<string> {
+    login(params: AuthLoginRequest, rememberMe: boolean): Observable<string> {
         return this.apiService.login(params).pipe(
             tap((val) => {
-                this.authStateService.saveToken(val);
+                this.authStateService.saveToken(val, rememberMe);
                 this.loginDialogService.loginRedirect();
                 this.notify.success('Авторизация', 'Вы успешно вошли в систему');
             }),

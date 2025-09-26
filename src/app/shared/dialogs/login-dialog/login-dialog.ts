@@ -6,10 +6,18 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
     selector: 'app-login-dialog',
-    imports: [DialogModule, ReactiveFormsModule, ButtonModule, InputTextModule, MessageModule],
+    imports: [
+        DialogModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        InputTextModule,
+        MessageModule,
+        CheckboxModule,
+    ],
     templateUrl: './login-dialog.html',
     styleUrl: './login-dialog.scss',
 })
@@ -28,6 +36,7 @@ export class LoginDialog {
     loginForm = this.fb.nonNullable.group({
         login: ['', Validators.required],
         password: ['', Validators.required],
+        rememberMe: [false],
     });
 
     getControlError(controlName: string): string | null {
@@ -68,8 +77,9 @@ export class LoginDialog {
 
         // const { login, password } = this.loginForm.value;
         // console.log('Отправлены логин и пароль:', login, password);
+        const rememberMe = this.loginForm.value.rememberMe ?? false;
 
-        this.authService.login(this.loginForm.getRawValue()).subscribe({
+        this.authService.login(this.loginForm.getRawValue(), rememberMe).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
                 // console.log(`Получен токен: ${res}`);
