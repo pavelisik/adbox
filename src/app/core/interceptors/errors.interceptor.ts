@@ -5,7 +5,7 @@ import { catchError, throwError } from 'rxjs';
 import { ERROR_MESSAGES, getErrorTitle } from '@app/core/constants';
 import { formatErrorResponse } from '@app/core/utils';
 
-export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
+export const httpErrorsInterceptor: HttpInterceptorFn = (req, next) => {
     const notify = inject(NotificationService);
 
     return next(req).pipe(
