@@ -1,3 +1,17 @@
+.dialog-form__bottom-field {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -8px;
+}
+
+.dialog-form__input {
+    width: 368px;
+    height: 48px;
+    line-height: 24px;
+    padding: 12px;
+}
+
 .dialog-form__password-input {
     position: relative;
 
@@ -22,6 +36,26 @@
     }
 
     &.active {
+        color: var(--gray-600-color);
+    }
+}
+
+.dialog-form__remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    label {
+        line-height: 24px;
+        cursor: pointer;
+    }
+}
+
+.dialog-form__link {
+    color: var(--primary-color);
+    line-height: 24px;
+
+    &:hover {
         color: var(--gray-600-color);
     }
 }

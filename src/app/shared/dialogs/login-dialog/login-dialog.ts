@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { CheckboxModule } from 'primeng/checkbox';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-login-dialog',
@@ -17,6 +18,7 @@ import { CheckboxModule } from 'primeng/checkbox';
         InputTextModule,
         MessageModule,
         CheckboxModule,
+        RouterLink,
     ],
     templateUrl: './login-dialog.html',
     styleUrl: './login-dialog.scss',

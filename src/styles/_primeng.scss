@@ -35,6 +35,15 @@
     --p-inputtext-focus-border-color: var(--gray-400-color);
     --p-inputtext-invalid-border-color: var(--error-color);
 
+    /* checkbox */
+    --p-checkbox-border-radius: 4px;
+    --p-checkbox-border-color: var(--gray-300-color);
+    --p-checkbox-hover-border-color: var(--gray-400-color);
+    --p-checkbox-width: 16px;
+    --p-checkbox-height: 16px;
+    --p-checkbox-checked-hover-background: var(--primary-color);
+    --p-checkbox-checked-hover-border-color: var(--primary-color);
+
     /* select */
     --p-select-border-color: var(--gray-300-color);
     --p-select-border-radius: 4px;
@@ -53,6 +62,10 @@
     --p-select-option-selected-focus-color: var(--dark-color);
     --p-select-option-selected-background: inherit;
     --p-select-option-selected-color: inherit;
+
+    /* toast */
+    --p-toast-error-color: var(--error-color);
+    --p-toast-success-close-button-hover-background: none;
 
     /* диалоговое окно */
     --p-dialog-border-radius: 8px;
@@ -284,6 +297,21 @@
     margin-bottom: 2px;
 }
 
+.p-toast {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.p-toast-close-button {
+    border: none;
+    outline: none;
+
+    &:focus {
+        outline: none;
+    }
+}
+
 .p-dialog {
     border: none;
     font-size: 16px;
@@ -307,13 +335,6 @@
         content: '•';
         margin-right: 10px;
         display: inline-block;
-    }
-
-    input {
-        width: 368px;
-        height: 48px;
-        line-height: 24px;
-        padding: 12px;
     }
 
     .p-message-text {

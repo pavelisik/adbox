@@ -9,7 +9,7 @@
     (onHide)="onClose()"
 >
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="dialog-form__field">
+        <div>
             <input
                 pInputText
                 placeholder="Логин"
@@ -17,6 +17,7 @@
                 autocomplete="username"
                 [class.ng-invalid]="false"
                 [invalid]="!!getControlError('login')"
+                class="dialog-form__input"
             />
             @if (getControlError('login')) {
                 <p-message severity="error" size="small" variant="simple">{{
@@ -24,7 +25,7 @@
                 }}</p-message>
             }
         </div>
-        <div class="dialog-form__field">
+        <div>
             <input
                 pInputText
                 placeholder="Имя"
@@ -32,6 +33,7 @@
                 autocomplete="name"
                 [class.ng-invalid]="false"
                 [invalid]="!!getControlError('name')"
+                class="dialog-form__input"
             />
             @if (getControlError('name')) {
                 <p-message severity="error" size="small" variant="simple">{{
@@ -39,7 +41,7 @@
                 }}</p-message>
             }
         </div>
-        <div class="dialog-form__field">
+        <div>
             <div class="dialog-form__password-input">
                 <input
                     pInputText
@@ -49,6 +51,7 @@
                     autocomplete="current-password"
                     [class.ng-invalid]="false"
                     [invalid]="!!getControlError('password')"
+                    class="dialog-form__input"
                 />
                 <span
                     class="dialog-form__password-eye-btn"

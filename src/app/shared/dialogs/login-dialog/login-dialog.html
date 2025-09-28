@@ -9,7 +9,7 @@
     (onHide)="onClose()"
 >
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="dialog-form__field">
+        <div>
             <input
                 pInputText
                 placeholder="Логин"
@@ -17,6 +17,7 @@
                 autocomplete="username"
                 [class.ng-invalid]="false"
                 [invalid]="!!getControlError('login')"
+                class="dialog-form__input"
             />
             @if (getControlError('login')) {
                 <p-message severity="error" size="small" variant="simple">{{
@@ -24,7 +25,7 @@
                 }}</p-message>
             }
         </div>
-        <div class="dialog-form__field">
+        <div>
             <div class="dialog-form__password-input">
                 <input
                     pInputText
@@ -34,6 +35,7 @@
                     autocomplete="current-password"
                     [class.ng-invalid]="false"
                     [invalid]="!!getControlError('password')"
+                    class="dialog-form__input"
                 />
                 <span
                     class="dialog-form__password-eye-btn"
@@ -54,15 +56,17 @@
                 }}</p-message>
             }
         </div>
-        <!-- <div class="remember-me">
-            <p-checkbox
-                inputId="rememberMe"
-                formControlName="rememberMe"
-                [binary]="true"
-            ></p-checkbox>
-            <label for="rememberMe">Запомнить меня</label>
+        <div class="dialog-form__bottom-field">
+            <div class="dialog-form__remember-me">
+                <p-checkbox
+                    inputId="rememberMe"
+                    formControlName="rememberMe"
+                    [binary]="true"
+                ></p-checkbox>
+                <label for="rememberMe">Запомнить меня</label>
+            </div>
+            <a [routerLink]="[]" class="dialog-form__link">Забыли пароль?</a>
         </div>
-        <div>Забыли пароль?</div> -->
         @if (loginError()) {
             <p-message severity="error" size="small" variant="simple">{{ loginError() }}</p-message>
         }

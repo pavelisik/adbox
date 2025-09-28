@@ -1,17 +1,17 @@
 @if (advert(); as advert) {
-<a class="item__img" [routerLink]="['/advert', advert.id]">
-    @if (advert.imagesIds[0] | imageFromId | async; as img) {
-    <app-image [imageSrc]="img" [alt]="advert.name"></app-image>
-    } @else {
-    <p-skeleton height="235px" class="item__img-skeleton" />
-    }
-</a>
-<h6 class="item__title h6 fw-600">
-    <a [routerLink]="['/advert', advert.id]" [title]="advert.name">{{ advert.name }}</a>
-</h6>
-<div class="item__info-block">
-    <span class="item__price h6 fw-600"> {{ advert.cost | priceFormat }} </span>
-    <span class="item__address">{{ advert.location }}</span>
-    <span class="item__time">{{ advert.createdAt | dateFormat }}</span>
-</div>
+    <a class="item__img" [routerLink]="['/advert', advert.id]">
+        @if (advert.imagesIds[0] | imageFromId | async; as img) {
+            <app-image [imageSrc]="img" [alt]="advert.name"></app-image>
+        } @else {
+            <p-skeleton height="235px" class="item__img-skeleton" />
+        }
+    </a>
+    <h6 class="item__title h6 fw-600">
+        <a [routerLink]="['/advert', advert.id]" [title]="advert.name">{{ advert.name }}</a>
+    </h6>
+    <div class="item__info-block">
+        <span class="item__price h6 fw-600"> {{ advert.cost | priceFormat }} </span>
+        <span class="item__address">{{ advert.location }}</span>
+        <span class="item__time">{{ advert.createdAt | dateFormat }}</span>
+    </div>
 }
