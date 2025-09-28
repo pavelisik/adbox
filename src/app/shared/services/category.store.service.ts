@@ -1,6 +1,5 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, shareReplay } from 'rxjs';
-import { Category } from '@app/pages/advert/domains';
 import { CategoryService } from '@app/shared/services/category.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { transformCategories } from '@app/shared/utils';

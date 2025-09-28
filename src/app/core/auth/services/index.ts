@@ -1,3 +1,4 @@
 export * from './auth.service';
 export * from './auth.state.service';
-export * from './user-profile.store.service';
+export * from './users.service';
+export * from './users.store.service';

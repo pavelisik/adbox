@@ -10,7 +10,11 @@ import { MessageService } from 'primeng/api';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authTokenInterceptor, httpErrorsInterceptor } from '@app/core/interceptors';
+import {
+    authTokenInterceptor,
+    httpErrorsInterceptor,
+    imagesCacheInterceptor,
+} from '@app/core/interceptors';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -28,7 +32,9 @@ export const appConfig: ApplicationConfig = {
         provideBrowserGlobalErrorListeners(),
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
-        provideHttpClient(withInterceptors([authTokenInterceptor, httpErrorsInterceptor])),
+        provideHttpClient(
+            withInterceptors([authTokenInterceptor, imagesCacheInterceptor, httpErrorsInterceptor]),
+        ),
         MessageService,
     ],
 };

@@ -1,7 +1,7 @@
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { NotificationService } from '@app/core/notification';
-import { catchError, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 import { ERROR_MESSAGES, getErrorTitle } from '@app/core/constants';
 import { formatErrorResponse } from '@app/core/utils';
 

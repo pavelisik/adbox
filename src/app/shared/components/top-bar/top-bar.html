@@ -1,6 +1,6 @@
 <div class="top-bar__container container">
-    @if (authStateService.isAuth) {
-        @if (currentUser$ | async; as user) {
+    @if (authStateService.isAuth()) {
+        @if (currentUser(); as user) {
             <button pButton text class="top-bar__signin-btn" (click)="menu.toggle($event)">
                 <svg pButtonIcon icon="person" width="20" height="20"></svg>
                 <span pButtonLabel>{{ user.name }}</span>
@@ -39,7 +39,7 @@
         pButton
         class="top-bar__add-btn"
         [routerLink]="['/user/advert-add']"
-        [disabled]="!authStateService.isAuth"
+        [disabled]="!authStateService.isAuth()"
     >
         <span pButtonLabel>Новое объявление</span>
         <svg pButtonIcon icon="plus" width="20" height="20"></svg>

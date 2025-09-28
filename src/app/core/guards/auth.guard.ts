@@ -8,7 +8,7 @@ export const canActivateAuth: CanActivateFn = (route, state) => {
     const loginDialogService = inject(LoginDialogService);
     const router = inject(Router);
 
-    if (authStateService.isAuth) {
+    if (authStateService.isAuth()) {
         return true;
     }
 

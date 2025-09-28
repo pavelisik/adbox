@@ -1,43 +1,43 @@
 @if (advert(); as advert) {
-<app-breadcrumbs [items]="breadcrumbs()"></app-breadcrumbs>
+    <app-breadcrumbs [items]="breadcrumbs()"></app-breadcrumbs>
 
-<div class="advert">
-    <div class="advert-left">
-        <h1 class="advert__title h3 fw-600">{{ advert.name }}</h1>
-        <div class="advert__image-gallery">
-            <app-image-gallery [imagesIds]="advert.imagesIds"></app-image-gallery>
+    <div class="advert">
+        <div class="advert-left">
+            <h1 class="advert__title h3 fw-600">{{ advert.name }}</h1>
+            <div class="advert__image-gallery">
+                <app-image-gallery [imagesIds]="advert.imagesIds"></app-image-gallery>
+            </div>
         </div>
-    </div>
-    <div class="advert-right">
-        <span class="advert__price h3 fw-600">{{ advert.cost | priceFormat }}</span>
-        <button
-            pButton
-            class="advert__show-phone-btn"
-            [disabled]="!authStateService.isAuth"
-            (click)="infoDialogService.openDialog()"
-        >
-            <svg pButtonIcon icon="phone" width="28" height="28"></svg>
-            <span pButtonLabel class="h5">Показать номер телефона</span>
-        </button>
-        <app-info-dialog
-            [userName]="advert.user.name"
-            [phoneNumber]="advert.phone"
-        ></app-info-dialog>
-
-        <div class="advert__address">
-            <h4 class="fw-600">Адрес</h4>
-            <span class="base">{{ advert.location }}</span>
-            <button pButton text class="advert__map-open-btn base">
-                <span pButtonLabel>Открыть на карте</span>
-                <svg pButtonIcon icon="arrow-up-right-square" width="20" height="20"></svg>
+        <div class="advert-right">
+            <span class="advert__price h3 fw-600">{{ advert.cost | priceFormat }}</span>
+            <button
+                pButton
+                class="advert__show-phone-btn"
+                [disabled]="!authStateService.isAuth()"
+                (click)="infoDialogService.openDialog()"
+            >
+                <svg pButtonIcon icon="phone" width="28" height="28"></svg>
+                <span pButtonLabel class="h5">Показать номер телефона</span>
             </button>
-        </div>
-        <div class="advert__desc">
-            <h4 class="fw-600">Описание</h4>
-            <p class="base">{{ advert.description }}</p>
+            <app-info-dialog
+                [userName]="advert.user.name"
+                [phoneNumber]="advert.phone"
+            ></app-info-dialog>
+
+            <div class="advert__address">
+                <h4 class="fw-600">Адрес</h4>
+                <span class="base">{{ advert.location }}</span>
+                <button pButton text class="advert__map-open-btn base">
+                    <span pButtonLabel>Открыть на карте</span>
+                    <svg pButtonIcon icon="arrow-up-right-square" width="20" height="20"></svg>
+                </button>
+            </div>
+            <div class="advert__desc">
+                <h4 class="fw-600">Описание</h4>
+                <p class="base">{{ advert.description }}</p>
+            </div>
         </div>
     </div>
-</div>
 } @else {
-<p>Загрузка...</p>
+    <p>Загрузка...</p>
 }

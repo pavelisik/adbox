@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
@@ -8,9 +8,7 @@ export class AuthStateService {
     private readonly cookieService = inject(CookieService);
     readonly token = signal<string | null>(this.cookieService.get('token') || null);
 
-    get isAuth() {
-        return !!this.token();
-    }
+    readonly isAuth = computed(() => !!this.token());
 
     saveToken(token: string, rememberMe: boolean) {
         this.token.set(token);
