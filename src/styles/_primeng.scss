@@ -236,6 +236,14 @@
 
 .p-tieredmenu-item-label {
     line-height: 20px;
+    text-align: right;
+    width: 100%;
+}
+
+.p-tieredmenu-item-logout {
+    span {
+        color: var(--error-color);
+    }
 }
 
 .p-listbox-option {

@@ -6,12 +6,7 @@
                 <span pButtonLabel>{{ user.name }}</span>
                 <svg pButtonIcon icon="chevron-down" width="8" height="8"></svg>
             </button>
-            <p-tieredmenu
-                #menu
-                [model]="menuItems"
-                [popup]="true"
-                styleClass="top-bar__user-menu"
-            />
+            <p-tieredmenu #menu [model]="menuItems" [popup]="true" />
         } @else {
             <p-progressSpinner strokeWidth="4" class="top-bar__spinner"> </p-progressSpinner>
         }

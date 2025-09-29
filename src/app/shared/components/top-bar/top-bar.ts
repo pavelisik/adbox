@@ -29,7 +29,7 @@ export class TopBar {
         {
             label: 'Выйти',
             command: () => this.authService.logout(),
-            styleClass: 'menu-item-logout',
+            styleClass: 'p-tieredmenu-item-logout',
         },
     ];
 }
