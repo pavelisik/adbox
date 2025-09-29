@@ -10,4 +10,5 @@ import { AdvertsCountPipe } from '../../pipes/adverts-count.pipe';
 export class AdTitle {
     advertsCount = input<number | null>(null);
     catQuery = input<string | null>(null);
+    isLoading = input<boolean>(false);
 }

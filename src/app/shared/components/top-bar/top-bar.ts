@@ -24,7 +24,7 @@ export class TopBar {
     readonly currentUser = this.usersStoreService.currentUser;
 
     menuItems: MenuItem[] = [
-        { label: 'Мои объявления', routerLink: '/user/profile' },
+        { label: 'Мои объявления', routerLink: '/user/adverts' },
         { label: 'Настройки', routerLink: '/user/settings' },
         {
             label: 'Выйти',

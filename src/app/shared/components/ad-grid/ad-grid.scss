@@ -12,6 +12,98 @@
     grid-template-columns: 1fr;
 }
 
+.ad-grid__new-advert-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    color: var(--primary-color);
+    border-radius: 4px;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            var(--primary-color-trans-16),
+            var(--primary-color-trans-16) 17px,
+            transparent 17px,
+            transparent 33px,
+            var(--primary-color-trans-16) 33px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            var(--primary-color-trans-16),
+            var(--primary-color-trans-16) 17px,
+            transparent 17px,
+            transparent 33px,
+            var(--primary-color-trans-16) 33px
+        ),
+        repeating-linear-gradient(
+            180deg,
+            var(--primary-color-trans-16),
+            var(--primary-color-trans-16) 17px,
+            transparent 17px,
+            transparent 33px,
+            var(--primary-color-trans-16) 33px
+        ),
+        repeating-linear-gradient(
+            270deg,
+            var(--primary-color-trans-16),
+            var(--primary-color-trans-16) 17px,
+            transparent 17px,
+            transparent 33px,
+            var(--primary-color-trans-16) 33px
+        );
+    background-size:
+        3px 100%,
+        100% 3px,
+        3px 100%,
+        100% 3px;
+    background-position:
+        0 0,
+        0 0,
+        100% 0,
+        0 100%;
+    background-repeat: no-repeat;
+    background-color: var(--primary-color-trans-04);
+
+    &:hover {
+        background-image:
+            repeating-linear-gradient(
+                0deg,
+                var(--primary-color-trans-32),
+                var(--primary-color-trans-32) 17px,
+                transparent 17px,
+                transparent 33px,
+                var(--primary-color-trans-32) 33px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                var(--primary-color-trans-32),
+                var(--primary-color-trans-32) 17px,
+                transparent 17px,
+                transparent 33px,
+                var(--primary-color-trans-32) 33px
+            ),
+            repeating-linear-gradient(
+                180deg,
+                var(--primary-color-trans-32),
+                var(--primary-color-trans-32) 17px,
+                transparent 17px,
+                transparent 33px,
+                var(--primary-color-trans-32) 33px
+            ),
+            repeating-linear-gradient(
+                270deg,
+                var(--primary-color-trans-32),
+                var(--primary-color-trans-32) 17px,
+                transparent 17px,
+                transparent 33px,
+                var(--primary-color-trans-32) 33px
+            );
+        background-color: var(--primary-color-trans-08);
+    }
+}
+
 @media (min-width: 576px) {
     .ad-grid {
         column-gap: 18px;

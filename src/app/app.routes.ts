@@ -24,8 +24,9 @@ export const routes: Routes = [
                 canActivate: [canActivateAuth],
                 children: [
                     {
-                        path: 'profile',
-                        loadComponent: () => import('@app/pages').then((m) => m.UserProfile),
+                        path: 'adverts',
+                        data: { isUserAdverts: true },
+                        loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
                     },
                     {
                         path: 'settings',

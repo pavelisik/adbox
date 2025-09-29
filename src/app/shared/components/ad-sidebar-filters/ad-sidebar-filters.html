@@ -2,8 +2,8 @@
     <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="ad-sidebar-filters mt-9">
         <div class="ad-sidebar-filters__category mb-16">
             <div class="h6 fw-600 mb-12">Все категории</div>
-            @if (categoriesMenuItems(); as categoriesMenuItems) {
-                <p-panelmenu [model]="categoriesMenuItems">
+            @if (categoriesMenuItems().length > 0) {
+                <p-panelmenu [model]="categoriesMenuItems()">
                     <ng-template #item let-item>
                         <a
                             [routerLink]="[]"
@@ -27,7 +27,7 @@
                     </ng-template>
                 </p-panelmenu>
             } @else {
-                <p>Загрузка...</p>
+                <!-- <p>Загрузка...</p> -->
             }
         </div>
         <div class="ad-sidebar-filters__price mb-24">
