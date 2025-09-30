@@ -17,7 +17,7 @@ export const imagesCacheInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(req).pipe(
         tap((event: HttpEvent<unknown>) => {
-            if (event instanceof HttpResponse) {
+            if (event instanceof HttpResponse && event.ok) {
                 cacheMap.set(req.urlWithParams, event.clone());
             }
         }),

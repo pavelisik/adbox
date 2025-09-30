@@ -1,6 +1,7 @@
-import { AuthStateService } from '@app/core/auth/services';
-import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { AuthService, AuthStateService } from '@app/core/auth/services';
+import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 
 const addToken = (req: HttpRequest<any>, token: string) => {
     return req.clone({
@@ -9,6 +10,7 @@ const addToken = (req: HttpRequest<any>, token: string) => {
 };
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
+    const authService = inject(AuthService);
     const authStateService = inject(AuthStateService);
     const token = authStateService.token();
 
@@ -18,7 +20,16 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
     }
 
     if (token) {
-        return next(addToken(req, token));
+        return next(addToken(req, token)).pipe(
+            catchError((error: HttpErrorResponse) => {
+                // если токен просроченый разлогиниваем принудительно
+                if ((error.status === 0 && !!token) || (error.status === 401 && !!token)) {
+                    authService.logout();
+                    return throwError(() => error);
+                }
+                return throwError(() => error);
+            }),
+        );
     }
 
     return next(req);
