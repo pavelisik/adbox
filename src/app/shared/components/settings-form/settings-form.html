@@ -1,0 +1,23 @@
+<form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form base mb-48">
+    <div>
+        <label for="name">Имя</label>
+        <input pInputText placeholder="Введите имя" formControlName="name" />
+    </div>
+    <div>
+        <label for="login">Логин</label>
+        <input pInputText placeholder="Введите логин" formControlName="login" />
+    </div>
+    <div>
+        <label for="address">
+            Адрес
+            <span>(будет указываться в объявлениях по умолчанию)</span>
+        </label>
+        <input pInputText placeholder="Введите адрес" formControlName="address" />
+    </div>
+
+    <div>
+        <button pButton type="submit">
+            <span pButtonLabel>Сохранить</span>
+        </button>
+    </div>
+</form>

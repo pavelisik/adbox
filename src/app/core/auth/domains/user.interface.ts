@@ -4,6 +4,7 @@ export interface User {
     id: string;
     name: string;
     role: string;
+    login: string;
     adverts: ShortAdvert[];
     registeredTime: string;
 }

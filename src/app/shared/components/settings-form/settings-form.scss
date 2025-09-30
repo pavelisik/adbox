@@ -1,0 +1,41 @@
+.settings-form {
+    max-width: 856px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    row-gap: 16px;
+
+    > * {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    > *:nth-child(3),
+    > *:nth-child(4) {
+        grid-column: 1 / -1;
+    }
+
+    > *:last-child {
+        margin-top: 8px;
+    }
+
+    label {
+        line-height: 24px;
+
+        span {
+            color: var(--gray-500-color);
+        }
+    }
+
+    input {
+        padding: 12px;
+        line-height: 24px;
+    }
+
+    button {
+        padding: 12px 24px;
+        line-height: 24px;
+        width: fit-content;
+    }
+}

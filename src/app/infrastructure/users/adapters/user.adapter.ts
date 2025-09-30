@@ -6,6 +6,7 @@ export const UserFromDTOAdapter = (data: UserDTO): User => {
         id: data.id,
         name: data.name,
         role: data.role,
+        login: data.login,
         adverts: data.adverts,
         registeredTime: data.registeredTime,
     };
