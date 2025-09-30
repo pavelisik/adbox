@@ -5,8 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
-import { AdvertsQueryParams } from '@app/pages/adverts-list/domains';
-import { UsersStoreService } from '@app/core/auth/services';
+import { UsersFacade } from '@app/core/auth/services';
 
 @Component({
     selector: 'app-adverts-list',
@@ -17,9 +16,9 @@ import { UsersStoreService } from '@app/core/auth/services';
 export class AdvertsList {
     private readonly advertService = inject(AdvertService);
     private readonly route = inject(ActivatedRoute);
-    usersStoreService = inject(UsersStoreService);
+    private readonly usersFacade = inject(UsersFacade);
 
-    readonly currentUser = this.usersStoreService.currentUser;
+    readonly currentUser = this.usersFacade.currentUser;
     readonly isLoading = signal<boolean>(false);
 
     // определяем тип страницы в зависимости от route.data

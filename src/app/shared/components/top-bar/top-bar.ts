@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AuthService, AuthStateService, UsersStoreService } from '@app/core/auth/services';
+import { AuthService, AuthStateService, UsersFacade } from '@app/core/auth/services';
 import { SvgIcon } from '@app/shared/components';
 import { LoginDialogService, RegisterDialogService } from '@app/shared/services';
 import { ButtonModule } from 'primeng/button';
@@ -15,13 +15,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     styleUrl: './top-bar.scss',
 })
 export class TopBar {
-    authService = inject(AuthService);
-    authStateService = inject(AuthStateService);
-    usersStoreService = inject(UsersStoreService);
-    loginDialogService = inject(LoginDialogService);
-    registerDialogService = inject(RegisterDialogService);
+    private readonly authService = inject(AuthService);
+    private readonly authStateService = inject(AuthStateService);
+    private readonly usersFacade = inject(UsersFacade);
+    private readonly loginDialogService = inject(LoginDialogService);
+    private readonly registerDialogService = inject(RegisterDialogService);
 
-    readonly currentUser = this.usersStoreService.currentUser;
+    readonly isAuth = this.authStateService.isAuth;
+    readonly currentUser = this.usersFacade.currentUser;
 
     menuItems: MenuItem[] = [
         { label: 'Мои объявления', routerLink: '/user/adverts' },
@@ -32,4 +33,12 @@ export class TopBar {
             styleClass: 'p-tieredmenu-item-logout',
         },
     ];
+
+    openLoginDialog() {
+        this.loginDialogService.openLoginDialog();
+    }
+
+    openRegisterDialog() {
+        this.registerDialogService.openRegisterDialog();
+    }
 }

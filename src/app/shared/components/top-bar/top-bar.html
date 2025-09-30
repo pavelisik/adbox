@@ -1,5 +1,5 @@
 <div class="top-bar__container container">
-    @if (authStateService.isAuth()) {
+    @if (isAuth()) {
         @if (currentUser(); as user) {
             <button pButton text class="top-bar__signin-btn" (click)="menu.toggle($event)">
                 <svg pButtonIcon icon="person" width="20" height="20"></svg>
@@ -11,22 +11,12 @@
             <p-progressSpinner strokeWidth="4" class="top-bar__spinner"> </p-progressSpinner>
         }
     } @else {
-        <button
-            pButton
-            text
-            class="top-bar__signin-btn"
-            (click)="loginDialogService.openLoginDialog()"
-        >
+        <button pButton text class="top-bar__signin-btn" (click)="openLoginDialog()">
             <svg pButtonIcon icon="person" width="20" height="20"></svg>
             <span pButtonLabel>Войти</span>
         </button>
         <div class="top-bar__separator">/</div>
-        <button
-            pButton
-            text
-            class="top-bar__register-btn"
-            (click)="registerDialogService.openRegisterDialog()"
-        >
+        <button pButton text class="top-bar__register-btn" (click)="openRegisterDialog()">
             <span pButtonLabel>Регистрация</span>
         </button>
     }
@@ -34,7 +24,7 @@
         pButton
         class="top-bar__add-btn"
         [routerLink]="['/user/advert-add']"
-        [disabled]="!authStateService.isAuth()"
+        [disabled]="!isAuth()"
     >
         <span pButtonLabel>Новое объявление</span>
         <svg pButtonIcon icon="plus" width="20" height="20"></svg>

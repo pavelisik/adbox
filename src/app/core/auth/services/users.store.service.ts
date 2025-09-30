@@ -1,5 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { User } from '@app/core/auth/domains';
 import { AuthStateService, UsersService } from '@app/core/auth/services';
 import { of, shareReplay, switchMap } from 'rxjs';
 
@@ -7,14 +8,14 @@ import { of, shareReplay, switchMap } from 'rxjs';
     providedIn: 'root',
 })
 export class UsersStoreService {
-    private readonly usersService = inject(UsersService);
-    private readonly authStateService = inject(AuthStateService);
+    private readonly _currentUser = signal<User | null>(null);
+    readonly currentUser = this._currentUser.asReadonly();
 
-    // выполняем запрос на получение текущего пользователя только если авторизованы
-    private readonly currentUser$ = toObservable(this.authStateService.isAuth).pipe(
-        switchMap((isAuth) => (isAuth ? this.usersService.currentUser() : of(null))),
-        shareReplay(1),
-    );
+    setCurrentUser(user: User | null) {
+        this._currentUser.set(user);
+    }
 
-    readonly currentUser = toSignal(this.currentUser$, { initialValue: null });
+    clearCurrentUser() {
+        this._currentUser.set(null);
+    }
 }
