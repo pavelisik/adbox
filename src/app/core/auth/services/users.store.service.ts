@@ -1,8 +1,5 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Injectable, signal } from '@angular/core';
 import { User } from '@app/core/auth/domains';
-import { AuthStateService, UsersService } from '@app/core/auth/services';
-import { of, shareReplay, switchMap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Category } from '@app/pages/advert/domains';
-import { CategoryStore } from '@app/shared/services';
+import { CategoryFacade } from '@app/shared/services';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -25,12 +25,12 @@ import { AdvertsQueryParams, CategoryMenuItem } from '@app/pages/adverts-list/do
     styleUrl: './ad-sidebar-filters.scss',
 })
 export class AdSidebarFilters {
-    private readonly categoryStore = inject(CategoryStore);
+    private readonly categoryFacade = inject(CategoryFacade);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly fb = inject(FormBuilder);
 
-    readonly categories = this.categoryStore.allCategories;
+    readonly categories = this.categoryFacade.allCategories;
     readonly activeItem = signal<Category | null>(null);
 
     readonly queryParams = toSignal(this.route.queryParams, {

@@ -4,7 +4,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { SvgIcon } from '@app/shared/components';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Category } from '@app/pages/advert/domains';
-import { CategoryStore } from '@app/shared/services';
+import { CategoryFacade } from '@app/shared/services';
 import { findCategoryFromId } from '@app/shared/utils';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -16,9 +16,10 @@ import { map } from 'rxjs';
     styleUrl: './category-menu.scss',
 })
 export class CategoryMenu {
-    private readonly categoryStore = inject(CategoryStore);
+    private readonly categoryFacade = inject(CategoryFacade);
     private readonly route = inject(ActivatedRoute);
-    readonly categories = this.categoryStore.allCategories;
+
+    readonly categories = this.categoryFacade.allCategories;
 
     activeParent = signal<Category | null>(null);
     activeChild = signal<Category | null>(null);
