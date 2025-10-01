@@ -12,9 +12,25 @@
         <div>
             <input
                 pInputText
+                placeholder="Имя"
+                formControlName="name"
+                autocomplete="off"
+                [class.ng-invalid]="false"
+                [invalid]="!!getControlError('name')"
+                class="dialog-form__input"
+            />
+            @if (getControlError('name')) {
+                <p-message severity="error" size="small" variant="simple">{{
+                    getControlError('name')
+                }}</p-message>
+            }
+        </div>
+        <div class="mb-24">
+            <input
+                pInputText
                 placeholder="Логин"
                 formControlName="login"
-                autocomplete="username"
+                autocomplete="off"
                 [class.ng-invalid]="false"
                 [invalid]="!!getControlError('login')"
                 class="dialog-form__input"
@@ -26,29 +42,13 @@
             }
         </div>
         <div>
-            <input
-                pInputText
-                placeholder="Имя"
-                formControlName="name"
-                autocomplete="name"
-                [class.ng-invalid]="false"
-                [invalid]="!!getControlError('name')"
-                class="dialog-form__input"
-            />
-            @if (getControlError('name')) {
-                <p-message severity="error" size="small" variant="simple">{{
-                    getControlError('name')
-                }}</p-message>
-            }
-        </div>
-        <div>
             <div class="dialog-form__password-input">
                 <input
                     pInputText
                     [type]="isPasswordVisible() ? 'text' : 'password'"
                     placeholder="Пароль"
                     formControlName="password"
-                    autocomplete="current-password"
+                    autocomplete="off"
                     [class.ng-invalid]="false"
                     [invalid]="!!getControlError('password')"
                     class="dialog-form__input"
@@ -72,10 +72,39 @@
                 }}</p-message>
             }
         </div>
-        @if (registerError()) {
-            <p-message severity="error" size="small" variant="simple">{{
-                registerError()
-            }}</p-message>
+        <div>
+            <div class="dialog-form__password-input">
+                <input
+                    pInputText
+                    [type]="isPasswordVisible() ? 'text' : 'password'"
+                    placeholder="Подтверждение пароля"
+                    formControlName="confirmPassword"
+                    autocomplete="off"
+                    [class.ng-invalid]="false"
+                    [invalid]="!!getControlError('confirmPassword')"
+                    class="dialog-form__input"
+                />
+                <span
+                    class="dialog-form__password-eye-btn"
+                    [title]="isPasswordVisible() ? 'Скрыть пароль' : 'Показать пароль'"
+                    [class.active]="isPasswordVisible()"
+                    (click)="isPasswordVisible.set(!isPasswordVisible())"
+                >
+                    <span
+                        class="pi"
+                        [class.pi-eye-slash]="!isPasswordVisible()"
+                        [class.pi-eye]="isPasswordVisible()"
+                    ></span>
+                </span>
+            </div>
+            @if (getControlError('confirmPassword')) {
+                <p-message severity="error" size="small" variant="simple">
+                    {{ getControlError('confirmPassword') }}
+                </p-message>
+            }
+        </div>
+        @if (formError()) {
+            <p-message severity="error" size="small" variant="simple">{{ formError() }}</p-message>
         }
         <button
             pButton

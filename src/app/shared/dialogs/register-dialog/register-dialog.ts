@@ -1,11 +1,26 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    Validators,
+    ReactiveFormsModule,
+    AbstractControl,
+    FormGroup,
+    FormControl,
+} from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { RegisterDialogService } from '@app/shared/services';
+import { passwordsMatchValidator } from '@app/shared/validators';
+
+interface RegisterForm {
+    login: FormControl<string>;
+    name: FormControl<string>;
+    password: FormControl<string>;
+    confirmPassword: FormControl<string>;
+}
 
 @Component({
     selector: 'app-register-dialog',
@@ -21,43 +36,99 @@ export class RegisterDialog {
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
     isPasswordVisible = signal<boolean>(false);
-    registerError = signal<string>('');
+    formError = signal<string>('');
 
     visible = this.registerDialogService.registerDialogOpen;
 
-    registerForm = this.fb.nonNullable.group({
-        login: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(4),
-                    Validators.maxLength(64),
-                ],
-            },
-        ],
-        name: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(4),
-                    Validators.maxLength(64),
-                ],
-            },
-        ],
-        password: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(8),
-                    Validators.maxLength(50),
-                ],
-            },
-        ],
-    });
+    registerForm: FormGroup<RegisterForm> = this.fb.nonNullable.group(
+        {
+            login: [
+                '',
+                {
+                    validators: [
+                        Validators.required,
+                        Validators.minLength(4),
+                        Validators.maxLength(64),
+                    ],
+                },
+            ],
+            name: [
+                '',
+                {
+                    validators: [
+                        Validators.required,
+                        Validators.minLength(4),
+                        Validators.maxLength(64),
+                    ],
+                },
+            ],
+            // passwords: this.fb.group(
+            //     {
+            //         password: [
+            //             '',
+            //             {
+            //                 validators: [
+            //                     Validators.required,
+            //                     Validators.minLength(8),
+            //                     Validators.maxLength(50),
+            //                 ],
+            //             },
+            //         ],
+            //         confirmPassword: [
+            //             '',
+            //             {
+            //                 validators: [
+            //                     Validators.required,
+            //                     Validators.minLength(8),
+            //                     Validators.maxLength(50),
+            //                 ],
+            //             },
+            //         ],
+            //     },
+            //     { validators: passwordsMatchValidator('password', 'confirmPassword') },
+            // ),
+            password: [
+                '',
+                {
+                    validators: [
+                        Validators.required,
+                        Validators.minLength(8),
+                        Validators.maxLength(50),
+                    ],
+                },
+            ],
+            confirmPassword: [
+                '',
+                {
+                    validators: [Validators.required],
+                },
+            ],
+        },
+        // { validators: this.passwordsMatchValidator },
+    );
 
+    // кастомный валидатор для проверки совпадения паролей
+    // passwordsMatchValidator(control: AbstractControl) {
+    //     const formGroup = control as FormGroup<RegisterForm>;
+    //     const passwordControl = formGroup.controls.password;
+    //     const confirmPasswordControl = formGroup.controls.confirmPassword;
+
+    //     if (
+    //         passwordControl?.value &&
+    //         confirmPasswordControl?.value &&
+    //         passwordControl?.value !== confirmPasswordControl.value
+    //     ) {
+    //         confirmPasswordControl?.setErrors({ mismatch: true });
+    //     } else {
+    //         if (confirmPasswordControl?.hasError('mismatch')) {
+    //             confirmPasswordControl.setErrors(null);
+    //         }
+    //     }
+
+    //     return null;
+    // }
+
+    // вывод ошибок валидации для каждого поля
     getControlError(controlName: string): string | null {
         const control = this.registerForm.get(controlName);
         if (!control || !control.errors || !this.isSubmitted()) return null;
@@ -70,6 +141,8 @@ export class RegisterDialog {
                     return 'Введите имя';
                 case 'password':
                     return 'Введите пароль';
+                case 'confirmPassword':
+                    return 'Подтвердите пароль';
                 default:
                     return 'Заполните поле';
             }
@@ -87,13 +160,17 @@ export class RegisterDialog {
             return `Максимум ${requiredLength} ${symbolWord}`;
         }
 
+        if (control.errors['mismatch']) {
+            return 'Пароли не совпадают';
+        }
+
         return 'Неверное значение';
     }
 
     resetFormState() {
         this.isSubmitted.set(false);
         this.registerForm.reset();
-        this.registerError.set('');
+        this.formError.set('');
         this.isPasswordVisible.set(false);
     }
 
@@ -113,14 +190,11 @@ export class RegisterDialog {
         if (this.registerForm.invalid) return;
 
         this.isLoading.set(true);
-        this.registerError.set('');
-
-        // const { login, name, password } = this.registerForm.value;
-        // console.log('Отправлены на регистрацию логин, имя и пароль:', login, name, password);
+        this.formError.set('');
 
         this.authService.register(this.registerForm.getRawValue()).subscribe({
             next: (res) => {
-                // console.log(`Зарегистрирован новый пользователь с id: ${res}`);
+                // при успешной регистрации автоматически залогиниваем нового пользователя
                 this.authService
                     .login(
                         {
@@ -132,43 +206,50 @@ export class RegisterDialog {
                     .subscribe({
                         next: (res) => {
                             this.isLoading.set(false);
-                            // console.log(`Получен токен: ${res}`);
                             this.onClose();
                         },
-                        error: (err) => {
+                        error: (error) => {
                             this.isLoading.set(false);
-                            if (err.status === 400) {
-                                this.registerError.set(
-                                    'Неверный логин или пароль. Попробуйте снова',
-                                );
-                            } else if (err.status === 500) {
-                                this.registerError.set('Произошла ошибка. Попробуйте позже');
-                            } else {
-                                this.registerError.set(
-                                    'Ошибка: ' +
-                                        (err.message ?? 'Неизвестная ошибка. Попробуйте снова'),
-                                );
+                            switch (error.status) {
+                                case 400:
+                                    this.formError.set(
+                                        'Неверный логин или пароль. Попробуйте снова',
+                                    );
+                                    break;
+                                case 500:
+                                    this.formError.set('Ошибка сервера. Попробуйте позже');
+                                    break;
+                                default:
+                                    this.formError.set('Произошла ошибка. Попробуйте позже');
+                                    break;
                             }
-                            // console.log(
-                            //     'Ошибка авторизации:',
-                            //     err?.error?.errors?.[0] ?? err.message,
-                            // );
                         },
                     });
             },
-            error: (err) => {
+            error: (error) => {
                 this.isLoading.set(false);
-                if (err.status === 400) {
-                    this.registerError.set('Невалидные данные. Попробуйте снова');
-                } else if (err.status === 500) {
-                    this.registerError.set('Произошла ошибка. Попробуйте позже');
-                } else {
-                    this.registerError.set(
-                        'Ошибка: ' + (err.message ?? 'Неизвестная ошибка. Попробуйте снова'),
-                    );
+                switch (error.status) {
+                    case 400:
+                        this.formError.set('Невалидные данные. Попробуйте снова');
+                        break;
+                    case 500:
+                        this.formError.set('Ошибка сервера. Попробуйте позже');
+                        break;
+                    default:
+                        this.formError.set('Произошла ошибка. Попробуйте позже');
+                        break;
                 }
-                // console.log('Ошибка регистрации:', err.error.errors[0]);
             },
         });
+    }
+
+    constructor() {
+        // подключаем кастомный валидатор
+        this.registerForm.setValidators(
+            passwordsMatchValidator(
+                this.registerForm.controls.password,
+                this.registerForm.controls.confirmPassword,
+            ),
+        );
     }
 }

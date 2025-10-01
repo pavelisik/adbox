@@ -67,8 +67,8 @@
             </div>
             <a [routerLink]="[]" class="dialog-form__link">Забыли пароль?</a>
         </div>
-        @if (loginError()) {
-            <p-message severity="error" size="small" variant="simple">{{ loginError() }}</p-message>
+        @if (formError()) {
+            <p-message severity="error" size="small" variant="simple">{{ formError() }}</p-message>
         }
         <button
             pButton

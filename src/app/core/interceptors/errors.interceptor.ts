@@ -28,12 +28,12 @@ export const httpErrorsInterceptor: HttpInterceptorFn = (req, next) => {
             }
 
             // добавляем подробности из ответа сервера
-            if (error.error) {
-                const errorResponse = formatErrorResponse(error.error);
-                if (errorResponse) {
-                    errorMessage += '\n\n' + errorResponse;
-                }
-            }
+            // if (error.error) {
+            //     const errorResponse = formatErrorResponse(error.error);
+            //     if (errorResponse) {
+            //         errorMessage += '\n\n' + errorResponse;
+            //     }
+            // }
 
             notify.error(errorTitle, errorMessage);
             console.error('HTTP Error:', error);

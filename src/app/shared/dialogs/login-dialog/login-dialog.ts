@@ -1,6 +1,12 @@
 import { LoginDialogService } from '@app/shared/services';
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    Validators,
+    ReactiveFormsModule,
+    FormControl,
+    FormGroup,
+} from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -8,6 +14,12 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RouterLink } from '@angular/router';
+
+interface LoginForm {
+    login: FormControl<string>;
+    password: FormControl<string>;
+    rememberMe: FormControl<boolean>;
+}
 
 @Component({
     selector: 'app-login-dialog',
@@ -31,16 +43,17 @@ export class LoginDialog {
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
     isPasswordVisible = signal<boolean>(false);
-    loginError = signal<string>('');
+    formError = signal<string>('');
 
     visible = this.loginDialogService.loginDialogOpen;
 
-    loginForm = this.fb.nonNullable.group({
+    loginForm: FormGroup<LoginForm> = this.fb.nonNullable.group({
         login: ['', Validators.required],
         password: ['', Validators.required],
         rememberMe: [false],
     });
 
+    // вывод ошибок валидации для каждого поля
     getControlError(controlName: string): string | null {
         const control = this.loginForm.get(controlName);
         if (!control || !control.errors || !this.isSubmitted()) return null;
@@ -55,7 +68,7 @@ export class LoginDialog {
     resetFormState() {
         this.isSubmitted.set(false);
         this.loginForm.reset();
-        this.loginError.set('');
+        this.formError.set('');
         this.isPasswordVisible.set(false);
     }
 
@@ -75,30 +88,28 @@ export class LoginDialog {
         if (this.loginForm.invalid) return;
 
         this.isLoading.set(true);
-        this.loginError.set('');
+        this.formError.set('');
 
-        // const { login, password } = this.loginForm.value;
-        // console.log('Отправлены логин и пароль:', login, password);
         const rememberMe = this.loginForm.value.rememberMe ?? false;
 
         this.authService.login(this.loginForm.getRawValue(), rememberMe).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
-                // console.log(`Получен токен: ${res}`);
                 this.onClose();
             },
-            error: (err) => {
+            error: (error) => {
                 this.isLoading.set(false);
-                if (err.status === 400) {
-                    this.loginError.set('Неверный логин или пароль. Попробуйте снова');
-                } else if (err.status === 500) {
-                    this.loginError.set('Произошла ошибка. Попробуйте позже');
-                } else {
-                    this.loginError.set(
-                        'Ошибка: ' + (err.message ?? 'Неизвестная ошибка. Попробуйте снова'),
-                    );
+                switch (error.status) {
+                    case 400:
+                        this.formError.set('Неверный логин или пароль. Попробуйте снова');
+                        break;
+                    case 500:
+                        this.formError.set('Ошибка сервера. Попробуйте позже');
+                        break;
+                    default:
+                        this.formError.set('Произошла ошибка. Попробуйте позже');
+                        break;
                 }
-                // console.log('Ошибка авторизации:', err?.error?.errors?.[0] ?? err.message);
             },
         });
     }
