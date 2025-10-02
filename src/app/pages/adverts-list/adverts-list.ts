@@ -76,7 +76,7 @@ export class AdvertsList {
                 return this.serverQueryParams$.pipe(
                     switchMap((params) =>
                         this.advertService
-                            .searchAdverts(params, 10)
+                            .searchAdverts(params, 20)
                             .pipe(tap(() => this.isLoading.set(false))),
                     ),
                 );

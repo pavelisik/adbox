@@ -40,7 +40,7 @@ export class LoginDialog {
     private readonly loginDialogService = inject(LoginDialogService);
     private readonly fb = inject(FormBuilder);
 
-    private isSubmitted = signal<boolean>(false);
+    isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
     formError = signal<string>('');
     isPasswordVisible = signal<boolean>(false);
@@ -52,6 +52,12 @@ export class LoginDialog {
         password: ['', Validators.required],
         rememberMe: [false],
     });
+
+    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
+    isControlsCompleted(): boolean {
+        const { login, password } = this.loginForm.value;
+        return !!login && !!password;
+    }
 
     // вывод ошибок валидации для каждого поля
     getControlError(controlName: string): string | null {

@@ -33,7 +33,7 @@ export class RegisterDialog {
     private readonly registerDialogService = inject(RegisterDialogService);
     private readonly fb = inject(FormBuilder);
 
-    private isSubmitted = signal<boolean>(false);
+    isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
     formError = signal<string>('');
     isPasswordVisible = signal<boolean>(false);
@@ -106,6 +106,12 @@ export class RegisterDialog {
         },
         // { validators: this.passwordsMatchValidator },
     );
+
+    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
+    isAllControlsCompleted(): boolean {
+        const { login, name, password, confirmPassword } = this.registerForm.value;
+        return !!login && !!name && !!password && !!confirmPassword;
+    }
 
     // кастомный валидатор для проверки совпадения паролей
     // passwordsMatchValidator(control: AbstractControl) {

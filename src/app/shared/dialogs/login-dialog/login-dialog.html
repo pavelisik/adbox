@@ -73,6 +73,7 @@
             type="submit"
             [label]="isLoading() ? 'Вход' : 'Войти'"
             [loading]="isLoading()"
+            [disabled]="!isControlsCompleted() || (isSubmitted() && loginForm.invalid)"
         ></button>
     </form>
 </p-dialog>

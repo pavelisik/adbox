@@ -60,6 +60,23 @@ export class SettingsForm {
         address: [''],
     });
 
+    // проверка на отличие данных в форме от текущих данных пользователя
+    isFormChanged(): boolean {
+        const user = this.currentUser();
+        if (!user) return false;
+
+        const name = this.settingsForm.get('name')?.value;
+        const login = this.settingsForm.get('login')?.value;
+
+        return name !== user.name || login !== user.login;
+    }
+
+    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
+    isControlsCompleted(): boolean {
+        const { name, login } = this.settingsForm.value;
+        return !!name && !!login;
+    }
+
     isControlInvalid(controlName: string): boolean {
         const control = this.settingsForm.get(controlName);
         return !!(control?.errors && this.isSubmitted());

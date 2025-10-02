@@ -107,6 +107,7 @@
             type="submit"
             [label]="isLoading() ? 'Регистрация' : 'Зарегистрироваться'"
             [loading]="isLoading()"
+            [disabled]="!isAllControlsCompleted() || (isSubmitted() && registerForm.invalid)"
         ></button>
     </form>
 </p-dialog>

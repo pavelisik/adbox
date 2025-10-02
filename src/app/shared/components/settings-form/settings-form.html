@@ -47,6 +47,11 @@
             type="submit"
             [label]="isLoading() ? 'Сохранение' : 'Сохранить'"
             [loading]="isLoading()"
+            [disabled]="
+                !isControlsCompleted() ||
+                !isFormChanged() ||
+                (isSubmitted() && settingsForm.invalid)
+            "
         ></button>
     </div>
 </form>

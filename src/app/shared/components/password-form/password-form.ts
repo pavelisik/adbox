@@ -34,13 +34,39 @@ export class PasswordForm {
     isPasswordVisible = signal<boolean>(false);
 
     passwordForm: FormGroup<PasswordChangeForm> = this.fb.nonNullable.group({
-        // тут будет еще асинхронный валидатор (проверяем совпадает ли текущий пароль)
-        // или что еще проще сравнивать с паролем текущего пользователя
-        // КАК ЕГО ВООБЩЕ ПРОВЕРЯТЬ?????
+        // надо пробовать ПО НАЖАТИЮ НА САБМИТ с текущим логином и этим паролем сделать запрос авторизации
+        // на кнопке "Проверка пароля" и загрузку
+        // в случае успеха выводить дальше окно подтверждения
+        // в случае ошибки авторизации - выводить ошибку "Неверный текущий пароль. Попробуйте снова" (выводить как основную ошибку формы)
+
         currentPassword: ['', Validators.required],
-        newPassword: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
+        newPassword: [
+            '',
+            {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(8),
+                    Validators.maxLength(50),
+                ],
+            },
+        ],
+        confirmPassword: [
+            '',
+            {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(8),
+                    Validators.maxLength(50),
+                ],
+            },
+        ],
     });
+
+    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
+    isAllControlsCompleted(): boolean {
+        const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
+        return !!currentPassword && !!newPassword && !!confirmPassword;
+    }
 
     isControlInvalid(controlName: string): boolean {
         const control = this.passwordForm.get(controlName);
