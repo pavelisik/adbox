@@ -33,10 +33,10 @@ export class RegisterDialog {
     private readonly registerDialogService = inject(RegisterDialogService);
     private readonly fb = inject(FormBuilder);
 
-    isSubmitted = signal<boolean>(false);
+    private isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
-    isPasswordVisible = signal<boolean>(false);
     formError = signal<string>('');
+    isPasswordVisible = signal<boolean>(false);
 
     visible = this.registerDialogService.registerDialogOpen;
 

@@ -15,7 +15,6 @@
                 placeholder="Имя"
                 formControlName="name"
                 autocomplete="off"
-                [class.ng-invalid]="false"
                 [invalid]="!!getControlError('name')"
                 class="dialog-form__input"
             />
@@ -31,7 +30,6 @@
                 placeholder="Логин"
                 formControlName="login"
                 autocomplete="off"
-                [class.ng-invalid]="false"
                 [invalid]="!!getControlError('login')"
                 class="dialog-form__input"
             />
@@ -49,7 +47,6 @@
                     placeholder="Пароль"
                     formControlName="password"
                     autocomplete="off"
-                    [class.ng-invalid]="false"
                     [invalid]="!!getControlError('password')"
                     class="dialog-form__input"
                 />
@@ -80,7 +77,6 @@
                     placeholder="Подтверждение пароля"
                     formControlName="confirmPassword"
                     autocomplete="off"
-                    [class.ng-invalid]="false"
                     [invalid]="!!getControlError('confirmPassword')"
                     class="dialog-form__input"
                 />

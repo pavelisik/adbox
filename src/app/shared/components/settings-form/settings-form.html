@@ -1,23 +1,63 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form base mb-48">
     <div>
         <label for="name">Имя</label>
-        <input pInputText placeholder="Введите имя" formControlName="name" />
+        <input
+            pInputText
+            placeholder="Введите имя"
+            formControlName="name"
+            autocomplete="off"
+            [invalid]="isControlInvalid('name')()"
+        />
+        <app-control-error
+            [form]="settingsForm"
+            controlName="name"
+            [isSubmitted]="isSubmitted()"
+        ></app-control-error>
+        <!-- @if (getControlError('name')) {
+            <p-message severity="error" size="small" variant="simple">{{
+                getControlError('name')
+            }}</p-message>
+        } -->
     </div>
     <div>
         <label for="login">Логин</label>
-        <input pInputText placeholder="Введите логин" formControlName="login" />
+        <input
+            pInputText
+            placeholder="Введите логин"
+            formControlName="login"
+            autocomplete="off"
+            [invalid]="isControlInvalid('login')()"
+        />
+        <app-control-error
+            [form]="settingsForm"
+            controlName="login"
+            [isSubmitted]="isSubmitted()"
+        ></app-control-error>
+        <!-- @if (getControlError('login')) {
+            <p-message severity="error" size="small" variant="simple">{{
+                getControlError('login')
+            }}</p-message>
+        } -->
     </div>
     <div>
         <label for="address">
             Адрес
             <span>(будет указываться в объявлениях по умолчанию)</span>
         </label>
-        <input pInputText placeholder="Введите адрес" formControlName="address" />
+        <input
+            pInputText
+            placeholder="Введите адрес"
+            formControlName="address"
+            autocomplete="off"
+        />
     </div>
 
     <div>
-        <button pButton type="submit">
-            <span pButtonLabel>Сохранить</span>
-        </button>
+        <button
+            pButton
+            type="submit"
+            [label]="isLoading() ? 'Сохранение' : 'Сохранить'"
+            [loading]="isLoading()"
+        ></button>
     </div>
 </form>

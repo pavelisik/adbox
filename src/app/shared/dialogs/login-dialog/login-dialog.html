@@ -15,7 +15,6 @@
                 placeholder="Логин"
                 formControlName="login"
                 autocomplete="username"
-                [class.ng-invalid]="false"
                 [invalid]="!!getControlError('login')"
                 class="dialog-form__input"
             />
@@ -33,7 +32,6 @@
                     placeholder="Пароль"
                     formControlName="password"
                     autocomplete="current-password"
-                    [class.ng-invalid]="false"
                     [invalid]="!!getControlError('password')"
                     class="dialog-form__input"
                 />

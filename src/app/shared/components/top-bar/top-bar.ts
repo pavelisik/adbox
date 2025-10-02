@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenuItem } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ConfirmService } from '@app/core/confirmation';
 
 @Component({
     selector: 'app-top-bar',
@@ -20,6 +21,7 @@ export class TopBar {
     private readonly usersFacade = inject(UsersFacade);
     private readonly loginDialogService = inject(LoginDialogService);
     private readonly registerDialogService = inject(RegisterDialogService);
+    private readonly confirm = inject(ConfirmService);
 
     readonly isAuth = this.authStateService.isAuth;
     readonly currentUser = this.usersFacade.currentUser;
@@ -29,7 +31,9 @@ export class TopBar {
         { label: 'Настройки', routerLink: '/user/settings' },
         {
             label: 'Выйти',
-            command: () => this.authService.logout(),
+            command: () => {
+                this.confirm.confirm('logout', () => this.authService.logout());
+            },
             styleClass: 'p-tieredmenu-item-logout',
         },
     ];

@@ -200,9 +200,26 @@
     background: transparent;
 }
 
+// отменяем стили для ng-invalid
+.ng-invalid {
+    border-color: var(--p-inputtext-border-color);
+
+    &:hover {
+        border-color: var(--p-inputtext-hover-border-color);
+    }
+
+    &:focus {
+        border-color: var(--p-inputtext-focus-border-color);
+    }
+}
+
 .p-invalid:hover,
 .p-invalid:focus {
     border-color: var(--error-color);
+}
+
+.p-inputtext.p-invalid {
+    border-color: var(--p-inputtext-invalid-border-color);
 }
 
 .p-breadcrumb-separator {
