@@ -37,29 +37,33 @@ export class SettingsForm {
     formError = signal<string>('');
 
     settingsForm: FormGroup<SettingsChangeForm> = this.fb.nonNullable.group({
-        name: ['', Validators.required],
-        login: ['', Validators.required],
+        name: [
+            '',
+            {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(4),
+                    Validators.maxLength(64),
+                ],
+            },
+        ],
+        login: [
+            '',
+            {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(4),
+                    Validators.maxLength(64),
+                ],
+            },
+        ],
         address: [''],
     });
 
-    isControlInvalid(controlName: string) {
-        return computed(() => {
-            const control = this.settingsForm.get(controlName);
-            return !!(control?.errors && this.isSubmitted());
-        });
+    isControlInvalid(controlName: string): boolean {
+        const control = this.settingsForm.get(controlName);
+        return !!(control?.errors && this.isSubmitted());
     }
-
-    // вывод ошибок валидации для каждого поля
-    // getControlError(controlName: string): string | null {
-    //     const control = this.settingsForm.get(controlName);
-    //     if (!control || !control.errors || !this.isSubmitted()) return null;
-
-    //     if (control.errors['required']) {
-    //         return controlName === 'name' ? 'Введите имя' : 'Введите логин';
-    //     }
-
-    //     return 'Неверное значение';
-    // }
 
     onSubmit() {
         this.isSubmitted.set(true);

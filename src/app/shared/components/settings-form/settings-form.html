@@ -6,18 +6,13 @@
             placeholder="Введите имя"
             formControlName="name"
             autocomplete="off"
-            [invalid]="isControlInvalid('name')()"
+            [invalid]="isControlInvalid('name')"
         />
         <app-control-error
             [form]="settingsForm"
             controlName="name"
             [isSubmitted]="isSubmitted()"
         ></app-control-error>
-        <!-- @if (getControlError('name')) {
-            <p-message severity="error" size="small" variant="simple">{{
-                getControlError('name')
-            }}</p-message>
-        } -->
     </div>
     <div>
         <label for="login">Логин</label>
@@ -26,18 +21,13 @@
             placeholder="Введите логин"
             formControlName="login"
             autocomplete="off"
-            [invalid]="isControlInvalid('login')()"
+            [invalid]="isControlInvalid('login')"
         />
         <app-control-error
             [form]="settingsForm"
             controlName="login"
             [isSubmitted]="isSubmitted()"
         ></app-control-error>
-        <!-- @if (getControlError('login')) {
-            <p-message severity="error" size="small" variant="simple">{{
-                getControlError('login')
-            }}</p-message>
-        } -->
     </div>
     <div>
         <label for="address">
@@ -51,7 +41,6 @@
             autocomplete="off"
         />
     </div>
-
     <div>
         <button
             pButton
