@@ -14,6 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RouterLink } from '@angular/router';
+import { ControlError, PasswordInput } from '@app/shared/forms';
 
 interface LoginForm {
     login: FormControl<string>;
@@ -31,6 +32,8 @@ interface LoginForm {
         MessageModule,
         CheckboxModule,
         RouterLink,
+        ControlError,
+        PasswordInput,
     ],
     templateUrl: './login-dialog.html',
     styleUrl: './login-dialog.scss',
@@ -59,16 +62,9 @@ export class LoginDialog {
         return !!login && !!password;
     }
 
-    // вывод ошибок валидации для каждого поля
-    getControlError(controlName: string): string | null {
+    isControlInvalid(controlName: string): boolean {
         const control = this.loginForm.get(controlName);
-        if (!control || !control.errors || !this.isSubmitted()) return null;
-
-        if (control.errors['required']) {
-            return controlName === 'login' ? 'Введите логин' : 'Введите пароль';
-        }
-
-        return 'Неверное значение';
+        return !!(control?.errors && this.isSubmitted());
     }
 
     resetFormState() {

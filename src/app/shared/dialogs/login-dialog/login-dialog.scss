@@ -1,43 +1,20 @@
+.dialog-form {
+    width: 368px;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    input {
+        width: 100%;
+        padding: 12px;
+        line-height: 24px;
+    }
+}
+
 .dialog-form__bottom-field {
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: -8px;
-}
-
-.dialog-form__input {
-    width: 368px;
-    height: 48px;
-    line-height: 24px;
-    padding: 12px;
-}
-
-.dialog-form__password-input {
-    position: relative;
-
-    input {
-        padding-right: 45px;
-    }
-}
-
-.dialog-form__password-eye-btn {
-    position: absolute;
-    padding: 10px;
-    top: 5px;
-    right: 6px;
-    background: none;
-    border: none;
-    color: var(--gray-400-color);
-    cursor: pointer;
-    transition: color 0.2s ease;
-
-    &:hover {
-        color: var(--gray-600-color);
-    }
-
-    &.active {
-        color: var(--gray-600-color);
-    }
 }
 
 .dialog-form__remember-me {

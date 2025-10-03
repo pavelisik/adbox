@@ -8,51 +8,33 @@
     (onShow)="onShow()"
     (onHide)="onClose()"
 >
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="dialog-form">
         <div>
             <input
                 pInputText
                 placeholder="Логин"
                 formControlName="login"
                 autocomplete="username"
-                [invalid]="!!getControlError('login')"
-                class="dialog-form__input"
+                [invalid]="isControlInvalid('login')"
             />
-            @if (getControlError('login')) {
-                <p-message severity="error" size="small" variant="simple">{{
-                    getControlError('login')
-                }}</p-message>
-            }
+            <app-control-error
+                [form]="loginForm"
+                controlName="login"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
         </div>
         <div>
-            <div class="dialog-form__password-input">
-                <input
-                    pInputText
-                    [type]="isPasswordVisible() ? 'text' : 'password'"
-                    placeholder="Пароль"
-                    formControlName="password"
-                    autocomplete="current-password"
-                    [invalid]="!!getControlError('password')"
-                    class="dialog-form__input"
-                />
-                <span
-                    class="dialog-form__password-eye-btn"
-                    [title]="isPasswordVisible() ? 'Скрыть пароль' : 'Показать пароль'"
-                    [class.active]="isPasswordVisible()"
-                    (click)="isPasswordVisible.set(!isPasswordVisible())"
-                >
-                    <span
-                        class="pi"
-                        [class.pi-eye-slash]="!isPasswordVisible()"
-                        [class.pi-eye]="isPasswordVisible()"
-                    ></span>
-                </span>
-            </div>
-            @if (getControlError('password')) {
-                <p-message severity="error" size="small" variant="simple">{{
-                    getControlError('password')
-                }}</p-message>
-            }
+            <app-password-input
+                [control]="loginForm.controls.password"
+                [isInvalid]="isControlInvalid('password')"
+                [(isPasswordVisible)]="isPasswordVisible"
+                placeholder="Пароль"
+            ></app-password-input>
+            <app-control-error
+                [form]="loginForm"
+                controlName="password"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
         </div>
         <div class="dialog-form__bottom-field">
             <div class="dialog-form__remember-me">

@@ -3,7 +3,6 @@ import {
     FormBuilder,
     Validators,
     ReactiveFormsModule,
-    AbstractControl,
     FormGroup,
     FormControl,
 } from '@angular/forms';
@@ -14,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { RegisterDialogService } from '@app/shared/services';
 import { passwordsMatchValidator } from '@app/shared/validators';
+import { ControlError, PasswordInput } from '@app/shared/forms';
 
 interface RegisterForm {
     login: FormControl<string>;
@@ -24,7 +24,15 @@ interface RegisterForm {
 
 @Component({
     selector: 'app-register-dialog',
-    imports: [DialogModule, ReactiveFormsModule, ButtonModule, InputTextModule, MessageModule],
+    imports: [
+        DialogModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        InputTextModule,
+        MessageModule,
+        ControlError,
+        PasswordInput,
+    ],
     templateUrl: './register-dialog.html',
     styleUrl: './register-dialog.scss',
 })
@@ -113,6 +121,11 @@ export class RegisterDialog {
         return !!login && !!name && !!password && !!confirmPassword;
     }
 
+    isControlInvalid(controlName: string): boolean {
+        const control = this.registerForm.get(controlName);
+        return !!(control?.errors && this.isSubmitted());
+    }
+
     // кастомный валидатор для проверки совпадения паролей
     // passwordsMatchValidator(control: AbstractControl) {
     //     const formGroup = control as FormGroup<RegisterForm>;
@@ -133,45 +146,6 @@ export class RegisterDialog {
 
     //     return null;
     // }
-
-    // вывод ошибок валидации для каждого поля
-    getControlError(controlName: string): string | null {
-        const control = this.registerForm.get(controlName);
-        if (!control || !control.errors || !this.isSubmitted()) return null;
-
-        if (control.errors['required']) {
-            switch (controlName) {
-                case 'login':
-                    return 'Введите логин';
-                case 'name':
-                    return 'Введите имя';
-                case 'password':
-                    return 'Введите пароль';
-                case 'confirmPassword':
-                    return 'Подтвердите пароль';
-                default:
-                    return 'Заполните поле';
-            }
-        }
-
-        if (control.errors['minlength']) {
-            const requiredLength = control.errors['minlength'].requiredLength;
-            const symbolWord = ['login', 'name'].includes(controlName) ? 'символа' : 'символов';
-            return `Минимум ${requiredLength} ${symbolWord}`;
-        }
-
-        if (control.errors['maxlength']) {
-            const requiredLength = control.errors['maxlength'].requiredLength;
-            const symbolWord = ['login', 'name'].includes(controlName) ? 'символа' : 'символов';
-            return `Максимум ${requiredLength} ${symbolWord}`;
-        }
-
-        if (control.errors['mismatch']) {
-            return 'Пароли не совпадают';
-        }
-
-        return 'Неверное значение';
-    }
 
     resetFormState() {
         this.isSubmitted.set(false);

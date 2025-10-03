@@ -9,7 +9,7 @@ import {
 import { ConfirmService } from '@app/core/confirmation';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ControlError } from '@app/shared/forms/control-error/control-error';
+import { ControlError, PasswordInput } from '@app/shared/forms';
 import { passwordsMatchValidator } from '@app/shared/validators';
 
 interface PasswordChangeForm {
@@ -20,7 +20,7 @@ interface PasswordChangeForm {
 
 @Component({
     selector: 'app-password-form',
-    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, ControlError],
+    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, ControlError, PasswordInput],
     templateUrl: './password-form.html',
     styleUrl: './password-form.scss',
 })

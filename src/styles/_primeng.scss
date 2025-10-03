@@ -337,6 +337,10 @@
     }
 }
 
+.p-message-text {
+    margin-top: 2px;
+}
+
 .p-dialog {
     border: none;
     font-size: 16px;
@@ -360,10 +364,6 @@
         content: '•';
         margin-right: 10px;
         display: inline-block;
-    }
-
-    .p-message-text {
-        margin-top: 2px;
     }
 
     .p-dialog-close-button {
