@@ -9,8 +9,8 @@ import {
 import { ConfirmService } from '@app/core/confirmation';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ControlError, PasswordInput } from '@app/shared/forms';
 import { passwordsMatchValidator } from '@app/shared/validators';
+import { ControlError, PasswordInput } from '@app/shared/components/forms';
 
 interface PasswordChangeForm {
     currentPassword: FormControl<string>;

@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { RegisterDialogService } from '@app/shared/services';
 import { passwordsMatchValidator } from '@app/shared/validators';
-import { ControlError, PasswordInput } from '@app/shared/forms';
+import { ControlError, PasswordInput } from '@app/shared/components/forms';
 
 interface RegisterForm {
     login: FormControl<string>;

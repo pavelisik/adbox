@@ -14,7 +14,7 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RouterLink } from '@angular/router';
-import { ControlError, PasswordInput } from '@app/shared/forms';
+import { ControlError, PasswordInput } from '@app/shared/components/forms';
 
 interface LoginForm {
     login: FormControl<string>;

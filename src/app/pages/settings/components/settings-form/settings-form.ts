@@ -11,7 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmService } from '@app/core/confirmation';
-import { ControlError } from '@app/shared/forms';
+import { ControlError } from '@app/shared/components/forms';
 
 interface SettingsChangeForm {
     name: FormControl<string>;

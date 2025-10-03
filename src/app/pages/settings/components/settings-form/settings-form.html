@@ -1,33 +1,37 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form base mb-48">
     <div>
         <label for="name">Имя</label>
-        <input
-            pInputText
-            placeholder="Введите имя"
-            formControlName="name"
-            autocomplete="off"
-            [invalid]="isControlInvalid('name')"
-        />
-        <app-control-error
-            [form]="settingsForm"
-            controlName="name"
-            [isSubmitted]="isSubmitted()"
-        ></app-control-error>
+        <div>
+            <input
+                pInputText
+                placeholder="Введите имя"
+                formControlName="name"
+                autocomplete="off"
+                [invalid]="isControlInvalid('name')"
+            />
+            <app-control-error
+                [form]="settingsForm"
+                controlName="name"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+        </div>
     </div>
     <div>
         <label for="login">Логин</label>
-        <input
-            pInputText
-            placeholder="Введите логин"
-            formControlName="login"
-            autocomplete="off"
-            [invalid]="isControlInvalid('login')"
-        />
-        <app-control-error
-            [form]="settingsForm"
-            controlName="login"
-            [isSubmitted]="isSubmitted()"
-        ></app-control-error>
+        <div>
+            <input
+                pInputText
+                placeholder="Введите логин"
+                formControlName="login"
+                autocomplete="off"
+                [invalid]="isControlInvalid('login')"
+            />
+            <app-control-error
+                [form]="settingsForm"
+                controlName="login"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+        </div>
     </div>
     <div>
         <label for="address">

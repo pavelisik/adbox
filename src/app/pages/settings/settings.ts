@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SettingsForm, PasswordForm } from '@app/shared/components';
+import { PasswordForm, SettingsForm } from '@app/pages/settings/components';
 
 @Component({
     selector: 'app-settings',
