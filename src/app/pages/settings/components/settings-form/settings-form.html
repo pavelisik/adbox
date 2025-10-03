@@ -57,5 +57,21 @@
                 (isSubmitted() && settingsForm.invalid)
             "
         ></button>
+        @if (successMessage()) {
+            <p-message
+                [life]="3000"
+                severity="success"
+                variant="simple"
+                size="small"
+                showTransitionOptions="400ms ease-out"
+                hideTransitionOptions="400ms ease-out"
+            >
+                <svg icon="check-circle" width="24" height="24"></svg>
+                <span class="fw-500">{{ successMessage() }}</span>
+            </p-message>
+        }
+        <app-password-confirm-dialog
+            [(confirmedPassword)]="confirmedPassword"
+        ></app-password-confirm-dialog>
     </div>
 </form>

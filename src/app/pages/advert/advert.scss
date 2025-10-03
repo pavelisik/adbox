@@ -4,6 +4,11 @@
     gap: 24px;
 }
 
+.advert-right {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
 .advert__title,
 .advert__price {
     display: block;

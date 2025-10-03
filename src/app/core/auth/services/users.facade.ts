@@ -1,5 +1,7 @@
 import { effect, inject, Injectable } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { AuthStateService, UsersService, UsersStoreService } from '@app/core/auth/services';
+import { take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',

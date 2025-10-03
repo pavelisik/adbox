@@ -81,6 +81,7 @@
     --p-message-text-sm-font-size: 14px;
     --p-message-error-color: var(--error-color);
     --p-message-error-simple-color: var(--error-color);
+    --p-message-success-simple-color: var(--success-color);
 
     // хлебные крошки
     --p-breadcrumb-padding: 0px;
@@ -186,9 +187,15 @@
     border: 1px solid;
 }
 
+.p-button-loading {
+    display: inline-flex;
+    align-items: baseline;
+}
+
 .p-button-loading-icon {
     width: 14px;
     height: 14px;
+    align-self: baseline;
 }
 
 .p-hidden {
@@ -339,6 +346,8 @@
 
 .p-message-text {
     margin-top: 2px;
+    display: inline-flex;
+    gap: 8px;
 }
 
 .p-dialog {
@@ -386,11 +395,24 @@
         flex-direction: column;
         align-items: center;
         gap: 16px;
+        width: 368px;
+
+        > * {
+            width: 100%;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            line-height: 24px;
+        }
 
         button {
             margin-top: 8px;
             padding: 12px 40px;
             height: 48px;
+            width: fit-content;
+            justify-self: center;
         }
 
         .p-button-label {

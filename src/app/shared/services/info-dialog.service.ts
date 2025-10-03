@@ -1,11 +1,9 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
     providedIn: 'root',
 })
 export class InfoDialogService {
-    router = inject(Router);
     infoDialogOpen = signal<boolean>(false);
 
     openDialog() {

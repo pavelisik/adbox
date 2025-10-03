@@ -25,6 +25,8 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .item__title {

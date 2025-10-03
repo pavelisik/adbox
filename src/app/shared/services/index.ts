@@ -7,3 +7,4 @@ export * from './image.service';
 export * from './info-dialog.service';
 export * from './login-dialog.service';
 export * from './register-dialog.service';
+export * from './password-confirm-dialog.service';

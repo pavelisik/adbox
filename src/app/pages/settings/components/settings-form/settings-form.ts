@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, untracked } from '@angular/core';
 import {
     ReactiveFormsModule,
     FormBuilder,
@@ -6,12 +6,14 @@ import {
     FormControl,
     FormGroup,
 } from '@angular/forms';
-import { UsersFacade } from '@app/core/auth/services';
+import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
-import { ConfirmService } from '@app/core/confirmation';
 import { ControlError } from '@app/shared/components/forms';
+import { PasswordConfirmDialogService } from '@app/shared/services/password-confirm-dialog.service';
+import { PasswordConfirmDialog } from '@app/shared/dialogs';
+import { SvgIcon } from '@app/shared/components';
 
 interface SettingsChangeForm {
     name: FormControl<string>;
@@ -21,14 +23,26 @@ interface SettingsChangeForm {
 
 @Component({
     selector: 'app-settings-form',
-    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, MessageModule, ControlError],
+    imports: [
+        ReactiveFormsModule,
+        InputTextModule,
+        ButtonModule,
+        MessageModule,
+        ControlError,
+        PasswordConfirmDialog,
+        SvgIcon,
+    ],
     templateUrl: './settings-form.html',
     styleUrl: './settings-form.scss',
 })
 export class SettingsForm {
+    private readonly usersService = inject(UsersService);
     private readonly usersFacade = inject(UsersFacade);
     private readonly fb = inject(FormBuilder);
-    private readonly confirm = inject(ConfirmService);
+    private passwordConfirmDialogService = inject(PasswordConfirmDialogService);
+
+    successMessage = signal<string | null>(null);
+    confirmedPassword = signal<string | null>(null);
 
     readonly currentUser = this.usersFacade.currentUser;
 
@@ -88,19 +102,10 @@ export class SettingsForm {
 
         if (this.settingsForm.invalid) return;
 
-        this.confirm.confirm('settings', () => this.saveChanges());
-    }
+        // this.formError.set('');
+        this.successMessage.set(null);
 
-    private saveChanges() {
-        this.isLoading.set(true);
-        this.formError.set('');
-
-        // имитация сохранения
-        setTimeout(() => {
-            this.isLoading.set(false);
-            const { name, login, address } = this.settingsForm.value;
-            console.log('Отправлены имя, логин и адрес:', name, login, address);
-        }, 1500);
+        this.passwordConfirmDialogService.openDialog();
     }
 
     constructor() {
@@ -110,6 +115,43 @@ export class SettingsForm {
                 this.settingsForm.patchValue({
                     name: currentUser.name,
                     login: currentUser.login,
+                });
+            }
+        });
+        effect(() => {
+            const password = this.confirmedPassword();
+
+            if (password) {
+                untracked(() => {
+                    const userId = this.currentUser()?.id;
+                    if (!userId) return;
+
+                    const { name, login } = this.settingsForm.getRawValue();
+
+                    this.isLoading.set(true);
+                    this.usersService.updateUser(userId, { name, login, password }).subscribe({
+                        next: (res) => {
+                            this.isLoading.set(false);
+                            this.confirmedPassword.set(null);
+                            this.successMessage.set('Изменения сохранены');
+                        },
+                        error: (error) => {
+                            this.isLoading.set(false);
+                            switch (error.status) {
+                                case 400:
+                                    this.formError.set(
+                                        'Ошибка обновления данных. Попробуйте снова',
+                                    );
+                                    break;
+                                case 500:
+                                    this.formError.set('Ошибка сервера. Попробуйте позже');
+                                    break;
+                                default:
+                                    this.formError.set('Произошла ошибка. Попробуйте позже');
+                                    break;
+                            }
+                        },
+                    });
                 });
             }
         });

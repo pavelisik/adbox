@@ -2,9 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from '@env/environment';
-import { UserDTO } from '@app/infrastructure/users/dto';
-import { UserFromDTOAdapter } from '@app/infrastructure/users/adapters';
-import { User } from '@app/core/auth/domains';
+import { ShortUserDTO, UserDTO, UserUpdateRequestDTO } from '@app/infrastructure/users/dto';
+import {
+    ShortUserFromDTOAdapter,
+    UserFromDTOAdapter,
+    UserUpdateRequestToDTOAdapter,
+} from '@app/infrastructure/users/adapters';
+import { ShortUser, User, UserUpdateRequest } from '@app/core/auth/domains';
 
 @Injectable({
     providedIn: 'root',
@@ -16,5 +20,16 @@ export class UsersApiService {
         return this.http
             .get<UserDTO>(`${environment.baseApiURL}/Users/current`)
             .pipe(map((res) => UserFromDTOAdapter(res)));
+    }
+
+    updateUser(id: string, params: UserUpdateRequest): Observable<ShortUser> {
+        const request: UserUpdateRequestDTO = UserUpdateRequestToDTOAdapter(params);
+        const formData = new FormData();
+        formData.append('Name', request.name);
+        formData.append('Login', request.login);
+        formData.append('Password', request.password);
+        return this.http
+            .put<ShortUserDTO>(`${environment.baseApiURL}/Users/${id}`, formData)
+            .pipe(map((res) => ShortUserFromDTOAdapter(res)));
     }
 }

@@ -22,6 +22,6 @@ export class AuthApiService {
 
     register(params: AuthRegisterRequest): Observable<string> {
         const request: AuthRegisterRequestDTO = AuthRegisterRequestToDTOAdapter(params);
-        return this.http.post<string>(`${environment.baseApiURL}/Auth/Register`, params);
+        return this.http.post<string>(`${environment.baseApiURL}/Auth/Register`, request);
     }
 }

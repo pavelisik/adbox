@@ -27,6 +27,14 @@ export class AuthService {
         );
     }
 
+    confirmPassword(params: AuthLoginRequest): Observable<string> {
+        return this.apiService.login(params).pipe(
+            tap(() => {
+                this.notify.success('Подтверждение', 'Проверка пароля прошла успешно');
+            }),
+        );
+    }
+
     register(params: AuthRegisterRequest): Observable<string> {
         return this.apiService.register(params).pipe(
             tap(() => {
