@@ -1,0 +1,29 @@
+<p-dialog
+    [header]="header()"
+    [(visible)]="visible"
+    modal="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    (onHide)="onClose()"
+>
+    @switch (dialogService.current()) {
+        @case ('login') {
+            <app-login-dialog></app-login-dialog>
+        }
+        @case ('register') {
+            <app-register-dialog></app-register-dialog>
+        }
+        @case ('password') {
+            <app-password-dialog
+                [(confirmedPassword)]="dialogService.confirmedPassword"
+            ></app-password-dialog>
+        }
+        @case ('info') {
+            <app-info-dialog
+                [userName]="dialogService.userName"
+                [phoneNumber]="dialogService.phoneNumber"
+            ></app-info-dialog>
+        }
+    }
+</p-dialog>

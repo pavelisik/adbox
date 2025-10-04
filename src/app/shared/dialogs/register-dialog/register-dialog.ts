@@ -7,13 +7,12 @@ import {
     FormControl,
 } from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';
-import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
-import { RegisterDialogService } from '@app/shared/services';
 import { passwordsMatchValidator } from '@app/shared/validators';
 import { ControlError, PasswordInput } from '@app/shared/components/forms';
+import { DialogService } from '@app/core/dialog';
 
 interface RegisterForm {
     login: FormControl<string>;
@@ -25,7 +24,6 @@ interface RegisterForm {
 @Component({
     selector: 'app-register-dialog',
     imports: [
-        DialogModule,
         ReactiveFormsModule,
         ButtonModule,
         InputTextModule,
@@ -38,15 +36,13 @@ interface RegisterForm {
 })
 export class RegisterDialog {
     private readonly authService = inject(AuthService);
-    private readonly registerDialogService = inject(RegisterDialogService);
+    private readonly dialogService = inject(DialogService);
     private readonly fb = inject(FormBuilder);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
     formError = signal<string>('');
     isPasswordVisible = signal<boolean>(false);
-
-    visible = this.registerDialogService.registerDialogOpen;
 
     registerForm: FormGroup<RegisterForm> = this.fb.nonNullable.group(
         {
@@ -147,22 +143,6 @@ export class RegisterDialog {
     //     return null;
     // }
 
-    resetFormState() {
-        this.isSubmitted.set(false);
-        this.registerForm.reset();
-        this.formError.set('');
-        this.isPasswordVisible.set(false);
-    }
-
-    onShow() {
-        this.resetFormState();
-    }
-
-    onClose() {
-        this.resetFormState();
-        this.registerDialogService.closeRegisterDialog();
-    }
-
     onSubmit() {
         this.isSubmitted.set(true);
         this.registerForm.markAllAsTouched();
@@ -186,7 +166,7 @@ export class RegisterDialog {
                     .subscribe({
                         next: (res) => {
                             this.isLoading.set(false);
-                            this.onClose();
+                            this.dialogService.close();
                         },
                         error: (error) => {
                             this.isLoading.set(false);

@@ -1,20 +1,19 @@
-import { LoginDialogService } from '@app/shared/services';
 import { Component, inject, signal } from '@angular/core';
 import {
     FormBuilder,
-    Validators,
-    ReactiveFormsModule,
     FormControl,
     FormGroup,
+    ReactiveFormsModule,
+    Validators,
 } from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';
-import { DialogModule } from 'primeng/dialog';
+import { DialogService } from '@app/core/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-import { MessageModule } from 'primeng/message';
+import { ControlError, PasswordInput } from '@app/shared/components/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RouterLink } from '@angular/router';
-import { ControlError, PasswordInput } from '@app/shared/components/forms';
+import { MessageModule } from 'primeng/message';
+import { ButtonModule } from 'primeng/button';
 
 interface LoginForm {
     login: FormControl<string>;
@@ -25,30 +24,27 @@ interface LoginForm {
 @Component({
     selector: 'app-login-dialog',
     imports: [
-        DialogModule,
         ReactiveFormsModule,
-        ButtonModule,
         InputTextModule,
-        MessageModule,
-        CheckboxModule,
-        RouterLink,
         ControlError,
         PasswordInput,
+        CheckboxModule,
+        RouterLink,
+        MessageModule,
+        ButtonModule,
     ],
     templateUrl: './login-dialog.html',
     styleUrl: './login-dialog.scss',
 })
 export class LoginDialog {
     private readonly authService = inject(AuthService);
-    private readonly loginDialogService = inject(LoginDialogService);
+    private readonly dialogService = inject(DialogService);
     private readonly fb = inject(FormBuilder);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
     formError = signal<string>('');
     isPasswordVisible = signal<boolean>(false);
-
-    visible = this.loginDialogService.loginDialogOpen;
 
     loginForm: FormGroup<LoginForm> = this.fb.nonNullable.group({
         login: ['', Validators.required],
@@ -67,22 +63,6 @@ export class LoginDialog {
         return !!(control?.errors && this.isSubmitted());
     }
 
-    resetFormState() {
-        this.isSubmitted.set(false);
-        this.loginForm.reset();
-        this.formError.set('');
-        this.isPasswordVisible.set(false);
-    }
-
-    onShow() {
-        this.resetFormState();
-    }
-
-    onClose() {
-        this.resetFormState();
-        this.loginDialogService.closeLoginDialog();
-    }
-
     onSubmit() {
         this.isSubmitted.set(true);
         this.loginForm.markAllAsTouched();
@@ -97,7 +77,7 @@ export class LoginDialog {
         this.authService.login(this.loginForm.getRawValue(), rememberMe).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
-                this.onClose();
+                this.dialogService.close();
             },
             error: (error) => {
                 this.isLoading.set(false);

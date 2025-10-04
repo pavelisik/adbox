@@ -1,6 +1,4 @@
 import { Component, inject, model, signal } from '@angular/core';
-import { PasswordConfirmDialogService } from '@app/shared/services/password-confirm-dialog.service';
-import { DialogModule } from 'primeng/dialog';
 import { PasswordInput, ControlError } from '@app/shared/components/forms';
 import {
     FormBuilder,
@@ -12,28 +10,22 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { AuthService, UsersFacade } from '@app/core/auth/services';
 import { MessageModule } from 'primeng/message';
+import { DialogService } from '@app/core/dialog';
 
 interface PasswordConfirmForm {
     password: FormControl<string>;
 }
 
 @Component({
-    selector: 'app-password-confirm-dialog',
-    imports: [
-        DialogModule,
-        PasswordInput,
-        ReactiveFormsModule,
-        ButtonModule,
-        ControlError,
-        MessageModule,
-    ],
-    templateUrl: './password-confirm-dialog.html',
-    styleUrl: './password-confirm-dialog.scss',
+    selector: 'app-password-dialog',
+    imports: [PasswordInput, ReactiveFormsModule, ButtonModule, ControlError, MessageModule],
+    templateUrl: './password-dialog.html',
+    styleUrl: './password-dialog.scss',
 })
-export class PasswordConfirmDialog {
+export class PasswordDialog {
     private readonly authService = inject(AuthService);
     private readonly usersFacade = inject(UsersFacade);
-    private readonly passwordConfirmDialogService = inject(PasswordConfirmDialogService);
+    private readonly dialogService = inject(DialogService);
     private readonly fb = inject(FormBuilder);
 
     readonly currentUser = this.usersFacade.currentUser;
@@ -44,8 +36,6 @@ export class PasswordConfirmDialog {
     isLoading = signal<boolean>(false);
     formError = signal<string>('');
     isPasswordVisible = signal<boolean>(false);
-
-    visible = this.passwordConfirmDialogService.passwordConfirmDialogOpen;
 
     passwordConfirmForm: FormGroup<PasswordConfirmForm> = this.fb.nonNullable.group({
         password: ['', Validators.required],
@@ -59,22 +49,6 @@ export class PasswordConfirmDialog {
     isControlInvalid(controlName: string): boolean {
         const control = this.passwordConfirmForm.get(controlName);
         return !!(control?.errors && this.isSubmitted());
-    }
-
-    resetFormState() {
-        this.isSubmitted.set(false);
-        this.passwordConfirmForm.reset();
-        this.formError.set('');
-        this.isPasswordVisible.set(false);
-    }
-
-    onShow() {
-        this.resetFormState();
-    }
-
-    onClose() {
-        this.resetFormState();
-        this.passwordConfirmDialogService.closeDialog();
     }
 
     onSubmit() {
@@ -95,7 +69,7 @@ export class PasswordConfirmDialog {
             next: (res) => {
                 this.isLoading.set(false);
                 this.confirmedPassword.set(this.passwordConfirmForm.getRawValue().password);
-                this.onClose();
+                this.dialogService.close();
             },
             error: (error) => {
                 this.isLoading.set(false);

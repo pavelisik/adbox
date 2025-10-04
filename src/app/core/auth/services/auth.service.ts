@@ -4,7 +4,6 @@ import { AuthLoginRequest, AuthRegisterRequest } from '@app/core/auth/domains';
 import { AuthStateService } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
 import { AuthApiService } from '@app/infrastructure/authorization/services';
-import { LoginDialogService } from '@app/shared/services';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -13,15 +12,14 @@ import { Observable, tap } from 'rxjs';
 export class AuthService {
     private readonly apiService = inject(AuthApiService);
     private readonly authStateService = inject(AuthStateService);
-    private readonly loginDialogService = inject(LoginDialogService);
     private readonly notify = inject(NotificationService);
-    router = inject(Router);
+    private readonly router = inject(Router);
 
     login(params: AuthLoginRequest, rememberMe: boolean): Observable<string> {
         return this.apiService.login(params).pipe(
             tap((val) => {
                 this.authStateService.saveToken(val, rememberMe);
-                this.loginDialogService.loginRedirect();
+                this.authStateService.redirectAfterLogin();
                 this.notify.success('Авторизация', 'Вы успешно вошли в систему');
             }),
         );

@@ -14,16 +14,11 @@
                 pButton
                 class="advert__show-phone-btn"
                 [disabled]="!authStateService.isAuth()"
-                (click)="infoDialogService.openDialog()"
+                (click)="dialogService.open('info', undefined, advert.user.name, advert.phone)"
             >
                 <svg pButtonIcon icon="phone" width="28" height="28"></svg>
                 <span pButtonLabel class="h5">Показать номер телефона</span>
             </button>
-            <app-info-dialog
-                [userName]="advert.user.name"
-                [phoneNumber]="advert.phone"
-            ></app-info-dialog>
-
             <div class="advert__address">
                 <h4 class="fw-600">Адрес</h4>
                 <span class="base">{{ advert.location }}</span>

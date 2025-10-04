@@ -11,9 +11,8 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import { ControlError } from '@app/shared/components/forms';
-import { PasswordConfirmDialogService } from '@app/shared/services/password-confirm-dialog.service';
-import { PasswordConfirmDialog } from '@app/shared/dialogs';
 import { SvgIcon } from '@app/shared/components';
+import { DialogService } from '@app/core/dialog';
 
 interface SettingsChangeForm {
     name: FormControl<string>;
@@ -29,7 +28,6 @@ interface SettingsChangeForm {
         ButtonModule,
         MessageModule,
         ControlError,
-        PasswordConfirmDialog,
         SvgIcon,
     ],
     templateUrl: './settings-form.html',
@@ -38,8 +36,8 @@ interface SettingsChangeForm {
 export class SettingsForm {
     private readonly usersService = inject(UsersService);
     private readonly usersFacade = inject(UsersFacade);
+    private readonly dialogService = inject(DialogService);
     private readonly fb = inject(FormBuilder);
-    private passwordConfirmDialogService = inject(PasswordConfirmDialogService);
 
     successMessage = signal<string | null>(null);
     confirmedPassword = signal<string | null>(null);
@@ -105,7 +103,7 @@ export class SettingsForm {
         // this.formError.set('');
         this.successMessage.set(null);
 
-        this.passwordConfirmDialogService.openDialog();
+        this.dialogService.open('password', this.confirmedPassword);
     }
 
     constructor() {

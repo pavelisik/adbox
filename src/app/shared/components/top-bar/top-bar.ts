@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { AuthService, AuthStateService, UsersFacade } from '@app/core/auth/services';
 import { SvgIcon } from '@app/shared/components';
-import { LoginDialogService, RegisterDialogService } from '@app/shared/services';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenuItem } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ConfirmService } from '@app/core/confirmation';
+import { DialogService } from '@app/core/dialog';
 
 @Component({
     selector: 'app-top-bar',
@@ -19,8 +19,7 @@ export class TopBar {
     private readonly authService = inject(AuthService);
     private readonly authStateService = inject(AuthStateService);
     private readonly usersFacade = inject(UsersFacade);
-    private readonly loginDialogService = inject(LoginDialogService);
-    private readonly registerDialogService = inject(RegisterDialogService);
+    private readonly dialogService = inject(DialogService);
     private readonly confirm = inject(ConfirmService);
 
     readonly isAuth = this.authStateService.isAuth;
@@ -39,10 +38,10 @@ export class TopBar {
     ];
 
     openLoginDialog() {
-        this.loginDialogService.openLoginDialog();
+        this.dialogService.open('login');
     }
 
     openRegisterDialog() {
-        this.registerDialogService.openRegisterDialog();
+        this.dialogService.open('register');
     }
 }

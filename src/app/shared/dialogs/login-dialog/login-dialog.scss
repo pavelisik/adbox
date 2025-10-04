@@ -1,11 +1,11 @@
-.dialog-form__bottom-field {
+.login-dialog__bottom-line {
     width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: -8px;
 }
 
-.dialog-form__remember-me {
+.login-dialog__remember-me {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -16,7 +16,7 @@
     }
 }
 
-.dialog-form__link {
+.login-dialog__link {
     color: var(--primary-color);
     line-height: 24px;
 

@@ -13,20 +13,11 @@ import { MenuItem } from 'primeng/api';
 import { BreadcrumbsService } from '@app/shared/services';
 import { FullAdvert } from '@app/pages/advert/domains';
 import { AuthStateService } from '@app/core/auth/services';
-import { InfoDialogService } from '@app/shared/services';
-import { InfoDialog } from '@app/shared/dialogs';
+import { DialogService } from '@app/core/dialog';
 
 @Component({
     selector: 'app-advert',
-    imports: [
-        BreadcrumbModule,
-        Breadcrumbs,
-        PriceFormatPipe,
-        ButtonModule,
-        SvgIcon,
-        ImageGallery,
-        InfoDialog,
-    ],
+    imports: [BreadcrumbModule, Breadcrumbs, PriceFormatPipe, ButtonModule, SvgIcon, ImageGallery],
     templateUrl: './advert.html',
     styleUrl: './advert.scss',
 })
@@ -34,7 +25,7 @@ export class Advert implements OnInit {
     private advertService = inject(AdvertService);
     private categoryService = inject(CategoryService);
     private breadcrumbsService = inject(BreadcrumbsService);
-    infoDialogService = inject(InfoDialogService);
+    dialogService = inject(DialogService);
     authStateService = inject(AuthStateService);
     route = inject(ActivatedRoute);
 
