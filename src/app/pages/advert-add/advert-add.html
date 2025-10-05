@@ -1,1 +1,59 @@
-<p>advert-add works!</p>
+<h4 class="h4 fw-600 mb-24">Новое объявление</h4>
+
+<form [formGroup]="advertAddForm" (ngSubmit)="onSubmit()" class="advert-add-form base mb-48">
+    <div class="middle-field">
+        <label for="category">Выберите категорию <span class="required">*</span></label>
+        @if (categories(); as categories) {
+            <p-cascadeselect
+                formControlName="category"
+                [options]="categoriesStatic"
+                optionLabel="name"
+                optionGroupLabel="name"
+                [optionGroupChildren]="['childs']"
+                placeholder="Нажмите, чтобы выбрать"
+            />
+        }
+    </div>
+
+    <div>
+        <label for="title">Название объявления <span class="required">*</span></label>
+        <input
+            pInputText
+            formControlName="title"
+            placeholder="Что хотите продать?"
+            autocomplete="off"
+        />
+    </div>
+    <div>
+        <label for="description">Описание</label>
+        <textarea
+            pTextarea
+            formControlName="description"
+            placeholder="Расскажите подробнее о товаре или услуге"
+            rows="5"
+            cols="30"
+        ></textarea>
+    </div>
+    <div>
+        <label for="address">Адрес (место проведения сделки) <span class="required">*</span></label>
+        <input
+            pInputText
+            formControlName="address"
+            placeholder="Начните вводить адрес"
+            autocomplete="off"
+        />
+    </div>
+    <div class="advert-add-form__img-upload">
+        <button pButton type="submit">Добавить картинки</button>
+        <span>Максимум 10 картинок в формате jpg, png или heic</span>
+    </div>
+    <div class="small-field">
+        <label for="price">Цена</label>
+        <input pInputText formControlName="price" placeholder="0 ₽" autocomplete="off" />
+    </div>
+    <button pButton type="submit">Разместить объявление</button>
+    <div class="advert-add__submit-disclaimer small-field sm">
+        <p>Нажимая кнопку «Разместить объявление»</p>
+        <p>Вы соглашаетесь с <a href="">правилами площадки</a></p>
+    </div>
+</form>
