@@ -61,6 +61,10 @@ export class Advert implements OnInit {
         takeUntilDestroyed(),
     );
 
+    infoDialogOpen(userName: string, phoneNumber: string) {
+        this.dialogService.open('info', userName, phoneNumber);
+    }
+
     ngOnInit() {
         this.advert$.subscribe();
         this.category$.subscribe();

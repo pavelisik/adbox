@@ -11,7 +11,6 @@ import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import { ControlError } from '@app/shared/components/forms';
-import { SvgIcon } from '@app/shared/components';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 
@@ -23,14 +22,7 @@ interface SettingsChangeForm {
 
 @Component({
     selector: 'app-settings-form',
-    imports: [
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        MessageModule,
-        ControlError,
-        SvgIcon,
-    ],
+    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, MessageModule, ControlError],
     templateUrl: './settings-form.html',
     styleUrl: './settings-form.scss',
 })
@@ -119,13 +111,6 @@ export class SettingsForm {
             if (loginControl && !loginControl.dirty) {
                 loginControl.setValue(currentUser.login ?? '', { emitEvent: false });
             }
-            // const currentUser = this.currentUser();
-            // if (currentUser) {
-            //     this.settingsForm.patchValue({
-            //         name: currentUser.name,
-            //         login: currentUser.login,
-            //     });
-            // }
         });
         effect(() => {
             const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();

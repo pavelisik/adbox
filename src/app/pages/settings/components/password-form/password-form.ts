@@ -14,7 +14,6 @@ import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 import { MessageModule } from 'primeng/message';
-import { SvgIcon } from '@app/shared/components';
 
 interface PasswordChangeForm {
     newPassword: FormControl<string>;
@@ -30,7 +29,6 @@ interface PasswordChangeForm {
         MessageModule,
         ControlError,
         PasswordInput,
-        SvgIcon,
     ],
     templateUrl: './password-form.html',
     styleUrl: './password-form.scss',

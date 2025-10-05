@@ -14,7 +14,7 @@
                 pButton
                 class="advert__show-phone-btn"
                 [disabled]="!authStateService.isAuth()"
-                (click)="dialogService.open('info', undefined, advert.user.name, advert.phone)"
+                (click)="infoDialogOpen(advert.user.name, advert.phone)"
             >
                 <svg pButtonIcon icon="phone" width="28" height="28"></svg>
                 <span pButtonLabel class="h5">Показать номер телефона</span>
