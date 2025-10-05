@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, untracked } from '@angular/core';
 import {
     ReactiveFormsModule,
     FormBuilder,
@@ -6,40 +6,51 @@ import {
     FormGroup,
     FormControl,
 } from '@angular/forms';
-import { ConfirmService } from '@app/core/confirmation';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { passwordsMatchValidator } from '@app/shared/validators';
 import { ControlError, PasswordInput } from '@app/shared/components/forms';
+import { UsersFacade, UsersService } from '@app/core/auth/services';
+import { DialogService } from '@app/core/dialog';
+import { PasswordConfirmService } from '@app/core/confirmation';
+import { MessageModule } from 'primeng/message';
+import { SvgIcon } from '@app/shared/components';
 
 interface PasswordChangeForm {
-    currentPassword: FormControl<string>;
     newPassword: FormControl<string>;
     confirmPassword: FormControl<string>;
 }
 
 @Component({
     selector: 'app-password-form',
-    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, ControlError, PasswordInput],
+    imports: [
+        ReactiveFormsModule,
+        InputTextModule,
+        ButtonModule,
+        MessageModule,
+        ControlError,
+        PasswordInput,
+        SvgIcon,
+    ],
     templateUrl: './password-form.html',
     styleUrl: './password-form.scss',
 })
 export class PasswordForm {
+    private readonly usersService = inject(UsersService);
+    private readonly usersFacade = inject(UsersFacade);
+    private readonly dialogService = inject(DialogService);
+    private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
-    private readonly confirm = inject(ConfirmService);
 
+    readonly currentUser = this.usersFacade.currentUser;
+
+    formSuccess = signal<string | null>(null);
+    formError = signal<string | null>(null);
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
-    formError = signal<string>('');
     isPasswordVisible = signal<boolean>(false);
 
     passwordForm: FormGroup<PasswordChangeForm> = this.fb.nonNullable.group({
-        // надо пробовать ПО НАЖАТИЮ НА САБМИТ с текущим логином и этим паролем сделать запрос авторизации
-        // на кнопке "Проверка пароля" и загрузку
-        // в случае успеха выводить дальше окно подтверждения
-        // в случае ошибки авторизации - выводить ошибку "Неверный текущий пароль. Попробуйте снова" (выводить как основную ошибку формы)
-
-        currentPassword: ['', Validators.required],
         newPassword: [
             '',
             {
@@ -64,13 +75,20 @@ export class PasswordForm {
 
     // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
     isAllControlsCompleted(): boolean {
-        const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
-        return !!currentPassword && !!newPassword && !!confirmPassword;
+        const { newPassword, confirmPassword } = this.passwordForm.value;
+        return !!newPassword && !!confirmPassword;
     }
 
     isControlInvalid(controlName: string): boolean {
         const control = this.passwordForm.get(controlName);
         return !!(control?.errors && this.isSubmitted());
+    }
+
+    resetFormState() {
+        this.passwordForm.reset();
+        this.isSubmitted.set(false);
+        this.formError.set(null);
+        this.isPasswordVisible.set(false);
     }
 
     onSubmit() {
@@ -79,19 +97,11 @@ export class PasswordForm {
 
         if (this.passwordForm.invalid) return;
 
-        this.confirm.confirm('password', () => this.saveChanges());
-    }
+        this.formError.set(null);
+        this.formSuccess.set(null);
 
-    private saveChanges() {
-        this.isLoading.set(true);
-        this.formError.set('');
-
-        // имитация сохранения
-        setTimeout(() => {
-            this.isLoading.set(false);
-            const { currentPassword, newPassword } = this.passwordForm.value;
-            console.log('Отправлены старый и новый пароль:', currentPassword, newPassword);
-        }, 1500);
+        this.passwordConfirmService.setActiveForm('password');
+        this.dialogService.open('password');
     }
 
     constructor() {
@@ -102,5 +112,50 @@ export class PasswordForm {
                 this.passwordForm.controls.confirmPassword,
             ),
         );
+        effect(() => {
+            const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
+            const activeForm = this.passwordConfirmService.activeForm();
+
+            if (isPasswordConfirmed && activeForm === 'password') {
+                untracked(() => {
+                    const userId = this.currentUser()?.id;
+                    if (!userId) return;
+
+                    const name = this.currentUser()?.name;
+                    const login = this.currentUser()?.login;
+                    if (!name || !login) return;
+
+                    const password = this.passwordForm.getRawValue().newPassword;
+
+                    this.isLoading.set(true);
+
+                    this.usersService.updateUser(userId, { name, login, password }).subscribe({
+                        next: (res) => {
+                            this.isLoading.set(false);
+                            this.passwordConfirmService.reset();
+                            this.resetFormState();
+                            this.formSuccess.set('Пароль изменен');
+                        },
+                        error: (error) => {
+                            this.isLoading.set(false);
+                            this.passwordConfirmService.reset();
+                            switch (error.status) {
+                                case 400:
+                                    this.formError.set(
+                                        'Ошибка обновления данных. Попробуйте снова',
+                                    );
+                                    break;
+                                case 500:
+                                    this.formError.set('Ошибка сервера. Попробуйте позже');
+                                    break;
+                                default:
+                                    this.formError.set('Произошла ошибка. Попробуйте позже');
+                                    break;
+                            }
+                        },
+                    });
+                });
+            }
+        });
     }
 }

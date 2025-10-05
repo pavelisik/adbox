@@ -42,7 +42,6 @@ export class ControlError {
                 case 'name':
                     return 'Введите имя';
                 case 'password':
-                case 'currentPassword':
                 case 'newPassword':
                     return 'Введите пароль';
                 case 'confirmPassword':

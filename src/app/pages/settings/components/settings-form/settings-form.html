@@ -4,7 +4,7 @@
         <div>
             <input
                 pInputText
-                placeholder="Введите имя"
+                [placeholder]="currentUser() ? 'Введите имя' : ''"
                 formControlName="name"
                 autocomplete="off"
                 [invalid]="isControlInvalid('name')"
@@ -21,7 +21,7 @@
         <div>
             <input
                 pInputText
-                placeholder="Введите логин"
+                [placeholder]="currentUser() ? 'Введите логин' : ''"
                 formControlName="login"
                 autocomplete="off"
                 [invalid]="isControlInvalid('login')"
@@ -57,7 +57,7 @@
                 (isSubmitted() && settingsForm.invalid)
             "
         ></button>
-        @if (successMessage()) {
+        @if (formSuccess()) {
             <p-message
                 [life]="3000"
                 severity="success"
@@ -67,7 +67,7 @@
                 hideTransitionOptions="400ms ease-out"
             >
                 <svg icon="check-circle" width="24" height="24"></svg>
-                <span class="fw-500">{{ successMessage() }}</span>
+                <span class="fw-500">{{ formSuccess() }}</span>
             </p-message>
         }
     </div>

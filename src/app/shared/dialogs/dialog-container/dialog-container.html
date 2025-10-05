@@ -15,9 +15,7 @@
             <app-register-dialog></app-register-dialog>
         }
         @case ('password') {
-            <app-password-dialog
-                [(confirmedPassword)]="dialogService.confirmedPassword"
-            ></app-password-dialog>
+            <app-password-dialog></app-password-dialog>
         }
         @case ('info') {
             <app-info-dialog

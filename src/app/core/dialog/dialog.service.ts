@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 export type DialogType = 'login' | 'register' | 'password' | 'info';
 
@@ -8,18 +8,11 @@ export type DialogType = 'login' | 'register' | 'password' | 'info';
 export class DialogService {
     readonly current = signal<DialogType | null>(null);
 
-    confirmedPassword: WritableSignal<string | null> | null = null;
     userName: string = '';
     phoneNumber: string = '';
 
-    open(
-        type: DialogType,
-        confirmedPassword?: WritableSignal<string | null>,
-        userName?: string,
-        phoneNumber?: string,
-    ) {
+    open(type: DialogType, userName?: string, phoneNumber?: string) {
         this.current.set(type);
-        if (type === 'password') this.confirmedPassword = confirmedPassword ?? null;
         if (type === 'info') {
             if (userName) this.userName = userName;
             if (phoneNumber) this.phoneNumber = phoneNumber;

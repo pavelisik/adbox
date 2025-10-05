@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { PasswordInput, ControlError } from '@app/shared/components/forms';
 import {
     FormBuilder,
@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { AuthService, UsersFacade } from '@app/core/auth/services';
 import { MessageModule } from 'primeng/message';
 import { DialogService } from '@app/core/dialog';
+import { PasswordConfirmService } from '@app/core/confirmation';
 
 interface PasswordConfirmForm {
     password: FormControl<string>;
@@ -26,11 +27,10 @@ export class PasswordDialog {
     private readonly authService = inject(AuthService);
     private readonly usersFacade = inject(UsersFacade);
     private readonly dialogService = inject(DialogService);
+    private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
 
     readonly currentUser = this.usersFacade.currentUser;
-
-    confirmedPassword = model<string | null>(null);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -68,7 +68,11 @@ export class PasswordDialog {
         this.authService.confirmPassword(confirmPasswordRequest).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
-                this.confirmedPassword.set(this.passwordConfirmForm.getRawValue().password);
+                this.passwordConfirmService.confirm();
+                // плохо так делать, но серверу необходимо заполненное поле password
+                this.passwordConfirmService.savePassword(
+                    this.passwordConfirmForm.getRawValue().password,
+                );
                 this.dialogService.close();
             },
             error: (error) => {

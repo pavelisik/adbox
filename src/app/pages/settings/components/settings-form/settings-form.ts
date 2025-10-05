@@ -13,6 +13,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ControlError } from '@app/shared/components/forms';
 import { SvgIcon } from '@app/shared/components';
 import { DialogService } from '@app/core/dialog';
+import { PasswordConfirmService } from '@app/core/confirmation';
 
 interface SettingsChangeForm {
     name: FormControl<string>;
@@ -37,16 +38,15 @@ export class SettingsForm {
     private readonly usersService = inject(UsersService);
     private readonly usersFacade = inject(UsersFacade);
     private readonly dialogService = inject(DialogService);
+    private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
-
-    successMessage = signal<string | null>(null);
-    confirmedPassword = signal<string | null>(null);
 
     readonly currentUser = this.usersFacade.currentUser;
 
+    formSuccess = signal<string | null>(null);
+    formError = signal<string | null>(null);
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
-    formError = signal<string>('');
 
     settingsForm: FormGroup<SettingsChangeForm> = this.fb.nonNullable.group({
         name: [
@@ -100,41 +100,59 @@ export class SettingsForm {
 
         if (this.settingsForm.invalid) return;
 
-        // this.formError.set('');
-        this.successMessage.set(null);
+        this.formError.set(null);
+        this.formSuccess.set(null);
 
-        this.dialogService.open('password', this.confirmedPassword);
+        this.passwordConfirmService.setActiveForm('settings');
+        this.dialogService.open('password');
     }
 
     constructor() {
         effect(() => {
             const currentUser = this.currentUser();
-            if (currentUser) {
-                this.settingsForm.patchValue({
-                    name: currentUser.name,
-                    login: currentUser.login,
-                });
+            if (!currentUser) return;
+            const nameControl = this.settingsForm.get('name');
+            const loginControl = this.settingsForm.get('login');
+            if (nameControl && !nameControl.dirty) {
+                nameControl.setValue(currentUser.name ?? '', { emitEvent: false });
             }
+            if (loginControl && !loginControl.dirty) {
+                loginControl.setValue(currentUser.login ?? '', { emitEvent: false });
+            }
+            // const currentUser = this.currentUser();
+            // if (currentUser) {
+            //     this.settingsForm.patchValue({
+            //         name: currentUser.name,
+            //         login: currentUser.login,
+            //     });
+            // }
         });
         effect(() => {
-            const password = this.confirmedPassword();
+            const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
+            const activeForm = this.passwordConfirmService.activeForm();
 
-            if (password) {
+            if (isPasswordConfirmed && activeForm === 'settings') {
                 untracked(() => {
                     const userId = this.currentUser()?.id;
                     if (!userId) return;
 
                     const { name, login } = this.settingsForm.getRawValue();
 
+                    // очень плохо так делать, но серверу необходимо заполненное поле password
+                    const password = this.passwordConfirmService.consumePassword();
+                    if (!password) return;
+
                     this.isLoading.set(true);
+
                     this.usersService.updateUser(userId, { name, login, password }).subscribe({
                         next: (res) => {
                             this.isLoading.set(false);
-                            this.confirmedPassword.set(null);
-                            this.successMessage.set('Изменения сохранены');
+                            this.passwordConfirmService.reset();
+                            this.formSuccess.set('Изменения сохранены');
                         },
                         error: (error) => {
                             this.isLoading.set(false);
+                            this.passwordConfirmService.reset();
                             switch (error.status) {
                                 case 400:
                                     this.formError.set(
