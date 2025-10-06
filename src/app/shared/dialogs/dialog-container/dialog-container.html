@@ -23,5 +23,8 @@
                 [phoneNumber]="dialogService.phoneNumber"
             ></app-info-dialog>
         }
+        @case ('terms-of-service') {
+            <app-terms-of-service></app-terms-of-service>
+        }
     }
 </p-dialog>

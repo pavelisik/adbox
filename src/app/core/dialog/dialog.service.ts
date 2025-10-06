@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-export type DialogType = 'login' | 'register' | 'password' | 'info';
+export type DialogType = 'login' | 'register' | 'password' | 'info' | 'terms-of-service';
 
 @Injectable({
     providedIn: 'root',

@@ -69,11 +69,12 @@
     margin-top: -8px;
     color: var(--gray-500-color);
 
-    a {
+    span {
         color: var(--primary-color);
+        cursor: pointer;
     }
 
-    a:hover {
+    span:hover {
         color: var(--gray-600-color);
     }
 }

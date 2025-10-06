@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { debounceTime, timer } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DialogService } from '@app/core/dialog';
 
 interface AdvertAddForm {
     category: FormControl<string>;
@@ -57,6 +58,7 @@ export class AdvertAdd {
     private readonly fb = inject(FormBuilder);
     private readonly router = inject(Router);
     private readonly cookieService = inject(CookieService);
+    private readonly dialogService = inject(DialogService);
 
     readonly categories = this.categoryFacade.allCategories;
 
@@ -112,6 +114,10 @@ export class AdvertAdd {
     private formatPhone(phone: string): string {
         const digits = phone.replace(/[ ()]/g, '');
         return digits;
+    }
+
+    openTermsOfServiceDialog() {
+        this.dialogService.open('terms-of-service');
     }
 
     onSubmit() {
