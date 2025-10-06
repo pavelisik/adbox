@@ -62,6 +62,31 @@
     --p-select-option-selected-focus-color: var(--dark-color);
     --p-select-option-selected-background: inherit;
     --p-select-option-selected-color: inherit;
+    --p-select-option-border-radius: 0px;
+
+    /* cascadeselect */
+    --p-cascadeselect-border-color: var(--gray-300-color);
+    --p-cascadeselect-border-radius: 4px;
+    --p-cascadeselect-shadow: none;
+    --p-cascadeselect-padding-y: 12px;
+    --p-cascadeselect-padding-x: 12px;
+    --p-cascadeselect-dropdown-color: var(--dark-color);
+    --p-border-radius-md: 4px;
+    --p-cascadeselect-focus-border-color: var(--gray-400-color);
+    --p-cascadeselect-overlay-color: var(--gray-200-color);
+    --p-cascadeselect-overlay-border-color: var(--gray-200-color);
+    --p-cascadeselect-overlay-border-radius: 4px;
+    --p-cascadeselect-list-padding: 0px;
+    --p-cascadeselect-list-gap: 0px;
+    --p-cascadeselect-option-color: var(--dark-color);
+    --p-cascadeselect-option-border-radius: 0px;
+    --p-cascadeselect-option-selected-focus-background: var(--gray-100-color);
+    --p-cascadeselect-option-selected-focus-color: var(--dark-color);
+    --p-cascadeselect-option-selected-background: inherit;
+    --p-cascadeselect-option-selected-color: inherit;
+    --p-cascadeselect-invalid-border-color: inherit;
+    --p-cascadeselect-invalid-placeholder-color: var(--gray-500-color);
+    --p-cascadeselect-option-icon-color: var(--gray-600-color);
 
     /* toast */
     --p-toast-error-color: var(--error-color);
@@ -315,7 +340,8 @@
     line-height: 24px;
 }
 
-.p-select-dropdown {
+.p-select-dropdown,
+.p-cascadeselect-dropdown {
     padding: 8px 16px 8px 0px;
     width: auto;
 
@@ -324,9 +350,14 @@
     }
 }
 
-.p-select-overlay {
+.p-select-overlay,
+.p-cascadeselect-overlay {
     margin-top: 2px;
     margin-bottom: 2px;
+}
+
+.p-cascadeselect-group-icon {
+    margin-bottom: 4px;
 }
 
 .p-toast {

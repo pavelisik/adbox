@@ -12,7 +12,7 @@
         max-width: 305px;
     }
 
-    > * {
+    > *:not(.advert-add-form__img-upload) {
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -41,16 +41,20 @@
 
 .advert-add-form__img-upload {
     flex-direction: row;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--gray-200-color);
     border-radius: 3px;
     padding: 14px 16px;
-    background: #f8fafc;
+    background: var(--gray-50-color);
 }
 
 .advert-add__submit-disclaimer {
-    color: #64748b;
+    color: var(--gray-500-color);
 
     a {
-        color: #3b82f6;
+        color: var(--primary-color);
+    }
+
+    a:hover {
+        color: var(--primary-color);
     }
 }
