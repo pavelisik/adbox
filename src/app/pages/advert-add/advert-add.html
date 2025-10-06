@@ -30,8 +30,8 @@
             pTextarea
             formControlName="description"
             placeholder="Расскажите подробнее о товаре или услуге"
-            rows="5"
-            cols="30"
+            autoResize="true"
+            style="resize: none"
         ></textarea>
     </div>
     <div>
@@ -43,15 +43,30 @@
             autocomplete="off"
         />
     </div>
-    <div class="advert-add-form__img-upload">
-        <button pButton type="submit">Добавить картинки</button>
+    <div class="advert-add-form__img-upload sm">
+        <button pButton type="submit" class="advert-add-form__img-upload-btn">
+            <svg pButtonIcon icon="images" width="20" height="20"></svg>
+            <span pButtonLabel>Добавить картинки</span>
+        </button>
         <span>Максимум 10 картинок в формате jpg, png или heic</span>
     </div>
     <div class="small-field">
         <label for="price">Цена</label>
-        <input pInputText formControlName="price" placeholder="0 ₽" autocomplete="off" />
+        <p-inputnumber
+            formControlName="price"
+            placeholder="0 ₽"
+            mode="currency"
+            currency="RUB"
+            currencyDisplay="symbol"
+            locale="ru-RU"
+            [minFractionDigits]="0"
+            autocomplete="off"
+            inputStyleClass="add"
+        />
     </div>
-    <button pButton type="submit">Разместить объявление</button>
+    <button pButton type="submit" class="advert-add-form__submit-btn mt-8">
+        Разместить объявление
+    </button>
     <div class="advert-add__submit-disclaimer small-field sm">
         <p>Нажимая кнопку «Разместить объявление»</p>
         <p>Вы соглашаетесь с <a href="">правилами площадки</a></p>

@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, Signal } from '@angular/core';
+import { Component, effect, inject, Signal } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -10,9 +10,9 @@ import { CategoryFacade } from '@app/shared/services';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
-import { CategoryMenuItem } from '@app/pages/adverts-list/domains';
-import { Category } from '@app/pages/advert/domains';
 import { ButtonModule } from 'primeng/button';
+import { SvgIcon } from '@app/shared/components';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 interface advertAddForm {
     category: FormControl<string>;
@@ -30,6 +30,8 @@ interface advertAddForm {
         InputTextModule,
         TextareaModule,
         ButtonModule,
+        InputNumberModule,
+        SvgIcon,
     ],
     templateUrl: './advert-add.html',
     styleUrl: './advert-add.scss',

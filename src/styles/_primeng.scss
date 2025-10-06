@@ -34,6 +34,7 @@
     --p-inputtext-hover-border-color: var(--gray-400-color);
     --p-inputtext-focus-border-color: var(--gray-400-color);
     --p-inputtext-invalid-border-color: var(--error-color);
+    --p-inputtext-shadow: none;
 
     /* checkbox */
     --p-checkbox-border-radius: 4px;
@@ -70,7 +71,7 @@
     --p-cascadeselect-shadow: none;
     --p-cascadeselect-padding-y: 12px;
     --p-cascadeselect-padding-x: 12px;
-    --p-cascadeselect-dropdown-color: var(--dark-color);
+    --p-cascadeselect-dropdown-color: var(--gray-600-color);
     --p-border-radius-md: 4px;
     --p-cascadeselect-focus-border-color: var(--gray-400-color);
     --p-cascadeselect-overlay-color: var(--gray-200-color);
@@ -87,6 +88,15 @@
     --p-cascadeselect-invalid-border-color: inherit;
     --p-cascadeselect-invalid-placeholder-color: var(--gray-500-color);
     --p-cascadeselect-option-icon-color: var(--gray-600-color);
+
+    /* textarea */
+    --p-textarea-color: var(--dark-color);
+    --p-textarea-padding-y: 12px;
+    --p-textarea-padding-x: 12px;
+    --p-textarea-border-color: var(--gray-300-color);
+    --p-textarea-border-radius: 4px;
+    --p-textarea-shadow: none;
+    --p-textarea-focus-border-color: var(--gray-400-color);
 
     /* toast */
     --p-toast-error-color: var(--error-color);
@@ -338,6 +348,10 @@
 .p-inputnumber-input {
     width: 100%;
     line-height: 24px;
+
+    &.add {
+        padding: 12px;
+    }
 }
 
 .p-select-dropdown,
@@ -350,14 +364,24 @@
     }
 }
 
+.p-cascadeselect-option-list {
+    margin-top: -1px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
 .p-select-overlay,
-.p-cascadeselect-overlay {
+.p-cascadeselect-overlay:not(.p-cascadeselect-option-list) {
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
 .p-cascadeselect-group-icon {
     margin-bottom: 4px;
+
+    svg {
+        width: 14px;
+    }
 }
 
 .p-toast {
