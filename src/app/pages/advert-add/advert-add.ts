@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, Signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -18,8 +18,11 @@ import { ControlError } from '@app/shared/components/forms';
 import { MessageModule } from 'primeng/message';
 import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { debounceTime, timer } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-interface advertAddForm {
+interface AdvertAddForm {
     category: FormControl<string>;
     title: FormControl<string>;
     description: FormControl<string>;
@@ -28,6 +31,8 @@ interface advertAddForm {
     phone: FormControl<string>;
     email: FormControl<string>;
 }
+
+const COOKIE_KEY = 'newAdvertDraft';
 
 @Component({
     selector: 'app-advert-add',
@@ -51,17 +56,19 @@ export class AdvertAdd {
     private readonly advertService = inject(AdvertService);
     private readonly fb = inject(FormBuilder);
     private readonly router = inject(Router);
+    private readonly cookieService = inject(CookieService);
 
     readonly categories = this.categoryFacade.allCategories;
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categoriesForSelect: Signal<any[]> = this.categories;
 
+    formSuccess = signal<string | null>(null);
+    formError = signal<string | null>(null);
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
-    formError = signal<string>('');
 
-    advertAddForm: FormGroup<advertAddForm> = this.fb.nonNullable.group({
+    advertAddForm: FormGroup<AdvertAddForm> = this.fb.nonNullable.group({
         category: ['', Validators.required],
         title: [
             '',
@@ -93,8 +100,8 @@ export class AdvertAdd {
 
     // проверка на первое заполнение обязательных полей
     isAllRequiredCompleted(): boolean {
-        const { category, title, address, price, phone } = this.advertAddForm.value;
-        return !!category && !!title && !!address && !!price && !!phone;
+        const { title, address, price, phone } = this.advertAddForm.value;
+        return !!title && !!address && !!price && !!phone;
     }
 
     isControlInvalid(controlName: string): boolean {
@@ -103,8 +110,8 @@ export class AdvertAdd {
     }
 
     private formatPhone(phone: string): string {
-        const digits = phone.replace(/\D/g, '');
-        return '+' + digits;
+        const digits = phone.replace(/[ ()]/g, '');
+        return digits;
     }
 
     onSubmit() {
@@ -112,9 +119,6 @@ export class AdvertAdd {
         this.advertAddForm.markAllAsTouched();
 
         if (this.advertAddForm.invalid) return;
-
-        this.isLoading.set(true);
-        this.formError.set('');
 
         const { title, description, price, email, phone, address, category } =
             this.advertAddForm.getRawValue();
@@ -129,11 +133,19 @@ export class AdvertAdd {
             category,
         };
 
+        this.formError.set(null);
+        this.formSuccess.set(null);
+        this.isLoading.set(true);
+
         this.advertService.newAdvert(request).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
-                console.log('Объявление добавлено');
-                this.router.navigate(['/advert/', res.id]);
+                this.formSuccess.set('Объявление успешно создано');
+                this.cookieService.delete(COOKIE_KEY, '/');
+
+                setTimeout(() => {
+                    this.router.navigate(['/advert/', res.id]);
+                }, 1000);
             },
             error: (error) => {
                 this.isLoading.set(false);
@@ -150,5 +162,28 @@ export class AdvertAdd {
                 }
             },
         });
+    }
+
+    // восстановление данных из cookies
+    private patchDraft() {
+        const draft = this.cookieService.get(COOKIE_KEY);
+        if (draft) {
+            this.advertAddForm.patchValue(JSON.parse(draft));
+        }
+    }
+
+    // сохраняем изменения формы в cookie
+    private saveDraft() {
+        if (this.advertAddForm.dirty) {
+            const values = this.advertAddForm.getRawValue();
+            this.cookieService.set(COOKIE_KEY, JSON.stringify(values), { path: '/' });
+        }
+    }
+
+    constructor() {
+        this.patchDraft();
+        this.advertAddForm.valueChanges
+            .pipe(debounceTime(2000), takeUntilDestroyed())
+            .subscribe(() => this.saveDraft());
     }
 }

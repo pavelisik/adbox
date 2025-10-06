@@ -141,7 +141,7 @@
             ></app-control-error>
         </div>
     </div>
-    <div>
+    <div class="two-fields">
         <button
             pButton
             type="submit"
@@ -150,9 +150,22 @@
             [disabled]="!isAllRequiredCompleted() || (isSubmitted() && advertAddForm.invalid)"
             class="advert-add-form__submit-btn mt-8"
         ></button>
-        @if (formError()) {
+        @if (formSuccess()) {
             <p-message
                 [life]="3000"
+                icon="pi pi-check-circle"
+                severity="success"
+                size="small"
+                variant="simple"
+                showTransitionOptions="400ms ease-out"
+                hideTransitionOptions="400ms ease-out"
+            >
+                {{ formSuccess() }}
+            </p-message>
+        }
+        @if (formError()) {
+            <p-message
+                [life]="800"
                 icon="pi pi-times-circle"
                 severity="error"
                 size="small"

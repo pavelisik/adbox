@@ -16,7 +16,14 @@
         max-width: 305px;
     }
 
-    > *:not(.advert-add-form__img-upload, .advert-add__submit-disclaimer) {
+    .two-fields {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 24px;
+    }
+
+    > *:not(.advert-add-form__img-upload, .advert-add__submit-disclaimer, .two-fields) {
         display: flex;
         flex-direction: column;
         gap: 8px;

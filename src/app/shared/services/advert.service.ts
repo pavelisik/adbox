@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { AdvertApiService } from '@app/infrastructure/advert/services';
 import {
     AdvertSearchRequest,
@@ -7,12 +7,14 @@ import {
     ShortAdvert,
 } from '@app/pages/adverts-list/domains';
 import { FullAdvert } from '@app/pages/advert/domains';
+import { NotificationService } from '@app/core/notification';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AdvertService {
     private readonly apiService = inject(AdvertApiService);
+    private readonly notify = inject(NotificationService);
 
     getAdvert(id: string): Observable<FullAdvert> {
         return this.apiService.getAdvert(id);
@@ -23,6 +25,10 @@ export class AdvertService {
     }
 
     newAdvert(params: NewAdvertRequest): Observable<ShortAdvert> {
-        return this.apiService.newAdvert(params);
+        return this.apiService.newAdvert(params).pipe(
+            tap(() => {
+                this.notify.success('Создание объявления', 'Объявление успешно создано');
+            }),
+        );
     }
 }

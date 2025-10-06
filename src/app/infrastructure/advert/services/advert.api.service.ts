@@ -46,11 +46,8 @@ export class AdvertApiService {
         formData.append('Name', request.title);
         if (request.description) formData.append('Description', request.description);
         if (request.images) formData.append('Images', request.images);
-        // formData.append('Description', request.description ?? '');
-        // formData.append('Images', request.images ?? '');
-        formData.append('Cost', request.cost.toString());
         if (request.email) formData.append('Email', request.email);
-        // formData.append('Email', request.email ?? '');
+        formData.append('Cost', request.cost.toString());
         formData.append('Phone', request.phone);
         formData.append('Location', request.location);
         formData.append('CategoryId', request.category);
