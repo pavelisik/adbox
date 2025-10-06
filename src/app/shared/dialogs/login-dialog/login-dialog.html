@@ -55,6 +55,6 @@
         type="submit"
         [label]="isLoading() ? 'Вход' : 'Войти'"
         [loading]="isLoading()"
-        [disabled]="!isControlsCompleted() || (isSubmitted() && loginForm.invalid)"
+        [disabled]="!isAllRequiredCompleted() || (isSubmitted() && loginForm.invalid)"
     ></button>
 </form>

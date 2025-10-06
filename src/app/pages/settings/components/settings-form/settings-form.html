@@ -52,7 +52,7 @@
             [label]="isLoading() ? 'Сохранение' : 'Сохранить'"
             [loading]="isLoading()"
             [disabled]="
-                !isControlsCompleted() ||
+                !isAllRequiredCompleted() ||
                 !isFormChanged() ||
                 (isSubmitted() && settingsForm.invalid)
             "

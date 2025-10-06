@@ -1,7 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { AdvertApiService } from '@app/infrastructure/advert/services';
-import { AdvertSearchRequest, ShortAdvert } from '@app/pages/adverts-list/domains';
+import {
+    AdvertSearchRequest,
+    NewAdvertRequest,
+    ShortAdvert,
+} from '@app/pages/adverts-list/domains';
 import { FullAdvert } from '@app/pages/advert/domains';
 
 @Injectable({
@@ -16,5 +20,9 @@ export class AdvertService {
 
     searchAdverts(request: AdvertSearchRequest, limit = 8): Observable<ShortAdvert[]> {
         return this.apiService.searchAdverts(request).pipe(map((res) => res.slice(0, limit)));
+    }
+
+    newAdvert(params: NewAdvertRequest): Observable<ShortAdvert> {
+        return this.apiService.newAdvert(params);
     }
 }

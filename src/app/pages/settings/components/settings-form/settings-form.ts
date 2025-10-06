@@ -75,8 +75,8 @@ export class SettingsForm {
         return name !== user.name || login !== user.login;
     }
 
-    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
-    isControlsCompleted(): boolean {
+    // проверка на первое заполнение обязательных полей
+    isAllRequiredCompleted(): boolean {
         const { name, login } = this.settingsForm.value;
         return !!name && !!login;
     }

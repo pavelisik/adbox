@@ -52,8 +52,8 @@ export class LoginDialog {
         rememberMe: [false],
     });
 
-    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
-    isControlsCompleted(): boolean {
+    // проверка на первое заполнение обязательных полей
+    isAllRequiredCompleted(): boolean {
         const { login, password } = this.loginForm.value;
         return !!login && !!password;
     }

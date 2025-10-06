@@ -142,9 +142,14 @@
         </div>
     </div>
     <div>
-        <button pButton type="submit" class="advert-add-form__submit-btn mt-8">
-            Разместить объявление
-        </button>
+        <button
+            pButton
+            type="submit"
+            [label]="isLoading() ? 'Размещаем объявление' : 'Разместить объявление'"
+            [loading]="isLoading()"
+            [disabled]="!isAllRequiredCompleted() || (isSubmitted() && advertAddForm.invalid)"
+            class="advert-add-form__submit-btn mt-8"
+        ></button>
         @if (formError()) {
             <p-message
                 [life]="3000"

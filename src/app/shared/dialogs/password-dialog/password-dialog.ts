@@ -41,7 +41,8 @@ export class PasswordDialog {
         password: ['', Validators.required],
     });
 
-    isControlsCompleted(): boolean {
+    // проверка на первое заполнение обязательных полей
+    isAllRequiredCompleted(): boolean {
         const { password } = this.passwordConfirmForm.value;
         return !!password;
     }

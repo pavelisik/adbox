@@ -111,8 +111,8 @@ export class RegisterDialog {
         // { validators: this.passwordsMatchValidator },
     );
 
-    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
-    isAllControlsCompleted(): boolean {
+    // проверка на первое заполнение обязательных полей
+    isAllRequiredCompleted(): boolean {
         const { login, name, password, confirmPassword } = this.registerForm.value;
         return !!login && !!name && !!password && !!confirmPassword;
     }

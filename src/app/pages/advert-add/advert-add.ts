@@ -6,7 +6,7 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
-import { CategoryFacade } from '@app/shared/services';
+import { AdvertService, CategoryFacade } from '@app/shared/services';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
@@ -16,6 +16,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ControlError } from '@app/shared/components/forms';
 import { MessageModule } from 'primeng/message';
+import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
+import { Router } from '@angular/router';
 
 interface advertAddForm {
     category: FormControl<string>;
@@ -46,7 +48,9 @@ interface advertAddForm {
 })
 export class AdvertAdd {
     private readonly categoryFacade = inject(CategoryFacade);
+    private readonly advertService = inject(AdvertService);
     private readonly fb = inject(FormBuilder);
+    private readonly router = inject(Router);
 
     readonly categories = this.categoryFacade.allCategories;
 
@@ -65,7 +69,7 @@ export class AdvertAdd {
                 validators: [Validators.required, Validators.maxLength(100)],
             },
         ],
-        description: ['', Validators.maxLength(1000)],
+        description: ['', Validators.maxLength(250)],
         address: [
             '',
             {
@@ -82,13 +86,13 @@ export class AdvertAdd {
         email: [
             '',
             {
-                validators: [Validators.email, Validators.maxLength(64)],
+                validators: [Validators.email, Validators.maxLength(50)],
             },
         ],
     });
 
-    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
-    isAllControlsCompleted(): boolean {
+    // проверка на первое заполнение обязательных полей
+    isAllRequiredCompleted(): boolean {
         const { category, title, address, price, phone } = this.advertAddForm.value;
         return !!category && !!title && !!address && !!price && !!phone;
     }
@@ -96,6 +100,11 @@ export class AdvertAdd {
     isControlInvalid(controlName: string): boolean {
         const control = this.advertAddForm.get(controlName);
         return !!(control?.errors && this.isSubmitted());
+    }
+
+    private formatPhone(phone: string): string {
+        const digits = phone.replace(/\D/g, '');
+        return '+' + digits;
     }
 
     onSubmit() {
@@ -107,9 +116,39 @@ export class AdvertAdd {
         this.isLoading.set(true);
         this.formError.set('');
 
-        setTimeout(() => {
-            this.isLoading.set(false);
-            console.log(this.advertAddForm.getRawValue());
-        }, 3000);
+        const { title, description, price, email, phone, address, category } =
+            this.advertAddForm.getRawValue();
+
+        const request: NewAdvertRequest = {
+            title,
+            description: description || undefined,
+            cost: Number(price),
+            email: email || undefined,
+            phone: this.formatPhone(phone),
+            location: address,
+            category,
+        };
+
+        this.advertService.newAdvert(request).subscribe({
+            next: (res) => {
+                this.isLoading.set(false);
+                console.log('Объявление добавлено');
+                this.router.navigate(['/advert/', res.id]);
+            },
+            error: (error) => {
+                this.isLoading.set(false);
+                switch (error.status) {
+                    case 400:
+                        this.formError.set('Ошибка создания объявления. Попробуйте снова');
+                        break;
+                    case 500:
+                        this.formError.set('Ошибка сервера. Попробуйте позже');
+                        break;
+                    default:
+                        this.formError.set('Произошла ошибка. Попробуйте позже');
+                        break;
+                }
+            },
+        });
     }
 }

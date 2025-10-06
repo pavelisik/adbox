@@ -71,8 +71,8 @@ export class PasswordForm {
         ],
     });
 
-    // проверка на заполнение обязательных полей (необходима перед первым нажатием onSubmit)
-    isAllControlsCompleted(): boolean {
+    // проверка на первое заполнение обязательных полей
+    isAllRequiredCompleted(): boolean {
         const { newPassword, confirmPassword } = this.passwordForm.value;
         return !!newPassword && !!confirmPassword;
     }

@@ -71,6 +71,6 @@
         type="submit"
         [label]="isLoading() ? 'Регистрация' : 'Зарегистрироваться'"
         [loading]="isLoading()"
-        [disabled]="!isAllControlsCompleted() || (isSubmitted() && registerForm.invalid)"
+        [disabled]="!isAllRequiredCompleted() || (isSubmitted() && registerForm.invalid)"
     ></button>
 </form>
