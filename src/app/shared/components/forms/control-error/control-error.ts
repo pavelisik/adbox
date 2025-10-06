@@ -13,19 +13,6 @@ export class ControlError {
     controlName = input<string | null>(null);
     isSubmitted = input<boolean>(false);
 
-    // раньше внутри формы была вот такая функция
-    // вывод ошибок валидации для каждого поля
-    // getControlError(controlName: string): string | null {
-    //     const control = this.settingsForm.get(controlName);
-    //     if (!control || !control.errors || !this.isSubmitted()) return null;
-
-    //     if (control.errors['required']) {
-    //         return controlName === 'name' ? 'Введите имя' : 'Введите логин';
-    //     }
-
-    //     return 'Неверное значение';
-    // }
-
     errorMessage = () => {
         const form = this.form();
         const controlName = this.controlName();
@@ -46,6 +33,16 @@ export class ControlError {
                     return 'Введите пароль';
                 case 'confirmPassword':
                     return 'Подтвердите пароль';
+                case 'category':
+                    return 'Выберите категорию';
+                case 'title':
+                    return 'Введите название объявления';
+                case 'address':
+                    return 'Введите адрес';
+                case 'price':
+                    return 'Введите цену';
+                case 'phone':
+                    return 'Введите номер телефона';
                 default:
                     return 'Заполните поле';
             }
@@ -65,6 +62,16 @@ export class ControlError {
 
         if (control.errors['mismatch']) {
             return 'Пароли не совпадают';
+        }
+
+        if (control.errors['max']) {
+            if (controlName === 'price') {
+                return `Слишком дорого`;
+            }
+        }
+
+        if (control.errors['email']) {
+            return 'Несуществующий e-mail';
         }
 
         return 'Неверное значение';

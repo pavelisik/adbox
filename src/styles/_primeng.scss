@@ -85,7 +85,6 @@
     --p-cascadeselect-option-selected-focus-color: var(--dark-color);
     --p-cascadeselect-option-selected-background: inherit;
     --p-cascadeselect-option-selected-color: inherit;
-    --p-cascadeselect-invalid-border-color: inherit;
     --p-cascadeselect-invalid-placeholder-color: var(--gray-500-color);
     --p-cascadeselect-option-icon-color: var(--gray-600-color);
 
@@ -260,6 +259,11 @@
     border-color: var(--error-color);
 }
 
+.p-textarea.p-invalid,
+.p-textarea.p-invalid {
+    border-color: var(--error-color);
+}
+
 .p-inputtext.p-invalid {
     border-color: var(--p-inputtext-invalid-border-color);
 }
@@ -345,6 +349,10 @@
     height: 12px;
 }
 
+.p-inputnumber {
+    width: 100%;
+}
+
 .p-inputnumber-input {
     width: 100%;
     line-height: 24px;
@@ -352,6 +360,20 @@
     &.add {
         padding: 12px;
     }
+}
+
+.p-inputmask {
+    width: 100%;
+    padding: 12px;
+    line-height: 24px;
+}
+
+.p-cascadeselect {
+    width: 100%;
+}
+
+.p-cascadeselect.p-invalid {
+    border-color: var(--error-color);
 }
 
 .p-select-dropdown,
