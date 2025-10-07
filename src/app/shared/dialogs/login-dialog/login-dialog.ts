@@ -9,7 +9,7 @@ import {
 import { AuthService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { ControlError, PasswordInput } from '@app/shared/components/forms';
+import { ControlError, PasswordInput, FormMessage } from '@app/shared/components/forms';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RouterLink } from '@angular/router';
 import { MessageModule } from 'primeng/message';
@@ -32,6 +32,7 @@ interface LoginForm {
         RouterLink,
         MessageModule,
         ButtonModule,
+        FormMessage,
     ],
     templateUrl: './login-dialog.html',
     styleUrl: './login-dialog.scss',
@@ -43,7 +44,7 @@ export class LoginDialog {
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
-    formError = signal<string>('');
+    errorMessage = signal<string | null>(null);
     isPasswordVisible = signal<boolean>(false);
 
     loginForm: FormGroup<LoginForm> = this.fb.nonNullable.group({
@@ -70,7 +71,7 @@ export class LoginDialog {
         if (this.loginForm.invalid) return;
 
         this.isLoading.set(true);
-        this.formError.set('');
+        this.errorMessage.set(null);
 
         const rememberMe = this.loginForm.value.rememberMe ?? false;
 
@@ -83,13 +84,13 @@ export class LoginDialog {
                 this.isLoading.set(false);
                 switch (error.status) {
                     case 400:
-                        this.formError.set('Неверный логин или пароль. Попробуйте снова');
+                        this.errorMessage.set('Неверный логин или пароль. Попробуйте снова');
                         break;
                     case 500:
-                        this.formError.set('Ошибка сервера. Попробуйте позже');
+                        this.errorMessage.set('Ошибка сервера. Попробуйте позже');
                         break;
                     default:
-                        this.formError.set('Произошла ошибка. Попробуйте позже');
+                        this.errorMessage.set('Произошла ошибка. Попробуйте позже');
                         break;
                 }
             },

@@ -37,19 +37,7 @@
         </div>
         <a [routerLink]="[]" class="login-dialog__link">Забыли пароль?</a>
     </div>
-    @if (formError()) {
-        <p-message
-            [life]="3000"
-            icon="pi pi-times-circle"
-            severity="error"
-            size="small"
-            variant="simple"
-            showTransitionOptions="400ms ease-out"
-            hideTransitionOptions="400ms ease-out"
-        >
-            {{ formError() }}
-        </p-message>
-    }
+    <app-form-message [error]="errorMessage()"></app-form-message>
     <button
         pButton
         type="submit"

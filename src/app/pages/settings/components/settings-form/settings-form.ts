@@ -10,7 +10,7 @@ import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
-import { ControlError } from '@app/shared/components/forms';
+import { ControlError, FormMessage } from '@app/shared/components/forms';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 
@@ -22,7 +22,14 @@ interface SettingsChangeForm {
 
 @Component({
     selector: 'app-settings-form',
-    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, MessageModule, ControlError],
+    imports: [
+        ReactiveFormsModule,
+        InputTextModule,
+        ButtonModule,
+        MessageModule,
+        ControlError,
+        FormMessage,
+    ],
     templateUrl: './settings-form.html',
     styleUrl: './settings-form.scss',
 })
@@ -35,10 +42,10 @@ export class SettingsForm {
 
     readonly currentUser = this.usersFacade.currentUser;
 
-    formSuccess = signal<string | null>(null);
-    formError = signal<string | null>(null);
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
+    successMessage = signal<string | null>(null);
+    errorMessage = signal<string | null>(null);
 
     settingsForm: FormGroup<SettingsChangeForm> = this.fb.nonNullable.group({
         name: [
@@ -92,8 +99,8 @@ export class SettingsForm {
 
         if (this.settingsForm.invalid) return;
 
-        this.formError.set(null);
-        this.formSuccess.set(null);
+        this.errorMessage.set(null);
+        this.successMessage.set(null);
 
         this.passwordConfirmService.setActiveForm('settings');
         this.dialogService.open('password');
@@ -133,22 +140,22 @@ export class SettingsForm {
                         next: (res) => {
                             this.isLoading.set(false);
                             this.passwordConfirmService.reset();
-                            this.formSuccess.set('Изменения сохранены');
+                            this.successMessage.set('Изменения сохранены');
                         },
                         error: (error) => {
                             this.isLoading.set(false);
                             this.passwordConfirmService.reset();
                             switch (error.status) {
                                 case 400:
-                                    this.formError.set(
+                                    this.errorMessage.set(
                                         'Ошибка обновления данных. Попробуйте снова',
                                     );
                                     break;
                                 case 500:
-                                    this.formError.set('Ошибка сервера. Попробуйте позже');
+                                    this.errorMessage.set('Ошибка сервера. Попробуйте позже');
                                     break;
                                 default:
-                                    this.formError.set('Произошла ошибка. Попробуйте позже');
+                                    this.errorMessage.set('Произошла ошибка. Попробуйте позже');
                                     break;
                             }
                         },

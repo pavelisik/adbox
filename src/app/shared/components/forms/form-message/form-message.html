@@ -1,0 +1,13 @@
+@if (message(); as message) {
+    <p-message
+        [life]="life()"
+        [icon]="icon()"
+        [severity]="messageType()"
+        size="small"
+        variant="simple"
+        showTransitionOptions="400ms ease-out"
+        hideTransitionOptions="400ms ease-out"
+    >
+        {{ message }}
+    </p-message>
+}

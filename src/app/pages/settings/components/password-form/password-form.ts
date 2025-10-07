@@ -9,11 +9,10 @@ import {
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { passwordsMatchValidator } from '@app/shared/validators';
-import { ControlError, PasswordInput } from '@app/shared/components/forms';
+import { ControlError, PasswordInput, FormMessage } from '@app/shared/components/forms';
 import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
-import { MessageModule } from 'primeng/message';
 
 interface PasswordChangeForm {
     newPassword: FormControl<string>;
@@ -26,9 +25,9 @@ interface PasswordChangeForm {
         ReactiveFormsModule,
         InputTextModule,
         ButtonModule,
-        MessageModule,
         ControlError,
         PasswordInput,
+        FormMessage,
     ],
     templateUrl: './password-form.html',
     styleUrl: './password-form.scss',
@@ -42,32 +41,17 @@ export class PasswordForm {
 
     readonly currentUser = this.usersFacade.currentUser;
 
-    formSuccess = signal<string | null>(null);
-    formError = signal<string | null>(null);
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
+    successMessage = signal<string | null>(null);
+    errorMessage = signal<string | null>(null);
     isPasswordVisible = signal<boolean>(false);
 
     passwordForm: FormGroup<PasswordChangeForm> = this.fb.nonNullable.group({
-        newPassword: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(8),
-                    Validators.maxLength(50),
-                ],
-            },
-        ],
+        newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
         confirmPassword: [
             '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(8),
-                    Validators.maxLength(50),
-                ],
-            },
+            [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
         ],
     });
 
@@ -78,15 +62,19 @@ export class PasswordForm {
     }
 
     isControlInvalid(controlName: string): boolean {
-        const control = this.passwordForm.get(controlName);
-        return !!(control?.errors && this.isSubmitted());
+        return !!this.passwordForm.get(controlName)?.errors && this.isSubmitted();
     }
 
-    resetFormState() {
+    private resetFormState() {
         this.passwordForm.reset();
         this.isSubmitted.set(false);
-        this.formError.set(null);
+        this.errorMessage.set(null);
         this.isPasswordVisible.set(false);
+    }
+
+    private resetMessages() {
+        this.errorMessage.set(null);
+        this.successMessage.set(null);
     }
 
     onSubmit() {
@@ -95,8 +83,7 @@ export class PasswordForm {
 
         if (this.passwordForm.invalid) return;
 
-        this.formError.set(null);
-        this.formSuccess.set(null);
+        this.resetMessages();
 
         this.passwordConfirmService.setActiveForm('password');
         this.dialogService.open('password');
@@ -132,22 +119,22 @@ export class PasswordForm {
                             this.isLoading.set(false);
                             this.passwordConfirmService.reset();
                             this.resetFormState();
-                            this.formSuccess.set('Пароль изменен');
+                            this.successMessage.set('Пароль изменен');
                         },
                         error: (error) => {
                             this.isLoading.set(false);
                             this.passwordConfirmService.reset();
                             switch (error.status) {
                                 case 400:
-                                    this.formError.set(
+                                    this.errorMessage.set(
                                         'Ошибка обновления данных. Попробуйте снова',
                                     );
                                     break;
                                 case 500:
-                                    this.formError.set('Ошибка сервера. Попробуйте позже');
+                                    this.errorMessage.set('Ошибка сервера. Попробуйте позже');
                                     break;
                                 default:
-                                    this.formError.set('Произошла ошибка. Попробуйте позже');
+                                    this.errorMessage.set('Произошла ошибка. Попробуйте позже');
                                     break;
                             }
                         },

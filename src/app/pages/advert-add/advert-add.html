@@ -150,32 +150,11 @@
             [disabled]="!isAllRequiredCompleted() || (isSubmitted() && advertAddForm.invalid)"
             class="advert-add-form__submit-btn mt-8"
         ></button>
-        @if (formSuccess()) {
-            <p-message
-                [life]="3000"
-                icon="pi pi-check-circle"
-                severity="success"
-                size="small"
-                variant="simple"
-                showTransitionOptions="400ms ease-out"
-                hideTransitionOptions="400ms ease-out"
-            >
-                {{ formSuccess() }}
-            </p-message>
-        }
-        @if (formError()) {
-            <p-message
-                [life]="800"
-                icon="pi pi-times-circle"
-                severity="error"
-                size="small"
-                variant="simple"
-                showTransitionOptions="400ms ease-out"
-                hideTransitionOptions="400ms ease-out"
-            >
-                {{ formError() }}
-            </p-message>
-        }
+        <app-form-message
+            [success]="successMessage()"
+            [error]="errorMessage()"
+            [lifeSuccess]="800"
+        ></app-form-message>
     </div>
     <div class="advert-add__submit-disclaimer small-field sm">
         <p>Нажимая кнопку «Разместить объявление»</p>

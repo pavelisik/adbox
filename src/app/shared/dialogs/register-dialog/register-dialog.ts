@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { passwordsMatchValidator } from '@app/shared/validators';
-import { ControlError, PasswordInput } from '@app/shared/components/forms';
+import { ControlError, PasswordInput, FormMessage } from '@app/shared/components/forms';
 import { DialogService } from '@app/core/dialog';
 
 interface RegisterForm {
@@ -30,6 +30,7 @@ interface RegisterForm {
         MessageModule,
         ControlError,
         PasswordInput,
+        FormMessage,
     ],
     templateUrl: './register-dialog.html',
     styleUrl: './register-dialog.scss',
@@ -41,7 +42,7 @@ export class RegisterDialog {
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
-    formError = signal<string>('');
+    errorMessage = signal<string | null>(null);
     isPasswordVisible = signal<boolean>(false);
 
     registerForm: FormGroup<RegisterForm> = this.fb.nonNullable.group(
@@ -150,7 +151,7 @@ export class RegisterDialog {
         if (this.registerForm.invalid) return;
 
         this.isLoading.set(true);
-        this.formError.set('');
+        this.errorMessage.set(null);
 
         this.authService.register(this.registerForm.getRawValue()).subscribe({
             next: (res) => {
@@ -172,15 +173,15 @@ export class RegisterDialog {
                             this.isLoading.set(false);
                             switch (error.status) {
                                 case 400:
-                                    this.formError.set(
+                                    this.errorMessage.set(
                                         'Неверный логин или пароль. Попробуйте снова',
                                     );
                                     break;
                                 case 500:
-                                    this.formError.set('Ошибка сервера. Попробуйте позже');
+                                    this.errorMessage.set('Ошибка сервера. Попробуйте позже');
                                     break;
                                 default:
-                                    this.formError.set('Произошла ошибка. Попробуйте позже');
+                                    this.errorMessage.set('Произошла ошибка. Попробуйте позже');
                                     break;
                             }
                         },
@@ -190,13 +191,13 @@ export class RegisterDialog {
                 this.isLoading.set(false);
                 switch (error.status) {
                     case 400:
-                        this.formError.set('Невалидные данные. Попробуйте снова');
+                        this.errorMessage.set('Невалидные данные. Попробуйте снова');
                         break;
                     case 500:
-                        this.formError.set('Ошибка сервера. Попробуйте позже');
+                        this.errorMessage.set('Ошибка сервера. Попробуйте позже');
                         break;
                     default:
-                        this.formError.set('Произошла ошибка. Попробуйте позже');
+                        this.errorMessage.set('Произошла ошибка. Попробуйте позже');
                         break;
                 }
             },

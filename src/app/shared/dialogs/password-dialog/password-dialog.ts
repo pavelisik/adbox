@@ -34,7 +34,7 @@ export class PasswordDialog {
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
-    formError = signal<string>('');
+    errorMessage = signal<string | null>(null);
     isPasswordVisible = signal<boolean>(false);
 
     passwordConfirmForm: FormGroup<PasswordConfirmForm> = this.fb.nonNullable.group({
@@ -59,7 +59,7 @@ export class PasswordDialog {
         if (this.passwordConfirmForm.invalid) return;
 
         this.isLoading.set(true);
-        this.formError.set('');
+        this.errorMessage.set(null);
 
         const confirmPasswordRequest = {
             login: this.currentUser()?.login,
@@ -80,13 +80,13 @@ export class PasswordDialog {
                 this.isLoading.set(false);
                 switch (error.status) {
                     case 400:
-                        this.formError.set('Неверный пароль. Попробуйте снова');
+                        this.errorMessage.set('Неверный пароль. Попробуйте снова');
                         break;
                     case 500:
-                        this.formError.set('Ошибка сервера. Попробуйте позже');
+                        this.errorMessage.set('Ошибка сервера. Попробуйте позже');
                         break;
                     default:
-                        this.formError.set('Произошла ошибка. Попробуйте позже');
+                        this.errorMessage.set('Произошла ошибка. Попробуйте позже');
                         break;
                 }
             },
