@@ -14,6 +14,8 @@ export const canActivateAuth: CanActivateFn = (route, state) => {
 
     // сохраняем url на который хотим попасть
     authStateService.setRedirectUrl(state.url);
+
+    dialogService.skipNextClose();
     dialogService.open('login');
 
     return router.createUrlTree(['']);

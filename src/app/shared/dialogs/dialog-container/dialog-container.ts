@@ -22,6 +22,7 @@ import { TermsOfService } from '@app/shared/dialogs/terms-of-service/terms-of-se
 })
 export class DialogContainer {
     readonly dialogService = inject(DialogService);
+
     readonly visible = signal(false);
 
     readonly header = computed(() => {
