@@ -15,16 +15,13 @@ export class AuthStateService {
 
     saveToken(token: string, rememberMe: boolean) {
         this.token.set(token);
-        if (rememberMe) {
-            this.cookieService.set('token', token, 30);
-        } else {
-            this.cookieService.set('token', token);
-        }
+        const expires = rememberMe ? 30 : undefined;
+        this.cookieService.set('token', token, expires, '/');
     }
 
     deleteToken() {
         this.token.set(null);
-        this.cookieService.delete('token');
+        this.cookieService.delete('token', '/');
     }
 
     setRedirectUrl(url: string) {

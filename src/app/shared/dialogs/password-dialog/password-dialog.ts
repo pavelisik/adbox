@@ -1,5 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { PasswordInput, ControlError } from '@app/shared/components/forms';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { PasswordInput, ControlError, FormMessage } from '@app/shared/components/forms';
 import {
     FormBuilder,
     FormControl,
@@ -9,9 +9,12 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService, UsersFacade } from '@app/core/auth/services';
-import { MessageModule } from 'primeng/message';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
+import { AuthLoginRequest } from '@app/core/auth/domains';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, finalize, of, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface PasswordConfirmForm {
     password: FormControl<string>;
@@ -19,7 +22,7 @@ interface PasswordConfirmForm {
 
 @Component({
     selector: 'app-password-dialog',
-    imports: [PasswordInput, ReactiveFormsModule, ButtonModule, ControlError, MessageModule],
+    imports: [PasswordInput, ReactiveFormsModule, ButtonModule, ControlError, FormMessage],
     templateUrl: './password-dialog.html',
     styleUrl: './password-dialog.scss',
 })
@@ -29,6 +32,7 @@ export class PasswordDialog {
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
+    private readonly destroyRef = inject(DestroyRef);
 
     readonly currentUser = this.usersFacade.currentUser;
 
@@ -48,8 +52,28 @@ export class PasswordDialog {
     }
 
     isControlInvalid(controlName: string): boolean {
-        const control = this.passwordConfirmForm.get(controlName);
-        return !!(control?.errors && this.isSubmitted());
+        return !!this.passwordConfirmForm.get(controlName)?.errors && this.isSubmitted();
+    }
+
+    private buildRequest(): AuthLoginRequest {
+        const login = this.currentUser()?.login;
+        const password = this.passwordConfirmForm.getRawValue().password;
+
+        return { login, password };
+    }
+
+    private setErrorMessage(error: HttpErrorResponse) {
+        const message = (() => {
+            switch (error.status) {
+                case 400:
+                    return 'Неверный пароль. Попробуйте снова';
+                case 500:
+                    return 'Ошибка сервера. Попробуйте позже';
+                default:
+                    return 'Произошла ошибка. Попробуйте позже';
+            }
+        })();
+        this.errorMessage.set(message);
     }
 
     onSubmit() {
@@ -58,38 +82,29 @@ export class PasswordDialog {
 
         if (this.passwordConfirmForm.invalid) return;
 
-        this.isLoading.set(true);
         this.errorMessage.set(null);
+        this.isLoading.set(true);
 
-        const confirmPasswordRequest = {
-            login: this.currentUser()?.login,
-            ...this.passwordConfirmForm.getRawValue(),
-        };
-
-        this.authService.confirmPassword(confirmPasswordRequest).subscribe({
-            next: (res) => {
-                this.isLoading.set(false);
-                this.passwordConfirmService.confirm();
-                // плохо так делать, но серверу необходимо заполненное поле password
-                this.passwordConfirmService.savePassword(
-                    this.passwordConfirmForm.getRawValue().password,
-                );
-                this.dialogService.close();
-            },
-            error: (error) => {
-                this.isLoading.set(false);
-                switch (error.status) {
-                    case 400:
-                        this.errorMessage.set('Неверный пароль. Попробуйте снова');
-                        break;
-                    case 500:
-                        this.errorMessage.set('Ошибка сервера. Попробуйте позже');
-                        break;
-                    default:
-                        this.errorMessage.set('Произошла ошибка. Попробуйте позже');
-                        break;
-                }
-            },
-        });
+        this.authService
+            .confirmPassword(this.buildRequest())
+            .pipe(
+                tap((res) => {
+                    this.passwordConfirmService.confirm();
+                    // плохо так делать, но серверу необходимо заполненное поле password
+                    this.passwordConfirmService.savePassword(
+                        this.passwordConfirmForm.getRawValue().password,
+                    );
+                    this.dialogService.close();
+                }),
+                catchError((error: HttpErrorResponse) => {
+                    this.setErrorMessage(error);
+                    return of(null);
+                }),
+                finalize(() => {
+                    this.isLoading.set(false);
+                }),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
     }
 }

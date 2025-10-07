@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import {
     FormBuilder,
     Validators,
@@ -9,10 +9,13 @@ import {
 import { AuthService } from '@app/core/auth/services';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { MessageModule } from 'primeng/message';
 import { passwordsMatchValidator } from '@app/shared/validators';
 import { ControlError, PasswordInput, FormMessage } from '@app/shared/components/forms';
 import { DialogService } from '@app/core/dialog';
+import { AuthLoginRequest, AuthRegisterRequest } from '@app/core/auth/domains';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, finalize, of, switchMap, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface RegisterForm {
     login: FormControl<string>;
@@ -27,7 +30,6 @@ interface RegisterForm {
         ReactiveFormsModule,
         ButtonModule,
         InputTextModule,
-        MessageModule,
         ControlError,
         PasswordInput,
         FormMessage,
@@ -39,6 +41,7 @@ export class RegisterDialog {
     private readonly authService = inject(AuthService);
     private readonly dialogService = inject(DialogService);
     private readonly fb = inject(FormBuilder);
+    private readonly destroyRef = inject(DestroyRef);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -47,70 +50,35 @@ export class RegisterDialog {
 
     registerForm: FormGroup<RegisterForm> = this.fb.nonNullable.group(
         {
-            login: [
-                '',
-                {
-                    validators: [
-                        Validators.required,
-                        Validators.minLength(4),
-                        Validators.maxLength(64),
-                    ],
-                },
-            ],
-            name: [
-                '',
-                {
-                    validators: [
-                        Validators.required,
-                        Validators.minLength(4),
-                        Validators.maxLength(64),
-                    ],
-                },
-            ],
+            login: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
+            name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
+
             // passwords: this.fb.group(
             //     {
-            //         password: [
-            //             '',
-            //             {
-            //                 validators: [
-            //                     Validators.required,
-            //                     Validators.minLength(8),
-            //                     Validators.maxLength(50),
-            //                 ],
-            //             },
-            //         ],
-            //         confirmPassword: [
-            //             '',
-            //             {
-            //                 validators: [
-            //                     Validators.required,
-            //                     Validators.minLength(8),
-            //                     Validators.maxLength(50),
-            //                 ],
-            //             },
-            //         ],
+            //         password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+            //         confirmPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
             //     },
             //     { validators: passwordsMatchValidator('password', 'confirmPassword') },
             // ),
+
             password: [
                 '',
-                {
-                    validators: [
-                        Validators.required,
-                        Validators.minLength(8),
-                        Validators.maxLength(50),
-                    ],
-                },
+                [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
             ],
-            confirmPassword: [
-                '',
-                {
-                    validators: [Validators.required],
-                },
-            ],
+            confirmPassword: ['', Validators.required],
         },
         // { validators: this.passwordsMatchValidator },
     );
+
+    constructor() {
+        // подключаем кастомный валидатор
+        this.registerForm.setValidators(
+            passwordsMatchValidator(
+                this.registerForm.controls.password,
+                this.registerForm.controls.confirmPassword,
+            ),
+        );
+    }
 
     // проверка на первое заполнение обязательных полей
     isAllRequiredCompleted(): boolean {
@@ -119,8 +87,29 @@ export class RegisterDialog {
     }
 
     isControlInvalid(controlName: string): boolean {
-        const control = this.registerForm.get(controlName);
-        return !!(control?.errors && this.isSubmitted());
+        return !!this.registerForm.get(controlName)?.errors && this.isSubmitted();
+    }
+
+    private buildRequest(type: 'login' | 'register'): AuthLoginRequest | AuthRegisterRequest {
+        const { login, name, password } = this.registerForm.getRawValue();
+
+        return type === 'login' ? { login, password } : { login, name, password };
+    }
+
+    private setErrorMessage(error: HttpErrorResponse, type: 'login' | 'register') {
+        const message = (() => {
+            switch (error.status) {
+                case 400:
+                    return type === 'login'
+                        ? 'Неверный логин или пароль. Попробуйте снова'
+                        : 'Невалидные данные. Попробуйте снова';
+                case 500:
+                    return 'Ошибка сервера. Попробуйте позже';
+                default:
+                    return 'Произошла ошибка. Попробуйте позже';
+            }
+        })();
+        this.errorMessage.set(message);
     }
 
     // кастомный валидатор для проверки совпадения паролей
@@ -150,67 +139,33 @@ export class RegisterDialog {
 
         if (this.registerForm.invalid) return;
 
-        this.isLoading.set(true);
         this.errorMessage.set(null);
+        this.isLoading.set(true);
 
-        this.authService.register(this.registerForm.getRawValue()).subscribe({
-            next: (res) => {
+        this.authService
+            .register(this.buildRequest('register'))
+            .pipe(
                 // при успешной регистрации автоматически залогиниваем нового пользователя
-                this.authService
-                    .login(
-                        {
-                            login: this.registerForm.getRawValue().login,
-                            password: this.registerForm.getRawValue().password,
-                        },
-                        false,
-                    )
-                    .subscribe({
-                        next: (res) => {
-                            this.isLoading.set(false);
+                switchMap(() =>
+                    this.authService.login(this.buildRequest('login'), false).pipe(
+                        tap(() => {
                             this.dialogService.close();
-                        },
-                        error: (error) => {
-                            this.isLoading.set(false);
-                            switch (error.status) {
-                                case 400:
-                                    this.errorMessage.set(
-                                        'Неверный логин или пароль. Попробуйте снова',
-                                    );
-                                    break;
-                                case 500:
-                                    this.errorMessage.set('Ошибка сервера. Попробуйте позже');
-                                    break;
-                                default:
-                                    this.errorMessage.set('Произошла ошибка. Попробуйте позже');
-                                    break;
-                            }
-                        },
-                    });
-            },
-            error: (error) => {
-                this.isLoading.set(false);
-                switch (error.status) {
-                    case 400:
-                        this.errorMessage.set('Невалидные данные. Попробуйте снова');
-                        break;
-                    case 500:
-                        this.errorMessage.set('Ошибка сервера. Попробуйте позже');
-                        break;
-                    default:
-                        this.errorMessage.set('Произошла ошибка. Попробуйте позже');
-                        break;
-                }
-            },
-        });
-    }
-
-    constructor() {
-        // подключаем кастомный валидатор
-        this.registerForm.setValidators(
-            passwordsMatchValidator(
-                this.registerForm.controls.password,
-                this.registerForm.controls.confirmPassword,
-            ),
-        );
+                        }),
+                        catchError((error: HttpErrorResponse) => {
+                            this.setErrorMessage(error, 'login');
+                            return of(null);
+                        }),
+                    ),
+                ),
+                catchError((error: HttpErrorResponse) => {
+                    this.setErrorMessage(error, 'register');
+                    return of(null);
+                }),
+                finalize(() => {
+                    this.isLoading.set(false);
+                }),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
     }
 }

@@ -37,24 +37,29 @@ export class AdSidebarFilters {
         initialValue: {} as AdvertsQueryParams,
     });
 
+    // преобразованные категории для вывода меню
+    categoriesMenuItems = computed<CategoryMenuItem[]>(() =>
+        this.buildMenuItems(this.categories()),
+    );
+
     filterForm: FormGroup = this.fb.group({
         minPrice: [null],
         maxPrice: [null],
     });
 
-    onSubmit() {
-        const { minPrice, maxPrice } = this.filterForm.value;
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { minPrice, maxPrice },
-            queryParamsHandling: 'merge',
+    constructor() {
+        effect(() => {
+            // устанавливаем активную категорию
+            if (this.categories()) this.initActiveCategory(this.categories());
+        });
+        effect(() => {
+            // считываем значения минимальной и максимальной цены из параметров в форму
+            this.filterForm.patchValue({
+                minPrice: this.queryParams().minPrice ? Number(this.queryParams().minPrice) : null,
+                maxPrice: this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null,
+            });
         });
     }
-
-    // преобразованные категории для вывода меню
-    categoriesMenuItems = computed<CategoryMenuItem[]>(() =>
-        this.buildMenuItems(this.categories()),
-    );
 
     // трансформируем массив со всеми категориями для вывода меню фильтра
     private buildMenuItems(categories: Category[], isRootItem = true): CategoryMenuItem[] {
@@ -103,17 +108,12 @@ export class AdSidebarFilters {
         }
     }
 
-    constructor() {
-        effect(() => {
-            // устанавливаем активную категорию
-            if (this.categories()) this.initActiveCategory(this.categories());
-        });
-        effect(() => {
-            // считываем значения минимальной и максимальной цены из параметров в форму
-            this.filterForm.patchValue({
-                minPrice: this.queryParams().minPrice ? Number(this.queryParams().minPrice) : null,
-                maxPrice: this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null,
-            });
+    onSubmit() {
+        const { minPrice, maxPrice } = this.filterForm.value;
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { minPrice, maxPrice },
+            queryParamsHandling: 'merge',
         });
     }
 }

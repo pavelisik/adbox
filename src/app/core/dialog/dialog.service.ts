@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, tap } from 'rxjs';
 
 export type DialogType = 'login' | 'register' | 'password' | 'info' | 'terms-of-service';
 
@@ -16,6 +16,22 @@ export class DialogService {
 
     userName: string = '';
     phoneNumber: string = '';
+
+    constructor() {
+        // закрываем окно при навигации
+        this.router.events
+            .pipe(
+                filter((event) => event instanceof NavigationStart),
+                tap(() => {
+                    if (!this.skipClose) {
+                        this.close();
+                    }
+                    this.skipClose = false;
+                }),
+                takeUntilDestroyed(),
+            )
+            .subscribe();
+    }
 
     open(type: DialogType, userName?: string, phoneNumber?: string) {
         this.current.set(type);
@@ -35,20 +51,5 @@ export class DialogService {
 
     skipNextClose() {
         this.skipClose = true;
-    }
-
-    constructor() {
-        // закрываем окно при навигации
-        this.router.events
-            .pipe(
-                filter((event) => event instanceof NavigationStart),
-                takeUntilDestroyed(),
-            )
-            .subscribe(() => {
-                if (!this.skipClose) {
-                    this.close();
-                }
-                this.skipClose = false;
-            });
     }
 }

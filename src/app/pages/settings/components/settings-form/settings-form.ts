@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, untracked } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import {
     ReactiveFormsModule,
     FormBuilder,
@@ -8,11 +8,14 @@ import {
 } from '@angular/forms';
 import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { ButtonModule } from 'primeng/button';
-import { MessageModule } from 'primeng/message';
 import { InputTextModule } from 'primeng/inputtext';
 import { ControlError, FormMessage } from '@app/shared/components/forms';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
+import { UserUpdateRequest } from '@app/core/auth/domains';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, finalize, of, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface SettingsChangeForm {
     name: FormControl<string>;
@@ -22,14 +25,7 @@ interface SettingsChangeForm {
 
 @Component({
     selector: 'app-settings-form',
-    imports: [
-        ReactiveFormsModule,
-        InputTextModule,
-        ButtonModule,
-        MessageModule,
-        ControlError,
-        FormMessage,
-    ],
+    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, ControlError, FormMessage],
     templateUrl: './settings-form.html',
     styleUrl: './settings-form.scss',
 })
@@ -39,6 +35,7 @@ export class SettingsForm {
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
+    private readonly destroyRef = inject(DestroyRef);
 
     readonly currentUser = this.usersFacade.currentUser;
 
@@ -48,28 +45,58 @@ export class SettingsForm {
     errorMessage = signal<string | null>(null);
 
     settingsForm: FormGroup<SettingsChangeForm> = this.fb.nonNullable.group({
-        name: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(4),
-                    Validators.maxLength(64),
-                ],
-            },
-        ],
-        login: [
-            '',
-            {
-                validators: [
-                    Validators.required,
-                    Validators.minLength(4),
-                    Validators.maxLength(64),
-                ],
-            },
-        ],
+        name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
+        login: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
         address: [''],
     });
+
+    constructor() {
+        effect(() => {
+            const currentUser = this.currentUser();
+            if (!currentUser) return;
+
+            const nameControl = this.settingsForm.get('name');
+            const loginControl = this.settingsForm.get('login');
+            if (nameControl && !nameControl.dirty) {
+                nameControl.setValue(currentUser.name ?? '', { emitEvent: false });
+            }
+            if (loginControl && !loginControl.dirty) {
+                loginControl.setValue(currentUser.login ?? '', { emitEvent: false });
+            }
+        });
+        effect(() => {
+            const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
+            const activeForm = this.passwordConfirmService.activeForm();
+
+            if (isPasswordConfirmed && activeForm === 'settings') {
+                const userId = this.currentUser()?.id;
+                if (!userId) return;
+
+                const request = this.buildRequest();
+                if (!request) return;
+
+                this.isLoading.set(true);
+
+                this.usersService
+                    .updateUser(userId, request)
+                    .pipe(
+                        tap((res) => {
+                            this.successMessage.set('Изменения сохранены');
+                            this.passwordConfirmService.reset();
+                        }),
+                        catchError((error: HttpErrorResponse) => {
+                            this.setErrorMessage(error);
+                            return of(null);
+                        }),
+                        finalize(() => {
+                            this.isLoading.set(false);
+                        }),
+                        takeUntilDestroyed(this.destroyRef),
+                    )
+                    .subscribe();
+            }
+        });
+    }
 
     // проверка на отличие данных в форме от текущих данных пользователя
     isFormChanged(): boolean {
@@ -89,8 +116,34 @@ export class SettingsForm {
     }
 
     isControlInvalid(controlName: string): boolean {
-        const control = this.settingsForm.get(controlName);
-        return !!(control?.errors && this.isSubmitted());
+        return !!this.settingsForm.get(controlName)?.errors && this.isSubmitted();
+    }
+
+    private resetMessages() {
+        this.errorMessage.set(null);
+        this.successMessage.set(null);
+    }
+
+    private buildRequest(): UserUpdateRequest | null {
+        const { name, login } = this.settingsForm.getRawValue();
+        // очень плохо так делать, но серверу необходимо заполненное поле password
+        const password = this.passwordConfirmService.consumePassword();
+
+        return name && login && password ? { name, login, password } : null;
+    }
+
+    private setErrorMessage(error: HttpErrorResponse) {
+        const message = (() => {
+            switch (error.status) {
+                case 400:
+                    return 'Ошибка обновления данных. Попробуйте снова';
+                case 500:
+                    return 'Ошибка сервера. Попробуйте позже';
+                default:
+                    return 'Произошла ошибка. Попробуйте позже';
+            }
+        })();
+        this.errorMessage.set(message);
     }
 
     onSubmit() {
@@ -99,69 +152,9 @@ export class SettingsForm {
 
         if (this.settingsForm.invalid) return;
 
-        this.errorMessage.set(null);
-        this.successMessage.set(null);
+        this.resetMessages();
 
         this.passwordConfirmService.setActiveForm('settings');
         this.dialogService.open('password');
-    }
-
-    constructor() {
-        effect(() => {
-            const currentUser = this.currentUser();
-            if (!currentUser) return;
-            const nameControl = this.settingsForm.get('name');
-            const loginControl = this.settingsForm.get('login');
-            if (nameControl && !nameControl.dirty) {
-                nameControl.setValue(currentUser.name ?? '', { emitEvent: false });
-            }
-            if (loginControl && !loginControl.dirty) {
-                loginControl.setValue(currentUser.login ?? '', { emitEvent: false });
-            }
-        });
-        effect(() => {
-            const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
-            const activeForm = this.passwordConfirmService.activeForm();
-
-            if (isPasswordConfirmed && activeForm === 'settings') {
-                untracked(() => {
-                    const userId = this.currentUser()?.id;
-                    if (!userId) return;
-
-                    const { name, login } = this.settingsForm.getRawValue();
-
-                    // очень плохо так делать, но серверу необходимо заполненное поле password
-                    const password = this.passwordConfirmService.consumePassword();
-                    if (!password) return;
-
-                    this.isLoading.set(true);
-
-                    this.usersService.updateUser(userId, { name, login, password }).subscribe({
-                        next: (res) => {
-                            this.isLoading.set(false);
-                            this.passwordConfirmService.reset();
-                            this.successMessage.set('Изменения сохранены');
-                        },
-                        error: (error) => {
-                            this.isLoading.set(false);
-                            this.passwordConfirmService.reset();
-                            switch (error.status) {
-                                case 400:
-                                    this.errorMessage.set(
-                                        'Ошибка обновления данных. Попробуйте снова',
-                                    );
-                                    break;
-                                case 500:
-                                    this.errorMessage.set('Ошибка сервера. Попробуйте позже');
-                                    break;
-                                default:
-                                    this.errorMessage.set('Произошла ошибка. Попробуйте позже');
-                                    break;
-                            }
-                        },
-                    });
-                });
-            }
-        });
     }
 }

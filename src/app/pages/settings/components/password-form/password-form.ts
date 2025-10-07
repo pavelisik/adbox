@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, untracked } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import {
     ReactiveFormsModule,
     FormBuilder,
@@ -13,6 +13,10 @@ import { ControlError, PasswordInput, FormMessage } from '@app/shared/components
 import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
+import { UserUpdateRequest } from '@app/core/auth/domains';
+import { HttpErrorResponse } from '@angular/common/http';
+import { catchError, finalize, of, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface PasswordChangeForm {
     newPassword: FormControl<string>;
@@ -38,6 +42,7 @@ export class PasswordForm {
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
+    private readonly destroyRef = inject(DestroyRef);
 
     readonly currentUser = this.usersFacade.currentUser;
 
@@ -54,6 +59,49 @@ export class PasswordForm {
             [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
         ],
     });
+
+    constructor() {
+        // подключаем кастомный валидатор
+        this.passwordForm.setValidators(
+            passwordsMatchValidator(
+                this.passwordForm.controls.newPassword,
+                this.passwordForm.controls.confirmPassword,
+            ),
+        );
+        effect(() => {
+            const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
+            const activeForm = this.passwordConfirmService.activeForm();
+
+            if (isPasswordConfirmed && activeForm === 'password') {
+                const userId = this.currentUser()?.id;
+                if (!userId) return;
+
+                const request = this.buildRequest();
+                if (!request) return;
+
+                this.isLoading.set(true);
+
+                this.usersService
+                    .updateUser(userId, request)
+                    .pipe(
+                        tap((res) => {
+                            this.successMessage.set('Пароль изменен');
+                            this.passwordConfirmService.reset();
+                            this.resetFormState();
+                        }),
+                        catchError((error: HttpErrorResponse) => {
+                            this.setErrorMessage(error);
+                            return of(null);
+                        }),
+                        finalize(() => {
+                            this.isLoading.set(false);
+                        }),
+                        takeUntilDestroyed(this.destroyRef),
+                    )
+                    .subscribe();
+            }
+        });
+    }
 
     // проверка на первое заполнение обязательных полей
     isAllRequiredCompleted(): boolean {
@@ -77,6 +125,28 @@ export class PasswordForm {
         this.successMessage.set(null);
     }
 
+    private buildRequest(): UserUpdateRequest | null {
+        const name = this.currentUser()?.name;
+        const login = this.currentUser()?.login;
+        const password = this.passwordForm.getRawValue().newPassword;
+
+        return name && login && password ? { name, login, password } : null;
+    }
+
+    private setErrorMessage(error: HttpErrorResponse) {
+        const message = (() => {
+            switch (error.status) {
+                case 400:
+                    return 'Ошибка обновления данных. Попробуйте снова';
+                case 500:
+                    return 'Ошибка сервера. Попробуйте позже';
+                default:
+                    return 'Произошла ошибка. Попробуйте позже';
+            }
+        })();
+        this.errorMessage.set(message);
+    }
+
     onSubmit() {
         this.isSubmitted.set(true);
         this.passwordForm.markAllAsTouched();
@@ -87,60 +157,5 @@ export class PasswordForm {
 
         this.passwordConfirmService.setActiveForm('password');
         this.dialogService.open('password');
-    }
-
-    constructor() {
-        // подключаем кастомный валидатор
-        this.passwordForm.setValidators(
-            passwordsMatchValidator(
-                this.passwordForm.controls.newPassword,
-                this.passwordForm.controls.confirmPassword,
-            ),
-        );
-        effect(() => {
-            const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
-            const activeForm = this.passwordConfirmService.activeForm();
-
-            if (isPasswordConfirmed && activeForm === 'password') {
-                untracked(() => {
-                    const userId = this.currentUser()?.id;
-                    if (!userId) return;
-
-                    const name = this.currentUser()?.name;
-                    const login = this.currentUser()?.login;
-                    if (!name || !login) return;
-
-                    const password = this.passwordForm.getRawValue().newPassword;
-
-                    this.isLoading.set(true);
-
-                    this.usersService.updateUser(userId, { name, login, password }).subscribe({
-                        next: (res) => {
-                            this.isLoading.set(false);
-                            this.passwordConfirmService.reset();
-                            this.resetFormState();
-                            this.successMessage.set('Пароль изменен');
-                        },
-                        error: (error) => {
-                            this.isLoading.set(false);
-                            this.passwordConfirmService.reset();
-                            switch (error.status) {
-                                case 400:
-                                    this.errorMessage.set(
-                                        'Ошибка обновления данных. Попробуйте снова',
-                                    );
-                                    break;
-                                case 500:
-                                    this.errorMessage.set('Ошибка сервера. Попробуйте позже');
-                                    break;
-                                default:
-                                    this.errorMessage.set('Произошла ошибка. Попробуйте позже');
-                                    break;
-                            }
-                        },
-                    });
-                });
-            }
-        });
     }
 }

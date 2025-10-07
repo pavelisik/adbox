@@ -42,14 +42,14 @@ export class DialogContainer {
         }
     });
 
-    onClose() {
-        this.dialogService.close();
-    }
-
     constructor() {
         effect(() => {
             const current = this.dialogService.current();
             this.visible.set(!!current);
         });
+    }
+
+    onClose() {
+        this.dialogService.close();
     }
 }

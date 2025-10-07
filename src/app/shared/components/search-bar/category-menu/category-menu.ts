@@ -29,6 +29,15 @@ export class CategoryMenu {
         initialValue: '',
     });
 
+    constructor() {
+        // устанавливаем активную категорию
+        effect(() => {
+            if (this.categories().length) {
+                this.initActiveCategory(this.categories());
+            }
+        });
+    }
+
     // активная родительская категория при наведении
     onHoverParent(item: Category) {
         this.activeParent.set(item);
@@ -57,14 +66,5 @@ export class CategoryMenu {
         }
         this.activeParent.set(categories[0] ?? null);
         this.activeChild.set(null);
-    }
-
-    // устанавливаем активную категорию
-    constructor() {
-        effect(() => {
-            if (this.categories().length) {
-                this.initActiveCategory(this.categories());
-            }
-        });
     }
 }
