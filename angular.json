@@ -7,8 +7,7 @@
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
-                    "style": "scss",
-                    "skipTests": true
+                    "style": "scss"
                 },
                 "@schematics/angular:service": {
                     "skipTests": true
@@ -87,13 +86,13 @@
                                 "input": "public"
                             }
                         ],
-                        "styles": ["src/styles.scss"]
+                        "styles": ["src/styles/styles.scss"]
                     }
                 }
             }
         }
     },
     "cli": {
-      "analytics": false
+        "analytics": false
     }
 }

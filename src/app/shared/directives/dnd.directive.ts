@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostBinding, HostListener, output, Output } from '@angular/core';
+import { Directive, EventEmitter, HostBinding, HostListener, output } from '@angular/core';
 
 @Directive({
     selector: '[dnd]',
@@ -6,7 +6,7 @@ import { Directive, EventEmitter, HostBinding, HostListener, output, Output } fr
 export class Dnd {
     fileDropped = output<File[]>();
 
-    // декоратор HostBinding - привязывает свойство fileover к классу host-элемента
+    // декоратор HostBinding - привязывает свойство dragover к классу host-элемента
     @HostBinding('class.dragover')
     dragover = false;
 

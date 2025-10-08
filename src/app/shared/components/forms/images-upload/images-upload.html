@@ -2,37 +2,61 @@
     dnd
     class="images-upload__dropzone sm"
     tabindex="0"
-    (click)="openFileDialog(fileInput, $event)"
     (keyup.enter)="openFileDialog(fileInput)"
     (fileDropped)="onFilesDropped($event)"
 >
-    <!-- <p-fileUpload
-        mode="basic"
-        chooseLabel="Добавить картинки"
-        [customUpload]="true"
-        chooseIcon="pi pi-upload"
-        accept="image/*"
-    ></p-fileUpload> -->
+    <div class="images-upload__dropzone-content">
+        <button pButton tabindex="-1" type="button" (click)="openFileDialog(fileInput, $event)">
+            <svg pButtonIcon icon="images" width="20" height="20"></svg>
+            <span pButtonLabel>Добавить картинки</span>
+        </button>
 
-    <button pButton tabindex="-1" type="button" (click)="openFileDialog(fileInput, $event)">
-        <svg pButtonIcon icon="images" width="20" height="20"></svg>
-        <span pButtonLabel>Добавить картинки</span>
-    </button>
+        <input
+            #fileInput
+            type="file"
+            multiple
+            accept="image/*"
+            hidden
+            (change)="onFileInputChange($event)"
+        />
 
-    <input
-        #fileInput
-        type="file"
-        multiple
-        accept="image/*"
-        hidden
-        (change)="onFileInputChange($event)"
-    />
+        <span>Максимум 10 картинок в формате jpg, png или heic</span>
+    </div>
 
-    <span>Максимум 10 картинок в формате jpg, png или heic</span>
+    <div
+        cdkDropList
+        cdkDropListOrientation="mixed"
+        class="images-upload__previews"
+        (cdkDropListDropped)="drop($event)"
+    >
+        @if (imagesPreviews().length; as images) {
+            @for (image of imagesPreviews(); let i = $index; track i) {
+                <div class="images-upload__preview-wrapper" cdkDrag>
+                    <img [src]="image" alt="preview" class="images-upload__preview" />
+                    <button
+                        type="button"
+                        class="images-upload__remove-btn"
+                        (click)="removeImage(i)"
+                        title="Удалить изображение"
+                    >
+                        ✕
+                    </button>
+                    <ng-template cdkDragPreview [matchSize]="true">
+                        <img [src]="image" alt="preview" style="border-radius: 4px" />
+                    </ng-template>
+                </div>
+            }
+        } @else {
+            <div class="images-upload__previews-content">
+                <i class="pi pi-cloud-upload"></i>
+                <span>Перетащите изображения или загрузите</span>
+            </div>
+        }
+    </div>
 </div>
 
-@if (imagesPreviews(); as images) {
-    @for (image of images; track image) {
-        <img [src]="image" alt="" class="images-upload__preview" />
+@if (errorMessages().length) {
+    @for (errorMessage of errorMessages(); let i = $index; track i) {
+        <app-form-message [error]="errorMessage"></app-form-message>
     }
 }
