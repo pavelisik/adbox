@@ -44,21 +44,6 @@
     }
 }
 
-.advert-add-form__img-upload {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    border: 1px solid var(--gray-200-color);
-    border-radius: 3px;
-    padding: 14px 16px;
-    background: var(--gray-50-color);
-}
-
-.advert-add-form__img-upload-btn {
-    padding: 8px 12px;
-}
-
 .advert-add-form__submit-btn {
     padding: 12px 16px;
     line-height: 24px;

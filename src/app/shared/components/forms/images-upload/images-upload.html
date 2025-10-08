@@ -1,0 +1,38 @@
+<div
+    dnd
+    class="images-upload__dropzone sm"
+    tabindex="0"
+    (click)="openFileDialog(fileInput, $event)"
+    (keyup.enter)="openFileDialog(fileInput)"
+    (fileDropped)="onFilesDropped($event)"
+>
+    <!-- <p-fileUpload
+        mode="basic"
+        chooseLabel="Добавить картинки"
+        [customUpload]="true"
+        chooseIcon="pi pi-upload"
+        accept="image/*"
+    ></p-fileUpload> -->
+
+    <button pButton tabindex="-1" type="button" (click)="openFileDialog(fileInput, $event)">
+        <svg pButtonIcon icon="images" width="20" height="20"></svg>
+        <span pButtonLabel>Добавить картинки</span>
+    </button>
+
+    <input
+        #fileInput
+        type="file"
+        multiple
+        accept="image/*"
+        hidden
+        (change)="onFileInputChange($event)"
+    />
+
+    <span>Максимум 10 картинок в формате jpg, png или heic</span>
+</div>
+
+@if (imagesPreviews(); as images) {
+    @for (image of images; track image) {
+        <img [src]="image" alt="" class="images-upload__preview" />
+    }
+}

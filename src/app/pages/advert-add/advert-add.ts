@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal, Signal, ViewChild } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -11,7 +11,6 @@ import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
-import { SvgIcon } from '@app/shared/components';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ControlError, FormMessage } from '@app/shared/components/forms';
@@ -21,6 +20,7 @@ import { catchError, debounceTime, finalize, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
 
 interface AdvertAddForm {
     category: FormControl<string>;
@@ -42,9 +42,9 @@ interface AdvertAddForm {
         ButtonModule,
         InputNumberModule,
         InputMaskModule,
-        SvgIcon,
         ControlError,
         FormMessage,
+        ImagesUpload,
     ],
     templateUrl: './advert-add.html',
     styleUrl: './advert-add.scss',
@@ -58,6 +58,10 @@ export class AdvertAdd {
     private readonly dialogService = inject(DialogService);
     private readonly destroyRef = inject(DestroyRef);
 
+    // декоратор ViewChild - позволяет получить доступ к методам и свойствам дочернего компонента
+    // нужен, чтобы при создании объявления можно было достать imagesUploader.imagesFiles
+    @ViewChild(ImagesUpload) imagesUploader!: ImagesUpload;
+
     readonly categories = this.categoryFacade.allCategories;
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
@@ -70,7 +74,7 @@ export class AdvertAdd {
 
     advertAddForm: FormGroup<AdvertAddForm> = this.fb.nonNullable.group({
         category: ['', Validators.required],
-        title: ['', [Validators.required, Validators.maxLength(100)]],
+        title: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]],
         description: ['', Validators.maxLength(250)],
         address: ['', [Validators.required, Validators.maxLength(100)]],
         price: ['', [Validators.required, Validators.max(1000000000)]],
@@ -124,6 +128,7 @@ export class AdvertAdd {
         return {
             title,
             description: description || undefined,
+            images: this.imagesUploader.imagesFiles() || undefined,
             cost: Number(price),
             email: email || undefined,
             phone: this.formatPhone(phone),

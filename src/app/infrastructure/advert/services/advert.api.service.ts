@@ -45,7 +45,15 @@ export class AdvertApiService {
         const formData = new FormData();
         formData.append('Name', request.title);
         if (request.description) formData.append('Description', request.description);
-        if (request.images) formData.append('Images', request.images);
+        if (request.images) {
+            if (request.images.length > 1) {
+                request.images.forEach((image) => {
+                    formData.append('Images', image);
+                });
+            } else {
+                formData.append('Images', request.images[0]);
+            }
+        }
         if (request.email) formData.append('Email', request.email);
         formData.append('Cost', request.cost.toString());
         formData.append('Phone', request.phone);
