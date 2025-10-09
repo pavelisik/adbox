@@ -1,11 +1,15 @@
+:host {
+    margin: 12px 0px 4px 0;
+}
+
 .images-upload__dropzone {
     display: flex;
     flex-direction: column;
     align-items: start;
     gap: 16px;
-    margin: 12px 0px;
     border: 1px dashed var(--gray-300-color);
     background: var(--gray-50-color);
+    margin-bottom: 8px;
     border-radius: 4px;
     padding: 16px;
     outline: none;

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal, Signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdvertDraftStateService, AdvertService, CategoryFacade } from '@app/shared/services';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
@@ -69,7 +69,10 @@ export class AdvertAdd {
     constructor() {
         // восстановление данных из черновика
         const advertDraft = this.advertDraftState.advertDraft();
-        if (advertDraft) this.advertAddForm.patchValue(advertDraft);
+        if (advertDraft) {
+            this.advertAddForm.patchValue(advertDraft);
+            this.uploadImages.set(this.advertDraftState.restoreImages());
+        }
 
         // сохраняем изменения формы в черновик
         this.advertAddForm.valueChanges
@@ -79,6 +82,11 @@ export class AdvertAdd {
                 takeUntilDestroyed(),
             )
             .subscribe();
+
+        // сохраняем изображения в черновик при изменении
+        effect(() => {
+            this.advertDraftState.updateImages(this.uploadImages());
+        });
     }
 
     // проверка на первое заполнение обязательных полей

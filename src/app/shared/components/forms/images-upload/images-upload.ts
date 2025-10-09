@@ -18,7 +18,6 @@ export class ImagesUpload {
     errorMessages = signal<string[] | null>(null);
 
     private readonly MAX_UPLOAD_IMAGES = 10;
-    private readonly MAX_FILE_SIZE = 1024 * 1024;
 
     // сортировка данных в uploadImages при перетаскивании превью изображений
     drop(event: CdkDragDrop<UploadImage[]>) {
@@ -78,9 +77,10 @@ export class ImagesUpload {
         }
 
         this.errorMessages.set(newErrors.length ? newErrors : null);
+        // очищаем ошибки с задержкой из-за [life] в p-message
         setTimeout(() => {
             this.errorMessages.set(null);
-        }, 3400);
+        }, 2500);
 
         return trimmedFiles;
     }
@@ -137,7 +137,7 @@ export class ImagesUpload {
 
     // валидация размера файла
     private isValidSize(file: File): boolean {
-        return file.size <= this.MAX_FILE_SIZE;
+        return file.size <= 1024 * 1024;
     }
 
     // валидация по максимальному числу уже загруженных изображений
