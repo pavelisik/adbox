@@ -1,10 +1,11 @@
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SvgIcon } from '@app/shared/components';
 import { Dnd } from '@app/shared/directives';
 import { ButtonModule } from 'primeng/button';
 import { FormMessage } from '../form-message/form-message';
+import { UploadImage } from './domains';
 
 @Component({
     selector: 'app-images-upload',
@@ -13,132 +14,141 @@ import { FormMessage } from '../form-message/form-message';
     styleUrl: './images-upload.scss',
 })
 export class ImagesUpload {
-    imagesFiles = signal<File[]>([]);
-    imagesPreviews = signal<string[]>([]);
-    errorMessages = signal<string[]>([]);
+    uploadImages = model<UploadImage[]>([]);
+    errorMessages = signal<string[] | null>(null);
 
-    drop(event: CdkDragDrop<string[]>) {
-        this.imagesPreviews.update((previews) => {
-            const copy = [...previews];
-            moveItemInArray(copy, event.previousIndex, event.currentIndex);
-            return copy;
-        });
+    private readonly MAX_UPLOAD_IMAGES = 10;
+    private readonly MAX_FILE_SIZE = 1024 * 1024;
 
-        this.imagesFiles.update((files) => {
-            const copy = [...files];
+    // сортировка данных в uploadImages при перетаскивании превью изображений
+    drop(event: CdkDragDrop<UploadImage[]>) {
+        this.uploadImages.update((images) => {
+            const copy = [...images];
             moveItemInArray(copy, event.previousIndex, event.currentIndex);
             return copy;
         });
     }
 
     removeImage(index: number) {
-        this.imagesFiles.update((files) => files.filter((_, i) => i !== index));
-        this.imagesPreviews.update((previews) => previews.filter((_, i) => i !== index));
-    }
-
-    openFileDialog(fileInput: HTMLInputElement, event?: MouseEvent) {
-        fileInput.click();
-        event?.stopPropagation();
+        this.uploadImages.update((images) => images.filter((_, i) => i !== index));
     }
 
     onFileInputChange(event: Event) {
         const input = event.target as HTMLInputElement;
-        const files = Array.from((event.target as HTMLInputElement).files ?? []);
+        const files = Array.from(input.files ?? []);
         this.processImageFiles(files);
         input.value = '';
     }
 
+    // загрузка файлов после перетаскивания в дроп-зону (от директивы dnd)
     onFilesDropped(files: File[]) {
-        this.errorMessages.set([]);
         this.processImageFiles(files);
     }
 
-    private processImageFiles(files: File[] | null | undefined) {
-        this.errorMessages.set([]);
-        if (!files || files.length === 0) return;
-
+    // валидация загруженных изображений
+    private validateImageFiles(files: File[]): File[] {
+        let validFiles: File[] = [];
         const newErrors: string[] = [];
 
-        // проверяем ограничения на максимальное количество файлов
-        const totalFiles = this.imagesFiles().length + files.length;
-        if (totalFiles > 10) {
-            newErrors.push('Максимум 10 изображений');
-            files = files.slice(0, 10 - this.imagesFiles().length);
-        }
-
-        const validFiles: File[] = [];
-
-        files.forEach((file) => {
+        for (const file of files) {
+            if (this.isDuplicateInUpload(file, validFiles)) {
+                newErrors.push(`Файл "${file.name}" повторяется`);
+                continue;
+            }
+            if (this.isDuplicateInExist(file)) {
+                newErrors.push(`Файл "${file.name}" уже загружен`);
+                continue;
+            }
             if (!this.isValidFormat(file)) {
-                newErrors.push(`${file.name} — недопустимый формат (только jpg, png, heic)`);
-                return;
+                newErrors.push(
+                    `Файл "${file.name}" в недопустимом формате (только jpg, png, heic)`,
+                );
+                continue;
             }
-
             if (!this.isValidSize(file)) {
-                newErrors.push(`${file.name} — слишком большой файл (максимум 1 МБ)`);
-                return;
+                newErrors.push(`Файл "${file.name}" слишком большого размера (максимум 1 МБ)`);
+                continue;
             }
-
             validFiles.push(file);
-        });
-
-        if (newErrors.length > 0) {
-            this.errorMessages.set(newErrors);
         }
 
-        // затем уже можно проверять, есть ли валидные файлы
-        if (validFiles.length === 0) {
-            return; // дальше нечего обрабатывать
+        const { trimmedFiles, wasTrimmed } = this.trimFilesToMax(validFiles);
+        if (wasTrimmed) {
+            newErrors.push(`Превышен допустимый максимум (${this.MAX_UPLOAD_IMAGES} изображений)`);
         }
 
-        // читаем файлы и проверяем на дубликаты
-        const previews: string[] = [];
-        let processedCount = 0;
+        this.errorMessages.set(newErrors.length ? newErrors : null);
+        setTimeout(() => {
+            this.errorMessages.set(null);
+        }, 3400);
+
+        return trimmedFiles;
+    }
+
+    private processImageFiles(files: File[] | null | undefined) {
+        if (!files || files.length === 0) return;
+
+        const validFiles = this.validateImageFiles(files);
+        if (validFiles.length === 0) return;
 
         validFiles.forEach((file) => {
+            // создаем экземпляр FileReader
             const reader = new FileReader();
+            // назначем обработчик onload
             reader.onload = (event) => {
-                const base64 = event.target?.result?.toString() ?? '';
-
-                if (this.isDuplicate(file, base64)) {
-                    newErrors.push(`${file.name} — дубликат`);
-                } else {
-                    this.imagesFiles.update((old) => [...old, file]);
-                    this.imagesPreviews.update((old) => [...old, base64]);
-                }
-
-                processedCount++;
-                if (processedCount === validFiles.length) {
-                    this.errorMessages.set(newErrors);
-                }
+                // сохраняем файл как base 64 строку
+                const fileUrl = event.target?.result?.toString() ?? '';
+                this.uploadImages.update((old) => [...old, this.createUploadImage(file, fileUrl)]);
             };
+            // читаем файл полностью и кодируем его содержимое в base64 строку, обернутую в формат Data URL
             reader.readAsDataURL(file);
         });
     }
 
-    // Валидация формата файла
+    private createUploadImage(file: File, fileUrl: string): UploadImage {
+        return {
+            id: crypto.randomUUID(),
+            file,
+            fileUrl,
+            fileName: file.name,
+            fileType: file.type,
+            fileSize: file.size,
+        };
+    }
+
+    // валидация дублей среди загружаемых изображений
+    private isDuplicateInUpload(file: File, validFiles: File[]) {
+        return validFiles.some((f) => f.name === file.name && f.size === file.size);
+    }
+
+    // валидация дублей среди уже загруженных
+    private isDuplicateInExist(file: File) {
+        return this.uploadImages().some(
+            (img) => img.fileName === file.name && img.fileSize === file.size,
+        );
+    }
+
+    // валидация формата файла
     private isValidFormat(file: File): boolean {
         const allowed = ['jpg', 'jpeg', 'png', 'heic'];
         const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
         return allowed.includes(ext);
     }
 
-    // Валидация размера файла (1 МБ максимум)
+    // валидация размера файла
     private isValidSize(file: File): boolean {
-        return file.size <= 1024 * 1024; // 1 МБ
+        return file.size <= this.MAX_FILE_SIZE;
     }
 
-    // Проверка на дубликаты по base64 и размеру файла
-    private isDuplicate(file: File, base64: string): boolean {
-        const existingFiles = this.imagesFiles();
-        const existingPreviews = this.imagesPreviews();
+    // валидация по максимальному числу уже загруженных изображений
+    private trimFilesToMax(files: File[]): { trimmedFiles: File[]; wasTrimmed: boolean } {
+        const totalFiles = this.uploadImages().length + files.length;
+        const allowedCount = this.MAX_UPLOAD_IMAGES - this.uploadImages().length;
 
-        return existingFiles.some((f, i) => f.size === file.size && existingPreviews[i] === base64);
-    }
+        if (totalFiles <= this.MAX_UPLOAD_IMAGES) {
+            return { trimmedFiles: files, wasTrimmed: false };
+        }
 
-    constructor() {
-        effect(() => {
-            console.log(this.imagesPreviews());
-        });
+        return { trimmedFiles: files.slice(0, allowedCount), wasTrimmed: true };
     }
 }

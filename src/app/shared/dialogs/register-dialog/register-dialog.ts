@@ -1,11 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import {
-    FormBuilder,
-    Validators,
-    ReactiveFormsModule,
-    FormGroup,
-    FormControl,
-} from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -16,13 +10,7 @@ import { AuthLoginRequest, AuthRegisterRequest } from '@app/core/auth/domains';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-interface RegisterForm {
-    login: FormControl<string>;
-    name: FormControl<string>;
-    password: FormControl<string>;
-    confirmPassword: FormControl<string>;
-}
+import { RegisterForm } from './domains';
 
 @Component({
     selector: 'app-register-dialog',

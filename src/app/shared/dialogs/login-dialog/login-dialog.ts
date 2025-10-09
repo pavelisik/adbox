@@ -1,11 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,12 +11,7 @@ import { AuthLoginRequest } from '@app/core/auth/domains';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-interface LoginForm {
-    login: FormControl<string>;
-    password: FormControl<string>;
-    rememberMe: FormControl<boolean>;
-}
+import { LoginForm } from './domains';
 
 @Component({
     selector: 'app-login-dialog',

@@ -2,11 +2,11 @@
     dnd
     class="images-upload__dropzone sm"
     tabindex="0"
-    (keyup.enter)="openFileDialog(fileInput)"
+    (keyup.enter)="fileInput.click()"
     (fileDropped)="onFilesDropped($event)"
 >
     <div class="images-upload__dropzone-content">
-        <button pButton tabindex="-1" type="button" (click)="openFileDialog(fileInput, $event)">
+        <button pButton tabindex="-1" type="button" (click)="fileInput.click()">
             <svg pButtonIcon icon="images" width="20" height="20"></svg>
             <span pButtonLabel>Добавить картинки</span>
         </button>
@@ -29,10 +29,10 @@
         class="images-upload__previews"
         (cdkDropListDropped)="drop($event)"
     >
-        @if (imagesPreviews().length; as images) {
-            @for (image of imagesPreviews(); let i = $index; track i) {
+        @if (uploadImages().length) {
+            @for (image of uploadImages(); let i = $index; track image.id) {
                 <div class="images-upload__preview-wrapper" cdkDrag>
-                    <img [src]="image" alt="preview" class="images-upload__preview" />
+                    <img [src]="image.fileUrl" alt="preview" class="images-upload__preview" />
                     <button
                         type="button"
                         class="images-upload__remove-btn"
@@ -42,7 +42,7 @@
                         ✕
                     </button>
                     <ng-template cdkDragPreview [matchSize]="true">
-                        <img [src]="image" alt="preview" style="border-radius: 4px" />
+                        <img [src]="image.fileUrl" alt="preview" style="border-radius: 4px" />
                     </ng-template>
                 </div>
             }
@@ -55,7 +55,7 @@
     </div>
 </div>
 
-@if (errorMessages().length) {
+@if (errorMessages()) {
     @for (errorMessage of errorMessages(); let i = $index; track i) {
         <app-form-message [error]="errorMessage"></app-form-message>
     }

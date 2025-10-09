@@ -1,11 +1,5 @@
 import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
-import {
-    ReactiveFormsModule,
-    FormBuilder,
-    Validators,
-    FormControl,
-    FormGroup,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -16,12 +10,7 @@ import { UserUpdateRequest } from '@app/core/auth/domains';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-interface SettingsChangeForm {
-    name: FormControl<string>;
-    login: FormControl<string>;
-    address: FormControl<string>;
-}
+import { SettingsChangeForm } from './domains';
 
 @Component({
     selector: 'app-settings-form',

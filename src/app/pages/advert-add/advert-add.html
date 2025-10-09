@@ -76,7 +76,10 @@
             ></app-control-error>
         </div>
     </div>
-    <app-images-upload></app-images-upload>
+    <app-images-upload
+        [(uploadImages)]="uploadImages"
+        class="advert-add-form__upload"
+    ></app-images-upload>
     <div>
         <label for="price">Цена <span class="required">*</span></label>
         <div class="small-field">

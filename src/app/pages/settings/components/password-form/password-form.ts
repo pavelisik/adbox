@@ -1,11 +1,5 @@
 import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
-import {
-    ReactiveFormsModule,
-    FormBuilder,
-    Validators,
-    FormGroup,
-    FormControl,
-} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { passwordsMatchValidator } from '@app/shared/validators';
@@ -17,11 +11,7 @@ import { UserUpdateRequest } from '@app/core/auth/domains';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-interface PasswordChangeForm {
-    newPassword: FormControl<string>;
-    confirmPassword: FormControl<string>;
-}
+import { PasswordChangeForm } from './domains';
 
 @Component({
     selector: 'app-password-form',

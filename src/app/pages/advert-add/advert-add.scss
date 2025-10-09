@@ -23,7 +23,12 @@
         gap: 24px;
     }
 
-    > *:not(.advert-add-form__img-upload, .advert-add__submit-disclaimer, .two-fields) {
+    > *:not(
+            .advert-add-form__img-upload,
+            .advert-add-form__upload,
+            .advert-add__submit-disclaimer,
+            .two-fields
+        ) {
         display: flex;
         flex-direction: column;
         gap: 8px;

@@ -1,11 +1,5 @@
-import { Component, DestroyRef, inject, signal, Signal, ViewChild } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { Component, DestroyRef, inject, signal, Signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdvertDraftStateService, AdvertService, CategoryFacade } from '@app/shared/services';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,16 +15,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
-
-interface AdvertAddForm {
-    category: FormControl<string>;
-    title: FormControl<string>;
-    description: FormControl<string>;
-    address: FormControl<string>;
-    price: FormControl<string>;
-    phone: FormControl<string>;
-    email: FormControl<string>;
-}
+import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
+import { AdvertAddForm } from './domains';
 
 @Component({
     selector: 'app-advert-add',
@@ -58,14 +44,12 @@ export class AdvertAdd {
     private readonly dialogService = inject(DialogService);
     private readonly destroyRef = inject(DestroyRef);
 
-    // декоратор ViewChild - позволяет получить доступ к методам и свойствам дочернего компонента
-    // нужен, чтобы при создании объявления можно было достать imagesUploader.imagesFiles
-    @ViewChild(ImagesUpload) imagesUploader!: ImagesUpload;
-
     readonly categories = this.categoryFacade.allCategories;
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categoriesForSelect: Signal<any[]> = this.categories;
+
+    uploadImages = signal<UploadImage[]>([]);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -128,7 +112,7 @@ export class AdvertAdd {
         return {
             title,
             description: description || undefined,
-            images: this.imagesUploader.imagesFiles() || undefined,
+            images: this.uploadImages().map((image) => image.file) || undefined,
             cost: Number(price),
             email: email || undefined,
             phone: this.formatPhone(phone),

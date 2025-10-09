@@ -1,12 +1,6 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { PasswordInput, ControlError, FormMessage } from '@app/shared/components/forms';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { AuthService, UsersFacade } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
@@ -15,10 +9,7 @@ import { AuthLoginRequest } from '@app/core/auth/domains';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-interface PasswordConfirmForm {
-    password: FormControl<string>;
-}
+import { PasswordConfirmForm } from './domains';
 
 @Component({
     selector: 'app-password-dialog',

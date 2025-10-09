@@ -1,8 +1,4 @@
-interface ErrorResponse {
-    title: string;
-    status: number;
-    errors?: Record<string, string[]>;
-}
+import { ErrorResponse } from './domains';
 
 export const formatErrorResponse = (error: ErrorResponse): string => {
     let errorMessage = '';
