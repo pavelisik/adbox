@@ -50,7 +50,9 @@ export class ControlError {
 
         if (control.errors['minlength']) {
             const requiredLength = control.errors['minlength'].requiredLength;
-            const symbolWord = ['login', 'name'].includes(controlName) ? 'символа' : 'символов';
+            const symbolWord = ['login', 'name', 'title'].includes(controlName)
+                ? 'символа'
+                : 'символов';
             return `Минимум ${requiredLength} ${symbolWord}`;
         }
 

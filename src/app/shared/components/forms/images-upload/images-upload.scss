@@ -39,7 +39,7 @@
     display: inline-flex;
     flex-wrap: wrap;
     gap: 12px;
-    min-height: 108px;
+    min-height: 118px;
     width: 100%;
     background-color: var(--white-color);
     padding: 14px;
@@ -62,7 +62,7 @@
 
 .images-upload__preview-wrapper {
     position: relative;
-    height: 80px;
+    height: 90px;
     cursor: move;
 
     .images-upload__preview {

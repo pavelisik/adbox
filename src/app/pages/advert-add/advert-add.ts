@@ -99,9 +99,17 @@ export class AdvertAdd {
         return !!this.advertAddForm.get(controlName)?.errors && this.isSubmitted();
     }
 
+    isCleanForm(): boolean {
+        const formValue = this.advertAddForm.getRawValue();
+        const isEmptyForm = Object.values(formValue).every(
+            (value) => value === '' || value === null,
+        );
+        const noImages = this.uploadImages().length === 0;
+        return isEmptyForm && noImages;
+    }
+
     private formatPhone(phone: string): string {
-        const digits = phone.replace(/[ ()]/g, '');
-        return digits;
+        return phone.replace(/[ ()]/g, '');
     }
 
     openTermsOfServiceDialog() {
@@ -111,6 +119,15 @@ export class AdvertAdd {
     private resetMessages() {
         this.errorMessage.set(null);
         this.successMessage.set(null);
+    }
+
+    onResetFormData() {
+        this.advertDraftState.clear();
+        this.uploadImages.set([]);
+        this.isSubmitted.set(false);
+        this.errorMessage.set(null);
+        this.successMessage.set(null);
+        this.advertAddForm.reset();
     }
 
     private buildRequest(): NewAdvertRequest {
