@@ -18,6 +18,8 @@ import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertAddForm } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
+import { UsersFacade } from '@app/core/auth/services';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @Component({
     selector: 'app-advert-add',
@@ -32,6 +34,7 @@ import { ConfirmService } from '@app/core/confirmation';
         ControlError,
         FormMessage,
         ImagesUpload,
+        RadioButtonModule,
     ],
     templateUrl: './advert-add.html',
     styleUrl: './advert-add.scss',
@@ -40,6 +43,7 @@ export class AdvertAdd {
     private readonly advertDraftState = inject(AdvertDraftStateService);
     private readonly categoryFacade = inject(CategoryFacade);
     private readonly advertService = inject(AdvertService);
+    private readonly usersFacade = inject(UsersFacade);
     private readonly fb = inject(FormBuilder);
     private readonly router = inject(Router);
     private readonly dialogService = inject(DialogService);
@@ -47,6 +51,14 @@ export class AdvertAdd {
     private readonly destroyRef = inject(DestroyRef);
 
     readonly categories = this.categoryFacade.allCategories;
+    readonly currentUser = this.usersFacade.currentUser;
+
+    addressArray: any[] = [
+        { name: 'Крестовского 27, кв. 27', id: 0 },
+        { name: 'Крестовского 27, кв. 27', id: 1 },
+        { name: 'Крестовского 27, кв. 27', id: 2 },
+        { name: 'Крестовского 27, кв. 27', id: 3 },
+    ];
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categoriesForSelect: Signal<any[]> = this.categories;
