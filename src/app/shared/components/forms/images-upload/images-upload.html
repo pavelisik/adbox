@@ -55,8 +55,8 @@
     </div>
 </div>
 
-@if (errorMessages()) {
+@if (errorMessages().length) {
     @for (errorMessage of errorMessages(); let i = $index; track i) {
-        <app-form-message [error]="errorMessage" [lifeError]="2000"></app-form-message>
+        <app-form-message [(error)]="errorMessage" [lifeError]="2000"></app-form-message>
     }
 }

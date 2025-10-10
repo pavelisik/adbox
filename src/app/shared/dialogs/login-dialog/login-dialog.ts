@@ -79,7 +79,6 @@ export class LoginDialog {
 
         if (this.loginForm.invalid) return;
 
-        this.errorMessage.set(null);
         this.isLoading.set(true);
 
         const rememberMe = this.loginForm.value.rememberMe ?? false;

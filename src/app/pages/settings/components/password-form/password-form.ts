@@ -106,13 +106,7 @@ export class PasswordForm {
     private resetFormState() {
         this.passwordForm.reset();
         this.isSubmitted.set(false);
-        this.errorMessage.set(null);
         this.isPasswordVisible.set(false);
-    }
-
-    private resetMessages() {
-        this.errorMessage.set(null);
-        this.successMessage.set(null);
     }
 
     private buildRequest(): UserUpdateRequest | null {
@@ -142,8 +136,6 @@ export class PasswordForm {
         this.passwordForm.markAllAsTouched();
 
         if (this.passwordForm.invalid) return;
-
-        this.resetMessages();
 
         this.passwordConfirmService.setActiveForm('password');
         this.dialogService.open('password');

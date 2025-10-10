@@ -127,7 +127,6 @@ export class RegisterDialog {
 
         if (this.registerForm.invalid) return;
 
-        this.errorMessage.set(null);
         this.isLoading.set(true);
 
         this.authService

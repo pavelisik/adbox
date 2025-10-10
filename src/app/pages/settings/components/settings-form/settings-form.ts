@@ -11,6 +11,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SettingsChangeForm } from './domains';
+import { LocalUserService } from '@app/core/auth/services';
+import { NotificationService } from '@app/core/notification';
 
 @Component({
     selector: 'app-settings-form',
@@ -21,8 +23,10 @@ import { SettingsChangeForm } from './domains';
 export class SettingsForm {
     private readonly usersService = inject(UsersService);
     private readonly usersFacade = inject(UsersFacade);
+    private readonly localUserService = inject(LocalUserService);
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
+    private readonly notify = inject(NotificationService);
     private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
 
@@ -41,17 +45,19 @@ export class SettingsForm {
 
     constructor() {
         effect(() => {
-            const currentUser = this.currentUser();
-            if (!currentUser) return;
+            const user = this.currentUser();
+            if (!user) return;
 
             const nameControl = this.settingsForm.get('name');
             const loginControl = this.settingsForm.get('login');
-            if (nameControl && !nameControl.dirty) {
-                nameControl.setValue(currentUser.name ?? '', { emitEvent: false });
-            }
-            if (loginControl && !loginControl.dirty) {
-                loginControl.setValue(currentUser.login ?? '', { emitEvent: false });
-            }
+            const addressControl = this.settingsForm.get('address');
+
+            if (nameControl && !nameControl.dirty)
+                nameControl.setValue(user.name ?? '', { emitEvent: false });
+            if (loginControl && !loginControl.dirty)
+                loginControl.setValue(user.login ?? '', { emitEvent: false });
+            if (addressControl && !addressControl.dirty && user.address)
+                addressControl.setValue(user.address ?? '', { emitEvent: false });
         });
         effect(() => {
             const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
@@ -87,15 +93,22 @@ export class SettingsForm {
         });
     }
 
-    // проверка на отличие данных в форме от текущих данных пользователя
-    isFormChanged(): boolean {
+    // проверка изменения серверных полей (login и name)
+    isAuthUserDataChanged(): boolean {
         const user = this.currentUser();
         if (!user) return false;
 
-        const name = this.settingsForm.get('name')?.value;
-        const login = this.settingsForm.get('login')?.value;
-
+        const { name, login } = this.settingsForm.getRawValue();
         return name !== user.name || login !== user.login;
+    }
+
+    // проверка изменения локальных полей
+    isLocalUserDataChanged(): boolean {
+        const user = this.currentUser();
+        if (!user) return false;
+
+        const { address } = this.settingsForm.getRawValue();
+        return address !== user.address;
     }
 
     // проверка на первое заполнение обязательных полей
@@ -106,11 +119,6 @@ export class SettingsForm {
 
     isControlInvalid(controlName: string): boolean {
         return !!this.settingsForm.get(controlName)?.errors && this.isSubmitted();
-    }
-
-    private resetMessages() {
-        this.errorMessage.set(null);
-        this.successMessage.set(null);
     }
 
     private buildRequest(): UserUpdateRequest | null {
@@ -135,15 +143,35 @@ export class SettingsForm {
         this.errorMessage.set(message);
     }
 
+    private localDataUpdate() {
+        const user = this.currentUser();
+        if (!user) return;
+
+        const { address } = this.settingsForm.getRawValue();
+        this.localUserService.updateData(user.id, { address });
+
+        // выводить сообщение только если серверные поля не изменены (чтобы не было дубля)
+        if (!this.isAuthUserDataChanged()) {
+            this.successMessage.set('Изменения сохранены');
+            this.notify.success('Обновление данных', 'Данные пользователя успешно изменены');
+        }
+    }
+
     onSubmit() {
         this.isSubmitted.set(true);
         this.settingsForm.markAllAsTouched();
 
         if (this.settingsForm.invalid) return;
 
-        this.resetMessages();
+        // обновляем серверные поля с запросом подтверждения пароля
+        if (this.isAuthUserDataChanged()) {
+            this.passwordConfirmService.setActiveForm('settings');
+            this.dialogService.open('password');
+        }
 
-        this.passwordConfirmService.setActiveForm('settings');
-        this.dialogService.open('password');
+        // обновляем локальные поля
+        if (this.isLocalUserDataChanged()) {
+            this.localDataUpdate();
+        }
     }
 }

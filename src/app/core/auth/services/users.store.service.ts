@@ -5,14 +5,14 @@ import { User } from '@app/core/auth/domains';
     providedIn: 'root',
 })
 export class UsersStoreService {
-    private readonly _currentUser = signal<User | null>(null);
-    readonly currentUser = this._currentUser.asReadonly();
+    private readonly _authUser = signal<User | null>(null);
+    readonly authUser = this._authUser.asReadonly();
 
-    setCurrentUser(user: User | null) {
-        this._currentUser.set(user);
+    setAuthUser(user: User | null) {
+        this._authUser.set(user);
     }
 
-    clearCurrentUser() {
-        this._currentUser.set(null);
+    clearAuthUser() {
+        this._authUser.set(null);
     }
 }

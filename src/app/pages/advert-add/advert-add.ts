@@ -17,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertAddForm } from './domains';
+import { ConfirmService } from '@app/core/confirmation';
 
 @Component({
     selector: 'app-advert-add',
@@ -42,6 +43,7 @@ export class AdvertAdd {
     private readonly fb = inject(FormBuilder);
     private readonly router = inject(Router);
     private readonly dialogService = inject(DialogService);
+    private readonly confirm = inject(ConfirmService);
     private readonly destroyRef = inject(DestroyRef);
 
     readonly categories = this.categoryFacade.allCategories;
@@ -116,18 +118,13 @@ export class AdvertAdd {
         this.dialogService.open('terms-of-service');
     }
 
-    private resetMessages() {
-        this.errorMessage.set(null);
-        this.successMessage.set(null);
-    }
-
     onResetFormData() {
-        this.advertDraftState.clear();
-        this.uploadImages.set([]);
-        this.isSubmitted.set(false);
-        this.errorMessage.set(null);
-        this.successMessage.set(null);
-        this.advertAddForm.reset();
+        this.confirm.confirm('resetForm', () => {
+            this.advertDraftState.clear();
+            this.uploadImages.set([]);
+            this.isSubmitted.set(false);
+            this.advertAddForm.reset();
+        });
     }
 
     private buildRequest(): NewAdvertRequest {
@@ -166,7 +163,6 @@ export class AdvertAdd {
 
         if (this.advertAddForm.invalid) return;
 
-        this.resetMessages();
         this.isLoading.set(true);
 
         this.advertService

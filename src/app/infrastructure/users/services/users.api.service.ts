@@ -16,7 +16,7 @@ import { ShortUser, User, UserUpdateRequest } from '@app/core/auth/domains';
 export class UsersApiService {
     private readonly http = inject(HttpClient);
 
-    currentUser(): Observable<User> {
+    authUser(): Observable<User> {
         return this.http
             .get<UserDTO>(`${environment.baseApiURL}/Users/current`)
             .pipe(map((res) => UserFromDTOAdapter(res)));

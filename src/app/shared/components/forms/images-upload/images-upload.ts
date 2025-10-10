@@ -1,5 +1,5 @@
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, model, signal } from '@angular/core';
+import { Component, model, Signal, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SvgIcon } from '@app/shared/components';
 import { Dnd } from '@app/shared/directives';
@@ -15,7 +15,7 @@ import { UploadImage } from './domains';
 })
 export class ImagesUpload {
     uploadImages = model<UploadImage[]>([]);
-    errorMessages = signal<string[] | null>(null);
+    errorMessages = signal<WritableSignal<string | null>[]>([]);
 
     private readonly MAX_UPLOAD_IMAGES = 10;
 
@@ -76,11 +76,9 @@ export class ImagesUpload {
             newErrors.push(`Превышен допустимый максимум (${this.MAX_UPLOAD_IMAGES} изображений)`);
         }
 
-        this.errorMessages.set(newErrors.length ? newErrors : null);
-        // очищаем ошибки с задержкой из-за [life] в p-message
-        setTimeout(() => {
-            this.errorMessages.set(null);
-        }, 2500);
+        if (newErrors.length > 0) {
+            this.showErrorMessages(newErrors);
+        }
 
         return trimmedFiles;
     }
@@ -114,6 +112,12 @@ export class ImagesUpload {
             fileType: file.type,
             fileSize: file.size,
         };
+    }
+
+    // показываем все накопленные ошибки
+    private showErrorMessages(messages: string[]) {
+        const signals = messages.map((msg) => signal<string | null>(msg));
+        this.errorMessages.update((errors) => [...errors, ...signals]);
     }
 
     // валидация дублей среди загружаемых изображений

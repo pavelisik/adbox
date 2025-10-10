@@ -142,7 +142,6 @@
         <button
             pButton
             type="submit"
-            icon="pi pi-upload"
             [label]="isLoading() ? 'Размещаем объявление' : 'Разместить объявление'"
             [loading]="isLoading()"
             [disabled]="!isAllRequiredCompleted() || (isSubmitted() && advertAddForm.invalid)"
@@ -156,12 +155,11 @@
             [disabled]="isCleanForm()"
             (click)="onResetFormData()"
         >
-            <span pButtonIcon class="pi pi-times"></span>
             <span pButtonLabel>Очистить форму</span>
         </button>
         <app-form-message
-            [success]="successMessage()"
-            [error]="errorMessage()"
+            [(success)]="successMessage"
+            [(error)]="errorMessage"
             [lifeSuccess]="800"
         ></app-form-message>
     </div>

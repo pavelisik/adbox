@@ -3,7 +3,7 @@ import { UsersApiService } from '@app/infrastructure/users/services';
 import { Observable, tap } from 'rxjs';
 import { ShortUser, User, UserUpdateRequest } from '@app/core/auth/domains';
 import { NotificationService } from '@app/core/notification';
-import { UsersStoreService } from '@app/core/auth/services/users.store.service';
+import { UsersStoreService } from './users.store.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,24 +13,24 @@ export class UsersService {
     private readonly usersStore = inject(UsersStoreService);
     private readonly notify = inject(NotificationService);
 
-    currentUser(): Observable<User> {
-        return this.apiService.currentUser();
+    authUser(): Observable<User> {
+        return this.apiService.authUser();
     }
 
     updateUser(id: string, params: UserUpdateRequest): Observable<ShortUser> {
         return this.apiService.updateUser(id, params).pipe(
             tap((userData) => {
-                this.updateCurrentUser(userData);
+                this.updateAuthUser(userData);
                 this.notify.success('Обновление данных', 'Данные пользователя успешно изменены');
             }),
         );
     }
 
-    private updateCurrentUser(userData: ShortUser) {
-        const current = this.usersStore.currentUser();
-        if (current) {
-            this.usersStore.setCurrentUser({
-                ...current,
+    private updateAuthUser(userData: ShortUser) {
+        const authUser = this.usersStore.authUser();
+        if (authUser) {
+            this.usersStore.setAuthUser({
+                ...authUser,
                 name: userData.name,
                 login: userData.login,
             });

@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthLoginRequest, AuthRegisterRequest } from '@app/core/auth/domains';
 import { AuthStateService } from '@app/core/auth/services';
+import { LocalUserService } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
 import { AuthApiService } from '@app/infrastructure/authorization/services';
 import { Observable, tap } from 'rxjs';
@@ -12,6 +13,7 @@ import { Observable, tap } from 'rxjs';
 export class AuthService {
     private readonly apiService = inject(AuthApiService);
     private readonly authStateService = inject(AuthStateService);
+    private readonly localUser = inject(LocalUserService);
     private readonly notify = inject(NotificationService);
     private readonly router = inject(Router);
 

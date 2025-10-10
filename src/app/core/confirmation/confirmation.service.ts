@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { CONFIRM_MESSAGES } from '@app/core/confirmation/constants';
 import { ConfirmationService } from 'primeng/api';
 
-export type ConfirmActionType = 'settings' | 'password' | 'logout';
+export type ConfirmActionType = 'settings' | 'password' | 'logout' | 'resetForm';
 
 @Injectable({
     providedIn: 'root',

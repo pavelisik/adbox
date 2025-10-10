@@ -41,6 +41,7 @@
         <input
             pInputText
             placeholder="Введите адрес"
+            [placeholder]="currentUser() ? 'Введите адрес' : ''"
             formControlName="address"
             autocomplete="off"
         />
@@ -53,10 +54,10 @@
             [loading]="isLoading()"
             [disabled]="
                 !isAllRequiredCompleted() ||
-                !isFormChanged() ||
+                !(isAuthUserDataChanged() || isLocalUserDataChanged()) ||
                 (isSubmitted() && settingsForm.invalid)
             "
         ></button>
-        <app-form-message [success]="successMessage()" [error]="errorMessage()"></app-form-message>
+        <app-form-message [(success)]="successMessage" [(error)]="errorMessage"></app-form-message>
     </div>
 </form>
