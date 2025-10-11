@@ -13,10 +13,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SettingsChangeForm } from './domains';
 import { LocalUserService } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
     selector: 'app-settings-form',
-    imports: [ReactiveFormsModule, InputTextModule, ButtonModule, ControlError, FormMessage],
+    imports: [
+        ReactiveFormsModule,
+        InputTextModule,
+        ButtonModule,
+        ControlError,
+        FormMessage,
+        ProgressSpinnerModule,
+    ],
     templateUrl: './settings-form.html',
     styleUrl: './settings-form.scss',
 })

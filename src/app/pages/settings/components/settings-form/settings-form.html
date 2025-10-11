@@ -1,7 +1,7 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form base mb-48">
     <div>
         <label for="name">Имя</label>
-        <div>
+        <div class="settings-form__spinner-wrapper">
             <input
                 pInputText
                 [placeholder]="currentUser() ? 'Введите имя' : ''"
@@ -14,11 +14,14 @@
                 controlName="name"
                 [isSubmitted]="isSubmitted()"
             ></app-control-error>
+            @if (!currentUser()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
         </div>
     </div>
     <div>
         <label for="login">Логин</label>
-        <div>
+        <div class="settings-form__spinner-wrapper">
             <input
                 pInputText
                 [placeholder]="currentUser() ? 'Введите логин' : ''"
@@ -31,6 +34,9 @@
                 controlName="login"
                 [isSubmitted]="isSubmitted()"
             ></app-control-error>
+            @if (!currentUser()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
         </div>
     </div>
     <div>
@@ -38,13 +44,18 @@
             Адрес
             <span>(будет указываться в объявлениях по умолчанию)</span>
         </label>
-        <input
-            pInputText
-            placeholder="Введите адрес"
-            [placeholder]="currentUser() ? 'Введите адрес' : ''"
-            formControlName="address"
-            autocomplete="off"
-        />
+        <div class="settings-form__spinner-wrapper">
+            <input
+                pInputText
+                placeholder="Введите адрес"
+                [placeholder]="currentUser() ? 'Введите адрес' : ''"
+                formControlName="address"
+                autocomplete="off"
+            />
+            @if (!currentUser()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
+        </div>
     </div>
     <div>
         <button
