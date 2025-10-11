@@ -1,7 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { Breadcrumbs } from '@app/shared/components';
 import { AdvertService, CategoryService } from '@app/shared/services';
 import { PriceFormatPipe } from '@app/shared/pipes';
@@ -12,8 +12,9 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { MenuItem } from 'primeng/api';
 import { BreadcrumbsService } from '@app/shared/services';
 import { FullAdvert } from '@app/pages/advert/domains';
-import { AuthStateService } from '@app/core/auth/services';
+import { AuthStateService, UsersFacade } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
+import { ConfirmService } from '@app/core/confirmation';
 
 @Component({
     selector: 'app-advert',
@@ -22,16 +23,31 @@ import { DialogService } from '@app/core/dialog';
     styleUrl: './advert.scss',
 })
 export class Advert implements OnInit {
-    private advertService = inject(AdvertService);
-    private categoryService = inject(CategoryService);
-    private breadcrumbsService = inject(BreadcrumbsService);
-    dialogService = inject(DialogService);
-    authStateService = inject(AuthStateService);
-    route = inject(ActivatedRoute);
+    private readonly advertService = inject(AdvertService);
+    private readonly categoryService = inject(CategoryService);
+    private readonly breadcrumbsService = inject(BreadcrumbsService);
+    private readonly usersFacade = inject(UsersFacade);
+    private readonly confirm = inject(ConfirmService);
+    private readonly dialogService = inject(DialogService);
+    private readonly authStateService = inject(AuthStateService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly destroyRef = inject(DestroyRef);
+
+    readonly currentUser = this.usersFacade.currentUser;
 
     advert = signal<FullAdvert | null>(null);
     parentId = signal<string | null>(null);
     breadcrumbs = signal<MenuItem[]>([]);
+    isDeleting = signal<boolean>(false);
+
+    readonly advertId = computed<string | undefined>(() => {
+        return this.advert()?.id;
+    });
+
+    readonly isMyAdvert = computed(() => {
+        return this.usersFacade.isMyAdvert(this.advertId())();
+    });
 
     advert$ = this.route.params.pipe(
         switchMap(({ id }) => {
@@ -63,6 +79,37 @@ export class Advert implements OnInit {
 
     infoDialogOpen(userName: string, phoneNumber: string) {
         this.dialogService.open('info', userName, phoneNumber);
+    }
+
+    isAuth(): boolean {
+        return this.authStateService.isAuth();
+    }
+
+    deleteAdvert() {
+        const advertId = this.advertId();
+        if (!advertId) return;
+
+        this.confirm.confirm('deleteAdvert', () => {
+            this.isDeleting.set(true);
+
+            this.advertService
+                .deleteAdvert(advertId)
+                .pipe(
+                    tap((res) => {
+                        this.usersFacade.refreshAuthUser();
+                        this.router.navigate(['user/adverts']);
+                    }),
+                    catchError((error) => {
+                        console.error(error);
+                        return of(null);
+                    }),
+                    finalize(() => {
+                        this.isDeleting.set(false);
+                    }),
+                    takeUntilDestroyed(this.destroyRef),
+                )
+                .subscribe();
+        });
     }
 
     ngOnInit() {

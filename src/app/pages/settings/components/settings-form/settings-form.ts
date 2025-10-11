@@ -76,6 +76,7 @@ export class SettingsForm {
                     .updateUser(userId, request)
                     .pipe(
                         tap((res) => {
+                            this.usersFacade.refreshAuthUser();
                             this.successMessage.set('Изменения сохранены');
                             this.passwordConfirmService.reset();
                         }),

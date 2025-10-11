@@ -1,4 +1,4 @@
-import { computed, DestroyRef, effect, inject, Injectable } from '@angular/core';
+import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
     AuthStateService,
@@ -15,14 +15,16 @@ import { FullUser } from '@app/core/auth/domains';
 })
 export class UsersFacade {
     private readonly authState = inject(AuthStateService);
-    private readonly usersService = inject(UsersService);
     private readonly usersStore = inject(UsersStoreService);
-    private readonly localUserService = inject(LocalUserService);
+    private readonly usersService = inject(UsersService);
     private readonly localUserStore = inject(LocalUserStoreService);
+    private readonly localUserService = inject(LocalUserService);
     private readonly destroyRef = inject(DestroyRef);
 
     readonly authUser = this.usersStore.authUser;
     readonly localUser = this.localUserStore.localUser;
+
+    private readonly refreshAuthUserTrigger = signal<number>(0);
 
     readonly currentUser = computed<FullUser | null>(() => {
         const user = this.authUser();
@@ -32,8 +34,11 @@ export class UsersFacade {
 
     constructor() {
         effect(() => {
+            const isAuth = this.authState.isAuth();
+            const refresh = this.refreshAuthUserTrigger();
+
             // выполняем запрос на получение текущего пользователя только если авторизованы
-            if (this.authState.isAuth()) {
+            if (isAuth) {
                 this.usersService
                     .authUser()
                     .pipe(
@@ -55,5 +60,17 @@ export class UsersFacade {
                 this.localUserService.clearStore();
             }
         });
+    }
+
+    isMyAdvert(advertId: string | null | undefined) {
+        return computed(() => {
+            const user = this.currentUser();
+            return !!user?.adverts?.some((ad) => ad.id === advertId);
+        });
+    }
+
+    // принудительно обновляем текущего пользователя новым запросом на сервер
+    refreshAuthUser(): void {
+        this.refreshAuthUserTrigger.update((v) => v + 1);
     }
 }

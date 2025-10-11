@@ -181,11 +181,13 @@ export class AdvertAdd {
             .newAdvert(this.buildRequest())
             .pipe(
                 tap((res) => {
+                    this.usersFacade.refreshAuthUser();
                     this.successMessage.set('Объявление успешно создано');
-                    this.advertDraftState.clear();
 
                     setTimeout(() => {
-                        this.router.navigate(['/advert/', res.id]);
+                        this.router.navigate(['/advert/', res.id]).then(() => {
+                            this.advertDraftState.clear();
+                        });
                     }, 1000);
                 }),
                 catchError((error: HttpErrorResponse) => {

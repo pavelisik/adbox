@@ -45,15 +45,7 @@ export class AdvertApiService {
         const formData = new FormData();
         formData.append('Name', request.title);
         if (request.description) formData.append('Description', request.description);
-        if (request.images) {
-            if (request.images.length > 1) {
-                request.images.forEach((image) => {
-                    formData.append('Images', image);
-                });
-            } else {
-                formData.append('Images', request.images[0]);
-            }
-        }
+        request.images?.forEach((image) => formData.append('Images', image));
         if (request.email) formData.append('Email', request.email);
         formData.append('Cost', request.cost.toString());
         formData.append('Phone', request.phone);
@@ -62,5 +54,25 @@ export class AdvertApiService {
         return this.http
             .post<ShortAdvertDTO>(`${environment.baseApiURL}/Advert`, formData)
             .pipe(map((res) => ShortAdvertFromDTOAdapter(res)));
+    }
+
+    updateAdvert(id: string, params: NewAdvertRequest): Observable<ShortAdvert> {
+        const request: NewAdvertRequestDTO = NewAdvertRequestToDTOAdapter(params);
+        const formData = new FormData();
+        formData.append('Name', request.title);
+        if (request.description) formData.append('Description', request.description);
+        request.images?.forEach((image) => formData.append('Images', image));
+        if (request.email) formData.append('Email', request.email);
+        formData.append('Cost', request.cost.toString());
+        formData.append('Phone', request.phone);
+        formData.append('Location', request.location);
+        formData.append('CategoryId', request.category);
+        return this.http
+            .put<ShortAdvertDTO>(`${environment.baseApiURL}/Advert/${id}`, formData)
+            .pipe(map((res) => ShortAdvertFromDTOAdapter(res)));
+    }
+
+    deleteAdvert(id: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiURL}/Advert/${id}`);
     }
 }

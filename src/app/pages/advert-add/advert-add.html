@@ -70,22 +70,21 @@
                 </button>
                 <button pButton type="button">Изменить</button>
             </div>
-        } @else {
-            <div>
-                <input
-                    pInputText
-                    formControlName="address"
-                    placeholder="Начните вводить адрес"
-                    autocomplete="address"
-                    [invalid]="isControlInvalid('address')"
-                />
-                <app-control-error
-                    [form]="advertAddForm"
-                    controlName="address"
-                    [isSubmitted]="isSubmitted()"
-                ></app-control-error>
-            </div>
         }
+        <div>
+            <input
+                pInputText
+                formControlName="address"
+                placeholder="Начните вводить адрес"
+                autocomplete="address"
+                [invalid]="isControlInvalid('address')"
+            />
+            <app-control-error
+                [form]="advertAddForm"
+                controlName="address"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+        </div>
     </div>
     <app-images-upload
         [(uploadImages)]="uploadImages"

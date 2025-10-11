@@ -75,6 +75,7 @@ export class PasswordForm {
                     .updateUser(userId, request)
                     .pipe(
                         tap((res) => {
+                            this.usersFacade.refreshAuthUser();
                             this.successMessage.set('Пароль изменен');
                             this.passwordConfirmService.reset();
                             this.resetFormState();

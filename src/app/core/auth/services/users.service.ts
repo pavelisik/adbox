@@ -20,20 +20,8 @@ export class UsersService {
     updateUser(id: string, params: UserUpdateRequest): Observable<ShortUser> {
         return this.apiService.updateUser(id, params).pipe(
             tap((userData) => {
-                this.updateAuthUser(userData);
                 this.notify.success('Обновление данных', 'Данные пользователя успешно изменены');
             }),
         );
-    }
-
-    private updateAuthUser(userData: ShortUser) {
-        const authUser = this.usersStore.authUser();
-        if (authUser) {
-            this.usersStore.setAuthUser({
-                ...authUser,
-                name: userData.name,
-                login: userData.login,
-            });
-        }
     }
 }

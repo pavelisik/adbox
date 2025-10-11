@@ -1,4 +1,4 @@
-export type ConfirmActionType = 'settings' | 'password' | 'logout' | 'resetForm';
+export type ConfirmActionType = 'settings' | 'password' | 'logout' | 'resetForm' | 'deleteAdvert';
 
 export const CONFIRM_MESSAGES: Record<ConfirmActionType, { header: string; message: string }> = {
     settings: {
@@ -16,5 +16,9 @@ export const CONFIRM_MESSAGES: Record<ConfirmActionType, { header: string; messa
     resetForm: {
         header: 'Очистка формы',
         message: 'Вы действительно хотите очистить все данные?',
+    },
+    deleteAdvert: {
+        header: 'Удаление объявления',
+        message: 'Вы действительно хотите удалить объявление?',
     },
 };

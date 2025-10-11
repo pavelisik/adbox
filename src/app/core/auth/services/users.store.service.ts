@@ -12,6 +12,13 @@ export class UsersStoreService {
         this._authUser.set(user);
     }
 
+    updateAuthUser(partial: Partial<User>) {
+        const current = this._authUser();
+        if (current) {
+            this._authUser.set({ ...current, ...partial });
+        }
+    }
+
     clearAuthUser() {
         this._authUser.set(null);
     }

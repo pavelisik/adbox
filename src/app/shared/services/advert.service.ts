@@ -31,4 +31,20 @@ export class AdvertService {
             }),
         );
     }
+
+    updateAdvert(id: string, params: NewAdvertRequest): Observable<ShortAdvert> {
+        return this.apiService.updateAdvert(id, params).pipe(
+            tap(() => {
+                this.notify.success('Обновление объявления', 'Объявление успешно обновлено');
+            }),
+        );
+    }
+
+    deleteAdvert(id: string): Observable<void> {
+        return this.apiService.deleteAdvert(id).pipe(
+            tap(() => {
+                this.notify.success('Удаление объявления', 'Объявление успешно удалено');
+            }),
+        );
+    }
 }

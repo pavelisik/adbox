@@ -1,6 +1,5 @@
 @if (advert(); as advert) {
     <app-breadcrumbs [items]="breadcrumbs()"></app-breadcrumbs>
-
     <div class="advert">
         <div class="advert-left">
             <h1 class="advert__title h3 fw-600">{{ advert.name }}</h1>
@@ -10,16 +9,46 @@
         </div>
         <div class="advert-right">
             <span class="advert__price h3 fw-600">{{ advert.cost | priceFormat }}</span>
-            <button
-                pButton
-                class="advert__show-phone-btn"
-                [disabled]="!authStateService.isAuth()"
-                (click)="infoDialogOpen(advert.user.name, advert.phone)"
-            >
-                <svg pButtonIcon icon="phone" width="28" height="28"></svg>
-                <span pButtonLabel class="h5">Показать номер телефона</span>
-            </button>
-            <div class="advert__address">
+            @if (isMyAdvert()) {
+                <div class="user-buttons base mb-30">
+                    <button pButton class="advert__btn">
+                        <span pButtonLabel>Редактировать объявление</span>
+                    </button>
+                    <button
+                        pButton
+                        severity="secondary"
+                        class="advert__btn"
+                        (click)="deleteAdvert()"
+                        [label]="isDeleting() ? 'Удаляем объявление' : 'Удалить объявление'"
+                        [loading]="isDeleting()"
+                    ></button>
+                </div>
+            } @else {
+                <button
+                    pButton
+                    class="advert__show-phone-btn mb-30"
+                    [disabled]="!isAuth()"
+                    (click)="infoDialogOpen(advert.user.name, advert.phone)"
+                >
+                    <svg pButtonIcon icon="phone" width="28" height="28"></svg>
+                    <span pButtonLabel class="h5">Показать номер телефона</span>
+                </button>
+            }
+            <div class="advert__user-info mb-30">
+                <h6 class="fw-600">
+                    {{ advert.user.name }}
+                </h6>
+                @if (advert.email) {
+                    <div class="advert__email base">
+                        <i class="pi pi-envelope"></i>
+                        <span>{{ advert.email }}</span>
+                    </div>
+                }
+                <button pButton text link class="advert__txt-btn base">
+                    <span pButtonLabel>Все объявления пользователя</span>
+                </button>
+            </div>
+            <div class="advert__address mb-30">
                 <h4 class="fw-600">Адрес</h4>
                 <span class="base">{{ advert.location }}</span>
                 <button pButton text class="advert__map-open-btn base">
