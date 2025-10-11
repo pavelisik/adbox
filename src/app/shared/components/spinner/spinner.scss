@@ -1,0 +1,16 @@
+:host {
+    width: 100%;
+    height: calc(100vh - 400px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.big-spinner {
+    width: 120px;
+    height: 120px;
+    --p-progressspinner-color-one: var(--gray-300-color);
+    --p-progressspinner-color-two: var(--gray-300-color);
+    --p-progressspinner-color-three: var(--gray-300-color);
+    --p-progressspinner-color-four: var(--gray-300-color);
+}

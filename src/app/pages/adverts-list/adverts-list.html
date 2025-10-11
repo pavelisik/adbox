@@ -3,7 +3,7 @@
         <h4 class="h4 fw-600 mb-24">Рекомендации для вас</h4>
         @if (adverts(); as adverts) {
             @if (isLoading()) {
-                <p>Загрузка...</p>
+                <app-spinner></app-spinner>
             } @else {
                 <app-ad-grid [adverts]="adverts"></app-ad-grid>
             }
@@ -14,7 +14,7 @@
         @if (currentUser(); as user) {
             <app-ad-grid [adverts]="user.adverts" [newBtn]="true"></app-ad-grid>
         } @else {
-            <p>Загрузка...</p>
+            <app-spinner></app-spinner>
         }
     }
     @default {
@@ -29,7 +29,7 @@
                 <div>
                     <app-ad-top-filters [advertsCount]="adverts.length"></app-ad-top-filters>
                     @if (isLoading()) {
-                        <p>Загрузка...</p>
+                        <app-spinner></app-spinner>
                     } @else if (adverts.length < 1) {
                         <p>По точному совпадению результатов не найдено</p>
                     } @else {

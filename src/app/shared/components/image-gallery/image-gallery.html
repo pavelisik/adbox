@@ -1,16 +1,20 @@
-@if (imagesIds(); as ids) { @if (ids.length === 0) {
-<div class="image-placeholder big">
-    <span class="pi pi-images"></span>
-</div>
-} @else { @if (ids | imagesFromIds | async; as imagesSrc) {
-<p-galleria [value]="imagesSrc" [showThumbnailNavigators]="false" [numVisible]="6">
-    <ng-template #item let-src>
-        <img [src]="src" class="img-gallery__item" />
-    </ng-template>
-    <ng-template #thumbnail let-src>
-        <img [src]="src" class="img-gallery__thumbnail" />
-    </ng-template>
-</p-galleria>
-} @else {
-<p>Загрузка изображений...</p>
-} } }
+@if (imagesIds(); as ids) {
+    @if (ids.length === 0) {
+        <div class="image-placeholder big">
+            <span class="pi pi-images"></span>
+        </div>
+    } @else {
+        @if (ids | imagesFromIds | async; as imagesSrc) {
+            <p-galleria [value]="imagesSrc" [showThumbnailNavigators]="false" [numVisible]="6">
+                <ng-template #item let-src>
+                    <img [src]="src" class="img-gallery__item" />
+                </ng-template>
+                <ng-template #thumbnail let-src>
+                    <img [src]="src" class="img-gallery__thumbnail" />
+                </ng-template>
+            </p-galleria>
+        } @else {
+            <app-spinner></app-spinner>
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle } from '@app/shared/components';
+import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle, Spinner } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
@@ -9,7 +9,7 @@ import { UsersFacade } from '@app/core/auth/services';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [AdGrid, AdSidebarFilters, AdTopFilters, ButtonModule, AdTitle],
+    imports: [AdGrid, AdSidebarFilters, AdTopFilters, ButtonModule, AdTitle, Spinner],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })
