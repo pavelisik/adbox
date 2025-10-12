@@ -32,4 +32,10 @@ export class UsersApiService {
             .put<ShortUserDTO>(`${environment.baseApiURL}/Users/${id}`, formData)
             .pipe(map((res) => ShortUserFromDTOAdapter(res)));
     }
+
+    getUser(id: string): Observable<User> {
+        return this.http
+            .get<UserDTO>(`${environment.baseApiURL}/Users/${id}`)
+            .pipe(map((res) => UserFromDTOAdapter(res)));
+    }
 }

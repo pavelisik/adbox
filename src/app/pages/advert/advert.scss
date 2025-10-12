@@ -42,6 +42,10 @@
 
 .advert__txt-btn {
     padding: 0px;
+
+    &:hover {
+        color: var(--gray-600-color);
+    }
 }
 
 .advert__address {

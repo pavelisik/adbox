@@ -1,5 +1,5 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { Breadcrumbs } from '@app/shared/components';
@@ -18,7 +18,15 @@ import { ConfirmService } from '@app/core/confirmation';
 
 @Component({
     selector: 'app-advert',
-    imports: [BreadcrumbModule, Breadcrumbs, PriceFormatPipe, ButtonModule, SvgIcon, ImageGallery],
+    imports: [
+        BreadcrumbModule,
+        Breadcrumbs,
+        PriceFormatPipe,
+        ButtonModule,
+        SvgIcon,
+        ImageGallery,
+        RouterLink,
+    ],
     templateUrl: './advert.html',
     styleUrl: './advert.scss',
 })

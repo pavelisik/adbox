@@ -9,12 +9,25 @@
             }
         }
     }
-    @case ('user') {
+    @case ('my') {
         <h4 class="h4 fw-600 mb-24">Мои объявления</h4>
         @if (currentUser(); as user) {
             <app-ad-grid [adverts]="user.adverts" [newBtn]="true"></app-ad-grid>
         } @else {
             <app-spinner></app-spinner>
+        }
+    }
+    @case ('user') {
+        @if (isLoading()) {
+            <p-skeleton width="420px" height="32px" />
+            <app-spinner></app-spinner>
+        } @else {
+            <h4 class="h4 fw-600 mb-24">Объявления пользователя {{ viewedUser()?.name }}</h4>
+            @if (adverts().length) {
+                <app-ad-grid [adverts]="adverts()"></app-ad-grid>
+            } @else {
+                <p class="base">У пользователя нет опубликованных объявлений</p>
+            }
         }
     }
     @default {

@@ -44,7 +44,13 @@
                         <span>{{ advert.email }}</span>
                     </div>
                 }
-                <button pButton text link class="advert__txt-btn base">
+                <button
+                    pButton
+                    text
+                    link
+                    [routerLink]="['/users', advert.user.id]"
+                    class="advert__txt-btn base"
+                >
                     <span pButtonLabel>Все объявления пользователя</span>
                 </button>
             </div>

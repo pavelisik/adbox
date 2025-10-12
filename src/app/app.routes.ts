@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { canActivateAuth } from '@app/core/guards';
+import { canActivateAuth, redirectMyUser } from '@app/core/guards';
 
 export const routes: Routes = [
     {
@@ -20,12 +20,19 @@ export const routes: Routes = [
                 loadComponent: () => import('@app/pages').then((m) => m.Advert),
             },
             {
+                path: 'users/:id',
+                canActivate: [redirectMyUser],
+                data: { isUserAdverts: true },
+                loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
+            },
+
+            {
                 path: 'user',
                 canActivate: [canActivateAuth],
                 children: [
                     {
                         path: 'adverts',
-                        data: { isUserAdverts: true },
+                        data: { isMyAdverts: true },
                         loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
                     },
                     {

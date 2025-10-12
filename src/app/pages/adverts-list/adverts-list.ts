@@ -1,24 +1,38 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle, Spinner } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
-import { ActivatedRoute } from '@angular/router';
-import { distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { distinctUntilChanged, finalize, map, of, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
-import { UsersFacade } from '@app/core/auth/services';
+import { UsersFacade, UsersService } from '@app/core/auth/services';
+import { User } from '@app/core/auth/domains';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [AdGrid, AdSidebarFilters, AdTopFilters, ButtonModule, AdTitle, Spinner],
+    imports: [
+        AdGrid,
+        AdSidebarFilters,
+        AdTopFilters,
+        ButtonModule,
+        AdTitle,
+        Spinner,
+        SkeletonModule,
+    ],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })
 export class AdvertsList {
     private readonly advertService = inject(AdvertService);
     private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private readonly usersFacade = inject(UsersFacade);
+    private readonly usersService = inject(UsersService);
 
     readonly currentUser = this.usersFacade.currentUser;
+    readonly viewedUser = signal<User | null>(null);
+
     readonly isLoading = signal<boolean>(false);
 
     // определяем тип страницы в зависимости от route.data
@@ -26,6 +40,7 @@ export class AdvertsList {
         this.route.data.pipe(
             map((data) => {
                 if (data['isMain']) return 'main';
+                if (data['isMyAdverts']) return 'my';
                 if (data['isUserAdverts']) return 'user';
                 return 'search';
             }),
@@ -70,14 +85,32 @@ export class AdvertsList {
         // приходится повторно обращаться к route.data для условного выполнения запроса searchAdverts
         this.route.data.pipe(
             switchMap((data) => {
-                // если страница с объявлениями пользователя - не делаем запрос searchAdverts
-                if (data['isUserAdverts']) return of([]);
+                // для isMyAdverts - не делаем запрос
+                if (data['isMyAdverts']) return of([]);
+
                 this.isLoading.set(true);
+
+                // для isUserAdverts — получаем обявления по id из URL
+                if (data['isUserAdverts']) {
+                    return this.route.paramMap.pipe(
+                        map((params) => params.get('id')),
+                        switchMap((userId) => {
+                            if (!userId) return of([]);
+                            return this.usersService.getUser(userId).pipe(
+                                tap((user) => this.viewedUser.set(user)),
+                                map((user) => user.adverts ?? []),
+                                finalize(() => this.isLoading.set(false)),
+                            );
+                        }),
+                    );
+                }
+
+                // для поиска — получаем обявления по запросу
                 return this.serverQueryParams$.pipe(
                     switchMap((params) =>
                         this.advertService
                             .searchAdverts(params, 30)
-                            .pipe(tap(() => this.isLoading.set(false))),
+                            .pipe(finalize(() => this.isLoading.set(false))),
                     ),
                 );
             }),

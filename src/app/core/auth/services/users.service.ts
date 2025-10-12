@@ -3,14 +3,12 @@ import { UsersApiService } from '@app/infrastructure/users/services';
 import { Observable, tap } from 'rxjs';
 import { ShortUser, User, UserUpdateRequest } from '@app/core/auth/domains';
 import { NotificationService } from '@app/core/notification';
-import { UsersStoreService } from './users.store.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UsersService {
     private readonly apiService = inject(UsersApiService);
-    private readonly usersStore = inject(UsersStoreService);
     private readonly notify = inject(NotificationService);
 
     authUser(): Observable<User> {
@@ -23,5 +21,9 @@ export class UsersService {
                 this.notify.success('Обновление данных', 'Данные пользователя успешно изменены');
             }),
         );
+    }
+
+    getUser(id: string): Observable<User> {
+        return this.apiService.getUser(id);
     }
 }
