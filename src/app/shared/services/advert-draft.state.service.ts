@@ -3,7 +3,7 @@ import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { dataUrlToFile } from '@app/shared/utils';
 
-const ADVERT_DRAFT_KEY = 'advertDraft';
+const ADVERT_DRAFT_KEY = 'newAdvertDraft';
 
 interface AdvertDraft extends Partial<NewAdvertRequest> {
     uploadImages?: StoredUploadImage[];

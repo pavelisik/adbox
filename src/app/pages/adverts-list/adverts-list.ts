@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle, Spinner } from '@app/shared/components';
 import { AdvertService } from '@app/shared/services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { distinctUntilChanged, finalize, map, of, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
@@ -26,7 +26,6 @@ import { SkeletonModule } from 'primeng/skeleton';
 export class AdvertsList {
     private readonly advertService = inject(AdvertService);
     private readonly route = inject(ActivatedRoute);
-    private readonly router = inject(Router);
     private readonly usersFacade = inject(UsersFacade);
     private readonly usersService = inject(UsersService);
 

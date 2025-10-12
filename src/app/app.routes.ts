@@ -43,6 +43,10 @@ export const routes: Routes = [
                         path: 'advert-add',
                         loadComponent: () => import('@app/pages').then((m) => m.AdvertAdd),
                     },
+                    {
+                        path: 'advert-edit/:id',
+                        loadComponent: () => import('@app/pages').then((m) => m.AdvertEdit),
+                    },
                 ],
             },
             {

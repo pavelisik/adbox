@@ -53,13 +53,6 @@ export class AdvertAdd {
     readonly categories = this.categoryFacade.allCategories;
     readonly currentUser = this.usersFacade.currentUser;
 
-    addressArray: any[] = [
-        { name: 'Крестовского 27, кв. 27', id: 0 },
-        { name: 'Крестовского 27, кв. 27', id: 1 },
-        { name: 'Крестовского 27, кв. 27', id: 2 },
-        { name: 'Крестовского 27, кв. 27', id: 3 },
-    ];
-
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categoriesForSelect: Signal<any[]> = this.categories;
 

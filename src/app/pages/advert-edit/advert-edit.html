@@ -1,0 +1,198 @@
+<h4 class="h4 fw-600 mb-24">Редактирование объявления</h4>
+
+<form [formGroup]="advertEditForm" (ngSubmit)="onSubmit()" class="advert-form base mb-48">
+    @if (categoriesForSelect(); as categories) {
+        <div>
+            <label for="category">Выберите категорию <span class="required">*</span></label>
+            <div class="middle-field">
+                <p-cascadeselect
+                    formControlName="category"
+                    [options]="categoriesForSelect()"
+                    optionLabel="name"
+                    [optionValue]="'id'"
+                    optionGroupLabel="name"
+                    [optionGroupChildren]="['childs']"
+                    placeholder="Нажмите, чтобы выбрать"
+                    [invalid]="isControlInvalid('category')"
+                />
+                <app-control-error
+                    [form]="advertEditForm"
+                    controlName="category"
+                    [isSubmitted]="isSubmitted()"
+                ></app-control-error>
+            </div>
+        </div>
+    }
+    <div>
+        <label for="title">Название объявления <span class="required">*</span></label>
+        <div class="advert-form__spinner-wrapper">
+            <input
+                pInputText
+                formControlName="title"
+                [placeholder]="isDataLoading() ? '' : 'Что хотите продать?'"
+                autocomplete="off"
+                [invalid]="isControlInvalid('title')"
+            />
+            <app-control-error
+                [form]="advertEditForm"
+                controlName="title"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+            @if (isDataLoading()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
+        </div>
+    </div>
+    <div>
+        <label for="description">Описание</label>
+        <div class="advert-form__spinner-wrapper">
+            <textarea
+                pTextarea
+                formControlName="description"
+                [placeholder]="isDataLoading() ? '' : 'Расскажите подробнее о товаре или услуге'"
+                autoResize="true"
+                style="resize: none"
+                [invalid]="isControlInvalid('description')"
+                class="big-field mb--5"
+            ></textarea>
+            <app-control-error
+                [form]="advertEditForm"
+                controlName="description"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+            @if (isDataLoading()) {
+                <p-progress-spinner
+                    ariaLabel="loading"
+                    strokeWidth="4"
+                    class="app-spinner textarea"
+                />
+            }
+        </div>
+    </div>
+    <div>
+        <label for="address">Адрес (место проведения сделки) <span class="required">*</span></label>
+        @if (currentUser()?.address) {
+            <div class="advert-form__address sm mt-4">
+                Ваш адрес:
+                <button pButton type="button" severity="secondary">
+                    <span pButtonIcon class="pi pi-home"></span>
+                    <span pButtonLabel>{{ currentUser()?.address }}</span>
+                </button>
+                <button pButton type="button">Изменить</button>
+            </div>
+        }
+        <div class="advert-form__spinner-wrapper">
+            <input
+                pInputText
+                formControlName="address"
+                [placeholder]="isDataLoading() ? '' : 'Начните вводить адрес'"
+                autocomplete="address"
+                [invalid]="isControlInvalid('address')"
+            />
+            <app-control-error
+                [form]="advertEditForm"
+                controlName="address"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+            @if (isDataLoading()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
+        </div>
+    </div>
+    <app-images-upload
+        [(uploadImages)]="uploadImages"
+        class="advert-form__upload"
+    ></app-images-upload>
+    <div>
+        <label for="price">Цена <span class="required">*</span></label>
+        <div class="small-field advert-form__spinner-wrapper">
+            <p-inputnumber
+                formControlName="price"
+                [placeholder]="isDataLoading() ? '' : '0 ₽'"
+                mode="currency"
+                currency="RUB"
+                currencyDisplay="symbol"
+                locale="ru-RU"
+                [minFractionDigits]="0"
+                autocomplete="off"
+                inputStyleClass="add"
+                [invalid]="isControlInvalid('price')"
+            />
+            <app-control-error
+                [form]="advertEditForm"
+                controlName="price"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+            @if (isDataLoading()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
+        </div>
+    </div>
+    <div>
+        <label for="phone">Номер телефона <span class="required">*</span></label>
+        <div class="small-field advert-form__spinner-wrapper">
+            <p-inputMask
+                formControlName="phone"
+                type="phone"
+                mask="+7 (999) 999 99 99"
+                [placeholder]="isDataLoading() ? '' : '+7 (999) 999 99 99'"
+                autocomplete="phone"
+                [invalid]="isControlInvalid('phone')"
+            ></p-inputMask>
+            <app-control-error
+                [form]="advertEditForm"
+                controlName="phone"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+            @if (isDataLoading()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
+        </div>
+    </div>
+    <div>
+        <label for="email">E-mail</label>
+        <div class="small-field advert-form__spinner-wrapper">
+            <input
+                pInputText
+                type="email"
+                formControlName="email"
+                [placeholder]="isDataLoading() ? '' : 'Адрес электронной почты'"
+                autocomplete="email"
+                [invalid]="isControlInvalid('email')"
+            />
+            <app-control-error
+                [form]="advertEditForm"
+                controlName="email"
+                [isSubmitted]="isSubmitted()"
+            ></app-control-error>
+            @if (isDataLoading()) {
+                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+            }
+        </div>
+    </div>
+    <div class="two-fields">
+        <button
+            pButton
+            type="submit"
+            [label]="isLoading() ? 'Редактируем объявление' : 'Редактировать объявление'"
+            [loading]="isLoading()"
+            [disabled]="!isAllRequiredCompleted() || (isSubmitted() && advertEditForm.invalid)"
+            class="advert-form__btn mt-8"
+        ></button>
+        <button
+            pButton
+            severity="secondary"
+            type="button"
+            class="advert-form__btn mt-8"
+            [disabled]="isCleanForm()"
+            (click)="onResetFormData()"
+        >
+            <span pButtonLabel>Очистить форму</span>
+        </button>
+        <app-form-message
+            [(success)]="successMessage"
+            [(error)]="errorMessage"
+            [lifeSuccess]="800"
+        ></app-form-message>
+    </div>
+</form>

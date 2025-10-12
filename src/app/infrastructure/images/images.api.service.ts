@@ -14,4 +14,8 @@ export class ImagesApiService {
             .get(`${environment.baseApiURL}/Images/${id}`, { responseType: 'blob' })
             .pipe(map((blob) => URL.createObjectURL(blob)));
     }
+
+    deleteImage(id: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiURL}/Images/${id}`);
+    }
 }

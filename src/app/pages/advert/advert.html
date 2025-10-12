@@ -11,7 +11,11 @@
             <span class="advert__price h3 fw-600">{{ advert.cost | priceFormat }}</span>
             @if (isMyAdvert()) {
                 <div class="user-buttons base mb-30">
-                    <button pButton class="advert__btn">
+                    <button
+                        pButton
+                        [routerLink]="['/user/advert-edit', advert.id]"
+                        class="advert__btn"
+                    >
                         <span pButtonLabel>Редактировать объявление</span>
                     </button>
                     <button

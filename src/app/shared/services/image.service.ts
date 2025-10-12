@@ -11,4 +11,8 @@ export class ImageService {
     getImage(id: string): Observable<string> {
         return this.apiService.getImage(id);
     }
+
+    deleteImage(id: string): Observable<void> {
+        return this.apiService.deleteImage(id);
+    }
 }
