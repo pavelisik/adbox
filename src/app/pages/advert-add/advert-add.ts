@@ -10,8 +10,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ControlError, FormMessage } from '@app/shared/components/forms';
 import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { Router } from '@angular/router';
-import { catchError, debounceTime, finalize, of, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, debounceTime, filter, finalize, of, skip, take, tap } from 'rxjs';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
@@ -50,13 +50,15 @@ export class AdvertAdd {
     private readonly confirm = inject(ConfirmService);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly categories = this.categoryFacade.allCategories;
-    readonly currentUser = this.usersFacade.currentUser;
-
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
+    readonly categories = this.categoryFacade.allCategories;
     readonly categoriesForSelect: Signal<any[]> = this.categories;
 
+    readonly currentUser = this.usersFacade.currentUser;
+
     uploadImages = signal<UploadImage[]>([]);
+
+    categoryPatch = signal<string | null>(null);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -94,6 +96,17 @@ export class AdvertAdd {
         effect(() => {
             this.advertDraftState.updateImages(this.uploadImages());
         });
+
+        // вот только так из черновика данные подгружаются в категории
+        // effect(() => {
+        //     const category = this.advertDraftState.advertDraft().category;
+        //     console.log('category:', category);
+        //     if (category) {
+        //         setTimeout(() => {
+        //             this.advertAddForm.get('category')!.setValue(category);
+        //         }, 1000);
+        //     }
+        // });
     }
 
     // проверка на первое заполнение обязательных полей

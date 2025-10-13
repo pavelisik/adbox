@@ -11,16 +11,16 @@ import { MessageModule } from 'primeng/message';
 export class ControlError {
     form = input<FormGroup | null>(null);
     controlName = input<string | null>(null);
-    isSubmitted = input<boolean>(false);
+    isShow = input<boolean>(false);
 
     errorMessage = () => {
         const form = this.form();
         const controlName = this.controlName();
-        const isSubmitted = this.isSubmitted();
+        const isShow = this.isShow();
         if (!form || !controlName) return null;
 
         const control = form.get(controlName);
-        if (!control || !control.errors || !isSubmitted) return null;
+        if (!control || !control.errors || !isShow) return null;
 
         if (control.errors['required']) {
             switch (controlName) {

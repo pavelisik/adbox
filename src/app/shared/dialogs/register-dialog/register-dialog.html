@@ -10,7 +10,7 @@
         <app-control-error
             [form]="registerForm"
             controlName="name"
-            [isSubmitted]="isSubmitted()"
+            [isShow]="isSubmitted()"
         ></app-control-error>
     </div>
     <div class="mb-16">
@@ -24,7 +24,7 @@
         <app-control-error
             [form]="registerForm"
             controlName="login"
-            [isSubmitted]="isSubmitted()"
+            [isShow]="isSubmitted()"
         ></app-control-error>
     </div>
     <div>
@@ -37,7 +37,7 @@
         <app-control-error
             [form]="registerForm"
             controlName="password"
-            [isSubmitted]="isSubmitted()"
+            [isShow]="isSubmitted()"
         ></app-control-error>
     </div>
     <div>
@@ -50,7 +50,7 @@
         <app-control-error
             [form]="registerForm"
             controlName="confirmPassword"
-            [isSubmitted]="isSubmitted()"
+            [isShow]="isSubmitted()"
         ></app-control-error>
     </div>
     <app-form-message [(error)]="errorMessage"></app-form-message>

@@ -1,11 +1,6 @@
-import { Component, DestroyRef, effect, inject, OnInit, signal, Signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-    AdvertDraftStateService,
-    AdvertService,
-    CategoryFacade,
-    ImageService,
-} from '@app/shared/services';
+import { AdvertService, CategoryFacade, ImageService } from '@app/shared/services';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
@@ -15,8 +10,8 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ControlError, FormMessage } from '@app/shared/components/forms';
 import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, debounceTime, finalize, map, of, switchMap, tap } from 'rxjs';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { catchError, combineLatest, filter, finalize, map, of, switchMap, take, tap } from 'rxjs';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
@@ -49,7 +44,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     styleUrl: './advert-edit.scss',
 })
 export class AdvertEdit {
-    // private readonly advertDraftState = inject(AdvertDraftStateService);
     private readonly categoryFacade = inject(CategoryFacade);
     private readonly advertService = inject(AdvertService);
     private readonly imageService = inject(ImageService);
@@ -75,7 +69,6 @@ export class AdvertEdit {
     // изображения, загружаемые в объявление
     uploadImages = signal<UploadImage[]>([]);
 
-    isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
     successMessage = signal<string | null>(null);
     errorMessage = signal<string | null>(null);
@@ -95,28 +88,6 @@ export class AdvertEdit {
 
     constructor() {
         this.loadAdvertForEdit();
-
-        // effect(() => {
-        //     console.log(this.uploadImages());
-        // });
-        // восстановление данных из черновика
-        // const advertDraft = this.advertDraftState.advertDraft();
-        // if (advertDraft) {
-        //     this.advertChangeForm.patchValue(advertDraft);
-        //     this.uploadImages.set(this.advertDraftState.restoreImages());
-        // }
-        // сохраняем изменения формы в черновик
-        // this.advertChangeForm.valueChanges
-        //     .pipe(
-        //         debounceTime(1000),
-        //         tap(() => this.advertDraftState.updateData(this.advertChangeForm.getRawValue())),
-        //         takeUntilDestroyed(),
-        //     )
-        //     .subscribe();
-        // сохраняем изображения в черновик при изменении
-        // effect(() => {
-        //     this.advertDraftState.updateImages(this.uploadImages());
-        // });
     }
 
     // проверка на первое заполнение обязательных полей
@@ -126,7 +97,7 @@ export class AdvertEdit {
     }
 
     isControlInvalid(controlName: string): boolean {
-        return !!this.advertEditForm.get(controlName)?.errors && this.isSubmitted();
+        return !!this.advertEditForm.get(controlName)?.errors && !this.isDataLoading();
     }
 
     isCleanForm(): boolean {
@@ -148,9 +119,7 @@ export class AdvertEdit {
 
     onResetFormData() {
         this.confirm.confirm('resetForm', () => {
-            // this.advertDraftState.clear();
             this.uploadImages.set([]);
-            this.isSubmitted.set(false);
             this.isFictiveImageAdd.set(false);
             this.advertEditForm.reset();
         });
@@ -197,7 +166,6 @@ export class AdvertEdit {
     }
 
     onSubmit() {
-        this.isSubmitted.set(true);
         this.advertEditForm.markAllAsTouched();
 
         if (this.advertEditForm.invalid) return;
@@ -237,9 +205,7 @@ export class AdvertEdit {
                     this.successMessage.set('Объявление успешно отредактировано');
 
                     setTimeout(() => {
-                        this.router.navigate(['/advert/', res.id]).then(() => {
-                            // this.advertDraftState.clear();
-                        });
+                        this.router.navigate(['/advert/', res.id]);
                     }, 1000);
                 }),
                 catchError((error: HttpErrorResponse) => {
@@ -260,11 +226,14 @@ export class AdvertEdit {
 
         this.isDataLoading.set(true);
 
-        this.advertService
-            .getAdvert(advertId)
+        toObservable(this.categories)
             .pipe(
+                // обязательно ждем, пока загрузятся все категории
+                filter((categories) => categories && categories.length > 0),
+                take(1),
+                switchMap(() => this.advertService.getAdvert(advertId)),
                 tap((advert) => {
-                    // заполняем форму
+                    // заполняем форму полученными значениями
                     this.advertEditForm.patchValue({
                         category: advert.category.id,
                         title: advert.name,
@@ -283,13 +252,10 @@ export class AdvertEdit {
                     this.advertImages.set(images);
                 }),
                 catchError((err) => {
-                    // this.errorMessage.set('Не удалось загрузить объявление');
                     console.error(err);
                     return of(null);
                 }),
-                finalize(() => {
-                    this.isDataLoading.set(false);
-                }),
+                finalize(() => this.isDataLoading.set(false)),
                 takeUntilDestroyed(this.destroyRef),
             )
             .subscribe();

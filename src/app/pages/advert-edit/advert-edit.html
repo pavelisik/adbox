@@ -18,7 +18,7 @@
                 <app-control-error
                     [form]="advertEditForm"
                     controlName="category"
-                    [isSubmitted]="isSubmitted()"
+                    [isShow]="!isDataLoading()"
                 ></app-control-error>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <app-control-error
                 [form]="advertEditForm"
                 controlName="title"
-                [isSubmitted]="isSubmitted()"
+                [isShow]="!isDataLoading()"
             ></app-control-error>
             @if (isDataLoading()) {
                 <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
@@ -58,7 +58,7 @@
             <app-control-error
                 [form]="advertEditForm"
                 controlName="description"
-                [isSubmitted]="isSubmitted()"
+                [isShow]="!isDataLoading()"
             ></app-control-error>
             @if (isDataLoading()) {
                 <p-progress-spinner
@@ -92,7 +92,7 @@
             <app-control-error
                 [form]="advertEditForm"
                 controlName="address"
-                [isSubmitted]="isSubmitted()"
+                [isShow]="!isDataLoading()"
             ></app-control-error>
             @if (isDataLoading()) {
                 <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
@@ -123,7 +123,7 @@
             <app-control-error
                 [form]="advertEditForm"
                 controlName="price"
-                [isSubmitted]="isSubmitted()"
+                [isShow]="!isDataLoading()"
             ></app-control-error>
             @if (isDataLoading()) {
                 <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
@@ -144,7 +144,7 @@
             <app-control-error
                 [form]="advertEditForm"
                 controlName="phone"
-                [isSubmitted]="isSubmitted()"
+                [isShow]="!isDataLoading()"
             ></app-control-error>
             @if (isDataLoading()) {
                 <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
@@ -165,7 +165,7 @@
             <app-control-error
                 [form]="advertEditForm"
                 controlName="email"
-                [isSubmitted]="isSubmitted()"
+                [isShow]="!isDataLoading()"
             ></app-control-error>
             @if (isDataLoading()) {
                 <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
@@ -178,7 +178,7 @@
             type="submit"
             [label]="isLoading() ? 'Редактируем объявление' : 'Редактировать объявление'"
             [loading]="isLoading()"
-            [disabled]="!isAllRequiredCompleted() || (isSubmitted() && advertEditForm.invalid)"
+            [disabled]="!isAllRequiredCompleted() || (!isDataLoading() && advertEditForm.invalid)"
             class="advert-form__btn mt-8"
         ></button>
         <button

@@ -1,4 +1,4 @@
-import { computed, DestroyRef, effect, inject, Injectable } from '@angular/core';
+import { afterNextRender, computed, DestroyRef, effect, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CategoryService, CategoryStoreService } from '@app/shared/services';
 import { transformCategories } from '@app/shared/utils';
