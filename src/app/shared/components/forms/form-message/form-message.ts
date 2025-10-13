@@ -23,14 +23,17 @@ export class FormMessage {
     );
 
     constructor() {
-        effect(() => {
+        effect((onCleanup) => {
             // без этого сброса через таймер из-за [life] не сбрасывались сообщения
             if (this.message()) {
                 const timer = this.life() + 500;
-                setTimeout(() => {
+                const timeoutId = setTimeout(() => {
                     this.success.set(null);
                     this.error.set(null);
                 }, timer);
+
+                // очистка при уничтожении компонента
+                onCleanup(() => clearTimeout(timeoutId));
             }
         });
     }

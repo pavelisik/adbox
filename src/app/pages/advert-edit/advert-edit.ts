@@ -20,7 +20,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
-import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
+import { AdvertImage, UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertEditForm } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
 import { UsersFacade } from '@app/core/auth/services';
@@ -62,14 +62,17 @@ export class AdvertEdit {
     private readonly route = inject(ActivatedRoute);
     private readonly notify = inject(NotificationService);
 
-    readonly categories = this.categoryFacade.allCategories;
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
+    readonly categories = this.categoryFacade.allCategories;
     readonly categoriesForSelect: Signal<any[]> = this.categories;
 
     readonly currentUser = this.usersFacade.currentUser;
 
     readonly advertId = this.route.snapshot.paramMap.get('id');
 
+    // изображения из объявления
+    advertImages = signal<AdvertImage[]>([]);
+    // изображения, загружаемые в объявление
     uploadImages = signal<UploadImage[]>([]);
 
     isSubmitted = signal<boolean>(false);
@@ -273,16 +276,11 @@ export class AdvertEdit {
                     });
 
                     // подставляем уже загруженные изображения
-                    const existingImages: UploadImage[] = advert.imagesIds.map((id) => ({
+                    const images: AdvertImage[] = advert.imagesIds.map((id) => ({
                         id,
-                        file: new File([], ''), // фиктивный пустой файл (чтобы тип совпадал)
-                        fileUrl: `${environment.baseApiURL}/images/${id}`, // URL к изображению
-                        fileName: `image_${id}.jpg`,
-                        fileType: 'image/jpeg',
-                        fileSize: 0,
+                        fileUrl: `${environment.baseApiURL}/images/${id}`,
                     }));
-
-                    this.uploadImages.set(existingImages);
+                    this.advertImages.set(images);
                 }),
                 catchError((err) => {
                     // this.errorMessage.set('Не удалось загрузить объявление');
