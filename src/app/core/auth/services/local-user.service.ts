@@ -33,7 +33,7 @@ export class LocalUserService {
         const key = this.COOKIE_PREFIX + userId;
         const data = this.store.localUser();
         if (data) {
-            this.cookies.set(key, JSON.stringify(data), 365, '/');
+            this.cookies.set(key, JSON.stringify(data), { expires: 365, path: '/' });
         }
     }
 

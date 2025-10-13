@@ -23,8 +23,8 @@
                         severity="secondary"
                         class="advert__btn"
                         (click)="deleteAdvert()"
-                        [label]="isDeleting() ? 'Удаляем объявление' : 'Удалить объявление'"
-                        [loading]="isDeleting()"
+                        [label]="isDeleteLoading() ? 'Удаляем объявление' : 'Удалить объявление'"
+                        [loading]="isDeleteLoading()"
                     ></button>
                 </div>
             } @else {

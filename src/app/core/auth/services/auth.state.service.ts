@@ -15,8 +15,11 @@ export class AuthStateService {
 
     saveToken(token: string, rememberMe: boolean) {
         this.token.set(token);
-        const expires = rememberMe ? 30 : undefined;
-        this.cookieService.set('token', token, expires, '/');
+        if (rememberMe) {
+            this.cookieService.set('token', token, { expires: 30, path: '/' });
+        } else {
+            this.cookieService.set('token', token, { path: '/' });
+        }
     }
 
     deleteToken() {

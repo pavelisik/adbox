@@ -47,7 +47,7 @@ export class Advert implements OnInit {
     advert = signal<FullAdvert | null>(null);
     parentId = signal<string | null>(null);
     breadcrumbs = signal<MenuItem[]>([]);
-    isDeleting = signal<boolean>(false);
+    isDeleteLoading = signal<boolean>(false);
 
     readonly advertId = computed<string | undefined>(() => {
         return this.advert()?.id;
@@ -98,7 +98,7 @@ export class Advert implements OnInit {
         if (!advertId) return;
 
         this.confirm.confirm('deleteAdvert', () => {
-            this.isDeleting.set(true);
+            this.isDeleteLoading.set(true);
 
             this.advertService
                 .deleteAdvert(advertId)
@@ -112,7 +112,7 @@ export class Advert implements OnInit {
                         return of(null);
                     }),
                     finalize(() => {
-                        this.isDeleting.set(false);
+                        this.isDeleteLoading.set(false);
                     }),
                     takeUntilDestroyed(this.destroyRef),
                 )
