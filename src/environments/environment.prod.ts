@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
 
     // эндпоинты основного API
     baseApiURL: 'http://dzitskiy.ru:5000',
@@ -9,6 +9,6 @@ export const environment = {
     dadata: {
         suggestionBaseApiURL:
             'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address',
-        token: '038cf03c0fcdeaf71d01807fc055484d186fdf0e',
+        token: '',
     },
 };

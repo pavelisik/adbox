@@ -14,8 +14,12 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
     const authStateService = inject(AuthStateService);
     const token = authStateService.token();
 
-    // игнорируем запросы авторизации и регистрации
-    if (req.url.includes('/Auth/Login') || req.url.includes('/Auth/Register')) {
+    // игнорируем запросы
+    if (
+        req.url.includes('/Auth/Login') ||
+        req.url.includes('/Auth/Register') ||
+        req.url.includes('dadata.ru')
+    ) {
         return next(req);
     }
 

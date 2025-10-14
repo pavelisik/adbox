@@ -45,13 +45,17 @@
             <span>(будет указываться в объявлениях по умолчанию)</span>
         </label>
         <div class="settings-form__spinner-wrapper">
-            <input
-                pInputText
-                placeholder="Введите адрес"
-                [placeholder]="currentUser() ? 'Введите адрес' : ''"
+            <p-autoComplete
                 formControlName="address"
+                [suggestions]="addressSuggestions()"
+                (completeMethod)="searchAddress($event)"
+                [forceSelection]="false"
+                [minQueryLength]="3"
+                [delay]="400"
+                [showClear]="true"
+                [placeholder]="currentUser() ? 'Введите адрес' : ''"
                 autocomplete="off"
-            />
+            ></p-autoComplete>
             @if (!currentUser()) {
                 <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
             }

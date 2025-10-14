@@ -14,6 +14,8 @@ import { SettingsChangeForm } from './domains';
 import { LocalUserService } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DadataService } from '@app/shared/services';
+import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
     selector: 'app-settings-form',
@@ -24,6 +26,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         ControlError,
         FormMessage,
         ProgressSpinnerModule,
+        AutoCompleteModule,
     ],
     templateUrl: './settings-form.html',
     styleUrl: './settings-form.scss',
@@ -34,11 +37,14 @@ export class SettingsForm {
     private readonly localUserService = inject(LocalUserService);
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
+    private readonly dadataService = inject(DadataService);
     private readonly notify = inject(NotificationService);
     private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
 
     readonly currentUser = this.usersFacade.currentUser;
+
+    readonly addressSuggestions = signal<string[]>([]);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -150,6 +156,17 @@ export class SettingsForm {
             }
         })();
         this.errorMessage.set(message);
+    }
+
+    // поиск адреса с автокомплитом из DaData
+    searchAddress(event: AutoCompleteCompleteEvent) {
+        this.dadataService
+            .getAddressStrings(event.query)
+            .pipe(
+                tap((res) => this.addressSuggestions.set(res)),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
     }
 
     private localDataUpdate() {

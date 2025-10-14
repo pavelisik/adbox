@@ -228,7 +228,7 @@ export class AdvertEdit {
 
         toObservable(this.categories)
             .pipe(
-                // обязательно ждем, пока загрузятся все категории
+                // ждем, пока загрузятся все категории
                 filter((categories) => categories && categories.length > 0),
                 take(1),
                 switchMap(() => this.advertService.getAdvert(advertId)),
@@ -245,9 +245,9 @@ export class AdvertEdit {
                     });
 
                     // подставляем уже загруженные изображения
-                    const images: AdvertImage[] = advert.imagesIds.map((id) => ({
+                    const images = advert.imagesIds.map<AdvertImage>((id) => ({
                         id,
-                        fileUrl: `${environment.baseApiURL}/images/${id}`,
+                        fileUrl: `${environment.baseImagesURL}${id}`,
                     }));
                     this.advertImages.set(images);
                 }),
