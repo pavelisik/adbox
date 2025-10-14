@@ -15,7 +15,7 @@
                 [isShow]="isSubmitted()"
             ></app-control-error>
             @if (!currentUser()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+                <app-spinner></app-spinner>
             }
         </div>
     </div>
@@ -35,7 +35,7 @@
                 [isShow]="isSubmitted()"
             ></app-control-error>
             @if (!currentUser()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+                <app-spinner></app-spinner>
             }
         </div>
     </div>
@@ -59,7 +59,7 @@
             >
             </p-autoComplete>
             @if (!currentUser()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
+                <app-spinner></app-spinner>
             }
         </div>
     </div>

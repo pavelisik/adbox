@@ -3,7 +3,7 @@
         <h4 class="h4 fw-600 mb-24">Рекомендации для вас</h4>
         @if (adverts(); as adverts) {
             @if (isLoading()) {
-                <app-spinner></app-spinner>
+                <app-spinner type="big" width="1"></app-spinner>
             } @else {
                 <app-ad-grid [adverts]="adverts"></app-ad-grid>
             }
@@ -14,13 +14,13 @@
         @if (currentUser(); as user) {
             <app-ad-grid [adverts]="user.adverts" [newBtn]="true"></app-ad-grid>
         } @else {
-            <app-spinner></app-spinner>
+            <app-spinner type="big" width="1"></app-spinner>
         }
     }
     @case ('user') {
         @if (isLoading()) {
             <p-skeleton width="420px" height="32px" />
-            <app-spinner></app-spinner>
+            <app-spinner type="big" width="1"></app-spinner>
         } @else {
             <h4 class="h4 fw-600 mb-24">Объявления пользователя {{ viewedUser()?.name }}</h4>
             @if (adverts().length) {
@@ -42,7 +42,7 @@
                 <div>
                     <app-ad-top-filters [advertsCount]="adverts.length"></app-ad-top-filters>
                     @if (isLoading()) {
-                        <app-spinner></app-spinner>
+                        <app-spinner type="big" width="1" wrapHeight="700px"></app-spinner>
                     } @else if (adverts.length < 1) {
                         <p>По точному совпадению результатов не найдено</p>
                     } @else {

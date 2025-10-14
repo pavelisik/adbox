@@ -12,9 +12,12 @@
                     [optionValue]="'id'"
                     optionGroupLabel="name"
                     [optionGroupChildren]="['childs']"
-                    placeholder="Нажмите, чтобы выбрать"
+                    [placeholder]="isDataLoading() ? '' : 'Нажмите, чтобы выбрать'"
                     [invalid]="isControlInvalid('category')"
                 />
+                @if (isDataLoading()) {
+                    <app-spinner></app-spinner>
+                }
                 <app-control-error
                     [form]="advertEditForm"
                     controlName="category"
@@ -33,19 +36,19 @@
                 autocomplete="off"
                 [invalid]="isControlInvalid('title')"
             />
+            @if (isDataLoading()) {
+                <app-spinner></app-spinner>
+            }
             <app-control-error
                 [form]="advertEditForm"
                 controlName="title"
                 [isShow]="!isDataLoading()"
             ></app-control-error>
-            @if (isDataLoading()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
-            }
         </div>
     </div>
     <div>
         <label for="description">Описание</label>
-        <div class="advert-form__spinner-wrapper">
+        <div class="relative">
             <textarea
                 pTextarea
                 formControlName="description"
@@ -55,18 +58,14 @@
                 [invalid]="isControlInvalid('description')"
                 class="big-field mb--5"
             ></textarea>
+            @if (isDataLoading()) {
+                <app-spinner type="textarea"></app-spinner>
+            }
             <app-control-error
                 [form]="advertEditForm"
                 controlName="description"
                 [isShow]="!isDataLoading()"
             ></app-control-error>
-            @if (isDataLoading()) {
-                <p-progress-spinner
-                    ariaLabel="loading"
-                    strokeWidth="4"
-                    class="app-spinner textarea"
-                />
-            }
         </div>
     </div>
     <div>
@@ -89,14 +88,14 @@
                 autocomplete="address"
                 [invalid]="isControlInvalid('address')"
             />
+            @if (isDataLoading()) {
+                <app-spinner></app-spinner>
+            }
             <app-control-error
                 [form]="advertEditForm"
                 controlName="address"
                 [isShow]="!isDataLoading()"
             ></app-control-error>
-            @if (isDataLoading()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
-            }
         </div>
     </div>
     <app-images-upload
@@ -120,14 +119,14 @@
                 inputStyleClass="add"
                 [invalid]="isControlInvalid('price')"
             />
+            @if (isDataLoading()) {
+                <app-spinner></app-spinner>
+            }
             <app-control-error
                 [form]="advertEditForm"
                 controlName="price"
                 [isShow]="!isDataLoading()"
             ></app-control-error>
-            @if (isDataLoading()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
-            }
         </div>
     </div>
     <div>
@@ -141,14 +140,14 @@
                 autocomplete="phone"
                 [invalid]="isControlInvalid('phone')"
             ></p-inputMask>
+            @if (isDataLoading()) {
+                <app-spinner></app-spinner>
+            }
             <app-control-error
                 [form]="advertEditForm"
                 controlName="phone"
                 [isShow]="!isDataLoading()"
             ></app-control-error>
-            @if (isDataLoading()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
-            }
         </div>
     </div>
     <div>
@@ -162,14 +161,14 @@
                 autocomplete="email"
                 [invalid]="isControlInvalid('email')"
             />
+            @if (isDataLoading()) {
+                <app-spinner></app-spinner>
+            }
             <app-control-error
                 [form]="advertEditForm"
                 controlName="email"
                 [isShow]="!isDataLoading()"
             ></app-control-error>
-            @if (isDataLoading()) {
-                <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
-            }
         </div>
     </div>
     <div class="two-fields">

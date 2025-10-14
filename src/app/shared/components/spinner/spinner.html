@@ -1,1 +1,19 @@
-<p-progress-spinner strokeWidth="1" ariaLabel="loading" class="big-spinner" />
+<div
+    [style]="type() === 'big' ? { height: 'calc(100vh - ' + wrapHeight() + ')' } : {}"
+    [class.small]="type() === 'small'"
+    [class.big]="type() === 'big'"
+    [class.textarea]="type() === 'textarea'"
+>
+    <p-progress-spinner
+        [strokeWidth]="width()"
+        animationDuration=".8s"
+        ariaLabel="loading"
+        class="spinner"
+        [style]="{
+            '--p-progressspinner-color-one': color(),
+            '--p-progressspinner-color-two': color(),
+            '--p-progressspinner-color-three': color(),
+            '--p-progressspinner-color-four': color(),
+        }"
+    />
+</div>

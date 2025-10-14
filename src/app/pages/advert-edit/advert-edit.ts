@@ -10,7 +10,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ControlError, FormMessage } from '@app/shared/components/forms';
 import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, combineLatest, filter, finalize, map, of, switchMap, take, tap } from 'rxjs';
+import { catchError, filter, finalize, map, of, switchMap, take, tap } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -22,7 +22,7 @@ import { UsersFacade } from '@app/core/auth/services';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { NotificationService } from '@app/core/notification';
 import { environment } from '@env/environment';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { Spinner } from '@app/shared/components';
 
 @Component({
     selector: 'app-advert-edit',
@@ -38,7 +38,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
         FormMessage,
         ImagesUpload,
         RadioButtonModule,
-        ProgressSpinnerModule,
+        Spinner,
     ],
     templateUrl: './advert-edit.html',
     styleUrl: './advert-edit.scss',
