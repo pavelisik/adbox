@@ -1,42 +1,42 @@
 <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()" class="settings-form base mb-48">
     <div>
         <label for="name">Имя</label>
-        <div class="settings-form__spinner-wrapper">
+        <div>
             <input
                 pInputText
-                [placeholder]="currentUser() ? 'Введите имя' : ''"
+                [placeholder]="isDataLoading() ? '' : 'Введите имя'"
                 formControlName="name"
                 autocomplete="off"
                 [invalid]="isControlInvalid('name')"
             />
+            @if (isDataLoading()) {
+                <app-spinner></app-spinner>
+            }
             <app-control-error
                 [form]="settingsForm"
                 controlName="name"
                 [isShow]="isSubmitted()"
             ></app-control-error>
-            @if (!currentUser()) {
-                <app-spinner></app-spinner>
-            }
         </div>
     </div>
     <div>
         <label for="login">Логин</label>
-        <div class="settings-form__spinner-wrapper">
+        <div>
             <input
                 pInputText
-                [placeholder]="currentUser() ? 'Введите логин' : ''"
+                [placeholder]="isDataLoading() ? '' : 'Введите логин'"
                 formControlName="login"
                 autocomplete="off"
                 [invalid]="isControlInvalid('login')"
             />
+            @if (isDataLoading()) {
+                <app-spinner></app-spinner>
+            }
             <app-control-error
                 [form]="settingsForm"
                 controlName="login"
                 [isShow]="isSubmitted()"
             ></app-control-error>
-            @if (!currentUser()) {
-                <app-spinner></app-spinner>
-            }
         </div>
     </div>
     <div>
@@ -44,7 +44,7 @@
             Адрес
             <span>(будет указываться в объявлениях по умолчанию)</span>
         </label>
-        <div class="settings-form__spinner-wrapper">
+        <div>
             <p-autoComplete
                 formControlName="address"
                 [suggestions]="addressSuggestions()"
@@ -53,15 +53,32 @@
                 [minQueryLength]="3"
                 [delay]="400"
                 [showClear]="true"
-                [placeholder]="currentUser() ? 'Введите адрес' : ''"
+                [placeholder]="isDataLoading() ? '' : 'Введите адрес'"
+                [emptyMessage]="'Ничего не найдено'"
                 autocomplete="off"
                 fluid
             >
             </p-autoComplete>
-            @if (!currentUser()) {
+            @if (isDataLoading()) {
                 <app-spinner></app-spinner>
             }
         </div>
+    </div>
+    <div class="short-field">
+        <label for="favoriteCategory">Избранная категория <span>(для рекомендаций)</span></label>
+        <p-cascadeselect
+            formControlName="favoriteCategory"
+            [options]="categories()"
+            optionLabel="name"
+            [optionValue]="'id'"
+            optionGroupLabel="name"
+            [optionGroupChildren]="['childs']"
+            [placeholder]="isDataLoading() ? '' : 'Нажмите, чтобы выбрать'"
+            [invalid]="isControlInvalid('favoriteCategory')"
+        />
+        @if (isDataLoading()) {
+            <app-spinner type="select"></app-spinner>
+        }
     </div>
     <div>
         <button

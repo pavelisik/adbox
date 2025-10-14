@@ -4,4 +4,5 @@ export interface SettingsChangeForm {
     name: FormControl<string>;
     login: FormControl<string>;
     address: FormControl<string>;
+    favoriteCategory: FormControl<string>;
 }

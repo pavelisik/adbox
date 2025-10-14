@@ -5,6 +5,10 @@
     gap: 24px;
     row-gap: 16px;
 
+    .short-field {
+        max-width: 390px;
+    }
+
     > * {
         display: flex;
         flex-direction: column;

@@ -385,7 +385,9 @@
         }
     }
 
-    &:focus-within {
+    &:focus-within,
+    &:focus,
+    &:active {
         .p-autocomplete-clear-icon {
             opacity: 1;
             pointer-events: auto;

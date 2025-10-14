@@ -1,13 +1,13 @@
 <h4 class="h4 fw-600 mb-24">Редактирование объявления</h4>
 
 <form [formGroup]="advertEditForm" (ngSubmit)="onSubmit()" class="advert-form base mb-48">
-    @if (categoriesForSelect(); as categories) {
+    @if (categories()) {
         <div>
             <label for="category">Выберите категорию <span class="required">*</span></label>
             <div class="middle-field">
                 <p-cascadeselect
                     formControlName="category"
-                    [options]="categoriesForSelect()"
+                    [options]="categories()"
                     optionLabel="name"
                     [optionValue]="'id'"
                     optionGroupLabel="name"
@@ -28,7 +28,7 @@
     }
     <div>
         <label for="title">Название объявления <span class="required">*</span></label>
-        <div class="advert-form__spinner-wrapper">
+        <div>
             <input
                 pInputText
                 formControlName="title"
@@ -80,7 +80,7 @@
                 <button pButton type="button">Изменить</button>
             </div>
         }
-        <div class="advert-form__spinner-wrapper">
+        <div>
             <input
                 pInputText
                 formControlName="address"
@@ -106,7 +106,7 @@
     ></app-images-upload>
     <div>
         <label for="price">Цена <span class="required">*</span></label>
-        <div class="small-field advert-form__spinner-wrapper">
+        <div class="small-field">
             <p-inputnumber
                 formControlName="price"
                 [placeholder]="isDataLoading() ? '' : '0 ₽'"
@@ -131,7 +131,7 @@
     </div>
     <div>
         <label for="phone">Номер телефона <span class="required">*</span></label>
-        <div class="small-field advert-form__spinner-wrapper">
+        <div class="small-field">
             <p-inputMask
                 formControlName="phone"
                 type="phone"
@@ -152,7 +152,7 @@
     </div>
     <div>
         <label for="email">E-mail</label>
-        <div class="small-field advert-form__spinner-wrapper">
+        <div class="small-field">
             <input
                 pInputText
                 type="email"

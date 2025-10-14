@@ -1,6 +1,6 @@
 export interface LocalUserData {
     address?: string;
-    city?: string;
-    favoriteCategories?: string[];
-    theme?: 'light' | 'dark';
+    favoriteCategory?: string;
+    // city?: string;
+    // theme?: 'light' | 'dark';
 }

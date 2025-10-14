@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, Signal, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { ButtonModule } from 'primeng/button';
@@ -8,14 +8,15 @@ import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 import { UserUpdateRequest } from '@app/core/auth/domains';
 import { HttpErrorResponse } from '@angular/common/http';
-import { catchError, finalize, of, tap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, combineLatest, delay, filter, finalize, of, take, tap } from 'rxjs';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { SettingsChangeForm } from './domains';
 import { LocalUserService } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
-import { DadataService } from '@app/shared/services';
+import { CategoryFacade, DadataService } from '@app/shared/services';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { Spinner } from '@app/shared/components';
+import { CascadeSelectModule } from 'primeng/cascadeselect';
 
 @Component({
     selector: 'app-settings-form',
@@ -26,6 +27,7 @@ import { Spinner } from '@app/shared/components';
         ControlError,
         FormMessage,
         AutoCompleteModule,
+        CascadeSelectModule,
         Spinner,
     ],
     templateUrl: './settings-form.html',
@@ -35,6 +37,7 @@ export class SettingsForm {
     private readonly usersService = inject(UsersService);
     private readonly usersFacade = inject(UsersFacade);
     private readonly localUserService = inject(LocalUserService);
+    private readonly categoryFacade = inject(CategoryFacade);
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly dadataService = inject(DadataService);
@@ -46,8 +49,12 @@ export class SettingsForm {
 
     readonly addressSuggestions = signal<string[]>([]);
 
+    // только при помощи any[] решается баг с типизацией options в p-cascadeselect
+    readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
+
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
+    isDataLoading = signal<boolean>(false);
     successMessage = signal<string | null>(null);
     errorMessage = signal<string | null>(null);
 
@@ -55,24 +62,12 @@ export class SettingsForm {
         name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
         login: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
         address: [''],
+        favoriteCategory: [''],
     });
 
     constructor() {
-        effect(() => {
-            const user = this.currentUser();
-            if (!user) return;
+        this.loadDataToForm();
 
-            const nameControl = this.settingsForm.get('name');
-            const loginControl = this.settingsForm.get('login');
-            const addressControl = this.settingsForm.get('address');
-
-            if (nameControl && !nameControl.dirty)
-                nameControl.setValue(user.name ?? '', { emitEvent: false });
-            if (loginControl && !loginControl.dirty)
-                loginControl.setValue(user.login ?? '', { emitEvent: false });
-            if (addressControl && !addressControl.dirty && user.address)
-                addressControl.setValue(user.address ?? '', { emitEvent: false });
-        });
         effect(() => {
             const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
             const activeForm = this.passwordConfirmService.activeForm();
@@ -122,8 +117,8 @@ export class SettingsForm {
         const user = this.currentUser();
         if (!user) return false;
 
-        const { address } = this.settingsForm.getRawValue();
-        return address !== user.address;
+        const { address, favoriteCategory } = this.settingsForm.getRawValue();
+        return address !== user.address || favoriteCategory !== user.favoriteCategory;
     }
 
     // проверка на первое заполнение обязательных полей
@@ -173,8 +168,8 @@ export class SettingsForm {
         const user = this.currentUser();
         if (!user) return;
 
-        const { address } = this.settingsForm.getRawValue();
-        this.localUserService.updateData(user.id, { address });
+        const { address, favoriteCategory } = this.settingsForm.getRawValue();
+        this.localUserService.updateData(user.id, { address, favoriteCategory });
 
         // выводить сообщение только если серверные поля не изменены (чтобы не было дубля)
         if (!this.isAuthUserDataChanged()) {
@@ -199,5 +194,39 @@ export class SettingsForm {
         if (this.isLocalUserDataChanged()) {
             this.localDataUpdate();
         }
+    }
+
+    // метод асинхронной загрузки избранной данных в форму
+    private loadDataToForm() {
+        this.isDataLoading.set(true);
+        const categories$ = toObservable(this.categories);
+        const currentUser$ = toObservable(this.currentUser);
+        combineLatest([categories$, currentUser$])
+            .pipe(
+                filter(([categories, user]) => {
+                    const hasCategories = !!categories && categories.length > 0;
+                    const hasUser = !!user;
+                    return hasCategories && hasUser;
+                }),
+                take(1),
+                delay(100),
+                tap(([categories, user]) => {
+                    this.settingsForm.patchValue({
+                        name: user!.name,
+                        login: user!.login,
+                        address: user!.address,
+                        favoriteCategory: user!.favoriteCategory,
+                    });
+                }),
+                catchError((error: HttpErrorResponse) => {
+                    this.setErrorMessage(error);
+                    return of(null);
+                }),
+                finalize(() => {
+                    this.isDataLoading.set(false);
+                }),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
     }
 }

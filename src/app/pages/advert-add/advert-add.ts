@@ -51,8 +51,7 @@ export class AdvertAdd {
     private readonly destroyRef = inject(DestroyRef);
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
-    readonly categories = this.categoryFacade.allCategories;
-    readonly categoriesForSelect: Signal<any[]> = this.categories;
+    readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
 
     readonly currentUser = this.usersFacade.currentUser;
 
@@ -98,6 +97,7 @@ export class AdvertAdd {
         });
 
         // вот только так из черновика данные подгружаются в категории
+        // короче надо писать асинхронный метод как в настройках и в нем патчить значения (но скорей сего на паузу ставить во время запросов сохранение в черновик)
         // effect(() => {
         //     const category = this.advertDraftState.advertDraft().category;
         //     console.log('category:', category);

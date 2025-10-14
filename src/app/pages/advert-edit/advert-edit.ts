@@ -57,8 +57,7 @@ export class AdvertEdit {
     private readonly notify = inject(NotificationService);
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
-    readonly categories = this.categoryFacade.allCategories;
-    readonly categoriesForSelect: Signal<any[]> = this.categories;
+    readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
 
     readonly currentUser = this.usersFacade.currentUser;
 

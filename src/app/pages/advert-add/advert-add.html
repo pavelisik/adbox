@@ -1,13 +1,13 @@
 <h4 class="h4 fw-600 mb-24">Новое объявление</h4>
 
 <form [formGroup]="advertAddForm" (ngSubmit)="onSubmit()" class="advert-add-form base mb-48">
-    @if (categoriesForSelect(); as categories) {
+    @if (categories()) {
         <div>
             <label for="category">Выберите категорию <span class="required">*</span></label>
             <div class="middle-field">
                 <p-cascadeselect
                     formControlName="category"
-                    [options]="categoriesForSelect()"
+                    [options]="categories()"
                     optionLabel="name"
                     [optionValue]="'id'"
                     optionGroupLabel="name"
