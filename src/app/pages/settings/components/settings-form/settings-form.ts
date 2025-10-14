@@ -8,7 +8,7 @@ import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 import { UserUpdateRequest } from '@app/core/auth/domains';
 import { HttpErrorResponse } from '@angular/common/http';
-import { catchError, finalize, of, tap } from 'rxjs';
+import { catchError, finalize, never, of, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SettingsChangeForm } from './domains';
 import { LocalUserService } from '@app/core/auth/services';

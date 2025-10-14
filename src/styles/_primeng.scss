@@ -35,6 +35,20 @@
     --p-inputtext-invalid-border-color: var(--error-color);
     --p-inputtext-shadow: none;
 
+    /* autocomplete */
+    --p-autocomplete-dropdown-color: var(--dark-color);
+    --p-autocomplete-padding-x: 14px;
+    --p-autocomplete-overlay-border-color: var(--gray-200-color);
+    --p-autocomplete-overlay-border-radius: 4px;
+    --p-autocomplete-list-gap: 0px;
+    --p-autocomplete-list-padding: 0px;
+    --p-autocomplete-option-padding: 8px 12px;
+    --p-autocomplete-option-border-radius: 0px;
+    --p-autocomplete-option-selected-focus-background: var(--gray-100-color);
+    --p-autocomplete-option-selected-focus-color: var(--dark-color);
+    --p-autocomplete-option-selected-background: inherit;
+    --p-autocomplete-option-selected-color: inherit;
+
     /* checkbox */
     --p-checkbox-border-radius: 4px;
     --p-checkbox-border-color: var(--gray-300-color);
@@ -348,6 +362,37 @@
     height: 12px;
 }
 
+.p-autocomplete {
+    .p-autocomplete-input {
+        padding: 12px;
+        line-height: 24px;
+    }
+
+    .p-autocomplete-loader {
+        color: var(--gray-400-color);
+        margin-top: -7px;
+    }
+
+    .p-autocomplete-clear-icon {
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+        margin-top: -7px;
+        color: var(--gray-500-color);
+
+        &:hover {
+            color: var(--gray-600-color);
+        }
+    }
+
+    &:focus-within {
+        .p-autocomplete-clear-icon {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    }
+}
+
 .p-inputnumber {
     width: 100%;
 }
@@ -391,18 +436,19 @@
     margin-right: 4px;
 }
 
-.p-select-overlay,
-.p-cascadeselect-overlay:not(.p-cascadeselect-option-list) {
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
-
 .p-cascadeselect-group-icon {
     margin-bottom: 4px;
 
     svg {
         width: 14px;
     }
+}
+
+.p-select-overlay,
+.p-cascadeselect-overlay:not(.p-cascadeselect-option-list),
+.p-autocomplete-overlay {
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .p-toast {

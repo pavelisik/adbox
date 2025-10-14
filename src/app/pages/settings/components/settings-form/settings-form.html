@@ -55,7 +55,9 @@
                 [showClear]="true"
                 [placeholder]="currentUser() ? 'Введите адрес' : ''"
                 autocomplete="off"
-            ></p-autoComplete>
+                fluid
+            >
+            </p-autoComplete>
             @if (!currentUser()) {
                 <p-progress-spinner ariaLabel="loading" strokeWidth="4" class="app-spinner" />
             }
