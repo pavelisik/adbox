@@ -63,7 +63,7 @@
             <div class="advert__address mb-30">
                 <h4 class="fw-600">Адрес</h4>
                 <span class="base">{{ advert.location }}</span>
-                <button pButton text class="advert__map-open-btn base">
+                <button pButton text class="advert__map-open-btn base" (click)="mapDialogOpen()">
                     <span pButtonLabel>Открыть на карте</span>
                     <svg pButtonIcon icon="arrow-up-right-square" width="20" height="20"></svg>
                 </button>

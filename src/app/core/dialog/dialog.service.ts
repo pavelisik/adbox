@@ -3,7 +3,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router } from '@angular/router';
 import { filter, tap } from 'rxjs';
 
-export type DialogType = 'login' | 'register' | 'password' | 'info' | 'terms-of-service';
+export type DialogType =
+    | 'login'
+    | 'register'
+    | 'password'
+    | 'info'
+    | 'terms-of-service'
+    | 'address-on-map';
 
 @Injectable({
     providedIn: 'root',

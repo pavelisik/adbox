@@ -18,13 +18,13 @@
             <app-password-dialog></app-password-dialog>
         }
         @case ('info') {
-            <app-info-dialog
-                [userName]="dialogService.userName"
-                [phoneNumber]="dialogService.phoneNumber"
-            ></app-info-dialog>
+            <app-info-dialog></app-info-dialog>
         }
         @case ('terms-of-service') {
             <app-terms-of-service></app-terms-of-service>
+        }
+        @case ('address-on-map') {
+            <app-address-on-map></app-address-on-map>
         }
     }
 </p-dialog>

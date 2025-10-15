@@ -1,7 +1,8 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DividerModule } from 'primeng/divider';
 import { PhoneFormatPipe } from '@app/shared/pipes';
 import { DialogService } from '@app/core/dialog';
+import { AdvertFacade } from '@app/shared/services';
 
 @Component({
     selector: 'app-info-dialog',
@@ -11,6 +12,7 @@ import { DialogService } from '@app/core/dialog';
 })
 export class InfoDialog {
     dialogService = inject(DialogService);
-    userName = input<string>('');
-    phoneNumber = input<string>('');
+    advertFacade = inject(AdvertFacade);
+
+    advert = this.advertFacade.advert;
 }

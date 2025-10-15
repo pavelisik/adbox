@@ -51,6 +51,10 @@ export class Advert {
         this.dialogService.open('info', userName, phoneNumber);
     }
 
+    mapDialogOpen() {
+        this.dialogService.open('address-on-map');
+    }
+
     isAuth(): boolean {
         return this.authStateService.isAuth();
     }
