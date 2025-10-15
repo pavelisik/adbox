@@ -62,13 +62,6 @@ export class UsersFacade {
         });
     }
 
-    isMyAdvert(advertId: string | null | undefined) {
-        return computed(() => {
-            const user = this.currentUser();
-            return !!user?.adverts?.some((ad) => ad.id === advertId);
-        });
-    }
-
     // принудительно обновляем текущего пользователя новым запросом на сервер
     refreshAuthUser(): void {
         this.refreshAuthUserTrigger.update((v) => v + 1);

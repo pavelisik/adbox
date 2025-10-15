@@ -1,4 +1,6 @@
-@if (advert(); as advert) {
+@if (isAdvertLoading()) {
+    <app-advert-skeleton></app-advert-skeleton>
+} @else if (advert(); as advert) {
     <app-breadcrumbs [items]="breadcrumbs()"></app-breadcrumbs>
     <div class="advert">
         <div class="advert-left">
@@ -73,5 +75,6 @@
         </div>
     </div>
 } @else {
-    <p>Загрузка...</p>
+    <h1 class="advert__title h3 fw-600">Ошибка загрузки объявления</h1>
+    <p class="base">Возможно, такого объявления не существует</p>
 }

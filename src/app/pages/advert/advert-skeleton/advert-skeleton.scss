@@ -1,0 +1,47 @@
+.advert-skeleton {
+    .advert-skeleton__breadcrumbs {
+        margin-top: 3px;
+        margin-bottom: 16px;
+    }
+
+    .advert-skeleton__grid {
+        display: grid;
+        grid-template-columns: 1fr 416px;
+        gap: 24px;
+    }
+
+    .advert-skeleton__left,
+    .advert-skeleton__right {
+        display: flex;
+        flex-direction: column;
+    }
+    .advert-skeleton__title {
+        margin-bottom: 21px;
+    }
+
+    .advert-skeleton__image {
+        margin-bottom: 24px;
+    }
+
+    .advert-skeleton__gallery {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        gap: 12px;
+    }
+
+    .advert-skeleton__price {
+        margin-bottom: 21px;
+    }
+
+    .advert-skeleton__block {
+        margin-bottom: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    p-skeleton {
+        border-radius: 6px;
+    }
+}

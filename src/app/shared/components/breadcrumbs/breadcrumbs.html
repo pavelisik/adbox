@@ -1,8 +1,12 @@
-<p-breadcrumb [model]="items()">
-    <ng-template #item let-item>
-        <a>
-            {{ item.label }}
-        </a>
-    </ng-template>
-    <ng-template #separator>&middot;</ng-template>
-</p-breadcrumb>
+@if (isLoading()) {
+    <p-skeleton width="25%" height="18px" class="breadcrumbs-skeleton"></p-skeleton>
+} @else if (items().length > 0) {
+    <p-breadcrumb [model]="items()">
+        <ng-template #item let-item>
+            <a>
+                {{ item.label }}
+            </a>
+        </ng-template>
+        <ng-template #separator>&middot;</ng-template>
+    </p-breadcrumb>
+}
