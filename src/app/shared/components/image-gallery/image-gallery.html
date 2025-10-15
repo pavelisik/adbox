@@ -7,7 +7,7 @@
         @if (ids | imagesFromIds | async; as imagesSrc) {
             <p-galleria [value]="imagesSrc" [showThumbnailNavigators]="false" [numVisible]="6">
                 <ng-template #item let-src>
-                    <img [src]="src" class="img-gallery__item" />
+                    <p-image [src]="src" alt="" [preview]="true" class="img-gallery__item" />
                 </ng-template>
                 <ng-template #thumbnail let-src>
                     <img [src]="src" class="img-gallery__thumbnail" />

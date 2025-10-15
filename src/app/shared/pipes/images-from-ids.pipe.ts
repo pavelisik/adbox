@@ -1,4 +1,4 @@
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, map, Observable, of } from 'rxjs';
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { ImageService } from '@app/shared/services';
 
