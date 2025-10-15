@@ -1,9 +1,26 @@
-.img-gallery__item {
+.img-gallery__item-wrapper {
+    height: 570px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // background-color: rgb(0, 0, 0, 0.05);
     border-radius: 4px;
-    max-height: 700px;
+}
+
+.img-gallery__item {
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+
+    .pi {
+        font-size: 26px;
+        opacity: 0.8;
+    }
 }
 
 .img-gallery__thumbnail {
     border-radius: 4px;
-    width: 120px;
+    height: 90px;
 }
