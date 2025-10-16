@@ -41,6 +41,7 @@
                     currencyDisplay="symbol"
                     locale="ru-RU"
                     [minFractionDigits]="0"
+                    [invalid]="isPricesMinMaxWrong()"
                 />
                 <p-inputnumber
                     formControlName="maxPrice"
@@ -50,11 +51,24 @@
                     currencyDisplay="symbol"
                     locale="ru-RU"
                     [minFractionDigits]="0"
+                    [invalid]="isPricesMinMaxWrong()"
                 />
             </div>
         </div>
-        <button pButton type="submit" class="ad-sidebar-filters__submit-btn">
-            <span pButtonLabel class="base">Показать объявления</span>
-        </button>
+        <button
+            pButton
+            type="submit"
+            class="ad-sidebar-filters__submit-btn base"
+            [label]="
+                isPriceFilterEmpty() && isSubmitted()
+                    ? 'Сбросить фильтр цен'
+                    : 'Показать объявления'
+            "
+            [disabled]="
+                (isPriceFilterEmpty() && !isSubmitted()) ||
+                !isPriceFilterChange() ||
+                isPricesMinMaxWrong()
+            "
+        ></button>
     </form>
 </aside>

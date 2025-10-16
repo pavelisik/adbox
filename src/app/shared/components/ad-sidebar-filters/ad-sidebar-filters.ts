@@ -33,6 +33,10 @@ export class AdSidebarFilters {
     readonly categories = this.categoryFacade.allCategories;
     readonly activeItem = signal<Category | null>(null);
 
+    isSubmitted = signal<boolean>(false);
+    lastMinPrice = signal<number | null>(null);
+    lastMaxPrice = signal<number | null>(null);
+
     readonly queryParams = toSignal(this.route.queryParams, {
         initialValue: {} as AdvertsQueryParams,
     });
@@ -43,8 +47,8 @@ export class AdSidebarFilters {
     );
 
     filterForm: FormGroup = this.fb.group({
-        minPrice: [null],
-        maxPrice: [null],
+        minPrice: this.fb.control<number | null>(null),
+        maxPrice: this.fb.control<number | null>(null),
     });
 
     constructor() {
@@ -59,6 +63,42 @@ export class AdSidebarFilters {
                 maxPrice: this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null,
             });
         });
+    }
+
+    isPriceFilterEmpty(): boolean {
+        const { minPrice, maxPrice } = this.filterForm.value;
+        return (minPrice == null || minPrice === '') && (maxPrice == null || maxPrice === '');
+    }
+
+    isPriceFilterChange(): boolean {
+        const { minPrice, maxPrice } = this.filterForm.value;
+        return this.lastMinPrice() !== minPrice || this.lastMaxPrice() !== maxPrice;
+    }
+
+    isPricesMinMaxWrong(): boolean {
+        const { minPrice, maxPrice } = this.filterForm.value;
+        if (minPrice == null || maxPrice == null) return false;
+        return maxPrice < minPrice;
+    }
+
+    onSubmit() {
+        this.isSubmitted.set(true);
+
+        const { minPrice, maxPrice } = this.filterForm.value;
+
+        // для disable после 'Сбросить фильтр цен'
+        if (this.isPriceFilterEmpty() && this.isSubmitted()) {
+            this.isSubmitted.set(false);
+        }
+
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { minPrice, maxPrice },
+            queryParamsHandling: 'merge',
+        });
+
+        this.lastMinPrice.set(minPrice);
+        this.lastMaxPrice.set(maxPrice);
     }
 
     // трансформируем массив со всеми категориями для вывода меню фильтра
@@ -86,7 +126,7 @@ export class AdSidebarFilters {
     }
 
     // установка активной категории по id в параметре
-    initActiveCategory(categories: Category[]) {
+    private initActiveCategory(categories: Category[]) {
         // принудительно сворачиваем все категории
         this.collapseAll(this.categoriesMenuItems());
         // если нет id - сбрасываем активный пункт меню
@@ -106,14 +146,5 @@ export class AdSidebarFilters {
                 this.expandItem(this.queryParams().catId);
             }
         }
-    }
-
-    onSubmit() {
-        const { minPrice, maxPrice } = this.filterForm.value;
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { minPrice, maxPrice },
-            queryParamsHandling: 'merge',
-        });
     }
 }
