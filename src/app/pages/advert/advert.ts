@@ -3,12 +3,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { Breadcrumbs, SvgIcon, ImageGallery } from '@app/shared/components';
 import { AdvertFacade, BreadcrumbsStateService } from '@app/shared/services';
-import { PriceFormatPipe } from '@app/shared/pipes';
+import { PriceFormatPipe, DateFormatPipe } from '@app/shared/pipes';
 import { ButtonModule } from 'primeng/button';
 import { AuthStateService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { ConfirmService } from '@app/core/confirmation';
 import { AdvertSkeleton } from './advert-skeleton/advert-skeleton';
+import { Divider } from 'primeng/divider';
 
 @Component({
     selector: 'app-advert',
@@ -21,6 +22,8 @@ import { AdvertSkeleton } from './advert-skeleton/advert-skeleton';
         ImageGallery,
         RouterLink,
         AdvertSkeleton,
+        DateFormatPipe,
+        Divider,
     ],
     templateUrl: './advert.html',
     styleUrl: './advert.scss',

@@ -69,9 +69,20 @@
 }
 
 .advert__desc {
+    margin-bottom: 30px;
+
     h4 {
         margin-bottom: 8px;
     }
+}
+
+.advert__date {
+    color: var(--gray-500-color);
+}
+
+.advert__divider {
+    padding: 0px;
+    margin-bottom: 8px;
 }
 
 .user-buttons {
