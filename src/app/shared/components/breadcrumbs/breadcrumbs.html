@@ -3,9 +3,18 @@
 } @else if (items().length > 0) {
     <p-breadcrumb [model]="items()">
         <ng-template #item let-item>
-            <a>
+            @if (item.id) {
+                <a
+                    [routerLink]="['/adverts']"
+                    [queryParams]="{ catId: item.id, catName: item.label }"
+                    class="breadcrumbs__link"
+                    title="Объявления в категории «{{ item.label }}»"
+                >
+                    {{ item.label }}
+                </a>
+            } @else {
                 {{ item.label }}
-            </a>
+            }
         </ng-template>
         <ng-template #separator>&middot;</ng-template>
     </p-breadcrumb>

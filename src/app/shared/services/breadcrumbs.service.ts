@@ -34,8 +34,9 @@ export class BreadcrumbsService {
                 .getCategory(parentId)
                 .pipe(
                     tap((category) => {
-                        const parentCategory = category?.name;
-                        this.setBreadcrumbs(parentCategory);
+                        const parentCategoryName = category?.name;
+                        const parentCategoryId = category?.id;
+                        this.setBreadcrumbs(parentCategoryName, parentCategoryId);
                     }),
                     catchError((error) => {
                         console.error(error);
@@ -52,7 +53,7 @@ export class BreadcrumbsService {
         }
     }
 
-    private setBreadcrumbs(parentCategory?: string) {
+    private setBreadcrumbs(parentCategoryName?: string, parentCategoryId?: string) {
         const advert = this.advert();
         if (!advert) return;
 
@@ -63,10 +64,12 @@ export class BreadcrumbsService {
         if (city) items.push({ label: city });
 
         // родительская категория
-        if (parentCategory) items.push({ label: parentCategory });
+        if (parentCategoryName && parentCategoryId)
+            items.push({ label: parentCategoryName, id: parentCategoryId });
 
         // основная категория
-        if (advert.category?.name) items.push({ label: advert.category.name });
+        if (advert.category?.name)
+            items.push({ label: advert.category.name, id: advert.category.id });
 
         this.breadcrumbsState.set(items);
     }

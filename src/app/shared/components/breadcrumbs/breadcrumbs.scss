@@ -7,6 +7,14 @@
     cursor: default;
 }
 
+.breadcrumbs__link {
+    color: var(--gray-500-color);
+
+    &:hover {
+        color: var(--gray-600-color);
+    }
+}
+
 .breadcrumbs-skeleton {
     margin-top: 3px;
     margin-bottom: 11px;

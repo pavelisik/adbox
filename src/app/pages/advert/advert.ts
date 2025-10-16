@@ -9,7 +9,6 @@ import { AuthStateService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { ConfirmService } from '@app/core/confirmation';
 import { AdvertSkeleton } from './advert-skeleton/advert-skeleton';
-import { Divider } from 'primeng/divider';
 
 @Component({
     selector: 'app-advert',
@@ -23,7 +22,6 @@ import { Divider } from 'primeng/divider';
         RouterLink,
         AdvertSkeleton,
         DateFormatPipe,
-        Divider,
     ],
     templateUrl: './advert.html',
     styleUrl: './advert.scss',
