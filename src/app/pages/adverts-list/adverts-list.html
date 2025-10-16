@@ -44,7 +44,9 @@
                     @if (isLoading()) {
                         <app-spinner type="big" width="1" wrapHeight="700px"></app-spinner>
                     } @else if (adverts.length < 1) {
-                        <p>По точному совпадению результатов не найдено</p>
+                        <p class="base mt-24 gray-text">
+                            По точному совпадению результатов не найдено
+                        </p>
                     } @else {
                         <app-ad-grid [adverts]="adverts" width="short"></app-ad-grid>
                     }

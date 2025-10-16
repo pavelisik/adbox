@@ -1,0 +1,15 @@
+:host {
+    display: block;
+    margin-top: 6px;
+    padding-left: 18px;
+}
+
+.category-filter-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    p-skeleton {
+        border-radius: 6px;
+    }
+}

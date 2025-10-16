@@ -14,11 +14,15 @@
     <button pButton (click)="clearQuery(['minPrice', 'maxPrice'])" [rounded]="true">
         <span pButtonLabel>
             Цена:
-            @if (queryParams().minPrice) {
-                от {{ +queryParams().minPrice | priceFormat }}
-            }
-            @if (queryParams().maxPrice) {
-                до {{ +queryParams().maxPrice | priceFormat }}
+            @if (queryParams().minPrice === queryParams().maxPrice) {
+                {{ +queryParams().minPrice | priceFormat }}
+            } @else {
+                @if (queryParams().minPrice) {
+                    от {{ +queryParams().minPrice | priceFormat }}
+                }
+                @if (queryParams().maxPrice) {
+                    до {{ +queryParams().maxPrice | priceFormat }}
+                }
             }
         </span>
         <i class="pi pi-times" pButtonIcon></i>

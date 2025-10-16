@@ -10,6 +10,7 @@ import { findCategoryFromId } from '@app/shared/utils';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdvertsQueryParams, CategoryMenuItem } from '@app/pages/adverts-list/domains';
+import { CategoryFilterSkeleton } from './category-filter-skeleton/category-filter-skeleton';
 
 @Component({
     selector: 'app-ad-sidebar-filters',
@@ -20,6 +21,7 @@ import { AdvertsQueryParams, CategoryMenuItem } from '@app/pages/adverts-list/do
         SvgIcon,
         RouterLink,
         ReactiveFormsModule,
+        CategoryFilterSkeleton,
     ],
     templateUrl: './ad-sidebar-filters.html',
     styleUrl: './ad-sidebar-filters.scss',
@@ -62,6 +64,10 @@ export class AdSidebarFilters {
                 minPrice: this.queryParams().minPrice ? Number(this.queryParams().minPrice) : null,
                 maxPrice: this.queryParams().maxPrice ? Number(this.queryParams().maxPrice) : null,
             });
+            // для disable после 'Сбросить фильтры'
+            if (this.isPriceFilterEmpty() && this.isSubmitted()) {
+                this.isSubmitted.set(false);
+            }
         });
     }
 
