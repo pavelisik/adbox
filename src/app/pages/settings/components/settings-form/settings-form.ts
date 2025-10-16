@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angula
 import { UsersFacade, UsersService } from '@app/core/auth/services';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ControlError, FormMessage } from '@app/shared/components/forms';
+import { ControlError, FormMessage, AddressInput } from '@app/shared/components/forms';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 import { UserUpdateRequest } from '@app/core/auth/domains';
@@ -13,8 +13,8 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { SettingsChangeForm } from './domains';
 import { LocalUserService } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
-import { CategoryFacade, DadataService } from '@app/shared/services';
-import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
+import { CategoryFacade } from '@app/shared/services';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { Spinner } from '@app/shared/components';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
 
@@ -29,6 +29,7 @@ import { CascadeSelectModule } from 'primeng/cascadeselect';
         AutoCompleteModule,
         CascadeSelectModule,
         Spinner,
+        AddressInput,
     ],
     templateUrl: './settings-form.html',
     styleUrl: './settings-form.scss',
@@ -40,14 +41,11 @@ export class SettingsForm {
     private readonly categoryFacade = inject(CategoryFacade);
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
-    private readonly dadataService = inject(DadataService);
     private readonly notify = inject(NotificationService);
     private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
 
     readonly currentUser = this.usersFacade.currentUser;
-
-    readonly addressSuggestions = signal<string[]>([]);
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
@@ -153,17 +151,6 @@ export class SettingsForm {
         this.errorMessage.set(message);
     }
 
-    // поиск адреса с автокомплитом из DaData
-    searchAddress(event: AutoCompleteCompleteEvent) {
-        this.dadataService
-            .getAddressStrings(event.query)
-            .pipe(
-                tap((res) => this.addressSuggestions.set(res)),
-                takeUntilDestroyed(this.destroyRef),
-            )
-            .subscribe();
-    }
-
     private localDataUpdate() {
         const user = this.currentUser();
         if (!user) return;
@@ -196,7 +183,7 @@ export class SettingsForm {
         }
     }
 
-    // метод асинхронной загрузки избранной данных в форму
+    // метод асинхронной загрузки данных в форму
     private loadDataToForm() {
         this.isDataLoading.set(true);
         const categories$ = toObservable(this.categories);

@@ -45,20 +45,10 @@
             <span>(будет указываться в объявлениях по умолчанию)</span>
         </label>
         <div>
-            <p-autoComplete
+            <app-address-input
                 formControlName="address"
-                [suggestions]="addressSuggestions()"
-                (completeMethod)="searchAddress($event)"
-                [forceSelection]="false"
-                [minQueryLength]="3"
-                [delay]="400"
-                [showClear]="true"
-                [placeholder]="isDataLoading() ? '' : 'Введите адрес'"
-                [emptyMessage]="'Ничего не найдено'"
-                autocomplete="off"
-                fluid
-            >
-            </p-autoComplete>
+                [isLoading]="isDataLoading()"
+            ></app-address-input>
             @if (isDataLoading()) {
                 <app-spinner></app-spinner>
             }

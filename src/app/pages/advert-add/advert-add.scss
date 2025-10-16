@@ -81,7 +81,38 @@
 }
 
 .advert-add__address {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    .advert-add__address-saved {
+        display: flex;
+        gap: 12px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+
+        .advert-add__address-label {
+            padding: 12px 18px;
+
+            &:disabled {
+                opacity: 1;
+            }
+        }
+
+        .advert-add__address-change-btn {
+            width: 20px;
+
+            &:hover {
+                color: var(--gray-600-color);
+            }
+        }
+    }
+
+    .advert-add__address-input {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 12px;
+
+        .advert-add__address-save-btn {
+            line-height: 24px;
+            width: 250px;
+        }
+    }
 }

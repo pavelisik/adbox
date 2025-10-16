@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, signal, Signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, signal, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdvertDraftStateService, AdvertService, CategoryFacade } from '@app/shared/services';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
@@ -7,19 +7,22 @@ import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputMaskModule } from 'primeng/inputmask';
-import { ControlError, FormMessage } from '@app/shared/components/forms';
+import { AddressInput, ControlError, FormMessage } from '@app/shared/components/forms';
 import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { Router } from '@angular/router';
 import { catchError, debounceTime, filter, finalize, of, skip, take, tap } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
+import { ImagesUpload } from '@app/shared/components/forms';
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertAddForm } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
-import { UsersFacade } from '@app/core/auth/services';
+import { LocalUserService, UsersFacade } from '@app/core/auth/services';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { NotificationService } from '@app/core/notification';
+import { Spinner } from '@app/shared/components';
 
 @Component({
     selector: 'app-advert-add',
@@ -35,6 +38,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
         FormMessage,
         ImagesUpload,
         RadioButtonModule,
+        InputGroupModule,
+        AddressInput,
+        Spinner,
     ],
     templateUrl: './advert-add.html',
     styleUrl: './advert-add.scss',
@@ -44,20 +50,25 @@ export class AdvertAdd {
     private readonly categoryFacade = inject(CategoryFacade);
     private readonly advertService = inject(AdvertService);
     private readonly usersFacade = inject(UsersFacade);
+    private readonly localUserService = inject(LocalUserService);
     private readonly fb = inject(FormBuilder);
     private readonly router = inject(Router);
     private readonly dialogService = inject(DialogService);
     private readonly confirm = inject(ConfirmService);
+    private readonly notify = inject(NotificationService);
     private readonly destroyRef = inject(DestroyRef);
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
 
     readonly currentUser = this.usersFacade.currentUser;
+    readonly userAddress = computed(() => this.currentUser()?.address);
 
     uploadImages = signal<UploadImage[]>([]);
 
     categoryPatch = signal<string | null>(null);
+
+    isAddressInputVisible = signal<boolean>(false);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -91,13 +102,22 @@ export class AdvertAdd {
             )
             .subscribe();
 
+        // подставляем адрес из данных пользователя
+        effect(() => {
+            const address = this.userAddress();
+
+            if (address) {
+                this.advertAddForm.patchValue({ address });
+            }
+        });
+
         // сохраняем изображения в черновик при изменении
         effect(() => {
             this.advertDraftState.updateImages(this.uploadImages());
         });
 
         // вот только так из черновика данные подгружаются в категории
-        // короче надо писать асинхронный метод как в настройках и в нем патчить значения (но скорей сего на паузу ставить во время запросов сохранение в черновик)
+        // надо писать асинхронный метод как в настройках и в нем патчить значения (но скорей сего на паузу ставить во время запросов сохранение в черновик)
         // effect(() => {
         //     const category = this.advertDraftState.advertDraft().category;
         //     console.log('category:', category);
@@ -134,6 +154,48 @@ export class AdvertAdd {
 
     openTermsOfServiceDialog() {
         this.dialogService.open('terms-of-service');
+    }
+
+    isAddressInputEmpty(): boolean {
+        return !this.advertAddForm.get('address')?.value;
+    }
+
+    isAddressInputSame(): boolean {
+        return this.advertAddForm.get('address')?.value === this.userAddress();
+    }
+
+    addAddressToForm() {
+        const address = this.userAddress();
+        if (address) {
+            this.advertAddForm.patchValue({ address });
+        }
+    }
+
+    addressInputToggle() {
+        this.isAddressInputVisible.set(!this.isAddressInputVisible());
+    }
+
+    addressUpdate() {
+        const user = this.currentUser();
+        if (!user) return;
+
+        const { address } = this.advertAddForm.getRawValue();
+        this.localUserService.updateData(user.id, { address });
+        this.isAddressInputVisible.set(false);
+
+        this.notify.success('Обновление данных', 'Адрес успешно сохранен');
+    }
+
+    addressDelete() {
+        this.confirm.confirm('deleteAddress', () => {
+            const user = this.currentUser();
+            if (!user) return;
+
+            this.localUserService.updateData(user.id, { address: '' });
+            this.advertAddForm.patchValue({ address: '' });
+
+            this.notify.success('Обновление данных', 'Адрес успешно удален');
+        });
     }
 
     onResetFormData() {

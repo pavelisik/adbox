@@ -1,0 +1,17 @@
+<p-autoComplete
+    [(ngModel)]="value"
+    (ngModelChange)="onInput($event)"
+    [suggestions]="addressSuggestions()"
+    (completeMethod)="searchAddress($event)"
+    [forceSelection]="false"
+    [minQueryLength]="3"
+    [delay]="400"
+    [showClear]="true"
+    [placeholder]="isLoading() ? '' : 'Введите адрес'"
+    [emptyMessage]="'Ничего не найдено'"
+    [invalid]="invalid()"
+    autocomplete="off"
+    class="address-input"
+    fluid
+>
+</p-autoComplete>

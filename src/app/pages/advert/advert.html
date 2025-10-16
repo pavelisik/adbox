@@ -68,10 +68,12 @@
                     <svg pButtonIcon icon="arrow-up-right-square" width="20" height="20"></svg>
                 </button>
             </div>
-            <div class="advert__desc">
-                <h4 class="fw-600">Описание</h4>
-                <p class="base">{{ advert.description }}</p>
-            </div>
+            @if (advert.description) {
+                <div class="advert__desc">
+                    <h4 class="fw-600">Описание</h4>
+                    <p class="base">{{ advert.description }}</p>
+                </div>
+            }
             <div class="advert__date">
                 <p class="sm">{{ advert.created | dateFormat }}</p>
             </div>

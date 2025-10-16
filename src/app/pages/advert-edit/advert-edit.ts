@@ -14,7 +14,7 @@ import { catchError, filter, finalize, map, of, switchMap, take, tap } from 'rxj
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ImagesUpload } from '@app/shared/components/forms/images-upload/images-upload';
+import { ImagesUpload } from '@app/shared/components/forms';
 import { AdvertImage, UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertEditForm } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
