@@ -13,14 +13,13 @@ import {
     AddressBlock,
     ImagesUpload,
 } from '@app/shared/components/forms';
-import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { Router } from '@angular/router';
 import { catchError, debounceTime, filter, finalize, of, skip, take, tap } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
-import { AdvertAddForm } from './domains';
+import { AdvertAddForm, NewAdvertRequest } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
 import { UsersFacade } from '@app/core/auth/services';
 import { Spinner } from '@app/shared/components';

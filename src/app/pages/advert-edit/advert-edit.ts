@@ -13,7 +13,6 @@ import {
     FormMessage,
     ImagesUpload,
 } from '@app/shared/components/forms';
-import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, filter, finalize, map, of, switchMap, take, tap } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -26,6 +25,7 @@ import { UsersFacade } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
 import { environment } from '@env/environment';
 import { Spinner } from '@app/shared/components';
+import { NewAdvertRequest } from '@app/pages/advert-add/domains';
 
 @Component({
     selector: 'app-advert-edit',

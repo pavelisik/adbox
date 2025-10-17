@@ -1,5 +1,5 @@
 import { NewAdvertRequestDTO } from '@app/infrastructure/advert/dto';
-import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
+import { NewAdvertRequest } from '@app/pages/advert-add/domains';
 
 export const NewAdvertRequestToDTOAdapter = (request: NewAdvertRequest): NewAdvertRequestDTO => {
     return {

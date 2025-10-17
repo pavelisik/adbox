@@ -1,5 +1,5 @@
 import { effect, Injectable, signal } from '@angular/core';
-import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
+import { NewAdvertRequest } from '@app/pages/advert-add/domains';
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { dataUrlToFile } from '@app/shared/utils';
 

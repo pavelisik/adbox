@@ -1,13 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { AdvertApiService } from '@app/infrastructure/advert/services';
-import {
-    AdvertSearchRequest,
-    NewAdvertRequest,
-    ShortAdvert,
-} from '@app/pages/adverts-list/domains';
+import { AdvertSearchRequest, ShortAdvert } from '@app/pages/adverts-list/domains';
 import { FullAdvert } from '@app/pages/advert/domains';
 import { NotificationService } from '@app/core/notification';
+import { NewAdvertRequest } from '@app/pages/advert-add/domains';
 
 @Injectable({
     providedIn: 'root',
@@ -20,7 +17,7 @@ export class AdvertService {
         return this.apiService.getAdvert(id);
     }
 
-    searchAdverts(request: AdvertSearchRequest, limit = 8): Observable<ShortAdvert[]> {
+    searchAdverts(request: AdvertSearchRequest, limit = 10): Observable<ShortAdvert[]> {
         return this.apiService.searchAdverts(request).pipe(map((res) => res.slice(0, limit)));
     }
 
