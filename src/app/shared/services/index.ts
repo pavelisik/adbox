@@ -10,3 +10,5 @@ export * from './category.facade';
 export * from './image.service';
 export * from './dadata.service';
 export * from './comments.service';
+export * from './comments.state.service';
+export * from './comments.facade';

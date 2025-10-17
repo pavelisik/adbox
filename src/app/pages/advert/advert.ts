@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
-import { Breadcrumbs, SvgIcon, ImageGallery } from '@app/shared/components';
+import { Breadcrumbs, SvgIcon, ImageGallery, Comments } from '@app/shared/components';
 import { AdvertFacade, BreadcrumbsStateService } from '@app/shared/services';
 import { PriceFormatPipe, DateFormatPipe } from '@app/shared/pipes';
 import { ButtonModule } from 'primeng/button';
@@ -22,6 +22,7 @@ import { AdvertSkeleton } from './advert-skeleton/advert-skeleton';
         RouterLink,
         AdvertSkeleton,
         DateFormatPipe,
+        Comments,
     ],
     templateUrl: './advert.html',
     styleUrl: './advert.scss',

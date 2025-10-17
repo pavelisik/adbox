@@ -1,0 +1,8 @@
+@if (isCommentsLoading()) {
+    <p>загрузка комментариев...</p>
+} @else if (comments().length > 0) {
+    <h4 class="fw-600 mb-24">Вопросы продавцу</h4>
+    <app-comments-list [comments]="comments()"></app-comments-list>
+} @else {
+    <p>нет комментариев</p>
+}

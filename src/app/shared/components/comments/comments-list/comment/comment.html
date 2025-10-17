@@ -1,0 +1,21 @@
+@if (comment(); as comment) {
+    <div class="comment base">
+        <div class="comment__avatar">
+            <i class="pi pi-user"></i>
+        </div>
+        <div class="comment__content">
+            <div class="comment__top">
+                <div class="comment__user fw-500">{{ comment.user.name }}</div>
+                <div class="comment__date">{{ comment.created | dateFormat }}</div>
+            </div>
+            <div class="comment__text">
+                {{ comment.text }}
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis deserunt porro qui
+                quis repudiandae dolor quibusdam molestiae? Quod vel eligendi explicabo tempora
+                ratione iure, quam, inventore ea nulla possimus obcaecati hic expedita nobis
+                suscipit corrupti consequatur a voluptatibus commodi dignissimos nihil architecto
+                assumenda! Rerum, ut suscipit error molestias vitae quidem.
+            </div>
+        </div>
+    </div>
+}

@@ -8,3 +8,4 @@ export * from './search-bar/search-bar';
 export * from './svg-icon/svg-icon';
 export * from './top-bar/top-bar';
 export * from './spinner/spinner';
+export * from './comments/comments';

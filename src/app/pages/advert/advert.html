@@ -5,9 +5,10 @@
     <div class="advert">
         <div class="advert-left">
             <h1 class="advert__title h3 fw-600">{{ advert.name }}</h1>
-            <div class="advert__image-gallery">
+            <div class="advert__image-gallery mb-24">
                 <app-image-gallery [imagesIds]="advert.imagesIds"></app-image-gallery>
             </div>
+            <app-comments></app-comments>
         </div>
         <div class="advert-right">
             <span class="advert__price h3 fw-600">{{ advert.cost | priceFormat }}</span>

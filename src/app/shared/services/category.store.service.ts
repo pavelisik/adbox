@@ -8,11 +8,11 @@ export class CategoryStoreService {
     private readonly _allCategories = signal<Category[]>([]);
     readonly allCategories = this._allCategories.asReadonly();
 
-    setAllCategories(categories: Category[]) {
+    set(categories: Category[]) {
         this._allCategories.set(categories);
     }
 
-    clearAllCategories() {
+    clear() {
         this._allCategories.set([]);
     }
 }

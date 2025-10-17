@@ -17,9 +17,9 @@ export class CategoryFacade {
             this.categoryService
                 .getAllCategories()
                 .pipe(
-                    tap((categories) => this.categoryStore.setAllCategories(categories)),
+                    tap((categories) => this.categoryStore.set(categories)),
                     catchError(() => {
-                        this.categoryStore.clearAllCategories();
+                        this.categoryStore.clear();
                         return of(null);
                     }),
                     takeUntilDestroyed(this.destroyRef),

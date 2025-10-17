@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule, ɵInternalFormsSharedModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { LocalUserService, UsersFacade } from '@app/core/auth/services';
 import { ConfirmService } from '@app/core/confirmation';
 import { NotificationService } from '@app/core/notification';
@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-address-block',
-    imports: [ButtonModule, AddressInput, ɵInternalFormsSharedModule, ReactiveFormsModule],
+    imports: [ButtonModule, AddressInput, ReactiveFormsModule],
     templateUrl: './address-block.html',
     styleUrl: './address-block.scss',
 })

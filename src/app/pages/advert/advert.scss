@@ -1,10 +1,13 @@
 .advert {
     display: grid;
     grid-template-columns: 1fr 416px;
+    align-items: start;
     gap: 24px;
 }
 
 .advert-right {
+    position: sticky;
+    top: 20px;
     white-space: normal;
     overflow-wrap: anywhere;
 }

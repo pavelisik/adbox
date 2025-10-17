@@ -43,11 +43,11 @@ export class UsersFacade {
                     .authUser()
                     .pipe(
                         tap((user) => {
-                            this.usersStore.setAuthUser(user);
+                            this.usersStore.set(user);
                             this.localUserService.loadDataFromCookie(user.id);
                         }),
                         catchError(() => {
-                            this.usersStore.clearAuthUser();
+                            this.usersStore.clear();
                             this.localUserService.clearStore();
                             return of(null);
                         }),
@@ -55,7 +55,7 @@ export class UsersFacade {
                     )
                     .subscribe();
             } else {
-                this.usersStore.clearAuthUser();
+                this.usersStore.clear();
                 // по хорошему локальные данные надо из кукис тоже удалять, но они отсутствуют на сервере
                 this.localUserService.clearStore();
             }
