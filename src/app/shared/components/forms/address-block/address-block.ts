@@ -14,13 +14,9 @@ import { ButtonModule } from 'primeng/button';
 })
 export class AddressBlock {
     private readonly usersFacade = inject(UsersFacade);
-    private readonly localUserService = inject(LocalUserService);
-    private readonly confirm = inject(ConfirmService);
-    private readonly notify = inject(NotificationService);
 
     control = input.required<FormControl<string>>();
     invalid = input<boolean>(false);
-    isAdvertEdit = input<boolean>(false);
     isDataLoading = input<boolean>(false);
 
     isAddressInputVisible = signal<boolean>(true);
@@ -48,20 +44,19 @@ export class AddressBlock {
         });
     }
 
-    isAddressInputEmpty(): boolean {
-        return !this.control().value;
-    }
-
-    isAddressInputSame(): boolean {
-        return this.control().value === this.userAddress();
-    }
-
-    addAddressToForm() {
+    onLabelButtonClick() {
         const address = this.userAddress();
         if (address) {
-            this.control().setValue(address);
             this.addressInputHide();
+            setTimeout(() => {
+                this.control().setValue(address);
+            }, 200);
         }
+    }
+
+    onChangeButtonClick() {
+        this.control().setValue('');
+        this.addressInputShow();
     }
 
     addressInputShow() {
@@ -72,29 +67,11 @@ export class AddressBlock {
         this.isAddressInputVisible.set(false);
     }
 
-    addressUpdate() {
-        const user = this.currentUser();
-        if (!user) return;
-
-        const address = this.control().value;
-        this.localUserService.updateData(user.id, { address });
-        if (!this.isAdvertEdit() || this.isAddressInputSame()) {
-            this.addressInputHide();
-        }
-
-        this.notify.success('Обновление данных', 'Адрес успешно сохранен');
+    private isAddressInputEmpty(): boolean {
+        return !this.control().value;
     }
 
-    addressDelete() {
-        this.confirm.confirm('deleteAddress', () => {
-            const user = this.currentUser();
-            if (!user) return;
-
-            this.localUserService.updateData(user.id, { address: '' });
-            this.addressInputShow();
-            this.control().setValue('');
-
-            this.notify.success('Обновление данных', 'Адрес успешно удален');
-        });
+    private isAddressInputSame(): boolean {
+        return this.control().value === this.userAddress();
     }
 }

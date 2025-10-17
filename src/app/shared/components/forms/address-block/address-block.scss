@@ -1,9 +1,4 @@
-:host {
-    display: flex;
-    flex-direction: column;
-}
-
-.address-block__input-wrapper {
+.address-block__input {
     max-height: 0;
     margin-bottom: 0;
     opacity: 0;
@@ -16,18 +11,6 @@
         max-height: 200px;
         opacity: 1;
         margin-bottom: 8px;
-    }
-
-    .address-block__input {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 12px;
-
-        .address-block__save-btn {
-            line-height: 24px;
-            width: 250px;
-        }
     }
 }
 

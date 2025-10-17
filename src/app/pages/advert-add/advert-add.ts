@@ -93,18 +93,17 @@ export class AdvertAdd {
             )
             .subscribe();
 
-        // подставляем адрес из данных пользователя
-        effect(() => {
-            const address = this.currentUser()?.address;
-            // const advertDraft = this.advertDraftState.advertDraft();
-            if (address) {
-                this.advertAddForm.patchValue({ address });
-            }
-        });
-
         // сохраняем изображения в черновик при изменении
         effect(() => {
             this.advertDraftState.updateImages(this.uploadImages());
+        });
+
+        // подставляем адрес из данных пользователя
+        effect(() => {
+            const address = this.currentUser()?.address;
+            if (address) {
+                this.advertAddForm.patchValue({ address });
+            }
         });
 
         // вот только так из черновика данные подгружаются в категории

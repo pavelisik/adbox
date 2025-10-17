@@ -46,6 +46,7 @@ export class Advert {
         const advertId = this.route.snapshot.paramMap.get('id');
         if (advertId) {
             this.advertFacade.loadAdvert(advertId);
+            window.scrollTo({ top: 0, behavior: 'auto' });
         }
     }
 

@@ -1,21 +1,5 @@
-<div class="address-block__input-wrapper" [class.show]="isAddressInputVisible()">
-    <div class="address-block__input">
-        <app-address-input
-            [formControl]="control()"
-            [invalid]="invalid()"
-            (keydown.enter)="addressUpdate()"
-        ></app-address-input>
-        <button
-            pButton
-            type="button"
-            label="Сохранить адрес"
-            icon="pi pi-save"
-            severity="secondary"
-            [disabled]="isAddressInputEmpty() || isAddressInputSame()"
-            class="address-block__save-btn"
-            (click)="addressUpdate()"
-        ></button>
-    </div>
+<div class="address-block__input" [class.show]="isAddressInputVisible()">
+    <app-address-input [formControl]="control()" [invalid]="invalid()"></app-address-input>
 </div>
 
 @if (userAddress()) {
@@ -29,11 +13,12 @@
             [title]="isAddressInputVisible() ? 'Выбрать сохраненный адрес' : ''"
             [class.secondary]="isAddressInputVisible()"
             [disabled]="!isAddressInputVisible()"
-            (click)="addAddressToForm()"
+            (click)="onLabelButtonClick()"
         >
             <span pButtonIcon class="pi pi-home"></span>
             <span pButtonLabel>{{ currentUser()?.address }}</span>
         </button>
+
         @if (!isAddressInputVisible()) {
             <button
                 pButton
@@ -43,18 +28,7 @@
                 icon="pi pi-pen-to-square"
                 title="Изменить"
                 class="address-block__change-btn"
-                (click)="addressInputShow()"
-            ></button>
-
-            <button
-                pButton
-                text
-                type="button"
-                severity="secondary"
-                icon="pi pi-times"
-                title="Удалить"
-                class="address-block__change-btn"
-                (click)="addressDelete()"
+                (click)="onChangeButtonClick()"
             ></button>
         }
     </div>
