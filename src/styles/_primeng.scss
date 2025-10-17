@@ -401,6 +401,10 @@
         }
     }
 
+    .p-autocomplete-empty-message {
+        color: var(--gray-500-color);
+    }
+
     &:focus-within,
     &:focus,
     &:active {

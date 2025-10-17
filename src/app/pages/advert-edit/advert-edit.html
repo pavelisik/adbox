@@ -70,33 +70,23 @@
     </div>
     <div>
         <label for="address">Адрес (место проведения сделки) <span class="required">*</span></label>
-        @if (currentUser()?.address) {
-            <div class="advert-form__address sm mt-4">
-                Ваш адрес:
-                <button pButton type="button" severity="secondary">
-                    <span pButtonIcon class="pi pi-home"></span>
-                    <span pButtonLabel>{{ currentUser()?.address }}</span>
-                </button>
-                <button pButton type="button">Изменить</button>
+        @if (currentUser() && !isDataLoading()) {
+            <div>
+                <app-address-block
+                    [control]="advertEditForm.controls.address"
+                    [invalid]="isControlInvalid('address')"
+                    [isAdvertEdit]="true"
+                    [isDataLoading]="isDataLoading()"
+                ></app-address-block>
+                <app-control-error
+                    [form]="advertEditForm"
+                    controlName="address"
+                    [isShow]="!isDataLoading()"
+                ></app-control-error>
             </div>
+        } @else {
+            <app-spinner type="address-input"></app-spinner>
         }
-        <div>
-            <input
-                pInputText
-                formControlName="address"
-                [placeholder]="isDataLoading() ? '' : 'Начните вводить адрес'"
-                autocomplete="address"
-                [invalid]="isControlInvalid('address')"
-            />
-            @if (isDataLoading()) {
-                <app-spinner></app-spinner>
-            }
-            <app-control-error
-                [form]="advertEditForm"
-                controlName="address"
-                [isShow]="!isDataLoading()"
-            ></app-control-error>
-        </div>
     </div>
     <app-images-upload
         [(uploadImages)]="uploadImages"

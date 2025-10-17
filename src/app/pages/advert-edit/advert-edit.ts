@@ -7,19 +7,22 @@ import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputMaskModule } from 'primeng/inputmask';
-import { ControlError, FormMessage } from '@app/shared/components/forms';
+import {
+    AddressBlock,
+    ControlError,
+    FormMessage,
+    ImagesUpload,
+} from '@app/shared/components/forms';
 import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, filter, finalize, map, of, switchMap, take, tap } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ImagesUpload } from '@app/shared/components/forms';
 import { AdvertImage, UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertEditForm } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
 import { UsersFacade } from '@app/core/auth/services';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import { NotificationService } from '@app/core/notification';
 import { environment } from '@env/environment';
 import { Spinner } from '@app/shared/components';
@@ -37,8 +40,8 @@ import { Spinner } from '@app/shared/components';
         ControlError,
         FormMessage,
         ImagesUpload,
-        RadioButtonModule,
         Spinner,
+        AddressBlock,
     ],
     templateUrl: './advert-edit.html',
     styleUrl: './advert-edit.scss',

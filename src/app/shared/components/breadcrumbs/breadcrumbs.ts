@@ -16,10 +16,4 @@ export class Breadcrumbs {
     readonly isLoading = this.breadcrumbsService.isLoading;
 
     items = input<MenuItem[]>([]);
-
-    constructor() {
-        effect(() => {
-            console.log(this.items());
-        });
-    }
 }

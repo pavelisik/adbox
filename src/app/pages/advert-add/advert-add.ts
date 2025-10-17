@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, effect, inject, signal, Signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdvertDraftStateService, AdvertService, CategoryFacade } from '@app/shared/services';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
@@ -7,21 +7,22 @@ import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputMaskModule } from 'primeng/inputmask';
-import { AddressInput, ControlError, FormMessage } from '@app/shared/components/forms';
+import {
+    ControlError,
+    FormMessage,
+    AddressBlock,
+    ImagesUpload,
+} from '@app/shared/components/forms';
 import { NewAdvertRequest } from '@app/pages/adverts-list/domains';
 import { Router } from '@angular/router';
 import { catchError, debounceTime, filter, finalize, of, skip, take, tap } from 'rxjs';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { DialogService } from '@app/core/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ImagesUpload } from '@app/shared/components/forms';
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertAddForm } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
-import { LocalUserService, UsersFacade } from '@app/core/auth/services';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { NotificationService } from '@app/core/notification';
+import { UsersFacade } from '@app/core/auth/services';
 import { Spinner } from '@app/shared/components';
 
 @Component({
@@ -37,10 +38,8 @@ import { Spinner } from '@app/shared/components';
         ControlError,
         FormMessage,
         ImagesUpload,
-        RadioButtonModule,
-        InputGroupModule,
-        AddressInput,
         Spinner,
+        AddressBlock,
     ],
     templateUrl: './advert-add.html',
     styleUrl: './advert-add.scss',
@@ -50,25 +49,18 @@ export class AdvertAdd {
     private readonly categoryFacade = inject(CategoryFacade);
     private readonly advertService = inject(AdvertService);
     private readonly usersFacade = inject(UsersFacade);
-    private readonly localUserService = inject(LocalUserService);
     private readonly fb = inject(FormBuilder);
     private readonly router = inject(Router);
     private readonly dialogService = inject(DialogService);
     private readonly confirm = inject(ConfirmService);
-    private readonly notify = inject(NotificationService);
     private readonly destroyRef = inject(DestroyRef);
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
 
     readonly currentUser = this.usersFacade.currentUser;
-    readonly userAddress = computed(() => this.currentUser()?.address);
 
     uploadImages = signal<UploadImage[]>([]);
-
-    categoryPatch = signal<string | null>(null);
-
-    isAddressInputVisible = signal<boolean>(false);
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -104,8 +96,8 @@ export class AdvertAdd {
 
         // подставляем адрес из данных пользователя
         effect(() => {
-            const address = this.userAddress();
-
+            const address = this.currentUser()?.address;
+            // const advertDraft = this.advertDraftState.advertDraft();
             if (address) {
                 this.advertAddForm.patchValue({ address });
             }
@@ -156,54 +148,12 @@ export class AdvertAdd {
         this.dialogService.open('terms-of-service');
     }
 
-    isAddressInputEmpty(): boolean {
-        return !this.advertAddForm.get('address')?.value;
-    }
-
-    isAddressInputSame(): boolean {
-        return this.advertAddForm.get('address')?.value === this.userAddress();
-    }
-
-    addAddressToForm() {
-        const address = this.userAddress();
-        if (address) {
-            this.advertAddForm.patchValue({ address });
-        }
-    }
-
-    addressInputToggle() {
-        this.isAddressInputVisible.set(!this.isAddressInputVisible());
-    }
-
-    addressUpdate() {
-        const user = this.currentUser();
-        if (!user) return;
-
-        const { address } = this.advertAddForm.getRawValue();
-        this.localUserService.updateData(user.id, { address });
-        this.isAddressInputVisible.set(false);
-
-        this.notify.success('Обновление данных', 'Адрес успешно сохранен');
-    }
-
-    addressDelete() {
-        this.confirm.confirm('deleteAddress', () => {
-            const user = this.currentUser();
-            if (!user) return;
-
-            this.localUserService.updateData(user.id, { address: '' });
-            this.advertAddForm.patchValue({ address: '' });
-
-            this.notify.success('Обновление данных', 'Адрес успешно удален');
-        });
-    }
-
     onResetFormData() {
         this.confirm.confirm('resetForm', () => {
             this.advertDraftState.clear();
             this.uploadImages.set([]);
-            this.isSubmitted.set(false);
             this.advertAddForm.reset();
+            this.isSubmitted.set(true);
         });
     }
 

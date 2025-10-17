@@ -59,72 +59,20 @@
             ></app-control-error>
         </div>
     </div>
-    <div class="advert-add__address">
+    <div>
         <label for="address">Адрес (место проведения сделки) <span class="required">*</span></label>
         @if (currentUser()) {
-            @if (userAddress()) {
-                <div class="advert-add__address-saved">
-                    <button
-                        pButton
-                        type="button"
-                        [rounded]="true"
-                        severity="secondary"
-                        class="advert-add__address-label"
-                        [disabled]="!isAddressInputVisible()"
-                        (click)="addAddressToForm()"
-                    >
-                        <span pButtonIcon class="pi pi-home"></span>
-                        <span pButtonLabel>{{ currentUser()?.address }}</span>
-                    </button>
-                    <button
-                        pButton
-                        text
-                        type="button"
-                        severity="secondary"
-                        icon="pi pi-pen-to-square"
-                        [title]="isAddressInputVisible() ? 'Скрыть адрес' : 'Изменить адрес'"
-                        class="advert-add__address-change-btn"
-                        (click)="addressInputToggle()"
-                    ></button>
-                    <button
-                        pButton
-                        text
-                        type="button"
-                        severity="secondary"
-                        icon="pi pi-times"
-                        title="Удалить адрес"
-                        class="advert-add__address-change-btn"
-                        (click)="addressDelete()"
-                    ></button>
-                </div>
-            }
-            @if (isAddressInputVisible() || !userAddress()) {
-                <div class="advert-add__address-input-wrapper">
-                    <div class="advert-add__address-input">
-                        <app-address-input
-                            formControlName="address"
-                            [invalid]="isControlInvalid('address')"
-                            (keydown.enter)="addressUpdate()"
-                            (keydown.esc)="addressInputToggle()"
-                        ></app-address-input>
-                        <button
-                            pButton
-                            type="button"
-                            label="Сохранить адрес"
-                            icon="pi pi-save"
-                            severity="secondary"
-                            [disabled]="isAddressInputEmpty() || isAddressInputSame()"
-                            class="advert-add__address-save-btn"
-                            (click)="addressUpdate()"
-                        ></button>
-                    </div>
-                    <app-control-error
-                        [form]="advertAddForm"
-                        controlName="address"
-                        [isShow]="isSubmitted()"
-                    ></app-control-error>
-                </div>
-            }
+            <div>
+                <app-address-block
+                    [control]="advertAddForm.controls.address"
+                    [invalid]="isControlInvalid('address')"
+                ></app-address-block>
+                <app-control-error
+                    [form]="advertAddForm"
+                    controlName="address"
+                    [isShow]="isSubmitted()"
+                ></app-control-error>
+            </div>
         } @else {
             <app-spinner type="address-input"></app-spinner>
         }
