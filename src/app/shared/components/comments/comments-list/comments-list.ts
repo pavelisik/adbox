@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { Comment } from '@app/pages/advert/domains';
+import { Component, input, model, output } from '@angular/core';
+import { CommentFull } from '@app/pages/advert/domains';
 import { CommentComponent } from './comment/comment';
 
 @Component({
@@ -9,5 +9,11 @@ import { CommentComponent } from './comment/comment';
     styleUrl: './comments-list.scss',
 })
 export class CommentsList {
-    comments = input<Comment[]>([]);
+    comments = input<CommentFull[]>([]);
+
+    activeId = model<string | null>(null);
+
+    deleteRequest = output<string>();
+    replyRequest = output<{ parentId: string; text: string }>();
+    editRequest = output<{ id: string; text: string }>();
 }

@@ -1,0 +1,19 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="comment-form">
+    <textarea
+        pTextarea
+        formControlName="text"
+        [placeholder]="placeholder()"
+        [autoResize]="true"
+        rows="3"
+    ></textarea>
+    <div class="comment-form__actions">
+        <button pButton text type="button" (click)="onCancel()" label="Отменить"></button>
+        <button
+            pButton
+            text
+            type="submit"
+            [disabled]="form.invalid"
+            [label]="submitLabel()"
+        ></button>
+    </div>
+</form>

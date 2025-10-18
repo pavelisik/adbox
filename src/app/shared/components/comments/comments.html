@@ -1,8 +1,27 @@
-@if (isCommentsLoading()) {
-    <p>загрузка комментариев...</p>
-} @else if (comments().length > 0) {
-    <h4 class="fw-600 mb-24">Вопросы продавцу</h4>
-    <app-comments-list [comments]="comments()"></app-comments-list>
-} @else {
-    <p>нет комментариев</p>
-}
+<section class="comments">
+    @if (isCommentsLoading()) {
+        <p>загрузка комментариев...</p>
+    } @else {
+        @if (commentsTree().length > 0) {
+            <h4 class="fw-600 mb-16">Комментарии</h4>
+            <app-comments-list
+                [comments]="commentsTree()"
+                [(activeId)]="activeId"
+                (deleteRequest)="onDelete($event)"
+                (replyRequest)="onReply($event)"
+                (editRequest)="onEdit($event)"
+            ></app-comments-list>
+        } @else {
+            <p>нет комментариев</p>
+        }
+
+        <div class="comments__new mt-20">
+            @if (isAuth()) {
+                <h5 class="fw-600 mb-8">Добавить комментарий</h5>
+                <app-comments-form (formSubmit)="onNew($event)"></app-comments-form>
+            } @else {
+                <p>Только авторизованные пользователи могут оставлять комментарии</p>
+            }
+        </div>
+    }
+</section>

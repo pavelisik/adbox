@@ -1,7 +1,6 @@
 .comment {
     display: grid;
     grid-template-columns: 1fr auto;
-    align-items: start;
     gap: 18px;
 
     .comment__avatar {
@@ -21,8 +20,6 @@
 
         .comment__top {
             display: flex;
-            flex-direction: row;
-            align-items: start;
             justify-content: space-between;
 
             .comment__user {
@@ -34,4 +31,16 @@
             }
         }
     }
+
+    .comment__actions {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.comment__child {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }

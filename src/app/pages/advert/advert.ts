@@ -38,7 +38,9 @@ export class Advert {
     readonly advert = this.advertFacade.advert;
     readonly breadcrumbs = this.breadcrumbsState.breadcrumbs;
 
+    readonly isAuth = this.authStateService.isAuth;
     readonly isMyAdvert = this.advertFacade.isMyAdvert;
+
     readonly isAdvertLoading = this.advertFacade.isAdvertLoading;
     readonly isDeleteLoading = this.advertFacade.isDeleteLoading;
 
@@ -56,10 +58,6 @@ export class Advert {
 
     mapDialogOpen() {
         this.dialogService.open('address-on-map');
-    }
-
-    isAuth(): boolean {
-        return this.authStateService.isAuth();
     }
 
     deleteAdvert() {

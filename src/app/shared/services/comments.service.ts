@@ -13,12 +13,14 @@ export class CommentsService {
     private readonly commentApiService = inject(CommentApiService);
     private readonly notify = inject(NotificationService);
 
-    getAdvertComments(id: string, limit = 10): Observable<Comment[]> {
-        return this.advertApiService.getAdvertComments(id).pipe(map((res) => res.slice(0, limit)));
+    getAdvertComments(advertId: string, limit = 10): Observable<Comment[]> {
+        return this.advertApiService
+            .getAdvertComments(advertId)
+            .pipe(map((res) => res.slice(0, limit)));
     }
 
-    newAdvertComment(id: string, params: NewAdvertCommentRequest): Observable<Comment> {
-        return this.advertApiService.newAdvertComment(id, params).pipe(
+    newAdvertComment(advertId: string, params: NewAdvertCommentRequest): Observable<Comment> {
+        return this.advertApiService.newAdvertComment(advertId, params).pipe(
             tap(() => {
                 this.notify.success('Добавление комментария', 'Комментарий успешно создан');
             }),
