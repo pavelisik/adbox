@@ -22,6 +22,7 @@
     }
     <textarea
         pTextarea
+        [pAutoFocus]="isFocused()"
         formControlName="text"
         placeholder="Оставьте свой комментарий"
         [autoResize]="true"

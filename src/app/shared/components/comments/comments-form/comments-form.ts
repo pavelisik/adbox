@@ -4,12 +4,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SvgIcon } from '@app/shared/components';
 import { ButtonModule } from 'primeng/button';
 import { TextareaModule } from 'primeng/textarea';
+import { AutoFocusModule } from 'primeng/autofocus';
 
 export type CommentsFormTypes = 'main' | 'reply' | 'edit';
 
 @Component({
     selector: 'app-comments-form',
-    imports: [ReactiveFormsModule, TextareaModule, ButtonModule, SvgIcon],
+    imports: [ReactiveFormsModule, TextareaModule, ButtonModule, SvgIcon, AutoFocusModule],
     templateUrl: './comments-form.html',
     styleUrl: './comments-form.scss',
 })
@@ -24,9 +25,8 @@ export class CommentsForm {
     formSubmit = output<string>();
     formCancel = output<void>();
 
-    isDataSame = computed(() => {
-        return this.textValue() === this.initialText();
-    });
+    isDataSame = computed(() => this.textValue() === this.initialText());
+    isFocused = computed(() => this.type() !== 'main' && !!this.activeId());
 
     constructor() {
         effect(() => {
