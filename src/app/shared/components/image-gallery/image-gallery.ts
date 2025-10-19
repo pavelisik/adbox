@@ -1,12 +1,12 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
 import { ImagesFromIdsPipe } from '@app/shared/pipes';
-import { Spinner } from '../spinner/spinner';
 import { ImageModule } from 'primeng/image';
+import { ImageGallerySkeleton } from './image-gallery-skeleton/image-gallery-skeleton';
 
 @Component({
     selector: 'app-image-gallery',
-    imports: [GalleriaModule, ImagesFromIdsPipe, Spinner, ImageModule],
+    imports: [GalleriaModule, ImagesFromIdsPipe, ImageModule, ImageGallerySkeleton],
     templateUrl: './image-gallery.html',
     styleUrl: './image-gallery.scss',
 })

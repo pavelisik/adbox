@@ -1,0 +1,19 @@
+.image-gallery-skeleton {
+    margin-bottom: 54px;
+    position: relative;
+
+    &__image {
+        margin-bottom: 24px;
+    }
+
+    &__gallery {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        gap: 12px;
+    }
+
+    p-skeleton {
+        border-radius: 6px;
+    }
+}
