@@ -7,12 +7,12 @@ import { NotificationService } from '@app/core/notification';
 @Injectable({
     providedIn: 'root',
 })
-export class UsersService {
+export class UserService {
     private readonly apiService = inject(UsersApiService);
     private readonly notify = inject(NotificationService);
 
     authUser(): Observable<User> {
-        return this.apiService.authUser();
+        return this.apiService.currentUser();
     }
 
     updateUser(id: string, params: UserUpdateRequest): Observable<ShortUser> {

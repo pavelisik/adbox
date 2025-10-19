@@ -4,19 +4,19 @@ import { LocalUserData } from '@app/core/auth/domains';
 @Injectable({
     providedIn: 'root',
 })
-export class LocalUserStoreService {
+export class LocalUserStateService {
     private readonly _localUser = signal<LocalUserData | null>(null);
     readonly localUser = this._localUser.asReadonly();
 
-    setLocalUser(user: LocalUserData | null) {
+    set(user: LocalUserData | null) {
         this._localUser.set(user);
     }
 
-    updateLocalUser(partial: Partial<LocalUserData>) {
+    update(partial: Partial<LocalUserData>) {
         this._localUser.update((current) => ({ ...current, ...partial }));
     }
 
-    clearLocalUser() {
+    clear() {
         this._localUser.set({});
     }
 }

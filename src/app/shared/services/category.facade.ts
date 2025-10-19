@@ -1,6 +1,6 @@
 import { computed, DestroyRef, effect, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CategoryService, CategoryStoreService } from '@app/shared/services';
+import { CategoryService, CategoryStateService } from '@app/shared/services';
 import { transformCategories } from '@app/shared/utils';
 import { catchError, of, tap } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { catchError, of, tap } from 'rxjs';
 })
 export class CategoryFacade {
     private readonly categoryService = inject(CategoryService);
-    private readonly categoryStore = inject(CategoryStoreService);
+    private readonly categoryState = inject(CategoryStateService);
     private readonly destroyRef = inject(DestroyRef);
 
     constructor() {
@@ -17,9 +17,9 @@ export class CategoryFacade {
             this.categoryService
                 .getAllCategories()
                 .pipe(
-                    tap((categories) => this.categoryStore.set(categories)),
+                    tap((categories) => this.categoryState.set(categories)),
                     catchError(() => {
-                        this.categoryStore.clear();
+                        this.categoryState.clear();
                         return of(null);
                     }),
                     takeUntilDestroyed(this.destroyRef),
@@ -30,6 +30,6 @@ export class CategoryFacade {
 
     // трансформируем категории в древовидную структуру
     readonly allCategories = computed(() =>
-        transformCategories(this.categoryStore.allCategories()),
+        transformCategories(this.categoryState.allCategories()),
     );
 }

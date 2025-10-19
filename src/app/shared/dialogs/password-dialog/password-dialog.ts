@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { PasswordInput, ControlError, FormMessage } from '@app/shared/components/forms';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { AuthService, UsersFacade } from '@app/core/auth/services';
+import { AuthService, UserFacade } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 import { AuthLoginRequest } from '@app/core/auth/domains';
@@ -19,13 +19,13 @@ import { PasswordConfirmForm } from './domains';
 })
 export class PasswordDialog {
     private readonly authService = inject(AuthService);
-    private readonly usersFacade = inject(UsersFacade);
+    private readonly userFacade = inject(UserFacade);
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly currentUser = this.usersFacade.currentUser;
+    readonly currentUser = this.userFacade.currentUser;
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);

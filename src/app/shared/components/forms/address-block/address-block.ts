@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LocalUserService, UsersFacade } from '@app/core/auth/services';
+import { LocalUserService, UserFacade } from '@app/core/auth/services';
 import { ConfirmService } from '@app/core/confirmation';
 import { NotificationService } from '@app/core/notification';
 import { AddressInput } from '@app/shared/components/forms/address-input/address-input';
@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
     styleUrl: './address-block.scss',
 })
 export class AddressBlock {
-    private readonly usersFacade = inject(UsersFacade);
+    private readonly userFacade = inject(UserFacade);
 
     control = input.required<FormControl<string>>();
     invalid = input<boolean>(false);
@@ -21,7 +21,7 @@ export class AddressBlock {
 
     isAddressInputVisible = signal<boolean>(true);
 
-    readonly currentUser = this.usersFacade.currentUser;
+    readonly currentUser = this.userFacade.currentUser;
     readonly userAddress = computed(() => this.currentUser()?.address);
 
     constructor() {

@@ -8,11 +8,12 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                data: { isMain: true },
+                data: { pageType: 'main' },
                 loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
             },
             {
                 path: 'adverts',
+                data: { pageType: 'search' },
                 loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
             },
             {
@@ -22,7 +23,7 @@ export const routes: Routes = [
             {
                 path: 'users/:id',
                 canActivate: [redirectMyUser],
-                data: { isUserAdverts: true },
+                data: { pageType: 'user-adverts' },
                 loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
             },
 
@@ -32,7 +33,7 @@ export const routes: Routes = [
                 children: [
                     {
                         path: 'adverts',
-                        data: { isMyAdverts: true },
+                        data: { pageType: 'my-adverts' },
                         loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
                     },
                     {

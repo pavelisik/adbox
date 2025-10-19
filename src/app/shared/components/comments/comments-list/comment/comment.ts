@@ -1,5 +1,5 @@
 import { Component, inject, input, model, output, signal } from '@angular/core';
-import { AuthStateService, UsersFacade } from '@app/core/auth/services';
+import { AuthStateService, UserFacade } from '@app/core/auth/services';
 import { CommentFull, NewAdvertCommentRequest } from '@app/pages/advert/domains';
 import { DateFormatPipe } from '@app/shared/pipes';
 import { CommentsForm } from '../../comments-form/comments-form';
@@ -15,7 +15,7 @@ import { LowerCasePipe } from '@angular/common';
 })
 export class CommentComponent {
     private readonly authStateService = inject(AuthStateService);
-    private readonly usersFacade = inject(UsersFacade);
+    private readonly userFacade = inject(UserFacade);
 
     activeId = model<string | null>(null);
 
@@ -28,7 +28,7 @@ export class CommentComponent {
     openFormType = signal<'reply' | 'edit' | null>(null);
 
     readonly isAuth = this.authStateService.isAuth;
-    readonly currentUser = this.usersFacade.currentUser;
+    readonly currentUser = this.userFacade.currentUser;
 
     onReplyFormShow() {
         this.activeId.set(this.comment()?.id ?? null);

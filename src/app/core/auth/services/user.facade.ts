@@ -2,9 +2,9 @@ import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angul
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
     AuthStateService,
-    LocalUserStoreService,
-    UsersService,
-    UsersStoreService,
+    LocalUserStateService,
+    UserService,
+    UserStateService,
 } from '@app/core/auth/services';
 import { LocalUserService } from './local-user.service';
 import { catchError, of, tap } from 'rxjs';
@@ -13,18 +13,20 @@ import { FullUser } from '@app/core/auth/domains';
 @Injectable({
     providedIn: 'root',
 })
-export class UsersFacade {
+export class UserFacade {
     private readonly authState = inject(AuthStateService);
-    private readonly usersStore = inject(UsersStoreService);
-    private readonly usersService = inject(UsersService);
-    private readonly localUserStore = inject(LocalUserStoreService);
+    private readonly userStateService = inject(UserStateService);
+    private readonly userService = inject(UserService);
+    private readonly localUserState = inject(LocalUserStateService);
     private readonly localUserService = inject(LocalUserService);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly authUser = this.usersStore.authUser;
-    readonly localUser = this.localUserStore.localUser;
+    readonly authUser = this.userStateService.authUser;
+    readonly localUser = this.localUserState.localUser;
 
     private readonly refreshAuthUserTrigger = signal<number>(0);
+
+    isLoading = signal<boolean>(false);
 
     readonly currentUser = computed<FullUser | null>(() => {
         const user = this.authUser();
@@ -39,25 +41,25 @@ export class UsersFacade {
 
             // выполняем запрос на получение текущего пользователя только если авторизованы
             if (isAuth) {
-                this.usersService
+                this.userService
                     .authUser()
                     .pipe(
                         tap((user) => {
-                            this.usersStore.set(user);
+                            this.userStateService.set(user);
                             this.localUserService.loadDataFromCookie(user.id);
                         }),
                         catchError(() => {
-                            this.usersStore.clear();
-                            this.localUserService.clearStore();
+                            this.userStateService.clear();
+                            this.localUserService.clearState();
                             return of(null);
                         }),
                         takeUntilDestroyed(this.destroyRef),
                     )
                     .subscribe();
             } else {
-                this.usersStore.clear();
+                this.userStateService.clear();
                 // по хорошему локальные данные надо из кукис тоже удалять, но они отсутствуют на сервере
-                this.localUserService.clearStore();
+                this.localUserService.clearState();
             }
         });
     }

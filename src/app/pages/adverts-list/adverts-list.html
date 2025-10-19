@@ -1,7 +1,7 @@
 @switch (pageType()) {
     @case ('main') {
         <h4 class="h4 fw-600 mb-24">Рекомендации для вас</h4>
-        @if (adverts(); as adverts) {
+        @if (filteredAdverts(); as adverts) {
             @if (isLoading()) {
                 <app-spinner type="big" width="1"></app-spinner>
             } @else {
@@ -9,32 +9,11 @@
             }
         }
     }
-    @case ('my') {
-        <h4 class="h4 fw-600 mb-24">Мои объявления</h4>
-        @if (currentUser(); as user) {
-            <app-ad-grid [adverts]="user.adverts" [newBtn]="true"></app-ad-grid>
-        } @else {
-            <app-spinner type="big" width="1"></app-spinner>
-        }
-    }
-    @case ('user') {
-        @if (isLoading()) {
-            <p-skeleton width="400px" height="18px" class="advert-list__user-skeleton" />
-            <app-spinner type="big" width="1"></app-spinner>
-        } @else {
-            <h4 class="h4 fw-600 mb-24">Объявления пользователя {{ viewedUser()?.name }}</h4>
-            @if (adverts().length) {
-                <app-ad-grid [adverts]="adverts()"></app-ad-grid>
-            } @else {
-                <p class="base">У пользователя нет опубликованных объявлений</p>
-            }
-        }
-    }
-    @default {
+    @case ('search') {
         @if (filteredAdverts(); as adverts) {
             <app-ad-title
                 [advertsCount]="adverts.length"
-                [catQuery]="catName()"
+                [catQuery]="catNameParam() ?? null"
                 [isLoading]="isLoading()"
             ></app-ad-title>
             <div class="page-content">
@@ -54,4 +33,26 @@
             </div>
         }
     }
+    @case ('my-adverts') {
+        <h4 class="h4 fw-600 mb-24">Мои объявления</h4>
+        @if (currentUser()?.adverts; as adverts) {
+            <app-ad-grid [adverts]="adverts" [newBtn]="true"></app-ad-grid>
+        } @else {
+            <app-spinner type="big" width="1"></app-spinner>
+        }
+    }
+    @case ('user-adverts') {
+        @if (isLoading()) {
+            <p-skeleton width="400px" height="18px" class="advert-list__user-skeleton" />
+            <app-spinner type="big" width="1"></app-spinner>
+        } @else {
+            <h4 class="h4 fw-600 mb-24">Объявления пользователя {{ advertsAuthor()?.name }}</h4>
+            @if (adverts().length) {
+                <app-ad-grid [adverts]="adverts()"></app-ad-grid>
+            } @else {
+                <p class="base">У пользователя нет опубликованных объявлений</p>
+            }
+        }
+    }
+    @default {}
 }

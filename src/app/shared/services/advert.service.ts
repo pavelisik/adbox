@@ -17,10 +17,6 @@ export class AdvertService {
         return this.apiService.getAdvert(id);
     }
 
-    searchAdverts(request: AdvertSearchRequest, limit = 10): Observable<ShortAdvert[]> {
-        return this.apiService.searchAdverts(request).pipe(map((res) => res.slice(0, limit)));
-    }
-
     newAdvert(params: NewAdvertRequest): Observable<ShortAdvert> {
         return this.apiService.newAdvert(params).pipe(
             tap(() => {

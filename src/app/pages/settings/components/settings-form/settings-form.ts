@@ -1,6 +1,6 @@
 import { Component, DestroyRef, effect, inject, Signal, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { UsersFacade, UsersService } from '@app/core/auth/services';
+import { UserFacade, UserService } from '@app/core/auth/services';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ControlError, FormMessage, AddressInput } from '@app/shared/components/forms';
@@ -35,8 +35,8 @@ import { CascadeSelectModule } from 'primeng/cascadeselect';
     styleUrl: './settings-form.scss',
 })
 export class SettingsForm {
-    private readonly usersService = inject(UsersService);
-    private readonly usersFacade = inject(UsersFacade);
+    private readonly userService = inject(UserService);
+    private readonly userFacade = inject(UserFacade);
     private readonly localUserService = inject(LocalUserService);
     private readonly categoryFacade = inject(CategoryFacade);
     private readonly dialogService = inject(DialogService);
@@ -45,7 +45,7 @@ export class SettingsForm {
     private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly currentUser = this.usersFacade.currentUser;
+    readonly currentUser = this.userFacade.currentUser;
 
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
@@ -79,11 +79,11 @@ export class SettingsForm {
 
                 this.isLoading.set(true);
 
-                this.usersService
+                this.userService
                     .updateUser(userId, request)
                     .pipe(
                         tap((res) => {
-                            this.usersFacade.refreshAuthUser();
+                            this.userFacade.refreshAuthUser();
                             this.successMessage.set('Изменения сохранены');
                             this.passwordConfirmService.reset();
                         }),

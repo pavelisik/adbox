@@ -4,7 +4,7 @@ import { User } from '@app/core/auth/domains';
 @Injectable({
     providedIn: 'root',
 })
-export class UsersStoreService {
+export class UserStateService {
     private readonly _authUser = signal<User | null>(null);
     readonly authUser = this._authUser.asReadonly();
 

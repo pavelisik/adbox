@@ -4,7 +4,7 @@ import { FullAdvert } from '@app/pages/advert/domains';
 @Injectable({
     providedIn: 'root',
 })
-export class AdvertStoreService {
+export class AdvertStateService {
     private readonly _advert = signal<FullAdvert | null>(null);
     readonly advert = this._advert.asReadonly();
 

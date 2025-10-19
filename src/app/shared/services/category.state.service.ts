@@ -4,7 +4,7 @@ import { Category } from '@app/pages/advert/domains';
 @Injectable({
     providedIn: 'root',
 })
-export class CategoryStoreService {
+export class CategoryStateService {
     private readonly _allCategories = signal<Category[]>([]);
     readonly allCategories = this._allCategories.asReadonly();
 

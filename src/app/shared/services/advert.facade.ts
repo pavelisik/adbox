@@ -1,10 +1,10 @@
 import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { UsersFacade } from '@app/core/auth/services';
+import { UserFacade } from '@app/core/auth/services';
 import {
     AdvertService,
-    AdvertStoreService,
+    AdvertStateService,
     BreadcrumbsService,
     BreadcrumbsStateService,
 } from '@app/shared/services';
@@ -14,22 +14,22 @@ import { catchError, finalize, of, tap } from 'rxjs';
     providedIn: 'root',
 })
 export class AdvertFacade {
-    private readonly advertStore = inject(AdvertStoreService);
+    private readonly advertState = inject(AdvertStateService);
     private readonly advertService = inject(AdvertService);
     private readonly breadcrumbsState = inject(BreadcrumbsStateService);
     private readonly breadcrumbsService = inject(BreadcrumbsService);
-    private readonly usersFacade = inject(UsersFacade);
+    private readonly userFacade = inject(UserFacade);
     private readonly router = inject(Router);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly advert = this.advertStore.advert;
+    readonly advert = this.advertState.advert;
 
     isAdvertLoading = signal<boolean>(false);
     isDeleteLoading = signal<boolean>(false);
 
     readonly isMyAdvert = computed(() => {
         const advert = this.advert();
-        const currentUser = this.usersFacade.currentUser();
+        const currentUser = this.userFacade.currentUser();
         return advert?.user?.id === currentUser?.id;
     });
 
@@ -41,12 +41,11 @@ export class AdvertFacade {
             .getAdvert(id)
             .pipe(
                 tap((advert) => {
-                    this.advertStore.set(advert);
+                    this.advertState.set(advert);
                     this.breadcrumbsService.buildBreadcrumbsForAdvert();
                 }),
                 catchError((error) => {
                     console.error(error);
-                    this.clearState();
                     return of(null);
                 }),
                 finalize(() => this.isAdvertLoading.set(false)),
@@ -65,7 +64,7 @@ export class AdvertFacade {
             .deleteAdvert(advertId)
             .pipe(
                 tap((res) => {
-                    this.usersFacade.refreshAuthUser();
+                    this.userFacade.refreshAuthUser();
                     this.clearState();
                     this.router.navigate(['user/adverts']);
                 }),
@@ -80,7 +79,7 @@ export class AdvertFacade {
     }
 
     private clearState() {
-        this.advertStore.clear();
+        this.advertState.clear();
         this.breadcrumbsState.clear();
     }
 }

@@ -21,7 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UploadImage } from '@app/shared/components/forms/images-upload/domains';
 import { AdvertAddForm, NewAdvertRequest } from './domains';
 import { ConfirmService } from '@app/core/confirmation';
-import { UsersFacade } from '@app/core/auth/services';
+import { UserFacade } from '@app/core/auth/services';
 import { Spinner } from '@app/shared/components';
 
 @Component({
@@ -47,7 +47,7 @@ export class AdvertAdd {
     private readonly advertDraftState = inject(AdvertDraftStateService);
     private readonly categoryFacade = inject(CategoryFacade);
     private readonly advertService = inject(AdvertService);
-    private readonly usersFacade = inject(UsersFacade);
+    private readonly userFacade = inject(UserFacade);
     private readonly fb = inject(FormBuilder);
     private readonly router = inject(Router);
     private readonly dialogService = inject(DialogService);
@@ -57,7 +57,7 @@ export class AdvertAdd {
     // только при помощи any[] решается баг с типизацией options в p-cascadeselect
     readonly categories: Signal<any[]> = this.categoryFacade.allCategories;
 
-    readonly currentUser = this.usersFacade.currentUser;
+    readonly currentUser = this.userFacade.currentUser;
 
     uploadImages = signal<UploadImage[]>([]);
 
@@ -197,7 +197,7 @@ export class AdvertAdd {
             .newAdvert(this.buildRequest())
             .pipe(
                 tap((res) => {
-                    this.usersFacade.refreshAuthUser();
+                    this.userFacade.refreshAuthUser();
                     this.successMessage.set('Объявление успешно создано');
 
                     setTimeout(() => {

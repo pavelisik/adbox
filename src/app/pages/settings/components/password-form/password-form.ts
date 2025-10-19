@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { passwordsMatchValidator } from '@app/shared/validators';
 import { ControlError, PasswordInput, FormMessage } from '@app/shared/components/forms';
-import { UsersFacade, UsersService } from '@app/core/auth/services';
+import { UserFacade, UserService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { PasswordConfirmService } from '@app/core/confirmation';
 import { UserUpdateRequest } from '@app/core/auth/domains';
@@ -27,14 +27,14 @@ import { PasswordChangeForm } from './domains';
     styleUrl: './password-form.scss',
 })
 export class PasswordForm {
-    private readonly usersService = inject(UsersService);
-    private readonly usersFacade = inject(UsersFacade);
+    private readonly userService = inject(UserService);
+    private readonly userFacade = inject(UserFacade);
     private readonly dialogService = inject(DialogService);
     private readonly passwordConfirmService = inject(PasswordConfirmService);
     private readonly fb = inject(FormBuilder);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly currentUser = this.usersFacade.currentUser;
+    readonly currentUser = this.userFacade.currentUser;
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);
@@ -71,11 +71,11 @@ export class PasswordForm {
 
                 this.isLoading.set(true);
 
-                this.usersService
+                this.userService
                     .updateUser(userId, request)
                     .pipe(
                         tap((res) => {
-                            this.usersFacade.refreshAuthUser();
+                            this.userFacade.refreshAuthUser();
                             this.successMessage.set('Пароль изменен');
                             this.passwordConfirmService.reset();
                             this.resetFormState();

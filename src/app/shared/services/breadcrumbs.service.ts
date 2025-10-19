@@ -1,8 +1,7 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CITIES } from '@app/shared/components/breadcrumbs/data/cities';
-import { BreadcrumbsStateService, CategoryService } from '@app/shared/services';
-import { AdvertStoreService } from '@app/shared/services/advert.store.service';
+import { AdvertStateService, BreadcrumbsStateService, CategoryService } from '@app/shared/services';
 import { MenuItem } from 'primeng/api';
 import { catchError, finalize, of, tap } from 'rxjs';
 
@@ -11,11 +10,11 @@ import { catchError, finalize, of, tap } from 'rxjs';
 })
 export class BreadcrumbsService {
     private readonly breadcrumbsState = inject(BreadcrumbsStateService);
-    private readonly advertStore = inject(AdvertStoreService);
+    private readonly advertState = inject(AdvertStateService);
     private readonly categoryService = inject(CategoryService);
     private readonly destroyRef = inject(DestroyRef);
 
-    readonly advert = this.advertStore.advert;
+    readonly advert = this.advertState.advert;
 
     readonly isLoading = signal<boolean>(false);
 
