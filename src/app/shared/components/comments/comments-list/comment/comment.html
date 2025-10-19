@@ -1,67 +1,66 @@
 @if (comment(); as comment) {
-    <div class="comment base" [style.paddingLeft.px]="depthForChild() * 30">
-        <div class="comment__avatar">
-            <i class="pi pi-user"></i>
+    <div class="comment base" [style.paddingLeft.px]="depthForChildren() * 30">
+        <div class="comment__top">
+            <div class="comment__avatar">
+                <svg icon="user" width="50" height="50"></svg>
+            </div>
+            <div class="comment__info">
+                <div class="comment__user fw-600">{{ comment.user.name }}</div>
+                <div class="comment__date sm">{{ comment.created | dateFormat | lowercase }}</div>
+            </div>
         </div>
 
-        <div class="comment__content">
-            <div class="comment__top">
-                <div class="comment__user fw-500">{{ comment.user.name }}</div>
-                <div class="comment__date">{{ comment.created | dateFormat }}</div>
-            </div>
+        <div class="comment__text">
+            {{ comment.text }}
+        </div>
 
-            <div class="comment__text">
-                {{ comment.text }} Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-                deserunt porro qui quis repudiandae dolor quibusdam molestiae? Quod vel eligendi
-                explicabo tempora ratione iure, quam, inventore ea nulla possimus obcaecati hic
-                expedita nobis suscipit corrupti consequatur a voluptatibus commodi dignissimos
-                nihil architecto assumenda! Rerum, ut suscipit error molestias vitae quidem.
-            </div>
+        <div class="comment__actions sm">
+            @if (isMyComment) {
+                <button pButton text (click)="onEditFormShow()">
+                    <span pButtonLabel>Редактировать</span>
+                </button>
+                <button pButton text (click)="onDelete()">
+                    <span pButtonLabel>Удалить</span>
+                </button>
+            } @else {
+                <button pButton text (click)="onReplyFormShow()" [disabled]="!isAuth()">
+                    <span pButtonLabel>Ответить</span>
+                </button>
+            }
+        </div>
 
-            <div class="comment__actions">
-                @if (isMyComment) {
-                    <button pButton text label="Редактировать" (click)="onEditFormShow()"></button>
-                    <button pButton text label="Удалить" (click)="onDelete()"></button>
-                } @else {
-                    <button
-                        pButton
-                        text
-                        label="Ответить"
-                        (click)="onReplyFormShow()"
-                        [disabled]="!isAuth()"
-                    ></button>
-                }
-            </div>
+        <div class="comment__form-wrapper" [class.show]="activeId() === comment.id">
+            @if (openFormType() === 'reply') {
+                <app-comments-form
+                    type="reply"
+                    [activeId]="activeId()"
+                    [toUser]="comment.user.name"
+                    initialText="{{ comment.user.name }}, "
+                    submitLabel="Ответить"
+                    (formSubmit)="onSubmitReply($event)"
+                    (formCancel)="onFormClose()"
+                ></app-comments-form>
+            }
 
-            @if (activeId() === comment.id) {
-                @switch (openFormType()) {
-                    @case ('reply') {
-                        <app-comments-form
-                            initialText="{{ comment.user.name }}, "
-                            submitLabel="Ответить"
-                            (formSubmit)="onSubmitReply($event)"
-                            (formCancel)="onFormClose()"
-                        ></app-comments-form>
-                    }
-                    @case ('edit') {
-                        <app-comments-form
-                            [initialText]="comment.text"
-                            submitLabel="Сохранить"
-                            (formSubmit)="onSubmitEdit($event)"
-                            (formCancel)="onFormClose()"
-                        ></app-comments-form>
-                    }
-                }
+            @if (openFormType() === 'edit') {
+                <app-comments-form
+                    type="edit"
+                    [activeId]="activeId()"
+                    [initialText]="comment.text"
+                    submitLabel="Сохранить"
+                    (formSubmit)="onSubmitEdit($event)"
+                    (formCancel)="onFormClose()"
+                ></app-comments-form>
             }
         </div>
     </div>
 
-    @if (comment.child.length > 0) {
-        <div class="comment__child">
-            @for (child of comment.child; track child.id) {
+    @if (comment.children.length > 0) {
+        <div class="comment__children">
+            @for (child of comment.children; track child.id) {
                 <app-comment
                     [comment]="child"
-                    [depthForChild]="depthForChild() + 1"
+                    [depthForChildren]="depthForChildren() + 1"
                     [(activeId)]="activeId"
                     (deleteRequest)="deleteRequest.emit($event)"
                     (replyRequest)="replyRequest.emit($event)"

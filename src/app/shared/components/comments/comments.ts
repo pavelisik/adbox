@@ -1,48 +1,43 @@
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommentsFacade, CommentsService } from '@app/shared/services';
+import { CommentsFacade } from '@app/shared/services';
 import { CommentsList } from './comments-list/comments-list';
 import { AuthStateService, UsersFacade } from '@app/core/auth/services';
-import { CommentFull } from '@app/pages/advert/domains';
 import { transformComments } from '@app/shared/utils';
 import { CommentsForm } from './comments-form/comments-form';
+import { ConfirmService } from '@app/core/confirmation';
+import { NewAdvertCommentRequest } from '@app/pages/advert/domains';
+import { DialogService } from '@app/core/dialog';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
     selector: 'app-comments',
-    imports: [CommentsList, CommentsForm],
+    imports: [CommentsList, CommentsForm, ButtonModule],
     templateUrl: './comments.html',
     styleUrl: './comments.scss',
 })
 export class Comments {
     private readonly commentsFacade = inject(CommentsFacade);
-    private readonly commentsService = inject(CommentsService);
     private readonly authStateService = inject(AuthStateService);
     private readonly usersFacade = inject(UsersFacade);
+    private readonly dialogService = inject(DialogService);
+    private readonly confirm = inject(ConfirmService);
     private readonly route = inject(ActivatedRoute);
-    private readonly destroyRef = inject(DestroyRef);
-
-    readonly isCommentsLoading = this.commentsFacade.isCommentsLoading;
-    readonly isDeleteLoading = this.commentsFacade.isDeleteLoading;
-
-    readonly comments = this.commentsFacade.comments;
-    commentsTree = signal<CommentFull[]>([]);
 
     readonly isAuth = this.authStateService.isAuth;
     readonly currentUser = this.usersFacade.currentUser;
+    readonly isCommentsLoading = this.commentsFacade.isCommentsLoading;
+    readonly comments = this.commentsFacade.comments;
 
-    advertId: string | null = this.route.snapshot.paramMap.get('id');
+    readonly advertId = this.route.snapshot.paramMap.get('id');
 
-    // потом разобраться можно ли сбрасывать после запросов для спиннера на кнопке и закрытия форм ввода
-    activeId = signal<string | null>(null);
+    readonly commentsTree = computed(() => {
+        const comments = this.comments();
+        return comments ? transformComments(comments) : [];
+    });
 
     constructor() {
         if (this.advertId) this.commentsFacade.loadComments(this.advertId);
-
-        effect(() => {
-            const comments = this.comments();
-            if (comments) this.commentsTree.set(transformComments(comments));
-        });
     }
 
     onNew(text: string) {
@@ -50,28 +45,28 @@ export class Comments {
         this.commentsFacade.addComment(this.advertId, { text });
     }
 
-    onReply({ parentId, text }: { parentId: string; text: string }) {
+    onReply(params: NewAdvertCommentRequest) {
         if (!this.advertId) return;
-        this.commentsFacade.addComment(this.advertId, { text, parentId });
+        this.commentsFacade.addComment(this.advertId, params);
     }
 
-    // ОСТАНОВИЛСЯ ВОТ ТУТ!!!!!!!
-    onDelete(id: string) {
-        if (!this.advertId) return;
-        // this.commentsService
-        //     .deleteComment(id)
-        //     .pipe(takeUntilDestroyed(this.destroyRef))
-        //     .subscribe(() => {
-        //         this.commentsFacade.loadComments(this.advertId!);
-        //     });
+    onDelete(commentId: string) {
+        this.confirm.confirm('deleteComment', () => {
+            if (!this.advertId) return;
+            this.commentsFacade.deleteComment(this.advertId, commentId);
+        });
     }
 
-    onEdit(e: { id: string; text: string }) {
-        // this.commentsService
-        //     .editComment(e.id, { text: e.text })
-        //     .pipe(takeUntilDestroyed(this.destroyRef))
-        //     .subscribe(() => {
-        //         if (this.advertId) this.commentsFacade.loadComments(this.advertId);
-        //     });
+    onEdit({ commentId, text }: { commentId: string; text: string }) {
+        if (!this.advertId) return;
+        this.commentsFacade.editComment(this.advertId, commentId, { text });
+    }
+
+    openLoginDialog() {
+        this.dialogService.open('login');
+    }
+
+    openRegisterDialog() {
+        this.dialogService.open('register');
     }
 }

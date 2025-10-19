@@ -1,19 +1,35 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="comment-form">
+    @if (type() !== 'main') {
+        <div class="comment-form__top gray-text sm">
+            @if (type() === 'reply') {
+                <svg icon="reply" width="13" height="13"></svg>
+            }
+            <span>{{ toUser() }}</span>
+            <button
+                pButton
+                text
+                type="button"
+                (click)="onCancel()"
+                label="Отменить"
+                class="comment-form__cancel-btn"
+            ></button>
+        </div>
+    }
     <textarea
         pTextarea
         formControlName="text"
-        [placeholder]="placeholder()"
+        placeholder="Оставьте свой комментарий"
         [autoResize]="true"
-        rows="3"
-    ></textarea>
-    <div class="comment-form__actions">
-        <button pButton text type="button" (click)="onCancel()" label="Отменить"></button>
-        <button
-            pButton
-            text
-            type="submit"
-            [disabled]="form.invalid"
-            [label]="submitLabel()"
-        ></button>
-    </div>
+        rows="1"
+        maxlength="500"
+        class="comment-form__textarea"
+    >
+    </textarea>
+    <button
+        pButton
+        type="submit"
+        [label]="submitLabel()"
+        class="comment-form__submit-btn"
+        [class.show]="!form.invalid"
+    ></button>
 </form>

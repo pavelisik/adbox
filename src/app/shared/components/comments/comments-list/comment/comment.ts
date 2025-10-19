@@ -1,13 +1,15 @@
 import { Component, inject, input, model, output, signal } from '@angular/core';
 import { AuthStateService, UsersFacade } from '@app/core/auth/services';
-import { CommentFull } from '@app/pages/advert/domains';
+import { CommentFull, NewAdvertCommentRequest } from '@app/pages/advert/domains';
 import { DateFormatPipe } from '@app/shared/pipes';
 import { CommentsForm } from '../../comments-form/comments-form';
 import { ButtonModule } from 'primeng/button';
+import { SvgIcon } from '@app/shared/components';
+import { LowerCasePipe } from '@angular/common';
 
 @Component({
     selector: 'app-comment',
-    imports: [DateFormatPipe, CommentsForm, ButtonModule],
+    imports: [DateFormatPipe, CommentsForm, ButtonModule, SvgIcon, LowerCasePipe],
     templateUrl: './comment.html',
     styleUrl: './comment.scss',
 })
@@ -18,10 +20,10 @@ export class CommentComponent {
     activeId = model<string | null>(null);
 
     comment = input<CommentFull>();
-    depthForChild = input<number>(0);
+    depthForChildren = input<number>(0);
     deleteRequest = output<string>();
-    replyRequest = output<{ parentId: string; text: string }>();
-    editRequest = output<{ id: string; text: string }>();
+    replyRequest = output<NewAdvertCommentRequest>();
+    editRequest = output<{ commentId: string; text: string }>();
 
     openFormType = signal<'reply' | 'edit' | null>(null);
 
@@ -40,7 +42,6 @@ export class CommentComponent {
 
     onFormClose() {
         this.activeId.set(null);
-        this.openFormType.set(null);
     }
 
     get isMyComment() {
@@ -52,12 +53,12 @@ export class CommentComponent {
     }
 
     onSubmitReply(text: string) {
-        this.replyRequest.emit({ parentId: this.comment()?.id ?? '', text });
+        this.replyRequest.emit({ text, parentId: this.comment()?.id ?? '' });
         this.onFormClose();
     }
 
     onSubmitEdit(text: string) {
-        this.editRequest.emit({ id: this.comment()?.id ?? '', text });
+        this.editRequest.emit({ commentId: this.comment()?.id ?? '', text });
         this.onFormClose();
     }
 }

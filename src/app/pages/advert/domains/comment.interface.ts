@@ -2,7 +2,7 @@ import { ShortUser } from '@app/core/auth/domains';
 import { ShortAdvert } from '@app/pages/adverts-list/domains';
 
 export interface CommentFull extends Comment {
-    child: CommentFull[];
+    children: CommentFull[];
 }
 
 export interface Comment {

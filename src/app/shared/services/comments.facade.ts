@@ -1,6 +1,6 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NewAdvertCommentRequest } from '@app/pages/advert/domains';
+import { EditCommentRequest, NewAdvertCommentRequest } from '@app/pages/advert/domains';
 import { CommentsService, CommentsStateService } from '@app/shared/services';
 import { catchError, finalize, of, tap } from 'rxjs';
 
@@ -69,6 +69,44 @@ export class CommentsFacade {
                     return of(null);
                 }),
                 finalize(() => this.isRequestLoading.set(false)),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
+    }
+
+    editComment(advertId: string, commentId: string, params: EditCommentRequest) {
+        this.isRequestLoading.set(true);
+
+        this.commentsService
+            .editComment(commentId, params)
+            .pipe(
+                tap(() => {
+                    this.refreshComments(advertId);
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    return of(null);
+                }),
+                finalize(() => this.isRequestLoading.set(false)),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
+    }
+
+    deleteComment(advertId: string, commentId: string) {
+        this.isDeleteLoading.set(true);
+
+        this.commentsService
+            .deleteComment(commentId)
+            .pipe(
+                tap(() => {
+                    this.refreshComments(advertId);
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    return of(null);
+                }),
+                finalize(() => this.isDeleteLoading.set(false)),
                 takeUntilDestroyed(this.destroyRef),
             )
             .subscribe();

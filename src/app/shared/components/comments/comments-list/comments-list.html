@@ -2,7 +2,7 @@
     @for (comment of comments(); track comment.id) {
         <app-comment
             [comment]="comment"
-            [depthForChild]="0"
+            [depthForChildren]="0"
             [(activeId)]="activeId"
             (deleteRequest)="deleteRequest.emit($event)"
             (replyRequest)="replyRequest.emit($event)"

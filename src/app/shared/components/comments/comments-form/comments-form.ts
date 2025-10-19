@@ -1,26 +1,32 @@
-import { Component, effect, inject, input, model, output } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SvgIcon } from '@app/shared/components';
 import { ButtonModule } from 'primeng/button';
 import { TextareaModule } from 'primeng/textarea';
 
+export type CommentsFormTypes = 'main' | 'reply' | 'edit';
+
 @Component({
     selector: 'app-comments-form',
-    imports: [ReactiveFormsModule, TextareaModule, ButtonModule],
+    imports: [ReactiveFormsModule, TextareaModule, ButtonModule, SvgIcon],
     templateUrl: './comments-form.html',
     styleUrl: './comments-form.scss',
 })
 export class CommentsForm {
     private readonly fb = inject(FormBuilder);
 
+    type = input<CommentsFormTypes>('main');
+    activeId = input<string | null>(null);
+    toUser = input<string | null>(null);
     initialText = input<string | null>(null);
     submitLabel = input<string>('Отправить');
-    placeholder = input<string>('Ваш комментарий');
     formSubmit = output<string>();
     formCancel = output<void>();
 
     constructor() {
         effect(() => {
             const text = this.initialText();
+            const activeId = this.activeId();
             if (text) {
                 this.form.patchValue({ text });
             }
@@ -28,7 +34,7 @@ export class CommentsForm {
     }
 
     form = this.fb.group({
-        text: ['', [Validators.required, Validators.maxLength(1000)]],
+        text: ['', [Validators.required, Validators.maxLength(500)]],
     });
 
     get textValue() {

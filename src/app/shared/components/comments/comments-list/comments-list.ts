@@ -1,5 +1,5 @@
-import { Component, input, model, output } from '@angular/core';
-import { CommentFull } from '@app/pages/advert/domains';
+import { Component, input, output, signal } from '@angular/core';
+import { CommentFull, NewAdvertCommentRequest } from '@app/pages/advert/domains';
 import { CommentComponent } from './comment/comment';
 
 @Component({
@@ -10,10 +10,8 @@ import { CommentComponent } from './comment/comment';
 })
 export class CommentsList {
     comments = input<CommentFull[]>([]);
-
-    activeId = model<string | null>(null);
-
+    activeId = signal<string | null>(null);
     deleteRequest = output<string>();
-    replyRequest = output<{ parentId: string; text: string }>();
-    editRequest = output<{ id: string; text: string }>();
+    replyRequest = output<NewAdvertCommentRequest>();
+    editRequest = output<{ commentId: string; text: string }>();
 }
