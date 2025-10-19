@@ -3,7 +3,7 @@
         @if (advert.imagesIds[0] | imageFromId | async; as img) {
             <app-image [imageSrc]="img" [alt]="advert.name"></app-image>
         } @else {
-            <p-skeleton height="235px" class="item__img-skeleton" />
+            <p-skeleton height="235px" borderRadius="4px" class="item__img-skeleton" />
         }
     </a>
     <h6 class="item__title h6 fw-600">

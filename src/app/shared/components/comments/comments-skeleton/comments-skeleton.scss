@@ -1,0 +1,33 @@
+.comments-skeleton {
+    margin-top: 8px;
+
+    &__comment {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        margin-bottom: 28px;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        margin-top: 2px;
+        margin-bottom: 16px;
+        gap: 8px;
+    }
+
+    &__actions {
+        display: flex;
+        margin-top: 10px;
+        gap: 24px;
+    }
+
+    &__form {
+        margin-top: 40px;
+    }
+}

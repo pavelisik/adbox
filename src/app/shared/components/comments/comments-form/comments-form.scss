@@ -23,15 +23,15 @@
         align-items: center;
         gap: 8px;
         padding-bottom: 8px;
+    }
 
-        .comment-form__cancel-btn {
-            justify-self: end;
-            padding: 0px;
-            margin-left: 8px;
+    &__cancel-btn {
+        justify-self: end;
+        padding: 0px;
+        margin-left: 8px;
 
-            &:hover {
-                color: var(--gray-600-color);
-            }
+        &:hover {
+            color: var(--gray-600-color);
         }
     }
 

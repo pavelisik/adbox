@@ -7,7 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import { PrimePreset } from '@app/prime-preset';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
@@ -31,7 +31,12 @@ export const appConfig: ApplicationConfig = {
         }),
         provideBrowserGlobalErrorListeners(),
         provideZoneChangeDetection({ eventCoalescing: true }),
-        provideRouter(routes),
+        provideRouter(
+            routes,
+            withInMemoryScrolling({
+                scrollPositionRestoration: 'enabled',
+            }),
+        ),
         provideHttpClient(
             withInterceptors([authTokenInterceptor, imagesCacheInterceptor, httpErrorsInterceptor]),
         ),

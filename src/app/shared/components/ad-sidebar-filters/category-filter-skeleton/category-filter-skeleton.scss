@@ -7,9 +7,6 @@
 .category-filter-skeleton {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-
-    p-skeleton {
-        border-radius: 6px;
-    }
+    gap: 18px;
+    margin-bottom: 4px;
 }

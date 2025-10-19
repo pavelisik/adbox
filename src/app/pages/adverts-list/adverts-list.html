@@ -19,7 +19,7 @@
     }
     @case ('user') {
         @if (isLoading()) {
-            <p-skeleton width="420px" height="32px" />
+            <p-skeleton width="400px" height="18px" class="advert-list__user-skeleton" />
             <app-spinner type="big" width="1"></app-spinner>
         } @else {
             <h4 class="h4 fw-600 mb-24">Объявления пользователя {{ viewedUser()?.name }}</h4>

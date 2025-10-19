@@ -5,7 +5,12 @@
             @for (image of advertImages(); track image.id) {
                 <div class="images-upload__preview-wrapper static">
                     @if (!isImageLoaded()) {
-                        <p-skeleton class="image-skeleton" width="100%" height="100%" />
+                        <p-skeleton
+                            class="image-skeleton"
+                            width="100%"
+                            height="100%"
+                            borderRadius="4px"
+                        />
                     }
                     <img
                         [src]="image.fileUrl"

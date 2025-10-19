@@ -9,10 +9,11 @@ import { ConfirmService } from '@app/core/confirmation';
 import { NewAdvertCommentRequest } from '@app/pages/advert/domains';
 import { DialogService } from '@app/core/dialog';
 import { ButtonModule } from 'primeng/button';
+import { CommentsSkeleton } from './comments-skeleton/comments-skeleton';
 
 @Component({
     selector: 'app-comments',
-    imports: [CommentsList, CommentsForm, ButtonModule],
+    imports: [CommentsList, CommentsForm, ButtonModule, CommentsSkeleton],
     templateUrl: './comments.html',
     styleUrl: './comments.scss',
 })
