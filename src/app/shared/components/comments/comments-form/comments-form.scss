@@ -1,7 +1,11 @@
 .comment-form {
     width: 100%;
-    margin-top: 22px;
+    margin-top: 8px;
     position: relative;
+
+    &.edit {
+        margin-top: 0px;
+    }
 
     &__textarea {
         width: 100%;

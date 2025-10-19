@@ -1,4 +1,9 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="comment-form">
+<form
+    [formGroup]="form"
+    (ngSubmit)="onSubmit()"
+    class="comment-form"
+    [class.edit]="type() === 'edit'"
+>
     @if (type() !== 'main') {
         <div class="comment-form__top gray-text sm">
             @if (type() === 'reply') {
@@ -30,6 +35,6 @@
         type="submit"
         [label]="submitLabel()"
         class="comment-form__submit-btn"
-        [class.show]="!form.invalid"
+        [class.show]="!form.invalid && !isDataSame()"
     ></button>
 </form>

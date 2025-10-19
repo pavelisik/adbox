@@ -1,4 +1,5 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, computed, effect, inject, input, output } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SvgIcon } from '@app/shared/components';
 import { ButtonModule } from 'primeng/button';
@@ -23,6 +24,10 @@ export class CommentsForm {
     formSubmit = output<string>();
     formCancel = output<void>();
 
+    isDataSame = computed(() => {
+        return this.textValue() === this.initialText();
+    });
+
     constructor() {
         effect(() => {
             const text = this.initialText();
@@ -37,13 +42,13 @@ export class CommentsForm {
         text: ['', [Validators.required, Validators.maxLength(500)]],
     });
 
-    get textValue() {
-        return this.form.value.text?.trim() ?? '';
-    }
+    textValue = toSignal(this.form.controls['text'].valueChanges, {
+        initialValue: this.initialText() || this.form.controls['text'].value,
+    });
 
     onSubmit() {
         if (this.form.invalid) return;
-        this.formSubmit.emit(this.textValue);
+        this.formSubmit.emit(this.textValue() || '');
         this.form.reset();
     }
 
