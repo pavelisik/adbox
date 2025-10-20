@@ -4,10 +4,10 @@
 @if (isLoading()) {
     @switch (count()) {
         @case (4) {
-            <p>загрузка... (скелетон для 4 adverts)</p>
+            <app-ad-grid-skeleton [count]="4"></app-ad-grid-skeleton>
         }
         @case (8) {
-            <p>загрузка... (скелетон для 8 adverts)</p>
+            <app-ad-grid-skeleton [count]="8"></app-ad-grid-skeleton>
         }
         @default {
             <app-spinner type="big" width="1"></app-spinner>

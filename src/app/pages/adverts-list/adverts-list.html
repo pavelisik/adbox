@@ -11,6 +11,7 @@
                 [adverts]="myAdverts()"
                 title="Ваши объявления"
                 [count]="4"
+                [isLoading]="isUserLoading()"
             ></app-adverts-list-section>
         }
         <app-adverts-list-section
@@ -24,6 +25,7 @@
         <app-adverts-list-section
             [adverts]="myAdverts()"
             title="Мои объявления"
+            [isLoading]="isUserLoading()"
             [newBtn]="true"
         ></app-adverts-list-section>
     }

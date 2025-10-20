@@ -37,6 +37,7 @@ export class AdvertsList {
     readonly currentUser = this.userFacade.currentUser;
     readonly isAuth = this.authStateService.isAuth;
     readonly isLoading = this.advertsListFacade.isLoading;
+    readonly isUserLoading = this.userFacade.isLoading;
 
     // определяем тип страницы в зависимости от route.data
     readonly pageType = toSignal<AdvertsPageTypes>(

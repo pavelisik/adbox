@@ -1,0 +1,22 @@
+.ad-grid-item-skeleton {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 382px;
+
+    &__title {
+        margin-top: 12px;
+    }
+
+    &__price {
+        margin-top: 8px;
+    }
+
+    &__city {
+        margin-top: 8px;
+    }
+
+    &__date {
+        margin-top: 8px;
+    }
+}

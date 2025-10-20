@@ -7,7 +7,7 @@ import {
     UserStateService,
 } from '@app/core/auth/services';
 import { LocalUserService } from './local-user.service';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, finalize, of, tap } from 'rxjs';
 import { FullUser } from '@app/core/auth/domains';
 
 @Injectable({
@@ -26,7 +26,7 @@ export class UserFacade {
 
     private readonly refreshAuthUserTrigger = signal<number>(0);
 
-    isLoading = signal<boolean>(false);
+    readonly isLoading = signal<boolean>(false);
 
     readonly currentUser = computed<FullUser | null>(() => {
         const user = this.authUser();
@@ -41,6 +41,8 @@ export class UserFacade {
 
             // выполняем запрос на получение текущего пользователя только если авторизованы
             if (isAuth) {
+                this.isLoading.set(true);
+
                 this.userService
                     .authUser()
                     .pipe(
@@ -53,6 +55,7 @@ export class UserFacade {
                             this.localUserService.clearState();
                             return of(null);
                         }),
+                        finalize(() => this.isLoading.set(false)),
                         takeUntilDestroyed(this.destroyRef),
                     )
                     .subscribe();

@@ -2,10 +2,11 @@ import { Component, input } from '@angular/core';
 import { ShortAdvert } from '@app/pages/adverts-list/domains';
 import { AdGrid } from '../../../shared/components/ad-grid/ad-grid';
 import { Spinner } from '@app/shared/components';
+import { AdGridSkeleton } from '@app/shared/components/ad-grid/ad-grid-skeleton/ad-grid-skeleton';
 
 @Component({
     selector: 'app-adverts-list-section',
-    imports: [AdGrid, Spinner],
+    imports: [AdGrid, Spinner, AdGridSkeleton],
     templateUrl: './adverts-list-section.html',
     styleUrl: './adverts-list-section.scss',
 })
