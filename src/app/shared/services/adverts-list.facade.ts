@@ -4,6 +4,7 @@ import { User } from '@app/core/auth/domains';
 import { UserService } from '@app/core/auth/services';
 import { AdvertSearchRequest } from '@app/pages/adverts-list/domains';
 import { AdvertsListService, AdvertsListStateService } from '@app/shared/services';
+import { sortAdvertsByDate } from '@app/shared/utils';
 import { catchError, finalize, map, of, tap } from 'rxjs';
 
 @Injectable({
@@ -20,14 +21,13 @@ export class AdvertsListFacade {
     readonly advertsAuthor = signal<User | null>(null);
     readonly isLoading = signal<boolean>(false);
 
-    searchAdverts(search?: string, category?: string, count?: number): void {
+    searchAdverts(search?: string, category?: string): void {
         this.isLoading.set(true);
         this.clearState();
 
         this.advertsListService
             .searchAdverts(this.buildSearchRequest(search, category))
             .pipe(
-                map((adverts) => (count ? adverts.slice(0, count) : adverts)),
                 tap((adverts) => {
                     this.advertsListState.set(adverts);
                 }),

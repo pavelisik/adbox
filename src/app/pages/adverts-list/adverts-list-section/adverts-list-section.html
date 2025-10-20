@@ -1,0 +1,27 @@
+@if (title(); as title) {
+    <h4 class="h4 fw-600 mb-24">{{ title }}</h4>
+}
+@if (isLoading()) {
+    @switch (count()) {
+        @case (4) {
+            <p>загрузка... (скелетон для 4 adverts)</p>
+        }
+        @case (8) {
+            <p>загрузка... (скелетон для 8 adverts)</p>
+        }
+        @default {
+            <app-spinner type="big" width="1"></app-spinner>
+        }
+    }
+} @else {
+    @if (adverts(); as adverts) {
+        @if (adverts.length > 0) {
+            <app-ad-grid
+                [adverts]="count() ? adverts.slice(0, count()) : adverts"
+                [newBtn]="newBtn()"
+            ></app-ad-grid>
+        } @else {
+            <p>Нет объявлений</p>
+        }
+    }
+}

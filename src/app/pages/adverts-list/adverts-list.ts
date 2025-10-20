@@ -4,14 +4,25 @@ import { AdvertsListFacade } from '@app/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { UserFacade } from '@app/core/auth/services';
+import { AuthStateService, UserFacade } from '@app/core/auth/services';
 import { SkeletonModule } from 'primeng/skeleton';
+import { AdvetsListSection } from './adverts-list-section/adverts-list-section';
+import { categoryNameFromId, sortAdvertsByDate } from '@app/shared/utils';
+import catWithAdverts from '@app/shared/data/cat-with-adverts.json';
 
 export type AdvertsPageTypes = 'main' | 'search' | 'user-adverts' | 'my-adverts';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [AdGrid, AdSidebarFilters, AdTopFilters, AdTitle, Spinner, SkeletonModule],
+    imports: [
+        AdGrid,
+        AdSidebarFilters,
+        AdTopFilters,
+        AdTitle,
+        Spinner,
+        SkeletonModule,
+        AdvetsListSection,
+    ],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })
@@ -19,10 +30,12 @@ export class AdvertsList {
     private readonly advertsListFacade = inject(AdvertsListFacade);
     private readonly route = inject(ActivatedRoute);
     private readonly userFacade = inject(UserFacade);
+    private readonly authStateService = inject(AuthStateService);
 
     readonly adverts = this.advertsListFacade.adverts;
     readonly advertsAuthor = this.advertsListFacade.advertsAuthor;
     readonly currentUser = this.userFacade.currentUser;
+    readonly isAuth = this.authStateService.isAuth;
     readonly isLoading = this.advertsListFacade.isLoading;
 
     // определяем тип страницы в зависимости от route.data
@@ -55,8 +68,50 @@ export class AdvertsList {
         this.route.queryParams.pipe(map((params) => params['maxPrice'])),
     );
 
-    // фильтруем массив с объявлениями для страницы поиска
+    // определяем имя избранной категории
+    readonly favCategoryName = computed(() => {
+        return categoryNameFromId(this.currentUser()?.favoriteCategory ?? '');
+    });
+
+    // формируем отсортированные по дате объявления
+    readonly sortedAdverts = computed(() => {
+        if (this.pageType() !== 'main') return [];
+        return sortAdvertsByDate(this.adverts());
+    });
+
+    // формируем объявления текущего пользователя
+    readonly myAdverts = computed(() => {
+        if (this.pageType() !== 'my-adverts' && this.pageType() !== 'main') return [];
+        const myAdverts = this.currentUser()?.adverts ?? [];
+        return sortAdvertsByDate(myAdverts!);
+    });
+
+    // фильтруем объявления из избранной категории
+    readonly favoriteCategoryAdverts = computed(() => {
+        if (this.pageType() !== 'main') return [];
+
+        const favCategory = this.currentUser()?.favoriteCategory;
+        if (!favCategory) return [];
+
+        // по нормальному с бэка должны приходить данные объявлений с указанием категории в adverts.category.id
+        // но приходится использовать статический файл catWithAdverts с соответствиями всех категорий размещенным в них объявлениям
+        const advertsInFavCategory =
+            catWithAdverts
+                .find((cat) => cat.catId === favCategory)
+                ?.adverts.map((advert) => advert.id) ?? [];
+        if (!advertsInFavCategory.length) return [];
+
+        const filtered = this.adverts().filter((advert) =>
+            advertsInFavCategory.includes(advert.id),
+        );
+
+        return sortAdvertsByDate(filtered);
+    });
+
+    // фильтруем объявления для страницы поиска
     readonly filteredAdverts = computed(() => {
+        if (this.pageType() !== 'search') return [];
+
         const minPrice = Number(this.minPriceParam());
         const maxPrice = Number(this.maxPriceParam());
         const sortType = this.sortTypeParam() ?? 'date';
@@ -75,9 +130,7 @@ export class AdvertsList {
             case 'expensive':
                 return [...result].sort((a, b) => b.cost - a.cost);
             default:
-                return [...result].sort(
-                    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-                );
+                return sortAdvertsByDate(result);
         }
     });
 
@@ -91,7 +144,7 @@ export class AdvertsList {
             untracked(() => {
                 switch (pageType) {
                     case 'main':
-                        this.advertsListFacade.searchAdverts('', '', 30);
+                        this.advertsListFacade.searchAdverts();
                         break;
                     case 'search':
                         this.advertsListFacade.searchAdverts(search, catId);

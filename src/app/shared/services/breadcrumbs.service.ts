@@ -1,6 +1,6 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CITIES } from '@app/shared/components/breadcrumbs/data/cities';
+import { CITIES } from '@app/shared/data/cities';
 import { AdvertStateService, BreadcrumbsStateService, CategoryService } from '@app/shared/services';
 import { MenuItem } from 'primeng/api';
 import { catchError, finalize, of, tap } from 'rxjs';

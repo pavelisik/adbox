@@ -1,0 +1,770 @@
+[
+    {
+        "catId": "ec99b930-c589-4935-80bb-a14722a73226",
+        "catName": "Недвижимость",
+        "adverts": [
+            {
+                "id": "177bf1c0-1174-4d21-a52b-51041eed7b4b",
+                "name": "Дом загородный",
+                "location": "Russia",
+                "createdAt": "2025-10-07T13:42:48.788781Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 1000000
+            },
+            {
+                "id": "56ba3ee8-d196-48f7-92c4-641c7d46aba8",
+                "name": "Двухэтажный коттедж",
+                "location": "Барнаул",
+                "createdAt": "2025-10-12T17:38:17.0907Z",
+                "isActive": true,
+                "imagesIds": [
+                    "de8c49ef-7608-4c39-94f9-c2ab64eaedf1",
+                    "3a73aad7-a2f9-491e-be52-b45c3ab2cbc7"
+                ],
+                "cost": 100000
+            },
+            {
+                "id": "79f2bd35-21a5-433b-b29c-88f6e1659ced",
+                "name": "Дом жилой",
+                "location": "Russia",
+                "createdAt": "2025-10-08T07:07:21.477522Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 100000
+            },
+            {
+                "id": "babb14f2-a1e6-49ff-aa56-0c4afc8daf28",
+                "name": "Дом загородный",
+                "location": "Russia",
+                "createdAt": "2025-10-07T13:42:31.41609Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 10000000
+            },
+            {
+                "id": "d2415af1-0a1d-4a87-802b-e93f8d81d623",
+                "name": "однокомнатная квартира",
+                "location": "барнаул",
+                "createdAt": "2025-10-18T21:05:30.005342Z",
+                "isActive": true,
+                "imagesIds": ["d9477137-878f-4203-884c-2c83fb9a3c41"],
+                "cost": 2891090381
+            },
+            {
+                "id": "f6cc33c6-58e1-43b0-a965-3d449dcc15a2",
+                "name": "Чижик",
+                "location": "Moscow",
+                "createdAt": "2025-09-29T21:13:57.06405Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 10000
+            }
+        ]
+    },
+    {
+        "catId": "93b7fa2a-e4eb-41f8-a98b-454e4fe5d04c",
+        "catName": "Транспорт",
+        "adverts": [
+            {
+                "id": "00dd6ddc-419e-4a49-b018-07d8d77d6e29",
+                "name": "daewoo",
+                "location": "address",
+                "createdAt": "2025-10-07T10:56:02.063106Z",
+                "isActive": true,
+                "imagesIds": [
+                    "9e2de520-0b75-4942-a48b-a1ab6580eccd",
+                    "73b57c50-c2bc-497b-9874-a94a44615bda"
+                ],
+                "cost": 123456
+            },
+            {
+                "id": "49672562-5f2c-45c9-8770-9479c0413d98",
+                "name": "Авто",
+                "location": "Россия",
+                "createdAt": "2025-10-06T16:00:51.650128Z",
+                "isActive": true,
+                "imagesIds": ["435c24a2-b4e9-42a2-9d1c-0e81043e1dec"],
+                "cost": 10
+            },
+            {
+                "id": "576bb0e4-8fde-49a9-a39d-c8e1ad0aec89",
+                "name": "Porsche Cayenne Coupe 4.0 AT, 2019, 69 000 км",
+                "location": "Москва, Восточный административный округ",
+                "createdAt": "2025-10-17T09:35:03.008391Z",
+                "isActive": true,
+                "imagesIds": [
+                    "d08ed799-d5e1-4779-91f0-4466fc342c82",
+                    "001d13f0-6c4c-48d9-92c5-f4ab693632b0"
+                ],
+                "cost": 11500000
+            },
+            {
+                "id": "5be14fd3-080c-48b4-9c70-4580d44db8bd",
+                "name": "BMW X5 3.0 AT, 2020, 99 500 км",
+                "location": "Севастополь",
+                "createdAt": "2025-10-17T20:47:46.708116Z",
+                "isActive": true,
+                "imagesIds": [
+                    "c873f549-9e0d-4132-8a3f-e8a238012561",
+                    "d1f8ef96-c5e4-4975-98d1-706fa358aaad",
+                    "d993beef-bb24-426f-9e3e-dfc40cf88ca3",
+                    "df82b47b-e0c0-4bdc-94f2-86c357bfc34c",
+                    "eca3ba3a-592c-4c78-8aff-039e0a6578be",
+                    "f22f6506-319d-43c6-8da8-2bf7c60d088c",
+                    "6b949fdd-c768-44f9-8fa9-fb5dc19be298",
+                    "6fe8f2f6-66d0-4d73-bc3b-0e92903f42df"
+                ],
+                "cost": 4700000
+            },
+            {
+                "id": "7afc5085-7843-4bb2-a454-352140eaaa9b",
+                "name": "Объявление",
+                "location": "улица",
+                "createdAt": "2025-10-02T12:15:31.159935Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 15000
+            },
+            {
+                "id": "939b85ec-8cc1-4f45-90a5-1b991f32116d",
+                "name": "Авто",
+                "location": "Барнаул",
+                "createdAt": "2025-10-13T13:04:47.776966Z",
+                "isActive": true,
+                "imagesIds": ["d7a0c82f-437a-4540-86fc-b24c06a930fb"],
+                "cost": 100000
+            },
+            {
+                "id": "9bf4bd90-4931-44ca-a9f6-0c85bfda5b6f",
+                "name": "Вертолет",
+                "location": "г Самара",
+                "createdAt": "2025-10-08T11:14:18.57749Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 10000000
+            },
+            {
+                "id": "ad03b486-e899-4e87-ac30-8d80fbe77258",
+                "name": "Вертолет",
+                "location": "Россия",
+                "createdAt": "2025-10-08T07:07:43.491087Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 1000000
+            },
+            {
+                "id": "eec024fc-14f9-4202-9481-fec2716b8469",
+                "name": "Автобус",
+                "location": "Барнаул",
+                "createdAt": "2025-10-13T12:38:08.64379Z",
+                "isActive": true,
+                "imagesIds": ["60c83c54-8110-4017-8c3a-249b1ccf9095"],
+                "cost": 400000
+            },
+            {
+                "id": "f14f2051-c965-4d10-8d73-e70a314bff05",
+                "name": "Mercedes-Benz E-класс 2.0 AT, 2019, 150 000 км",
+                "location": "Севастополь, Парковая ул., 14к2",
+                "createdAt": "2025-10-06T17:50:55.577284Z",
+                "isActive": true,
+                "imagesIds": [
+                    "448cd87a-bd9b-426e-b276-a8472fd527c5",
+                    "160feb37-bd46-4a21-988f-c8e708ee8e32",
+                    "98cf063c-b96b-45ce-949e-a6a73094d62c",
+                    "a9b85f61-5699-49b1-9231-7f9f9e2ed998"
+                ],
+                "cost": 3100000
+            },
+            {
+                "id": "f9e7025d-7829-4157-80b9-33ac3ee0fb2e",
+                "name": "Ваз 2016",
+                "location": "г Самара",
+                "createdAt": "2025-10-08T13:21:33.812099Z",
+                "isActive": true,
+                "imagesIds": [
+                    "2ba6067f-7d04-4b4a-8c3d-be56306faf4e",
+                    "a24078ca-f41c-4d1c-860e-e2575b43116d",
+                    "380e636f-abc2-49c6-9fc6-31b5a9cde5a8"
+                ],
+                "cost": 1000000
+            },
+            {
+                "id": "fdaf3204-e6ab-4f62-b6a5-8b516033b966",
+                "name": "Автомобиль",
+                "location": "Russia",
+                "createdAt": "2025-10-06T18:05:29.247723Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 100000
+            },
+            {
+                "id": "fe2796c5-3fb8-455a-8feb-5fd15c5ed942",
+                "name": "Космолет",
+                "location": "г Москва, Ленинский пр-кт, д 51",
+                "createdAt": "2025-10-19T09:45:56.295739Z",
+                "isActive": true,
+                "imagesIds": [
+                    "a28b6cf2-ea5a-4c81-9b0a-8fdc80c6031a",
+                    "94ecaf16-f80a-4a7b-9de4-7b9cb3513a84",
+                    "8c326c27-49a6-49d6-8d52-c5ce125a479d",
+                    "e307309c-5147-4d7d-b609-52598a2be99a"
+                ],
+                "cost": 100000000
+            }
+        ]
+    },
+    {
+        "catId": "19dca9ff-4528-4659-b92f-1772613a96ee",
+        "catName": "Работа",
+        "adverts": [
+            {
+                "id": "1d3b8b17-b659-450b-b5af-08fe40616b81",
+                "name": "Выполняю сварочные работы",
+                "location": "г Москва",
+                "createdAt": "2025-10-09T07:50:04.825996Z",
+                "isActive": true,
+                "imagesIds": ["74ac92b0-024e-4e94-871e-1cfd4c9a5037"],
+                "cost": 0
+            },
+            {
+                "id": "2939c4b5-7dec-43cf-b06a-bd6225d13148",
+                "name": "Backend Developer",
+                "location": "г Улан-Удэ, ул ТЭЦ-1",
+                "createdAt": "2025-10-19T13:11:13.361264Z",
+                "isActive": true,
+                "imagesIds": ["c6b8b0de-8d53-42f1-bc66-63791d91963b"],
+                "cost": 210000
+            },
+            {
+                "id": "9a361449-2d11-452b-9618-67c5860e4639",
+                "name": "string",
+                "location": "string",
+                "createdAt": "2025-09-11T18:44:52.886042Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 4085.266083496086
+            },
+            {
+                "id": "b32e016d-c714-4e0b-be78-ff04640c9617",
+                "name": "Frontend-разработчик Angular",
+                "location": "г Москва, пр-кт Маршала Жукова",
+                "createdAt": "2025-10-19T13:15:31.125818Z",
+                "isActive": true,
+                "imagesIds": ["b669ea24-7ad8-4710-b9fa-e02e5515a9ff"],
+                "cost": 110000
+            }
+        ]
+    },
+    {
+        "catId": "549a947b-d3be-4aae-9a8a-c4effb59a44d",
+        "catName": "Услуги",
+        "adverts": [
+            {
+                "id": "8c42ab59-df26-4b3b-96b2-1a8320170488",
+                "name": "Строим заборы",
+                "location": "г Москва, ул Тверская, д 12",
+                "createdAt": "2025-10-17T07:59:19.626382Z",
+                "isActive": true,
+                "imagesIds": [
+                    "4f604904-0ecb-46da-920e-7bab18fe572b",
+                    "69ea5c50-eef2-460a-9423-1899dc52e9ab",
+                    "82656596-78cb-40c6-8dad-cf4f878f2097"
+                ],
+                "cost": 20
+            }
+        ]
+    },
+    {
+        "catId": "4cd8b068-3882-4070-a934-45fd06f4c1a4",
+        "catName": "Электроника",
+        "adverts": [
+            {
+                "id": "25213698-0059-4585-ab0d-e406d5be8e3a",
+                "name": "GeForce RTX 5090",
+                "location": "Иркутская обл, Эхирит-Булагатский р-н, поселок Усть-Ордынский, д 666",
+                "createdAt": "2025-10-08T16:31:21.11719Z",
+                "isActive": true,
+                "imagesIds": [
+                    "e030673e-38c9-420e-9975-1a1f1fb867fd",
+                    "2d2631b4-5b6d-4efa-a247-3a4ae0eefacc",
+                    "61aec96e-f036-42cc-bf5b-9814ac9e726f"
+                ],
+                "cost": 149999
+            },
+            {
+                "id": "294e3b80-4421-40fb-b123-cafdfd6f78ef",
+                "name": "мак бук",
+                "location": "Саранск",
+                "createdAt": "2025-10-17T21:31:34.275835Z",
+                "isActive": true,
+                "imagesIds": [
+                    "e398cba9-7277-495d-bd20-377000b8a682",
+                    "3a4e9b6b-3950-4840-b05a-52835c91dac4"
+                ],
+                "cost": 88000
+            },
+            {
+                "id": "444bcfc2-d961-4a54-8001-9f646677f119",
+                "name": "Моторола С200",
+                "location": "г Севастополь, г Балаклава",
+                "createdAt": "2025-10-13T18:32:24.139438Z",
+                "isActive": true,
+                "imagesIds": [
+                    "9979592a-be20-4e0f-b993-92bea3becc95",
+                    "f9eb1e9d-0dab-48e1-9b5d-d08e3cd755f0"
+                ],
+                "cost": 1250
+            },
+            {
+                "id": "49412ab4-606e-4723-84bb-769d02038aa6",
+                "name": "телефон",
+                "location": "Саранск",
+                "createdAt": "2025-10-11T15:35:32.086912Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 33000
+            },
+            {
+                "id": "62b46b2f-779f-4569-babe-d975dedc9569",
+                "name": "мак бук",
+                "location": "Саранск",
+                "createdAt": "2025-10-05T19:06:04.675863Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 88000
+            },
+            {
+                "id": "6dbef9cd-d11f-47ad-9c9f-2f81c04abfd7",
+                "name": "Принтер",
+                "location": "Самарская обл, г Чапаевск",
+                "createdAt": "2025-10-09T17:39:11.338809Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 5000
+            },
+            {
+                "id": "6f3592b9-e8b7-4a89-9517-1a82f286a27b",
+                "name": "rtx 5070",
+                "location": "Севастополь",
+                "createdAt": "2025-10-09T19:09:01.978521Z",
+                "isActive": true,
+                "imagesIds": ["87b85988-3501-471e-9897-81fa8f9ab812"],
+                "cost": 75000
+            },
+            {
+                "id": "7e2aab88-8541-472e-9b70-d0bca55efeab",
+                "name": "Ноутбук",
+                "location": "г Москва",
+                "createdAt": "2025-10-14T09:57:52.04765Z",
+                "isActive": true,
+                "imagesIds": [
+                    "3d3a59f5-bb26-4ee2-93b3-57117cf141c0",
+                    "c900d56c-79ea-4b20-83fb-8d0d1b297b74",
+                    "d4dc742f-ea54-4f21-9b43-bf3cb3b99945"
+                ],
+                "cost": 10000
+            },
+            {
+                "id": "97493a3a-04e3-4a5e-bd04-4591bad6adf0",
+                "name": "телефон2",
+                "location": "Саранск",
+                "createdAt": "2025-10-11T15:35:57.479372Z",
+                "isActive": true,
+                "imagesIds": ["c1e3e1e0-3dc8-429c-8b86-fc7215343cb8"],
+                "cost": 44000
+            },
+            {
+                "id": "d679e5ce-8c85-42d8-8915-c83702822439",
+                "name": "телефон",
+                "location": "Саранск",
+                "createdAt": "2025-10-18T11:17:02.988145Z",
+                "isActive": true,
+                "imagesIds": ["fdfccd29-21f6-46e9-8a1a-6d50491dc318"],
+                "cost": 5500
+            },
+            {
+                "id": "d834daff-cbdf-4c2d-bed6-0f0ef239f27f",
+                "name": "iPhone",
+                "location": "Саранск",
+                "createdAt": "2025-10-11T14:58:25.373459Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 44000
+            },
+            {
+                "id": "de584ec2-2796-4761-ba3a-f135abf6f228",
+                "name": "rtx 5060",
+                "location": "Севастополь",
+                "createdAt": "2025-10-09T19:41:57.895224Z",
+                "isActive": true,
+                "imagesIds": ["22b88cf2-2902-4a07-ad0f-a8fd953424e6"],
+                "cost": 32500
+            },
+            {
+                "id": "e2a4e8c4-53e5-4c7c-be46-a8bab8f9d281",
+                "name": "rtx 5090D",
+                "location": "Севастополь, ул. Силаева",
+                "createdAt": "2025-10-12T17:22:28.235894Z",
+                "isActive": true,
+                "imagesIds": ["6247faa4-2bca-40b4-bf69-23475e5728c9"],
+                "cost": 250067
+            }
+        ]
+    },
+    {
+        "catId": "cfb1766d-37ac-4c7b-bc76-c18748febd8d",
+        "catName": "Личные вещи",
+        "adverts": [
+            {
+                "id": "663d4847-3c45-44d1-bee5-1b084efa808e",
+                "name": "юбка",
+                "location": "Саранск",
+                "createdAt": "2025-10-11T15:53:50.824053Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 4000
+            },
+            {
+                "id": "e5eaeebf-7dc7-4557-bce1-fcc7308f39bd",
+                "name": "макароны",
+                "location": "Саранск",
+                "createdAt": "2025-10-18T13:44:14.481246Z",
+                "isActive": true,
+                "imagesIds": ["f3534409-3e67-4ea2-b63f-b8c064f53871"],
+                "cost": 330
+            }
+        ]
+    },
+    {
+        "catId": "0a70f02b-6729-4163-9557-bd27d9c4c5bc",
+        "catName": "Для дома и дачи",
+        "adverts": [
+            {
+                "id": "cc7e0004-b53c-4487-90d5-a80774fc88d3",
+                "name": "Тачка садовая",
+                "location": "г Ростов-на-Дону, ул Парижской Коммуны",
+                "createdAt": "2025-10-14T08:34:41.046015Z",
+                "isActive": true,
+                "imagesIds": ["b265c6d8-e3aa-49d1-ae4b-890e194a0f04"],
+                "cost": 1000
+            }
+        ]
+    },
+    {
+        "catId": "58c67e3e-62eb-4f4d-b13a-50c1b93cfa18",
+        "catName": "Автозапчасти и аксессуары",
+        "adverts": [
+            {
+                "id": "2ff8ae4c-c765-4d35-8cb2-c8f93d7321ae",
+                "name": "Коленвал",
+                "location": "Барнаул",
+                "createdAt": "2025-10-13T19:58:24.675933Z",
+                "isActive": true,
+                "imagesIds": [
+                    "96cb8513-1442-4eb5-9ca1-f5859768298b",
+                    "43c6c4db-e083-404e-9c58-4f9c0dc59b81"
+                ],
+                "cost": 108000
+            }
+        ]
+    },
+    {
+        "catId": "c40f82b1-511a-4293-8c71-44bbb2b1e36c",
+        "catName": "Хобби и отдых",
+        "adverts": [
+            {
+                "id": "b9e7cf51-0c37-465b-a797-55ce335c6724",
+                "name": "Книга ",
+                "location": "г Самара ",
+                "createdAt": "2025-10-09T07:24:58.518175Z",
+                "isActive": true,
+                "imagesIds": [
+                    "3bbdcb63-a752-4218-abf1-b4d5dde6e3b5",
+                    "d7c61979-2109-416c-bfd9-6784b16a6471"
+                ],
+                "cost": 500
+            }
+        ]
+    },
+    {
+        "catId": "91771bd9-1f44-422d-aaa3-37d7ddcc782d",
+        "catName": "Животные",
+        "adverts": [
+            {
+                "id": "22581f8d-0787-47ad-aa9f-548d8bfab87e",
+                "name": "cat test2",
+                "location": "cat test",
+                "createdAt": "2025-10-19T17:15:35.588505Z",
+                "isActive": true,
+                "imagesIds": ["138470fc-3f19-4740-9a59-9ad824fd7e66"],
+                "cost": 110
+            },
+            {
+                "id": "a4398206-68e7-4a7b-ae79-93906866b238",
+                "name": "cat test",
+                "location": "cat test",
+                "createdAt": "2025-10-19T16:51:00.645276Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 10
+            },
+            {
+                "id": "ccdbb1b3-180a-4126-a06c-1794d60dff58",
+                "name": "cat 3",
+                "location": "cat 3",
+                "createdAt": "2025-10-19T17:36:45.958991Z",
+                "isActive": true,
+                "imagesIds": [
+                    "36ef5b7c-e927-4416-a332-7e95d1794590",
+                    "527fffd0-6937-454d-9c05-332fcfc4c7d5"
+                ],
+                "cost": 10
+            },
+            {
+                "id": "e6951c05-d3a9-4267-8c24-0088708ab3ec",
+                "name": "jeff the land shark",
+                "location": "Ocean",
+                "createdAt": "2025-10-03T17:55:45.070707Z",
+                "isActive": true,
+                "imagesIds": ["7811244d-463b-444c-a5e3-c7773fab9f01"],
+                "cost": 6.666666666666667e27
+            }
+        ]
+    },
+    {
+        "catId": "1641747a-b93b-4564-a64d-ae3c491cce7d",
+        "catName": "Бизнес и оборудование",
+        "adverts": [
+            {
+                "id": "9023244f-8699-4e44-aabd-95586584c216",
+                "name": "Компания Google",
+                "location": "г Москва",
+                "createdAt": "2025-10-14T16:46:25.290872Z",
+                "isActive": true,
+                "imagesIds": [
+                    "ee3e3179-d445-460e-b3bf-b61ee1cd291c",
+                    "fe3dbaf4-275b-4b90-86f0-6e588b38b070"
+                ],
+                "cost": 75000000000
+            },
+            {
+                "id": "e6cecdea-927c-42a9-83ab-5254adaa8bb5",
+                "name": "Инструменты",
+                "location": "г Биробиджан",
+                "createdAt": "2025-10-14T08:25:03.424241Z",
+                "isActive": true,
+                "imagesIds": ["bcd1d696-01e7-4c12-b2d2-86a2660c3c7e"],
+                "cost": 100
+            }
+        ]
+    },
+    {
+        "catId": "f2de4a69-1f28-4264-8f11-86b6f85d7b77",
+        "catName": "Дома",
+        "adverts": [
+            {
+                "id": "0b324d23-20d6-4532-87e8-43998ce8ea91",
+                "name": "Картина",
+                "location": "Саранск",
+                "createdAt": "2025-10-18T22:06:24.183552Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 100
+            },
+            {
+                "id": "4f3b9849-c8a4-4f34-af2a-f9d70feb60d5",
+                "name": "Дом 280 м² на участке 7 сот.",
+                "location": "Краснодарский край, Сочи, Курортный пр-т, 102Ас7, р-н Хостинский",
+                "createdAt": "2025-09-04T14:50:10.329174Z",
+                "isActive": true,
+                "imagesIds": [
+                    "a1ea5065-0d21-4a30-ad8f-11d7e813a309",
+                    "bdb08ba1-36ac-4e63-a6f3-6fc50063d70b",
+                    "d09f1887-cc68-48e3-a9d8-e22c44814cbc",
+                    "81f2265b-cd18-41e7-831f-e7bdcabc6aa4"
+                ],
+                "cost": 41300000
+            },
+            {
+                "id": "628b0665-84c1-4b19-a96b-f1ff62570f37",
+                "name": "Частный дом",
+                "location": "Барнаул",
+                "createdAt": "2025-10-11T18:52:42.654828Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 100000
+            },
+            {
+                "id": "6b19f13c-3e94-415e-a09a-e00dd0d64cef",
+                "name": "Коттедж 194 м² на участке 10 сот.",
+                "location": "Ленинградская обл., Ломоносовский р-н, Низинское сельское поселение, д. Узигонты",
+                "createdAt": "2025-10-17T20:06:02.901314Z",
+                "isActive": true,
+                "imagesIds": ["4548017d-080b-4af0-932d-b1ab42dfe1f4"],
+                "cost": 11000000
+            },
+            {
+                "id": "6bdbab42-f7f6-4558-b824-59ad816631a0",
+                "name": "Дом 558 м² на участке 16 сот.",
+                "location": "Московская обл., г.о. Солнечногорск, коттеджный пос. Лисичкин Лес, Пятницкое шоссе, 26 км",
+                "createdAt": "2025-09-04T14:02:50.648743Z",
+                "isActive": true,
+                "imagesIds": ["bcfe8539-afc3-426f-801c-a461e93e6947"],
+                "cost": 77500000
+            },
+            {
+                "id": "b18d5846-e2fb-4454-9730-3f0e1af16839",
+                "name": "Дом 183 м² на участке 5,5 сот.",
+                "location": "Ленинградская обл., Ломоносовский р-н, Пениковское сельское поселение, д. Кабацкое",
+                "createdAt": "2025-10-17T17:26:51.267314Z",
+                "isActive": true,
+                "imagesIds": ["5e1c9c05-e5e1-4ede-9b88-41efcd7ec22a"],
+                "cost": 12000000
+            },
+            {
+                "id": "d21fa2c2-bbf8-4acd-8206-39eaa3ccd8ab",
+                "name": "Объявление",
+                "location": "адрес",
+                "createdAt": "2025-10-02T16:35:48.188153Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 15000
+            },
+            {
+                "id": "da5234ec-b6f2-4c03-a3ea-d81bfb245f6f",
+                "name": "Коттедж 264 м² на участке 7 сот.",
+                "location": "Краснодарский край, г.о. Сочи, с. Монастырь, Партизанская ул., р-н Адлерский",
+                "createdAt": "2025-09-04T14:51:16.79114Z",
+                "isActive": true,
+                "imagesIds": ["4b9906fc-2da7-436f-8191-c53b9d315b20"],
+                "cost": 86000000
+            },
+            {
+                "id": "dfd5fad5-9afb-457b-b9d2-01ae00dd466f",
+                "name": "Дом 118 м² на участке 4,3 сот.",
+                "location": "Севастополь, Балаклавский р-н, Балаклавский муниципальный округ, СТ Дельфин, 4-я линия",
+                "createdAt": "2025-09-04T13:54:16.946794Z",
+                "isActive": true,
+                "imagesIds": ["b803fbdb-4084-479b-9bbc-a3b320d66ce1"],
+                "cost": 12200000
+            },
+            {
+                "id": "e8ecb568-5b35-47c0-88b6-ae7b2aa70341",
+                "name": "Дом 105 м² на участке 5,8 сот.",
+                "location": "г Санкт-Петербург, г Красное Село, Севастопольский пер",
+                "createdAt": "2025-10-17T12:35:40.153959Z",
+                "isActive": true,
+                "imagesIds": ["56f65503-93a1-44a7-bc17-474ad21f41e9"],
+                "cost": 7150000
+            },
+            {
+                "id": "f4cbecb2-4103-4d2d-a838-9d638c5b1b53",
+                "name": "Коттедж 211 м² на участке 4 сот.",
+                "location": "Краснодарский край, г.о. Сочи, с. Краевско-Армянское, ул. Саят-Нова, 105/9, р-н Хостинский",
+                "createdAt": "2025-09-04T14:48:22.884917Z",
+                "isActive": true,
+                "imagesIds": ["d6d37d75-7374-441a-9418-36217592e72c"],
+                "cost": 59000000
+            },
+            {
+                "id": "fcb4097f-ba72-4e5f-a476-7deaa6053db0",
+                "name": "Дом 194 м² на участке 10 сот.",
+                "location": "Ленинградская обл., Ломоносовский р-н, Низинское сельское поселение, д. Узигонты, Ропшинское шоссе, 2 км",
+                "createdAt": "2025-09-04T14:17:49.156896Z",
+                "isActive": true,
+                "imagesIds": [
+                    "c69079c5-4ebd-4a72-a822-0726092b2483",
+                    "b796f599-2148-4502-8dae-875b8690d875"
+                ],
+                "cost": 11200000
+            }
+        ]
+    },
+    {
+        "catId": "8ddb6d30-4e37-46ec-8abd-22cc8371a4a9",
+        "catName": "Коммерческая недвижимость",
+        "adverts": [
+            {
+                "id": "5f11869b-131f-419e-9e27-89b79c4a0542",
+                "name": "Трехэтажный дом",
+                "location": "Барнаул",
+                "createdAt": "2025-10-13T19:40:54.362752Z",
+                "isActive": true,
+                "imagesIds": ["75248ea7-3f91-4ab9-91f0-73092c6c409a"],
+                "cost": 2000000
+            },
+            {
+                "id": "d657df79-bd1c-4c2c-bc40-e5b6078b3c4c",
+                "name": "Новое объявление",
+                "location": "Саранск",
+                "createdAt": "2025-10-09T17:29:36.146811Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 1
+            }
+        ]
+    },
+    {
+        "catId": "b52640b4-0be8-459a-a8b1-0c1e6ccfc9dc",
+        "catName": "Гаражи и стоянки",
+        "adverts": [
+            {
+                "id": "96285c78-11ae-4fbe-9e05-58e0c2d0004b",
+                "name": "sdfssdfgdfgdfg",
+                "location": "gtfghfghfhfgfghfghfgh",
+                "createdAt": "2025-09-26T18:13:48.812675Z",
+                "isActive": true,
+                "imagesIds": [],
+                "cost": 3244234423
+            }
+        ]
+    },
+    {
+        "catId": "51f6b956-d259-4944-a776-1a6330a51001",
+        "catName": "Земельные участки",
+        "adverts": [
+            {
+                "id": "1c1f0470-35e8-48b9-9d5c-b8b1b967a190",
+                "name": "Дом 198,5 м² на участке 4,3 сот.",
+                "location": "г Севастополь, тер ТСН Афганец, уч 117",
+                "createdAt": "2025-10-10T10:47:38.640226Z",
+                "isActive": true,
+                "imagesIds": [
+                    "14f75565-fbd3-4f01-9741-007d59f69145",
+                    "3022541a-fdd4-4e19-ba26-735d193b9fd8",
+                    "4177f834-2a9f-45b1-9f00-740ca76ff051",
+                    "68f6178c-1a97-4dbd-b861-07efb16499a4",
+                    "b2156c40-ceb4-4819-9ea3-b2ebe9988231",
+                    "b2cf9f05-4897-4259-9365-6e50b65b44f8",
+                    "c9ab19fd-a455-453d-adb5-37f3138ce30f",
+                    "cca471e8-ebcb-4d23-97bd-56fd7604924f"
+                ],
+                "cost": 21500000
+            },
+            {
+                "id": "67c0afd9-b2ea-4bfc-be77-93b42a40ccae",
+                "name": "Дом 198,5 м² на участке 4,3 сот.",
+                "location": "г Севастополь, тер ТСН Афганец, уч 117",
+                "createdAt": "2025-10-10T10:48:43.134741Z",
+                "isActive": true,
+                "imagesIds": [
+                    "06ccbd33-5544-42c9-b2ac-8dbf7279bcde",
+                    "21e2fe35-38d2-4041-84b6-6011b9448c78",
+                    "2e223adf-c7ca-45e2-9827-0171edc29f5b",
+                    "5bba4a6f-beeb-4b37-b8b0-5f6eb278527f",
+                    "617b5605-4921-4016-a5d7-cd71975c5f55",
+                    "76be4f1f-c167-4b6f-9c1a-b7bc17b8714c",
+                    "cc65d99e-8c02-44ec-a1c4-3851ee78faf7",
+                    "f9e20f74-6e24-46bd-9335-252a3f7cbbc4"
+                ],
+                "cost": 21500000
+            }
+        ]
+    },
+    {
+        "catId": "a3f5b764-0714-48b9-ad27-4afe49605bc2",
+        "catName": "Квартиры",
+        "adverts": []
+    }
+]
