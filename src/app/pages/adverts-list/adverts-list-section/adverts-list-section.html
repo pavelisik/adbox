@@ -1,17 +1,20 @@
 @if (title(); as title) {
-    <h4 class="h4 fw-600 mb-24">{{ title }}</h4>
+    <h4 class="h4 fw-600 mb-24">
+        @if (link()) {
+            <a [routerLink]="link()" alt="" class="link"
+                >{{ title }}
+                <i class="pi pi-angle-right"></i>
+            </a>
+        } @else {
+            {{ title }}
+        }
+    </h4>
 }
 @if (isLoading()) {
-    @switch (count()) {
-        @case (4) {
-            <app-ad-grid-skeleton [count]="4"></app-ad-grid-skeleton>
-        }
-        @case (8) {
-            <app-ad-grid-skeleton [count]="8"></app-ad-grid-skeleton>
-        }
-        @default {
-            <app-spinner type="big" width="1"></app-spinner>
-        }
+    @if (count() !== undefined) {
+        <app-ad-grid-skeleton [count]="count() ?? 4"></app-ad-grid-skeleton>
+    } @else {
+        <app-spinner type="big" width="1"></app-spinner>
     }
 } @else {
     @if (adverts(); as adverts) {

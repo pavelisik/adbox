@@ -10,7 +10,7 @@ import { AdvetsListSection } from './adverts-list-section/adverts-list-section';
 import { categoryNameFromId, sortAdvertsByDate } from '@app/shared/utils';
 import catWithAdverts from '@app/shared/data/cat-with-adverts.json';
 
-export type AdvertsPageTypes = 'main' | 'search' | 'user-adverts' | 'my-adverts';
+export type AdvertsPageTypes = 'main' | 'search' | 'user-adverts' | 'my-adverts' | 'favorites';
 
 @Component({
     selector: 'app-adverts-list',
@@ -84,21 +84,33 @@ export class AdvertsList {
     readonly myAdverts = computed(() => {
         if (this.pageType() !== 'my-adverts' && this.pageType() !== 'main') return [];
         const myAdverts = this.currentUser()?.adverts ?? [];
-        return sortAdvertsByDate(myAdverts!);
+        return sortAdvertsByDate(myAdverts);
+    });
+
+    // формируем избранные объявления
+    readonly favoritesAdverts = computed(() => {
+        if (this.pageType() !== 'favorites' && this.pageType() !== 'main') return [];
+
+        const favoritesAdverts = this.currentUser()?.favoritesAdverts ?? [];
+        if (!favoritesAdverts.length) return [];
+
+        const filtered = this.adverts().filter((advert) => favoritesAdverts.includes(advert.id));
+
+        return sortAdvertsByDate(filtered);
     });
 
     // фильтруем объявления из избранной категории
     readonly favoriteCategoryAdverts = computed(() => {
         if (this.pageType() !== 'main') return [];
 
-        const favCategory = this.currentUser()?.favoriteCategory;
-        if (!favCategory) return [];
+        const favoriteCategory = this.currentUser()?.favoriteCategory;
+        if (!favoriteCategory) return [];
 
         // по нормальному с бэка должны приходить данные объявлений с указанием категории в adverts.category.id
         // но приходится использовать статический файл catWithAdverts с соответствиями всех категорий размещенным в них объявлениям
         const advertsInFavCategory =
             catWithAdverts
-                .find((cat) => cat.catId === favCategory)
+                .find((cat) => cat.catId === favoriteCategory)
                 ?.adverts.map((advert) => advert.id) ?? [];
         if (!advertsInFavCategory.length) return [];
 
@@ -106,7 +118,9 @@ export class AdvertsList {
             advertsInFavCategory.includes(advert.id),
         );
 
-        return sortAdvertsByDate(filtered);
+        const shuffled = [...filtered].sort(() => Math.random() - 0.5);
+
+        return shuffled;
     });
 
     // фильтруем объявления для страницы поиска
@@ -152,6 +166,9 @@ export class AdvertsList {
                         break;
                     case 'user-adverts':
                         if (userId) this.advertsListFacade.loadUserAdverts(userId);
+                        break;
+                    case 'favorites':
+                        this.advertsListFacade.searchAdverts();
                         break;
                 }
             });

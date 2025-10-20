@@ -71,4 +71,35 @@ export class UserFacade {
     refreshAuthUser(): void {
         this.refreshAuthUserTrigger.update((v) => v + 1);
     }
+
+    // проверка, добавлено ли объявление в избранное
+    isAdvertInFavorites(advertId: string): boolean {
+        return this.currentUser()?.favoritesAdverts?.includes(advertId) ?? false;
+    }
+
+    // добавление объявления в избранное
+    addAdvertToFavorite(advertId: string) {
+        const user = this.currentUser();
+        if (!user) return;
+
+        const favoritesAdverts = new Set(user.favoritesAdverts ?? []);
+        favoritesAdverts.add(advertId);
+
+        this.localUserService.updateData(user.id, {
+            favoritesAdverts: Array.from(favoritesAdverts),
+        });
+    }
+
+    // удаление объявления из избранного
+    removeAdvertFromFavorite(advertId: string) {
+        const user = this.currentUser();
+        if (!user) return;
+
+        const favoritesAdverts = new Set(user.favoritesAdverts ?? []);
+        favoritesAdverts.delete(advertId);
+
+        this.localUserService.updateData(user.id, {
+            favoritesAdverts: Array.from(favoritesAdverts),
+        });
+    }
 }

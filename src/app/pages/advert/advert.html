@@ -11,6 +11,17 @@
             <app-comments></app-comments>
         </div>
         <div class="advert-right">
+            @if (isAuth() && !isMyAdvert()) {
+                <div
+                    class="advert__fav-icon"
+                    (click)="toggleFavorite()"
+                    [class.disabled]="isUpdatingFavorite()"
+                    [title]="!isFavorite() ? 'Добавить в избранное' : 'Удалить из избранного'"
+                >
+                    <i class="pi pi-heart" [class.show]="!isFavorite()"></i>
+                    <i class="pi pi-heart-fill" [class.show]="isFavorite()"></i>
+                </div>
+            }
             <span class="advert__price h3 fw-600">{{ advert.cost | priceFormat }}</span>
             @if (isMyAdvert()) {
                 <div class="user-buttons base mb-30">

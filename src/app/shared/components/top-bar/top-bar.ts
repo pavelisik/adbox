@@ -27,6 +27,7 @@ export class TopBar {
 
     menuItems: MenuItem[] = [
         { label: 'Мои объявления', routerLink: '/user/adverts' },
+        { label: 'Избранное', routerLink: '/user/favorites' },
         { label: 'Настройки', routerLink: '/user/settings' },
         {
             label: 'Выйти',

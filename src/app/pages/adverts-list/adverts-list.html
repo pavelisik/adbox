@@ -7,17 +7,34 @@
                 [count]="4"
                 [isLoading]="isLoading()"
             ></app-adverts-list-section>
+
+            <app-adverts-list-section
+                [adverts]="favoritesAdverts()"
+                title="Избранные объявления"
+                [count]="4"
+                [isLoading]="isLoading()"
+                link="/user/favorites"
+            ></app-adverts-list-section>
+
             <app-adverts-list-section
                 [adverts]="myAdverts()"
                 title="Ваши объявления"
                 [count]="4"
                 [isLoading]="isUserLoading()"
+                link="/user/adverts"
             ></app-adverts-list-section>
         }
         <app-adverts-list-section
             [adverts]="sortedAdverts()"
             title="Последние добавленные объявления"
-            [count]="8"
+            [count]="16"
+            [isLoading]="isLoading()"
+        ></app-adverts-list-section>
+    }
+    @case ('favorites') {
+        <app-adverts-list-section
+            [adverts]="favoritesAdverts()"
+            title="Избранные объявления"
             [isLoading]="isLoading()"
         ></app-adverts-list-section>
     }

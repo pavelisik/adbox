@@ -1,14 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { Breadcrumbs, SvgIcon, ImageGallery, Comments } from '@app/shared/components';
 import { AdvertFacade, BreadcrumbsStateService } from '@app/shared/services';
 import { PriceFormatPipe, DateFormatPipe } from '@app/shared/pipes';
 import { ButtonModule } from 'primeng/button';
-import { AuthStateService } from '@app/core/auth/services';
+import { AuthStateService, UserFacade } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { ConfirmService } from '@app/core/confirmation';
 import { AdvertSkeleton } from '@app/shared/components/skeletons';
+import { NotificationService } from '@app/core/notification';
 
 @Component({
     selector: 'app-advert',
@@ -33,16 +34,28 @@ export class Advert {
     private readonly confirm = inject(ConfirmService);
     private readonly dialogService = inject(DialogService);
     private readonly authStateService = inject(AuthStateService);
+    private readonly userFacade = inject(UserFacade);
     private readonly route = inject(ActivatedRoute);
+    private readonly notify = inject(NotificationService);
 
     readonly advert = this.advertFacade.advert;
     readonly breadcrumbs = this.breadcrumbsState.breadcrumbs;
+
+    readonly currentUser = this.userFacade.currentUser;
 
     readonly isAuth = this.authStateService.isAuth;
     readonly isMyAdvert = this.advertFacade.isMyAdvert;
 
     readonly isAdvertLoading = this.advertFacade.isAdvertLoading;
     readonly isDeleteLoading = this.advertFacade.isDeleteLoading;
+
+    readonly isUpdatingFavorite = signal<boolean>(false);
+
+    readonly isFavorite = computed(() => {
+        const advertId = this.advert()?.id;
+        if (!advertId) return false;
+        return this.userFacade.isAdvertInFavorites(advertId);
+    });
 
     constructor() {
         const advertId = this.route.snapshot.paramMap.get('id');
@@ -64,5 +77,24 @@ export class Advert {
         this.confirm.confirm('deleteAdvert', () => {
             this.advertFacade.deleteCurrentAdvert();
         });
+    }
+
+    // добавление или удаление из избранного с задержкой
+    toggleFavorite() {
+        if (this.isUpdatingFavorite()) return;
+        this.isUpdatingFavorite.set(true);
+
+        const advertId = this.advert()?.id;
+        if (!advertId) return;
+
+        if (this.isFavorite()) {
+            this.userFacade.removeAdvertFromFavorite(advertId);
+            this.notify.success('Обновление данных', 'Объявление удалено из избранного');
+        } else {
+            this.userFacade.addAdvertToFavorite(advertId);
+            this.notify.success('Обновление данных', 'Объявление добавлено в избранное');
+        }
+
+        setTimeout(() => this.isUpdatingFavorite.set(false), 1000);
     }
 }

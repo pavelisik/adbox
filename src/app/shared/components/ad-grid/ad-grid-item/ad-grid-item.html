@@ -1,11 +1,13 @@
 @if (advert(); as advert) {
-    <a class="item__img" [routerLink]="['/advert', advert.id]">
-        @if (advert.imagesIds[0] | imageFromId | async; as img) {
-            <app-image [imageSrc]="img" [alt]="advert.name"></app-image>
-        } @else {
-            <p-skeleton height="235px" borderRadius="4px" class="item__img-skeleton" />
-        }
-    </a>
+    <div class="item__img-wrapper">
+        <a class="item__img" [routerLink]="['/advert', advert.id]">
+            @if (advert.imagesIds[0] | imageFromId | async; as img) {
+                <app-image [imageSrc]="img" [alt]="advert.name" [advertId]="advert.id"></app-image>
+            } @else {
+                <p-skeleton height="235px" borderRadius="4px" class="item__img-skeleton" />
+            }
+        </a>
+    </div>
     <h6 class="item__title h6 fw-600">
         <a [routerLink]="['/advert', advert.id]" [title]="advert.name">{{ advert.name }}</a>
     </h6>

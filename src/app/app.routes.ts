@@ -37,6 +37,11 @@ export const routes: Routes = [
                         loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
                     },
                     {
+                        path: 'favorites',
+                        data: { pageType: 'favorites' },
+                        loadComponent: () => import('@app/pages').then((m) => m.AdvertsList),
+                    },
+                    {
                         path: 'settings',
                         loadComponent: () => import('@app/pages').then((m) => m.Settings),
                     },

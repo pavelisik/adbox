@@ -21,5 +21,5 @@ import { SkeletonModule } from 'primeng/skeleton';
     styleUrl: './ad-grid-item.scss',
 })
 export class AdGridItem {
-    advert = input<ShortAdvert | null>(null);
+    readonly advert = input<ShortAdvert | null>(null);
 }

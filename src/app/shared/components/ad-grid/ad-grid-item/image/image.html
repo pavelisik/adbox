@@ -1,7 +1,9 @@
 <div class="image-wrapper">
     @if (imageSrc() == 'empty') {
-        <div class="image-placeholder small" [title]="'Объявление «' + alt() + '»'">
-            <span class="pi pi-images"></span>
+        <div class="image-placeholder-wrapper">
+            <div class="image-placeholder" [title]="'Объявление «' + alt() + '»'">
+                <span class="pi pi-images"></span>
+            </div>
         </div>
     } @else {
         @if (!isLoaded()) {
@@ -17,3 +19,22 @@
         />
     }
 </div>
+@if (isAuth()) {
+    @if (!isMyAdvert()) {
+        <div
+            class="item__icon fav-icon"
+            (click)="toggleFavorite($event)"
+            [title]="!isFavorite() ? 'Добавить в избранное' : 'Удалить из избранного'"
+        >
+            <i class="pi pi-heart" [class.show]="!isFavorite()"></i>
+            <i class="pi pi-heart-fill" [class.show]="isFavorite()"></i>
+        </div>
+    } @else {
+        <div class="item__icon edit-icon" title="Редактировать">
+            <i class="pi pi-pen-to-square show"></i>
+        </div>
+        <div class="item__icon delete-icon" title="Удалить">
+            <i class="pi pi-trash show"></i>
+        </div>
+    }
+}

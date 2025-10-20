@@ -69,13 +69,6 @@ input::placeholder {
     background-color: var(--gray-100-color);
     color: var(--gray-300-color);
 
-    &.small {
-        height: 235px;
-        aspect-ratio: 26 / 20;
-        .pi {
-            font-size: 60px;
-        }
-    }
     &.big {
         height: 570px;
         border-radius: 4px;
