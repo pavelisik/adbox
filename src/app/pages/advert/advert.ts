@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { AuthStateService } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { ConfirmService } from '@app/core/confirmation';
-import { AdvertSkeleton } from './advert-skeleton/advert-skeleton';
+import { AdvertSkeleton } from '@app/shared/components/skeletons';
 
 @Component({
     selector: 'app-advert',

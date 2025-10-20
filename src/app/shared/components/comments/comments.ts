@@ -9,7 +9,7 @@ import { ConfirmService } from '@app/core/confirmation';
 import { NewAdvertCommentRequest } from '@app/pages/advert/domains';
 import { DialogService } from '@app/core/dialog';
 import { ButtonModule } from 'primeng/button';
-import { CommentsSkeleton } from './comments-skeleton/comments-skeleton';
+import { CommentsSkeleton } from '@app/shared/components/skeletons';
 
 @Component({
     selector: 'app-comments',

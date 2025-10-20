@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { GalleriaModule } from 'primeng/galleria';
 import { ImagesFromIdsPipe } from '@app/shared/pipes';
 import { ImageModule } from 'primeng/image';
-import { ImageGallerySkeleton } from './image-gallery-skeleton/image-gallery-skeleton';
+import { ImageGallerySkeleton } from '@app/shared/components/skeletons';
 
 @Component({
     selector: 'app-image-gallery',

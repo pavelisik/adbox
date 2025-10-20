@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { ShortAdvert } from '@app/pages/adverts-list/domains';
 import { AdGrid } from '../../../shared/components/ad-grid/ad-grid';
 import { Spinner } from '@app/shared/components';
-import { AdGridSkeleton } from '@app/shared/components/ad-grid/ad-grid-skeleton/ad-grid-skeleton';
+import { AdGridSkeleton } from '@app/shared/components/skeletons';
 
 @Component({
     selector: 'app-adverts-list-section',

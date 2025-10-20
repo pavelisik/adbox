@@ -10,7 +10,7 @@ import { findCategoryFromId } from '@app/shared/utils';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdvertsQueryParams, CategoryMenuItem } from '@app/pages/adverts-list/domains';
-import { CategoryFilterSkeleton } from './category-filter-skeleton/category-filter-skeleton';
+import { CategoryFilterSkeleton } from '@app/shared/components/skeletons';
 
 @Component({
     selector: 'app-ad-sidebar-filters',
