@@ -1,28 +1,18 @@
 import { Component, computed, effect, inject, untracked } from '@angular/core';
-import { AdGrid, AdSidebarFilters, AdTopFilters, AdTitle, Spinner } from '@app/shared/components';
 import { AdvertsListFacade } from '@app/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthStateService, UserFacade } from '@app/core/auth/services';
-import { SkeletonModule } from 'primeng/skeleton';
-import { AdvetsListSection } from './adverts-list-section/adverts-list-section';
 import { categoryNameFromId, sortAdvertsByDate } from '@app/shared/utils';
 import catWithAdverts from '@app/shared/data/cat-with-adverts.json';
+import { AdvertsBlock, AdvertsPage } from './components';
 
 export type AdvertsPageTypes = 'main' | 'search' | 'user-adverts' | 'my-adverts' | 'favorites';
 
 @Component({
     selector: 'app-adverts-list',
-    imports: [
-        AdGrid,
-        AdSidebarFilters,
-        AdTopFilters,
-        AdTitle,
-        Spinner,
-        SkeletonModule,
-        AdvetsListSection,
-    ],
+    imports: [AdvertsBlock, AdvertsPage],
     templateUrl: './adverts-list.html',
     styleUrl: './adverts-list.scss',
 })
@@ -69,9 +59,20 @@ export class AdvertsList {
         this.route.queryParams.pipe(map((params) => params['maxPrice'])),
     );
 
-    // определяем имя избранной категории
+    // число отфильтрованных объявлений
+    readonly filteredAdvertsCount = computed(() => {
+        return this.filteredAdverts().length ?? null;
+    });
+
+    // имя автора на странице с объявлениями автора
+    readonly authorName = computed<string>(() => this.advertsAuthor()?.name ?? '');
+
+    // определяем имя и id избранной категории
     readonly favCategoryName = computed(() => {
         return categoryNameFromId(this.currentUser()?.favoriteCategory ?? '');
+    });
+    readonly favCategoryId = computed(() => {
+        return this.currentUser()?.favoriteCategory ?? null;
     });
 
     // формируем отсортированные по дате объявления
@@ -103,14 +104,14 @@ export class AdvertsList {
     readonly favoriteCategoryAdverts = computed(() => {
         if (this.pageType() !== 'main') return [];
 
-        const favoriteCategory = this.currentUser()?.favoriteCategory;
-        if (!favoriteCategory) return [];
+        const favoriteCategoryId = this.favCategoryId();
+        if (!favoriteCategoryId) return [];
 
         // по нормальному с бэка должны приходить данные объявлений с указанием категории в adverts.category.id
         // но приходится использовать статический файл catWithAdverts с соответствиями всех категорий размещенным в них объявлениям
         const advertsInFavCategory =
             catWithAdverts
-                .find((cat) => cat.catId === favoriteCategory)
+                .find((cat) => cat.catId === favoriteCategoryId)
                 ?.adverts.map((advert) => advert.id) ?? [];
         if (!advertsInFavCategory.length) return [];
 
@@ -118,9 +119,7 @@ export class AdvertsList {
             advertsInFavCategory.includes(advert.id),
         );
 
-        const shuffled = [...filtered].sort(() => Math.random() - 0.5);
-
-        return shuffled;
+        return sortAdvertsByDate(filtered);
     });
 
     // фильтруем объявления для страницы поиска

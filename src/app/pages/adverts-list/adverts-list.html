@@ -1,81 +1,65 @@
 @switch (pageType()) {
     @case ('main') {
         @if (isAuth()) {
-            <app-adverts-list-section
+            <app-adverts-block
+                blockType="favCat"
                 [adverts]="favoriteCategoryAdverts()"
-                title="Рекомендации для вас (объявления в категории {{ favCategoryName() }})"
-                [count]="4"
+                [advertsCount]="4"
                 [isLoading]="isLoading()"
-            ></app-adverts-list-section>
-
-            <app-adverts-list-section
-                [adverts]="favoritesAdverts()"
-                title="Избранные объявления"
-                [count]="4"
-                [isLoading]="isLoading()"
-                link="/user/favorites"
-            ></app-adverts-list-section>
-
-            <app-adverts-list-section
+                [favCategoryName]="favCategoryName()"
+                [favCategoryId]="favCategoryId()"
+            ></app-adverts-block>
+            <app-adverts-block
+                blockType="myAds"
                 [adverts]="myAdverts()"
-                title="Ваши объявления"
-                [count]="4"
+                [advertsCount]="4"
                 [isLoading]="isUserLoading()"
-                link="/user/adverts"
-            ></app-adverts-list-section>
+            ></app-adverts-block>
+            <app-adverts-block
+                blockType="favAds"
+                [adverts]="favoritesAdverts()"
+                [advertsCount]="4"
+                [isLoading]="isLoading()"
+            ></app-adverts-block>
         }
-        <app-adverts-list-section
+        <app-adverts-block
+            blockType="lastAds"
             [adverts]="sortedAdverts()"
-            title="Последние добавленные объявления"
-            [count]="16"
+            [advertsCount]="16"
             [isLoading]="isLoading()"
-        ></app-adverts-list-section>
+            [isAuth]="isAuth()"
+        ></app-adverts-block>
     }
     @case ('favorites') {
-        <app-adverts-list-section
+        <app-adverts-page
+            pageType="favAds"
             [adverts]="favoritesAdverts()"
-            title="Избранные объявления"
             [isLoading]="isLoading()"
-        ></app-adverts-list-section>
+        ></app-adverts-page>
     }
     @case ('my-adverts') {
-        <app-adverts-list-section
+        <app-adverts-page
+            pageType="myAds"
             [adverts]="myAdverts()"
-            title="Мои объявления"
             [isLoading]="isUserLoading()"
             [newBtn]="true"
-        ></app-adverts-list-section>
+        ></app-adverts-page>
     }
     @case ('user-adverts') {
-        <app-adverts-list-section
+        <app-adverts-page
+            pageType="authorAds"
             [adverts]="adverts()"
-            title="Объявления пользователя {{ advertsAuthor()?.name }}"
             [isLoading]="isLoading()"
-        ></app-adverts-list-section>
+            [authorName]="authorName()"
+        ></app-adverts-page>
     }
     @case ('search') {
-        @if (filteredAdverts(); as adverts) {
-            <app-ad-title
-                [advertsCount]="adverts.length"
-                [catQuery]="catNameParam() ?? null"
-                [isLoading]="isLoading()"
-            ></app-ad-title>
-            <div class="page-content">
-                <app-ad-sidebar-filters></app-ad-sidebar-filters>
-                <div>
-                    <app-ad-top-filters [advertsCount]="adverts.length"></app-ad-top-filters>
-                    @if (isLoading()) {
-                        <app-spinner type="big" width="1" wrapHeight="700px"></app-spinner>
-                    } @else if (adverts.length < 1) {
-                        <p class="base mt-24 gray-text">
-                            По точному совпадению результатов не найдено
-                        </p>
-                    } @else {
-                        <app-ad-grid [adverts]="adverts" width="short"></app-ad-grid>
-                    }
-                </div>
-            </div>
-        }
+        <app-adverts-page
+            pageType="filteredAds"
+            [adverts]="filteredAdverts()"
+            [isLoading]="isLoading()"
+            [catName]="catNameParam()"
+        ></app-adverts-page>
     }
     @default {}
 }

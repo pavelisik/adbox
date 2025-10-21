@@ -9,9 +9,9 @@ import { AdGridItemSkeleton } from './ad-grid-item-skeleton/ad-grid-item-skeleto
     styleUrl: './ad-grid-skeleton.scss',
 })
 export class AdGridSkeleton {
-    count = input<number>(1);
+    advertsCount = input.required<number>();
 
-    range(count: number): number[] {
-        return Array.from({ length: count }, (_, i) => i);
+    range(advertsCount: number): number[] {
+        return Array.from({ length: advertsCount }, (_, i) => i);
     }
 }

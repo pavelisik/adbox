@@ -1,0 +1,98 @@
+@switch (blockType()) {
+    @case ('favCat') {
+        <div class="adverts-block__title">
+            <h4 class="h4 fw-600 mb-24">Рекомендации для вас</h4>
+            @if (favCategoryName()) {
+                <span class="base gray-text"
+                    >объявления в избранной категории
+                    <a
+                        [routerLink]="['/adverts']"
+                        [queryParams]="{ catId: favCategoryId(), catName: favCategoryName() }"
+                        class="adverts-block__link"
+                        title="Объявления в категории «{{ favCategoryName() }}»"
+                    >
+                        {{ favCategoryName() }}
+                    </a>
+                </span>
+            }
+        </div>
+    }
+    @case ('favAds') {
+        <h4 class="h4 fw-600 mb-24">
+            <a
+                [routerLink]="['/user/favorites']"
+                title="Смотреть все избранные объявления"
+                class="adverts-block__title-link"
+                >Избранные объявления<i class="pi pi-angle-right"></i
+            ></a>
+        </h4>
+    }
+    @case ('myAds') {
+        <h4 class="h4 fw-600 mb-24">
+            <a
+                [routerLink]="['/user/adverts']"
+                title="Смотреть все мои объявления"
+                class="adverts-block__title-link"
+                >Мои объявления<i class="pi pi-angle-right"></i
+            ></a>
+        </h4>
+    }
+    @case ('lastAds') {
+        @if (isAuth()) {
+            <h4 class="h4 fw-600 mb-24">Последние добавленные объявления</h4>
+        } @else {
+            <h4 class="h4 fw-600 mb-24">Рекомендации для вас</h4>
+        }
+    }
+}
+@if (isLoading()) {
+    <app-ad-grid-skeleton [advertsCount]="advertsCount()"></app-ad-grid-skeleton>
+} @else {
+    @if (adverts().length) {
+        <app-ad-grid [adverts]="adverts().slice(0, advertsCount())"></app-ad-grid>
+        @if (blockType() === 'lastAds') {
+            <button
+                pButton
+                text
+                title="Смотреть все объявления"
+                [routerLink]="['/adverts']"
+                class="adverts-block__all-btn base"
+            >
+                смотреть все объявления<i class="pi pi-angle-right"></i>
+            </button>
+        }
+    } @else {
+        <div class="adverts-block__empty base gray-text">
+            @switch (blockType()) {
+                @case ('favCat') {
+                    @if (favCategoryName()) {
+                        <p>
+                            В избранной категории «{{ favCategoryName() }}» еще нет опубликованных
+                            объявлений.
+                        </p>
+                    } @else {
+                        Выберите избранную категорию в
+                        <a [routerLink]="['/user/settings']" class="adverts-block__link"
+                            >настройках пользователя</a
+                        >.
+                    }
+                }
+                @case ('favAds') {
+                    <p>У вас нет объявлений в избранном.</p>
+                    <p>Добавьте понравившиеся объявления, чтобы вернутся к ним позже.</p>
+                }
+                @case ('myAds') {
+                    <p>У вас нет своих объявлений.</p>
+                    <p>
+                        Воспользуйтесь
+                        <a [routerLink]="['/user/advert-add']" class="adverts-block__link">формой</a
+                        >, чтобы создать и разместить объявление на сайте.
+                    </p>
+                }
+                @case ('lastAds') {
+                    <p>Нет объявлений</p>
+                }
+            }
+        </div>
+    }
+}

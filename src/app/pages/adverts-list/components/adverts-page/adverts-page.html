@@ -1,0 +1,60 @@
+@switch (pageType()) {
+    @case ('favAds') {
+        <h4 class="h4 fw-600 mb-24">Избранные объявления</h4>
+    }
+    @case ('myAds') {
+        <h4 class="h4 fw-600 mb-24">Мои объявления</h4>
+    }
+    @case ('authorAds') {
+        <h4 class="h4 fw-600 mb-24">Объявления пользователя «{{ authorName() }}»</h4>
+    }
+    @case ('filteredAds') {
+        <app-ad-title
+            [advertsCount]="adverts().length"
+            [catQuery]="catName() ?? null"
+            [isLoading]="isLoading()"
+        ></app-ad-title>
+    }
+}
+@if (pageType() === 'filteredAds') {
+    <div class="page-content">
+        <app-ad-sidebar-filters></app-ad-sidebar-filters>
+        <div>
+            <app-ad-top-filters [advertsCount]="adverts().length"></app-ad-top-filters>
+            @if (isLoading()) {
+                <app-spinner type="big" width="1" wrapHeight="700px"></app-spinner>
+            } @else {
+                @if (adverts().length) {
+                    <app-ad-grid [adverts]="adverts()" width="short"></app-ad-grid>
+                } @else {
+                    <div class="adverts-list-section__empty base gray-text mt-24">
+                        <p>По точному совпадению результатов не найдено</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+} @else {
+    @if (isLoading()) {
+        <app-spinner type="big" width="1"></app-spinner>
+    } @else {
+        @if (adverts().length) {
+            <app-ad-grid [adverts]="adverts()" [newBtn]="newBtn()"></app-ad-grid>
+        } @else {
+            <div class="adverts-page__empty base gray-text">
+                @switch (pageType()) {
+                    @case ('favAds') {
+                        <p>У вас нет объявлений в избранном.</p>
+                        <p>Добавьте понравившиеся объявления, чтобы вернутся к ним позже.</p>
+                    }
+                    @case ('myAds') {
+                        <app-ad-grid [adverts]="adverts()" [newBtn]="newBtn()"></app-ad-grid>
+                    }
+                    @case ('authorAds') {
+                        <p>У пользователя нет опубликованных объявлений.</p>
+                    }
+                }
+            </div>
+        }
+    }
+}
