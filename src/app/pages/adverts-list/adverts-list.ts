@@ -7,6 +7,8 @@ import { AuthStateService, UserFacade } from '@app/core/auth/services';
 import { categoryNameFromId, sortAdvertsByDate } from '@app/shared/utils';
 import catWithAdverts from '@app/shared/data/cat-with-adverts.json';
 import { AdvertsBlock, AdvertsPage } from './components';
+import { NotificationService } from '@app/core/notification';
+import { ConfirmService } from '@app/core/confirmation';
 
 export type AdvertsPageTypes = 'main' | 'search' | 'user-adverts' | 'my-adverts' | 'favorites';
 
@@ -21,6 +23,8 @@ export class AdvertsList {
     private readonly route = inject(ActivatedRoute);
     private readonly userFacade = inject(UserFacade);
     private readonly authStateService = inject(AuthStateService);
+    private readonly notify = inject(NotificationService);
+    private readonly confirm = inject(ConfirmService);
 
     readonly adverts = this.advertsListFacade.adverts;
     readonly advertsAuthor = this.advertsListFacade.advertsAuthor;
@@ -172,5 +176,28 @@ export class AdvertsList {
                 }
             });
         });
+    }
+
+    addFavorite({ advertId }: { advertId: string }) {
+        if (!advertId) return;
+        this.userFacade.addAdvertToFavorite(advertId);
+        this.notify.success('Обновление данных', 'Объявление добавлено в избранное');
+    }
+
+    removeFavorite({ advertId }: { advertId: string }) {
+        if (!advertId) return;
+        this.userFacade.removeAdvertFromFavorite(advertId);
+        this.notify.success('Обновление данных', 'Объявление удалено из избранного');
+    }
+
+    deleteAdvert({ advertId }: { advertId: string }) {
+        if (!advertId) return;
+
+        this.confirm.confirm('deleteAdvert', () => {
+            this.advertsListFacade.deleteAdvert(advertId);
+        });
+
+        // this.userFacade.removeAdvertFromFavorite(advertId);
+        // this.notify.success('Обновление данных', 'Объявление удалено из избранного');
     }
 }

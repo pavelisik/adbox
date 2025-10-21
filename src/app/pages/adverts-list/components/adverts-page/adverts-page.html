@@ -25,7 +25,13 @@
                 <app-spinner type="big" width="1" wrapHeight="700px"></app-spinner>
             } @else {
                 @if (adverts().length) {
-                    <app-ad-grid [adverts]="adverts()" width="short"></app-ad-grid>
+                    <app-ad-grid
+                        [adverts]="adverts()"
+                        width="short"
+                        (addFavorite)="addFavorite.emit($event)"
+                        (removeFavorite)="removeFavorite.emit($event)"
+                        (deleteAdvert)="deleteAdvert.emit($event)"
+                    ></app-ad-grid>
                 } @else {
                     <div class="adverts-list-section__empty base gray-text mt-24">
                         <p>По точному совпадению результатов не найдено</p>
@@ -39,7 +45,13 @@
         <app-spinner type="big" width="1"></app-spinner>
     } @else {
         @if (adverts().length) {
-            <app-ad-grid [adverts]="adverts()" [newBtn]="newBtn()"></app-ad-grid>
+            <app-ad-grid
+                [adverts]="adverts()"
+                [newBtn]="newBtn()"
+                (addFavorite)="addFavorite.emit($event)"
+                (removeFavorite)="removeFavorite.emit($event)"
+                (deleteAdvert)="deleteAdvert.emit($event)"
+            ></app-ad-grid>
         } @else {
             <div class="adverts-page__empty base gray-text">
                 @switch (pageType()) {

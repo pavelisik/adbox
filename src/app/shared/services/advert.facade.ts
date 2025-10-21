@@ -33,12 +33,12 @@ export class AdvertFacade {
         return advert?.user?.id === currentUser?.id;
     });
 
-    loadAdvert(id: string) {
+    loadAdvert(advertId: string) {
         this.isAdvertLoading.set(true);
         this.clearState();
 
         this.advertService
-            .getAdvert(id)
+            .getAdvert(advertId)
             .pipe(
                 tap((advert) => {
                     this.advertState.set(advert);

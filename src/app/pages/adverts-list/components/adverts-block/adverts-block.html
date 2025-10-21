@@ -49,7 +49,12 @@
     <app-ad-grid-skeleton [advertsCount]="advertsCount()"></app-ad-grid-skeleton>
 } @else {
     @if (adverts().length) {
-        <app-ad-grid [adverts]="adverts().slice(0, advertsCount())"></app-ad-grid>
+        <app-ad-grid
+            [adverts]="adverts().slice(0, advertsCount())"
+            (addFavorite)="addFavorite.emit($event)"
+            (removeFavorite)="removeFavorite.emit($event)"
+            (deleteAdvert)="deleteAdvert.emit($event)"
+        ></app-ad-grid>
         @if (blockType() === 'lastAds') {
             <button
                 pButton

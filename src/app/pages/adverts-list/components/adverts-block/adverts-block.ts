@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AdGridSkeleton } from '@app/shared/components/skeletons';
 import { AdGrid } from '@app/shared/components';
@@ -14,12 +14,16 @@ export type BlockType = 'favCat' | 'favAds' | 'myAds' | 'lastAds';
     styleUrl: './adverts-block.scss',
 })
 export class AdvertsBlock {
-    blockType = input.required<BlockType>();
-    adverts = input.required<ShortAdvert[]>();
-    advertsCount = input.required<number>();
-    isLoading = input<boolean>(false);
+    readonly blockType = input.required<BlockType>();
+    readonly adverts = input.required<ShortAdvert[]>();
+    readonly advertsCount = input.required<number>();
+    readonly isLoading = input<boolean>(false);
 
-    favCategoryName = input<string | null>(null);
-    favCategoryId = input<string | null>(null);
-    isAuth = input<boolean>(false);
+    readonly favCategoryName = input<string | null>(null);
+    readonly favCategoryId = input<string | null>(null);
+    readonly isAuth = input<boolean>(false);
+
+    readonly addFavorite = output<{ advertId: string }>();
+    readonly removeFavorite = output<{ advertId: string }>();
+    readonly deleteAdvert = output<{ advertId: string }>();
 }

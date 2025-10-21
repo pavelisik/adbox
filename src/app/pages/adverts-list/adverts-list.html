@@ -8,18 +8,24 @@
                 [isLoading]="isLoading()"
                 [favCategoryName]="favCategoryName()"
                 [favCategoryId]="favCategoryId()"
+                (addFavorite)="addFavorite($event)"
+                (removeFavorite)="removeFavorite($event)"
+                (deleteAdvert)="deleteAdvert($event)"
             ></app-adverts-block>
             <app-adverts-block
                 blockType="myAds"
                 [adverts]="myAdverts()"
                 [advertsCount]="4"
                 [isLoading]="isUserLoading()"
+                (deleteAdvert)="deleteAdvert($event)"
             ></app-adverts-block>
             <app-adverts-block
                 blockType="favAds"
                 [adverts]="favoritesAdverts()"
                 [advertsCount]="4"
                 [isLoading]="isLoading()"
+                (addFavorite)="addFavorite($event)"
+                (removeFavorite)="removeFavorite($event)"
             ></app-adverts-block>
         }
         <app-adverts-block
@@ -28,6 +34,9 @@
             [advertsCount]="16"
             [isLoading]="isLoading()"
             [isAuth]="isAuth()"
+            (addFavorite)="addFavorite($event)"
+            (removeFavorite)="removeFavorite($event)"
+            (deleteAdvert)="deleteAdvert($event)"
         ></app-adverts-block>
     }
     @case ('favorites') {
@@ -35,6 +44,8 @@
             pageType="favAds"
             [adverts]="favoritesAdverts()"
             [isLoading]="isLoading()"
+            (addFavorite)="addFavorite($event)"
+            (removeFavorite)="removeFavorite($event)"
         ></app-adverts-page>
     }
     @case ('my-adverts') {
@@ -43,6 +54,7 @@
             [adverts]="myAdverts()"
             [isLoading]="isUserLoading()"
             [newBtn]="true"
+            (deleteAdvert)="deleteAdvert($event)"
         ></app-adverts-page>
     }
     @case ('user-adverts') {
@@ -51,6 +63,9 @@
             [adverts]="adverts()"
             [isLoading]="isLoading()"
             [authorName]="authorName()"
+            (addFavorite)="addFavorite($event)"
+            (removeFavorite)="removeFavorite($event)"
+            (deleteAdvert)="deleteAdvert($event)"
         ></app-adverts-page>
     }
     @case ('search') {
@@ -59,6 +74,9 @@
             [adverts]="filteredAdverts()"
             [isLoading]="isLoading()"
             [catName]="catNameParam()"
+            (addFavorite)="addFavorite($event)"
+            (removeFavorite)="removeFavorite($event)"
+            (deleteAdvert)="deleteAdvert($event)"
         ></app-adverts-page>
     }
     @default {}

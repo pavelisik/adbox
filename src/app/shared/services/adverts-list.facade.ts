@@ -1,9 +1,9 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from '@app/core/auth/domains';
-import { UserService } from '@app/core/auth/services';
+import { UserFacade, UserService } from '@app/core/auth/services';
 import { AdvertSearchRequest } from '@app/pages/adverts-list/domains';
-import { AdvertsListService, AdvertsListStateService } from '@app/shared/services';
+import { AdvertService, AdvertsListService, AdvertsListStateService } from '@app/shared/services';
 import { sortAdvertsByDate } from '@app/shared/utils';
 import { catchError, finalize, map, of, tap } from 'rxjs';
 
@@ -13,13 +13,16 @@ import { catchError, finalize, map, of, tap } from 'rxjs';
 export class AdvertsListFacade {
     private readonly advertsListState = inject(AdvertsListStateService);
     private readonly advertsListService = inject(AdvertsListService);
+    private readonly advertService = inject(AdvertService);
     private readonly userService = inject(UserService);
+    private readonly userFacade = inject(UserFacade);
     private readonly destroyRef = inject(DestroyRef);
 
     readonly adverts = this.advertsListState.advertsList;
 
     readonly advertsAuthor = signal<User | null>(null);
     readonly isLoading = signal<boolean>(false);
+    readonly isDeleteLoading = signal<boolean>(false);
 
     searchAdverts(search?: string, category?: string): void {
         this.isLoading.set(true);
@@ -67,6 +70,35 @@ export class AdvertsListFacade {
                 takeUntilDestroyed(this.destroyRef),
             )
             .subscribe();
+    }
+
+    deleteAdvert(advertId: string) {
+        if (!advertId) return;
+
+        this.isDeleteLoading.set(true);
+
+        this.advertService
+            .deleteAdvert(advertId)
+            .pipe(
+                tap((res) => {
+                    this.removeAdvertFromState(advertId);
+                    this.userFacade.refreshAuthUser();
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    return of(null);
+                }),
+                finalize(() => this.isDeleteLoading.set(false)),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
+    }
+
+    private removeAdvertFromState(advertId: string) {
+        if (!advertId) return;
+
+        const updatedAdverts = this.adverts().filter((advert) => advert.id !== advertId);
+        this.advertsListState.set(updatedAdverts);
     }
 
     private buildSearchRequest(search?: string, category?: string): AdvertSearchRequest {

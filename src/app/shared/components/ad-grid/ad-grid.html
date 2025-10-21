@@ -15,7 +15,14 @@
     }
     @if (adverts(); as adverts) {
         @for (advert of adverts; track advert.id) {
-            <li app-ad-grid-item [advert]="advert" class="ad-grid__item"></li>
+            <li
+                app-ad-grid-item
+                [advert]="advert"
+                (addFavorite)="addFavorite.emit($event)"
+                (removeFavorite)="removeFavorite.emit($event)"
+                (deleteAdvert)="deleteAdvert.emit($event)"
+                class="ad-grid__item"
+            ></li>
         }
     }
 </ul>
