@@ -181,23 +181,19 @@ export class AdvertsList {
     addFavorite({ advertId }: { advertId: string }) {
         if (!advertId) return;
         this.userFacade.addAdvertToFavorite(advertId);
-        this.notify.success('Обновление данных', 'Объявление добавлено в избранное');
+        this.notify.info('Обновление данных', 'Объявление добавлено в избранное');
     }
 
     removeFavorite({ advertId }: { advertId: string }) {
         if (!advertId) return;
         this.userFacade.removeAdvertFromFavorite(advertId);
-        this.notify.success('Обновление данных', 'Объявление удалено из избранного');
+        this.notify.info('Обновление данных', 'Объявление удалено из избранного');
     }
 
     deleteAdvert({ advertId }: { advertId: string }) {
         if (!advertId) return;
-
         this.confirm.confirm('deleteAdvert', () => {
             this.advertsListFacade.deleteAdvert(advertId);
         });
-
-        // this.userFacade.removeAdvertFromFavorite(advertId);
-        // this.notify.success('Обновление данных', 'Объявление удалено из избранного');
     }
 }

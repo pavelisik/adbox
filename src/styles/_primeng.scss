@@ -111,8 +111,20 @@
     --p-textarea-focus-border-color: var(--gray-400-color);
 
     /* toast */
+    --p-toast-error-border-color: var(--gray-200-color);
+    --p-toast-success-border-color: var(--gray-200-color);
+    --p-toast-info-border-color: var(--gray-200-color);
     --p-toast-error-color: var(--error-color);
+    --p-toast-info-color: var(--primary-color);
+    --p-toast-border-radius: 8px;
+    --p-toast-error-background: color-mix(in srgb, var(--white-color), transparent 15%);
+    --p-toast-success-background: color-mix(in srgb, var(--white-color), transparent 15%);
+    --p-toast-info-background: color-mix(in srgb, var(--white-color), transparent 15%);
+    --p-toast-content-padding: 18px 24px;
+    --p-toast-content-gap: 14px;
+    --p-toast-error-close-button-hover-background: none;
     --p-toast-success-close-button-hover-background: none;
+    --p-toast-info-close-button-hover-background: none;
 
     /* диалоговое окно */
     --p-dialog-border-radius: 8px;
@@ -279,10 +291,6 @@
 .p-textarea.p-invalid,
 .p-textarea.p-invalid {
     border-color: var(--error-color);
-}
-
-.p-inputtext.p-invalid {
-    border-color: var(--p-inputtext-invalid-border-color);
 }
 
 .p-breadcrumb-separator {
@@ -479,14 +487,18 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
 
-.p-toast-close-button {
-    border: none;
-    outline: none;
-
-    &:focus {
+    .p-toast-close-button {
+        border: none;
         outline: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .p-toast-message-icon {
+        margin-top: 2px;
     }
 }
 
@@ -494,6 +506,24 @@
     margin-top: 2px;
     display: inline-flex;
     gap: 8px;
+}
+
+.p-confirmdialog {
+    max-width: 400px;
+
+    .p-dialog-content {
+        padding: 0px 24px 30px 24px;
+    }
+
+    .p-dialog-footer {
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 12px;
+
+        button {
+            padding: 12px 30px;
+        }
+    }
 }
 
 .p-dialog {

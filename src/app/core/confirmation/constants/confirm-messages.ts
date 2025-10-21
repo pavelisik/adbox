@@ -5,7 +5,8 @@ export type ConfirmActionType =
     | 'resetForm'
     | 'deleteAddress'
     | 'deleteAdvert'
-    | 'deleteComment';
+    | 'deleteComment'
+    | 'deleteUser';
 
 export const CONFIRM_MESSAGES: Record<ConfirmActionType, { header: string; message: string }> = {
     settings: {
@@ -35,5 +36,9 @@ export const CONFIRM_MESSAGES: Record<ConfirmActionType, { header: string; messa
     deleteComment: {
         header: 'Удаление комментария',
         message: 'Вы действительно хотите удалить комментарий?',
+    },
+    deleteUser: {
+        header: 'Удаление пользователя',
+        message: 'Вы действительно хотите удалить профиль своего пользователя?',
     },
 };

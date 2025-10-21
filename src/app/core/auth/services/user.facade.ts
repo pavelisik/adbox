@@ -1,6 +1,7 @@
 import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+    AuthService,
     AuthStateService,
     LocalUserStateService,
     UserService,
@@ -17,6 +18,7 @@ export class UserFacade {
     private readonly authState = inject(AuthStateService);
     private readonly userStateService = inject(UserStateService);
     private readonly userService = inject(UserService);
+    private readonly authService = inject(AuthService);
     private readonly localUserState = inject(LocalUserStateService);
     private readonly localUserService = inject(LocalUserService);
     private readonly destroyRef = inject(DestroyRef);
@@ -27,6 +29,7 @@ export class UserFacade {
     private readonly refreshAuthUserTrigger = signal<number>(0);
 
     readonly isLoading = signal<boolean>(false);
+    readonly isDeleteLoading = signal<boolean>(false);
 
     readonly currentUser = computed<FullUser | null>(() => {
         const user = this.authUser();
@@ -77,7 +80,7 @@ export class UserFacade {
         return this.currentUser()?.favoritesAdverts?.includes(advertId) ?? false;
     }
 
-    // добавление объявления в избранное
+    // сохранение объявления в избранное
     addAdvertToFavorite(advertId: string) {
         const user = this.currentUser();
         if (!user) return;
@@ -101,5 +104,24 @@ export class UserFacade {
         this.localUserService.updateData(user.id, {
             favoritesAdverts: Array.from(favoritesAdverts),
         });
+    }
+
+    deleteUser(userId: string) {
+        this.isDeleteLoading.set(true);
+
+        this.userService
+            .deleteUser(userId)
+            .pipe(
+                tap(() => {
+                    this.authService.logout();
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    return of(null);
+                }),
+                finalize(() => this.isDeleteLoading.set(false)),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
     }
 }

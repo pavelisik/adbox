@@ -89,7 +89,7 @@ export class ImagesUpload {
             .deleteImage(id)
             .pipe(
                 tap(() => {
-                    this.notify.success('Удаление изображения', 'Изображение успешно удалено');
+                    this.notify.info('Удаление изображения', 'Изображение успешно удалено');
                     this.advertImages.update((images) => images.filter((img) => img.id !== id));
                 }),
                 catchError((err) => {

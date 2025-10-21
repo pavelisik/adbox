@@ -3,3 +3,14 @@
 
 <h4 class="h4 fw-600 mb-24">Смена пароля</h4>
 <app-password-form></app-password-form>
+
+<h4 class="settings__delete h4 fw-600 mb-24">Удаление пользователя</h4>
+<button
+    pButton
+    type="submit"
+    [label]="isDeleteLoading() ? 'Удаление' : 'Удалить пользователя'"
+    [loading]="isDeleteLoading()"
+    (click)="onPasswordConfirm()"
+    severity="danger"
+    class="settings__delete-btn base"
+></button>

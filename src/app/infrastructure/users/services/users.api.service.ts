@@ -38,4 +38,8 @@ export class UsersApiService {
             .get<UserDTO>(`${environment.baseApiURL}/Users/${id}`)
             .pipe(map((res) => UserFromDTOAdapter(res)));
     }
+
+    deleteUser(id: string): Observable<void> {
+        return this.http.delete<void>(`${environment.baseApiURL}/Users/${id}`);
+    }
 }

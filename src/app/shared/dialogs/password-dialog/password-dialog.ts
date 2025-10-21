@@ -26,6 +26,7 @@ export class PasswordDialog {
     private readonly destroyRef = inject(DestroyRef);
 
     readonly currentUser = this.userFacade.currentUser;
+    readonly activeForm = this.passwordConfirmService.activeForm;
 
     isSubmitted = signal<boolean>(false);
     isLoading = signal<boolean>(false);

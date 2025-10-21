@@ -26,4 +26,12 @@ export class UserService {
     getUser(id: string): Observable<User> {
         return this.apiService.getUser(id);
     }
+
+    deleteUser(id: string): Observable<void> {
+        return this.apiService.deleteUser(id).pipe(
+            tap(() => {
+                this.notify.success('Удаление пользователя', 'Пользователь успешно удален');
+            }),
+        );
+    }
 }

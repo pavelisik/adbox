@@ -89,10 +89,10 @@ export class Advert {
 
         if (this.isFavorite()) {
             this.userFacade.removeAdvertFromFavorite(advertId);
-            this.notify.success('Обновление данных', 'Объявление удалено из избранного');
+            this.notify.info('Обновление данных', 'Объявление удалено из избранного');
         } else {
             this.userFacade.addAdvertToFavorite(advertId);
-            this.notify.success('Обновление данных', 'Объявление добавлено в избранное');
+            this.notify.info('Обновление данных', 'Объявление добавлено в избранное');
         }
 
         setTimeout(() => this.isUpdatingFavorite.set(false), 1000);
