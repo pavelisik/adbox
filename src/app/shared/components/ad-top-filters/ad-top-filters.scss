@@ -1,16 +1,16 @@
 .ad-top-filters {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     justify-content: space-between;
     padding-top: 2px;
     gap: 20px;
+    margin-bottom: 40px;
 }
 
 .ad-top-filters__sort {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: start;
     gap: 12px;
     white-space: nowrap;
 }
@@ -19,7 +19,11 @@
     width: 150px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 576px) {
+    .ad-top-filters {
+        margin-bottom: 34px;
+    }
+
     .ad-top-filters__sort {
         flex-direction: row;
         align-items: center;
@@ -29,6 +33,6 @@
 @media (min-width: 992px) {
     .ad-top-filters {
         flex-direction: row;
-        align-items: flex-start;
+        align-items: start;
     }
 }

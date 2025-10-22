@@ -26,14 +26,15 @@ input::placeholder {
 }
 
 .container {
-    max-width: 86%;
+    min-width: 320px;
+    max-width: 92%;
     margin: 0 auto;
 }
 
 .page-content {
-    display: grid;
-    grid-template-columns: minmax(200px, 25%) auto;
-    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }
 
 .relative {
@@ -87,7 +88,12 @@ input::placeholder {
 
 @media (min-width: 576px) {
     .container {
-        max-width: 83%;
+        max-width: 94%;
+    }
+    .page-content {
+        display: grid;
+        grid-template-columns: minmax(200px, 25%) auto;
+        gap: 15px;
     }
 }
 
@@ -95,18 +101,12 @@ input::placeholder {
     .page-content {
         gap: 24px;
     }
-    .container {
-        max-width: 88%;
-    }
     .category-menu {
         top: 191px !important;
     }
 }
 
 @media (min-width: 992px) {
-    .container {
-        max-width: 94%;
-    }
     .category-menu {
         top: 137px !important;
     }

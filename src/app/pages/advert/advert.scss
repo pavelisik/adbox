@@ -1,17 +1,20 @@
 .advert {
     display: flex;
     flex-direction: column;
-    flex-direction: column-reverse;
-    gap: 30px;
+}
+
+.advert-left {
+    margin-bottom: 24px;
 }
 
 .advert-right {
     position: relative;
+    margin-bottom: 40px;
 }
 
 .advert__fav-icon {
     position: absolute;
-    top: 17px;
+    top: -32px;
     right: 0px;
     padding: 10px;
     color: var(--dark-color);
@@ -48,8 +51,8 @@
 .advert__title,
 .advert__price {
     display: block;
-    margin-bottom: 24px;
-    margin-top: 18px;
+    margin-top: 0px;
+    margin-bottom: 16px;
 }
 
 .advert__show-phone-btn {
@@ -143,7 +146,10 @@
         grid-template-columns: 1fr 33%;
         align-items: start;
         gap: 24px;
-        flex-direction: row;
+    }
+
+    .advert-left {
+        margin-bottom: 0px;
     }
 
     .advert-right {
@@ -151,16 +157,7 @@
         top: 20px;
         white-space: normal;
         overflow-wrap: anywhere;
-    }
-
-    .advert__title,
-    .advert__price {
-        margin-top: 0px;
-        margin-bottom: 16px;
-    }
-
-    .advert__fav-icon {
-        top: -32px;
+        margin-bottom: 0px;
     }
 }
 

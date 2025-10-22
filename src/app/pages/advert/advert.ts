@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { Breadcrumbs, SvgIcon, ImageGallery, Comments } from '@app/shared/components';
@@ -10,6 +10,9 @@ import { DialogService } from '@app/core/dialog';
 import { ConfirmService } from '@app/core/confirmation';
 import { AdvertSkeleton } from '@app/shared/components/skeletons';
 import { NotificationService } from '@app/core/notification';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
     selector: 'app-advert',
@@ -37,19 +40,17 @@ export class Advert {
     private readonly userFacade = inject(UserFacade);
     private readonly route = inject(ActivatedRoute);
     private readonly notify = inject(NotificationService);
+    private breakpointObserver = inject(BreakpointObserver);
+
+    readonly isUpdatingFavorite = signal<boolean>(false);
 
     readonly advert = this.advertFacade.advert;
     readonly breadcrumbs = this.breadcrumbsState.breadcrumbs;
-
     readonly currentUser = this.userFacade.currentUser;
-
     readonly isAuth = this.authStateService.isAuth;
     readonly isMyAdvert = this.advertFacade.isMyAdvert;
-
     readonly isAdvertLoading = this.advertFacade.isAdvertLoading;
     readonly isDeleteLoading = this.advertFacade.isDeleteLoading;
-
-    readonly isUpdatingFavorite = signal<boolean>(false);
 
     readonly isFavorite = computed(() => {
         const advertId = this.advert()?.id;
@@ -57,10 +58,19 @@ export class Advert {
         return this.userFacade.isAdvertInFavorites(advertId);
     });
 
+    // для адаптивного изменения порядка элементов на странице
+    isMobile = toSignal(
+        this.breakpointObserver
+            .observe(['(max-width: 991px)'])
+            .pipe(map((result) => result.matches)),
+        { initialValue: window.innerWidth <= 991 },
+    );
+
     constructor() {
         const advertId = this.route.snapshot.paramMap.get('id');
         if (advertId) {
             this.advertFacade.loadAdvert(advertId);
+            // сразу после загрузки объявления убираем баг с прокруткой сайдбара
             window.scrollTo({ top: 0, behavior: 'auto' });
         }
     }

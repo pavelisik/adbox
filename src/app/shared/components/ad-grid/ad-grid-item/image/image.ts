@@ -1,9 +1,9 @@
 import { Component, input, signal } from '@angular/core';
-import { SkeletonModule } from 'primeng/skeleton';
+import { ImageSkeleton } from '@app/shared/components/skeletons';
 
 @Component({
     selector: 'app-image',
-    imports: [SkeletonModule],
+    imports: [ImageSkeleton],
     templateUrl: './image.html',
     styleUrl: './image.scss',
 })

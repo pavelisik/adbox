@@ -4,8 +4,8 @@ import { AsyncPipe } from '@angular/common';
 import { ShortAdvert } from '@app/pages/adverts-list/domains';
 import { DateFormatPipe, PriceFormatPipe, ImageFromIdPipe } from '@app/shared/pipes';
 import { Image } from './image/image';
-import { SkeletonModule } from 'primeng/skeleton';
 import { ImageButtons } from './image-buttons/image-buttons';
+import { ImageSkeleton } from '@app/shared/components/skeletons';
 
 @Component({
     selector: 'li[app-ad-grid-item]',
@@ -15,9 +15,9 @@ import { ImageButtons } from './image-buttons/image-buttons';
         PriceFormatPipe,
         AsyncPipe,
         Image,
-        SkeletonModule,
         ImageFromIdPipe,
         ImageButtons,
+        ImageSkeleton,
     ],
     templateUrl: './ad-grid-item.html',
     styleUrl: './ad-grid-item.scss',

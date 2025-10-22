@@ -1,43 +1,97 @@
-.advert-skeleton {
-    .advert-skeleton__breadcrumbs {
-        margin-top: 3px;
-        margin-bottom: 16px;
+.advert-skeleton__breadcrumbs {
+    margin-top: 3px;
+    margin-bottom: 16px;
+}
+
+.advert-skeleton__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.advert-skeleton__right {
+    margin-top: 57px;
+}
+
+.advert-skeleton__title {
+    margin-bottom: 21px;
+}
+
+.advert-skeleton__image {
+    aspect-ratio: 3 / 2;
+    margin-bottom: 24px;
+}
+
+.advert-skeleton__gallery {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 12px;
+    height: 45px;
+
+    > * {
+        aspect-ratio: 3 / 2;
     }
 
+    :nth-child(1) {
+        display: block;
+    }
+}
+
+.advert-skeleton__price {
+    margin-bottom: 21px;
+}
+
+.advert-skeleton__block {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+@media (min-width: 576px) {
+    .advert-skeleton__gallery {
+        height: 55px;
+    }
+}
+
+@media (min-width: 768px) {
+    .advert-skeleton__gallery {
+        height: 70px;
+    }
+}
+
+@media (min-width: 992px) {
     .advert-skeleton__grid {
         display: grid;
-        grid-template-columns: 1fr 416px;
+        grid-template-columns: 1fr 33%;
+        align-items: start;
         gap: 24px;
     }
 
-    .advert-skeleton__left,
-    .advert-skeleton__right {
-        display: flex;
-        flex-direction: column;
-    }
-    .advert-skeleton__title {
-        margin-bottom: 21px;
-    }
-
-    .advert-skeleton__image {
-        margin-bottom: 24px;
-    }
-
     .advert-skeleton__gallery {
-        display: flex;
-        flex-direction: row;
-        justify-content: start;
-        gap: 12px;
+        height: 90px;
+
+        :nth-child(1) {
+            display: none;
+        }
     }
 
-    .advert-skeleton__price {
-        margin-bottom: 21px;
+    .advert-skeleton__right {
+        margin-top: 0px;
     }
+}
 
-    .advert-skeleton__block {
-        margin-bottom: 32px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
+@media (min-width: 1200px) {
+    .advert-skeleton__gallery {
+        :nth-child(1) {
+            display: block;
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    .advert-skeleton__grid {
+        grid-template-columns: 1fr 416px;
     }
 }

@@ -18,8 +18,9 @@
 
     .two-fields {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: start;
+        margin-bottom: 12px;
 
         & > *:not(:last-child) {
             margin-right: 16px;
@@ -77,5 +78,15 @@
 
     span:hover {
         color: var(--gray-600-color);
+    }
+}
+
+@media (min-width: 450px) {
+    .advert-add-form {
+        .two-fields {
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 0px;
+        }
     }
 }

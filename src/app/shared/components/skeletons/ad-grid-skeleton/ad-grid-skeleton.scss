@@ -1,5 +1,37 @@
 .ad-grid-skeleton {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    grid-template-columns: 1fr;
+    column-gap: 18px;
+    row-gap: 25px;
+    max-width: 94%;
+    margin: 0 auto;
+}
+
+@media (min-width: 576px) {
+    .ad-grid-skeleton {
+        max-width: 89%;
+        column-gap: 4%;
+        row-gap: 30px;
+    }
+}
+
+@media (min-width: 680px) {
+    .ad-grid-skeleton {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .ad-grid-skeleton {
+        max-width: 94%;
+        column-gap: 6%;
+        row-gap: 32px;
+    }
+}
+
+@media (min-width: 992px) {
+    .ad-grid-skeleton {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 100%;
+    }
 }

@@ -2,15 +2,18 @@
     display: grid;
     column-gap: 18px;
     row-gap: 25px;
-    min-height: 382px;
 }
 
 .ad-grid_full {
     grid-template-columns: 1fr;
+    max-width: 94%;
+    margin: 0 auto;
 }
 
 .ad-grid_short {
     grid-template-columns: 1fr;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 .ad-grid__new-advert-btn {
@@ -111,25 +114,18 @@
         column-gap: 4%;
         row-gap: 30px;
     }
-
     .ad-grid_full {
-        grid-template-columns: repeat(1, 1fr);
-    }
-    .ad-grid_short {
-        grid-template-columns: repeat(1, 1fr);
+        max-width: 89%;
     }
 }
 
 @media (min-width: 680px) {
-    .ad-grid_full {
-        grid-template-columns: repeat(2, 1fr);
-    }
     .ad-grid_short {
-        grid-template-columns: repeat(2, 1fr);
+        max-width: 90%;
     }
 
-    .ad-grid {
-        column-gap: 4%;
+    .ad-grid_full {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -137,6 +133,17 @@
     .ad-grid {
         column-gap: 6%;
         row-gap: 32px;
+    }
+
+    .ad-grid_full {
+        max-width: 94%;
+    }
+}
+
+@media (min-width: 850px) {
+    .ad-grid_short {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 100%;
     }
 }
 
@@ -147,8 +154,18 @@
 
     .ad-grid_full {
         grid-template-columns: repeat(4, 1fr);
+        max-width: 100%;
     }
+}
+
+@media (min-width: 1200px) {
     .ad-grid_short {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1400px) {
+    .ad-grid {
+        min-height: 382px;
     }
 }

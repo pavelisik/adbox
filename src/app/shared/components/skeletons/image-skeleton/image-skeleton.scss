@@ -1,0 +1,11 @@
+:host {
+    display: block;
+}
+
+.image-skeleton {
+    z-index: 1000;
+
+    &__image {
+        aspect-ratio: 26 / 20;
+    }
+}

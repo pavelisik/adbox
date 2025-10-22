@@ -26,6 +26,12 @@
         opacity: 1;
         margin-right: 4px;
         transition: all 0.2s ease;
+        width: fit-content;
+
+        span {
+            white-space: normal;
+            text-align: left;
+        }
 
         &.secondary {
             opacity: 0.9;

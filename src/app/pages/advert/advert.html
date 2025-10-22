@@ -8,7 +8,9 @@
             <div class="advert__image-gallery mb-30">
                 <app-image-gallery [imagesIds]="advert.imagesIds"></app-image-gallery>
             </div>
-            <app-comments class="advert__comments"></app-comments>
+            @if (!isMobile()) {
+                <app-comments class="advert__comments"></app-comments>
+            }
         </div>
         <div class="advert-right">
             @if (isAuth() && !isMyAdvert()) {
@@ -90,6 +92,9 @@
                 <p class="sm">{{ advert.created | dateFormat }}</p>
             </div>
         </div>
+        @if (isMobile()) {
+            <app-comments class="advert__comments"></app-comments>
+        }
     </div>
 } @else {
     <h1 class="advert__title h3 fw-600">Ошибка загрузки объявления</h1>

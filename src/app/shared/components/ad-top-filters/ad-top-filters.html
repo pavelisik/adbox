@@ -1,5 +1,5 @@
-<div class="ad-top-filters mb-24">
-    <app-picked-filters></app-picked-filters>
+<div class="ad-top-filters">
+    <app-picked-filters class="ad-top-filters__picked"></app-picked-filters>
     @if (advertsCount()) {
         <form class="ad-top-filters__sort base" [formGroup]="sortForm">
             <label for="sort">Сортировка:</label>

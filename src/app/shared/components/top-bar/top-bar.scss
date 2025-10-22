@@ -26,8 +26,11 @@
 }
 
 .top-bar__signin-btn {
-    min-width: 147px;
     justify-content: flex-end;
+
+    & > svg:nth-child(1) {
+        display: none;
+    }
 }
 
 .top-bar__separator {
@@ -50,7 +53,28 @@
     margin-left: 24px;
     gap: 4px;
 
+    svg {
+        display: none;
+    }
+
     .p-button-label {
         font-weight: 500;
+    }
+}
+
+@media (min-width: 576px) {
+    .top-bar__signin-btn {
+        min-width: 147px;
+        justify-content: flex-end;
+
+        & > svg:nth-child(1) {
+            display: inline-flex;
+        }
+    }
+
+    .top-bar__add-btn {
+        svg {
+            display: inline-flex;
+        }
     }
 }

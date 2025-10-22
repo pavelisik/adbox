@@ -19,10 +19,6 @@
     }
 }
 
-.image-skeleton {
-    aspect-ratio: 26 / 20;
-}
-
 .image {
     min-height: 235px;
     min-width: 100%;
@@ -30,19 +26,7 @@
     object-fit: fill;
 }
 
-@media (min-width: 576px) {
-    .container {
-        align-items: center;
-    }
-}
-
-@media (min-width: 700px) {
-    .image-wrapper {
-        align-items: normal;
-    }
-}
-
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
     .image-wrapper {
         align-items: center;
     }

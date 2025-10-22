@@ -13,10 +13,11 @@
 .gallery {
     position: absolute;
     width: 100%;
+    aspect-ratio: 3 / 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    top: 200px;
+    top: 0px;
 
     .spinner {
         width: 120px;

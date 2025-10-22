@@ -1,7 +1,8 @@
 .img-gallery__item-wrapper {
-    height: auto;
-    min-height: 250px;
     width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,9 +33,6 @@
 }
 
 @media (min-width: 768px) {
-    .img-gallery__item-wrapper {
-        height: 570px;
-    }
     .img-gallery__thumbnail {
         height: 70px;
     }
