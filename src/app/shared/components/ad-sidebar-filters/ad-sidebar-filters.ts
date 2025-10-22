@@ -8,7 +8,7 @@ import { SvgIcon } from '@app/shared/components/svg-icon/svg-icon';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { findCategoryFromId } from '@app/shared/utils';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AdvertsQueryParams, CategoryMenuItem } from '@app/pages/adverts-list/domains';
 import { CategoryFilterSkeleton } from '@app/shared/components/skeletons';
 
@@ -49,8 +49,8 @@ export class AdSidebarFilters {
     );
 
     filterForm: FormGroup = this.fb.group({
-        minPrice: this.fb.control<number | null>(null),
-        maxPrice: this.fb.control<number | null>(null),
+        minPrice: this.fb.control<number | null>(null, [Validators.min(0)]),
+        maxPrice: this.fb.control<number | null>(null, [Validators.min(0)]),
     });
 
     constructor() {

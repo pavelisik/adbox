@@ -71,7 +71,7 @@ export class AdvertAdd {
         title: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]],
         description: ['', Validators.maxLength(250)],
         address: ['', [Validators.required, Validators.maxLength(100)]],
-        price: ['', [Validators.required, Validators.max(1000000000)]],
+        price: [0, [Validators.min(0), Validators.max(1000000000)]],
         phone: ['', Validators.required],
         email: ['', [Validators.email, Validators.maxLength(50)]],
     });
@@ -105,24 +105,12 @@ export class AdvertAdd {
                 this.advertAddForm.patchValue({ address });
             }
         });
-
-        // вот только так из черновика данные подгружаются в категории
-        // надо писать асинхронный метод как в настройках и в нем патчить значения (но скорей сего на паузу ставить во время запросов сохранение в черновик)
-        // effect(() => {
-        //     const category = this.advertDraftState.advertDraft().category;
-        //     console.log('category:', category);
-        //     if (category) {
-        //         setTimeout(() => {
-        //             this.advertAddForm.get('category')!.setValue(category);
-        //         }, 1000);
-        //     }
-        // });
     }
 
     // проверка на первое заполнение обязательных полей
     isAllRequiredCompleted(): boolean {
         const { title, address, price, phone } = this.advertAddForm.value;
-        return !!title && !!address && !!price && !!phone;
+        return !!title && !!address && price !== null && price !== undefined && phone !== null;
     }
 
     isControlInvalid(controlName: string): boolean {

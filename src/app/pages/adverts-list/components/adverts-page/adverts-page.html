@@ -6,7 +6,12 @@
         <h4 class="h4 fw-600 mb-24">Мои объявления</h4>
     }
     @case ('authorAds') {
-        <h4 class="h4 fw-600 mb-24">Объявления пользователя «{{ authorName() }}»</h4>
+        <h4 class="h4 fw-600 mb-24">
+            Объявления пользователя
+            @if (authorName()) {
+                «{{ authorName() }}»
+            }
+        </h4>
     }
     @case ('filteredAds') {
         <app-ad-title

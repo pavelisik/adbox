@@ -33,5 +33,6 @@
     .ad-grid-skeleton {
         grid-template-columns: repeat(4, 1fr);
         max-width: 100%;
+        column-gap: 24px;
     }
 }

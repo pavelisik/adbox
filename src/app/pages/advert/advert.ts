@@ -13,6 +13,7 @@ import { NotificationService } from '@app/core/notification';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-advert',
@@ -41,6 +42,7 @@ export class Advert {
     private readonly route = inject(ActivatedRoute);
     private readonly notify = inject(NotificationService);
     private breakpointObserver = inject(BreakpointObserver);
+    private readonly titleService = inject(Title);
 
     readonly isUpdatingFavorite = signal<boolean>(false);
 
@@ -73,6 +75,15 @@ export class Advert {
             // сразу после загрузки объявления убираем баг с прокруткой сайдбара
             window.scrollTo({ top: 0, behavior: 'auto' });
         }
+
+        effect(() => {
+            const advertName = this.advert()?.name;
+
+            if (advertName) {
+                const title = 'ADBOX - ' + advertName;
+                this.titleService.setTitle(title);
+            }
+        });
     }
 
     infoDialogOpen(userName: string, phoneNumber: string) {

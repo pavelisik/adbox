@@ -7,7 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import { PrimePreset } from '@app/prime-preset';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, TitleStrategy, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
@@ -15,6 +15,7 @@ import {
     httpErrorsInterceptor,
     imagesCacheInterceptor,
 } from '@app/core/interceptors';
+import { AppTitleStrategy } from '@app/core/title/title-strategy';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -42,5 +43,6 @@ export const appConfig: ApplicationConfig = {
         ),
         MessageService,
         ConfirmationService,
+        { provide: TitleStrategy, useClass: AppTitleStrategy },
     ],
 };

@@ -5,7 +5,7 @@ export interface AdvertEditForm {
     title: FormControl<string>;
     description: FormControl<string>;
     address: FormControl<string>;
-    price: FormControl<string>;
+    price: FormControl<number>;
     phone: FormControl<string>;
     email: FormControl<string>;
 }

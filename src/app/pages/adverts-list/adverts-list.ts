@@ -9,6 +9,7 @@ import catWithAdverts from '@app/shared/data/cat-with-adverts.json';
 import { AdvertsBlock, AdvertsPage } from './components';
 import { NotificationService } from '@app/core/notification';
 import { ConfirmService } from '@app/core/confirmation';
+import { Title } from '@angular/platform-browser';
 
 export type AdvertsPageTypes = 'main' | 'search' | 'user-adverts' | 'my-adverts' | 'favorites';
 
@@ -25,6 +26,7 @@ export class AdvertsList {
     private readonly authStateService = inject(AuthStateService);
     private readonly notify = inject(NotificationService);
     private readonly confirm = inject(ConfirmService);
+    private readonly titleService = inject(Title);
 
     readonly adverts = this.advertsListFacade.adverts;
     readonly advertsAuthor = this.advertsListFacade.advertsAuthor;
@@ -175,6 +177,16 @@ export class AdvertsList {
                         break;
                 }
             });
+        });
+
+        effect(() => {
+            const catName = this.catNameParam();
+            const authorName = this.authorName();
+
+            if (catName)
+                this.titleService.setTitle('ADBOX - Объявления в категории «' + catName + '»');
+            if (authorName)
+                this.titleService.setTitle('ADBOX - Объявления пользователя «' + authorName + '»');
         });
     }
 

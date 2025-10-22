@@ -83,7 +83,7 @@ export class AdvertEdit {
         title: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]],
         description: ['', Validators.maxLength(250)],
         address: ['', [Validators.required, Validators.maxLength(100)]],
-        price: ['', [Validators.required, Validators.max(1000000000)]],
+        price: [0, [Validators.min(0), Validators.max(1000000000)]],
         phone: ['', Validators.required],
         email: ['', [Validators.email, Validators.maxLength(50)]],
     });
@@ -95,7 +95,7 @@ export class AdvertEdit {
     // проверка на первое заполнение обязательных полей
     isAllRequiredCompleted(): boolean {
         const { title, address, price, phone } = this.advertEditForm.value;
-        return !!title && !!address && !!price && !!phone;
+        return !!title && !!address && price !== null && price !== undefined && phone !== null;
     }
 
     isControlInvalid(controlName: string): boolean {
@@ -241,7 +241,7 @@ export class AdvertEdit {
                         title: advert.name,
                         description: advert.description,
                         address: advert.location,
-                        price: advert.cost.toString(),
+                        price: advert.cost,
                         phone: advert.phone,
                         email: advert.email,
                     });

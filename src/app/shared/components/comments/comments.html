@@ -1,36 +1,31 @@
 <section class="comments base">
     <h4 class="title fw-600">Комментарии</h4>
+
     @if (isCommentsLoading()) {
         <app-comments-skeleton></app-comments-skeleton>
     } @else {
-        @if (advertId === 'f14f2051-c965-4d10-8d73-e70a314bff05') {
-            <app-comments-skeleton></app-comments-skeleton>
-        } @else {
-            @if (commentsTree().length > 0) {
-                <app-comments-list
-                    [comments]="commentsTree()"
-                    (deleteRequest)="onDelete($event)"
-                    (replyRequest)="onReply($event)"
-                    (editRequest)="onEdit($event)"
-                ></app-comments-list>
-            }
-
-            @if (isAuth()) {
-                <app-comments-form (formSubmit)="onNew($event)"></app-comments-form>
-            } @else {
-                <div class="comments__auth-disclaimer gray-text">
-                    <p class="mb-4">
-                        Только авторизованные пользователи могут оставлять комментарии.
-                    </p>
-                    <button pButton text class="comments__text-btn" (click)="openLoginDialog()">
-                        Войдите
-                    </button>
-                    или
-                    <button pButton text class="comments__text-btn" (click)="openRegisterDialog()">
-                        зарегистрируйтесь
-                    </button>
-                </div>
-            }
+        @if (commentsTree().length > 0) {
+            <app-comments-list
+                [comments]="commentsTree()"
+                (deleteRequest)="onDelete($event)"
+                (replyRequest)="onReply($event)"
+                (editRequest)="onEdit($event)"
+            ></app-comments-list>
         }
+    }
+
+    @if (isAuth()) {
+        <app-comments-form (formSubmit)="onNew($event)"></app-comments-form>
+    } @else {
+        <div class="comments__auth-disclaimer gray-text">
+            <p class="mb-4">Только авторизованные пользователи могут оставлять комментарии.</p>
+            <button pButton text class="comments__text-btn" (click)="openLoginDialog()">
+                Войдите
+            </button>
+            или
+            <button pButton text class="comments__text-btn" (click)="openRegisterDialog()">
+                зарегистрируйтесь
+            </button>
+        </div>
     }
 </section>

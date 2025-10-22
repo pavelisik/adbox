@@ -66,6 +66,12 @@ export class ControlError {
             return 'Пароли не совпадают';
         }
 
+        if (control.errors['min']) {
+            if (controlName === 'price') {
+                return `Минимум 0 рублей`;
+            }
+        }
+
         if (control.errors['max']) {
             if (controlName === 'price') {
                 return `Слишком дорого`;
