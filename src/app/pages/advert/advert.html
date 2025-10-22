@@ -8,7 +8,7 @@
             <div class="advert__image-gallery mb-30">
                 <app-image-gallery [imagesIds]="advert.imagesIds"></app-image-gallery>
             </div>
-            <app-comments></app-comments>
+            <app-comments class="advert__comments"></app-comments>
         </div>
         <div class="advert-right">
             @if (isAuth() && !isMyAdvert()) {

@@ -1,7 +1,21 @@
 .map-block {
-    width: 600px;
-    height: 400px;
+    width: 400px;
+    height: 200px;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 12px;
+}
+
+@media (min-width: 576px) {
+    .map-block {
+        width: 500px;
+        height: 300px;
+    }
+}
+
+@media (min-width: 768px) {
+    .map-block {
+        width: 600px;
+        height: 400px;
+    }
 }

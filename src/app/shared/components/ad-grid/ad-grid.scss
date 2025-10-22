@@ -108,12 +108,12 @@
 
 @media (min-width: 576px) {
     .ad-grid {
-        column-gap: 18px;
-        row-gap: 25px;
+        column-gap: 4%;
+        row-gap: 30px;
     }
 
     .ad-grid_full {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
     .ad-grid_short {
         grid-template-columns: repeat(1, 1fr);
@@ -122,21 +122,29 @@
 
 @media (min-width: 680px) {
     .ad-grid_full {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
     .ad-grid_short {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ad-grid {
+        column-gap: 4%;
     }
 }
 
 @media (min-width: 768px) {
     .ad-grid {
-        column-gap: 24px;
+        column-gap: 6%;
         row-gap: 32px;
     }
 }
 
 @media (min-width: 992px) {
+    .ad-grid {
+        column-gap: 24px;
+    }
+
     .ad-grid_full {
         grid-template-columns: repeat(4, 1fr);
     }

@@ -1,7 +1,7 @@
 .image-wrapper {
     height: 100%;
     display: flex;
-    align-items: center;
+    align-items: normal;
     justify-content: center;
     position: relative;
 }
@@ -28,4 +28,22 @@
     min-width: 100%;
     image-rendering: auto;
     object-fit: fill;
+}
+
+@media (min-width: 576px) {
+    .container {
+        align-items: center;
+    }
+}
+
+@media (min-width: 700px) {
+    .image-wrapper {
+        align-items: normal;
+    }
+}
+
+@media (min-width: 992px) {
+    .image-wrapper {
+        align-items: center;
+    }
 }

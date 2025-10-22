@@ -1,5 +1,6 @@
 .img-gallery__item-wrapper {
-    height: 570px;
+    height: auto;
+    min-height: 250px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -21,5 +22,26 @@
 
 .img-gallery__thumbnail {
     border-radius: 4px;
-    height: 90px;
+    height: 45px;
+}
+
+@media (min-width: 576px) {
+    .img-gallery__thumbnail {
+        height: 55px;
+    }
+}
+
+@media (min-width: 768px) {
+    .img-gallery__item-wrapper {
+        height: 570px;
+    }
+    .img-gallery__thumbnail {
+        height: 70px;
+    }
+}
+
+@media (min-width: 992px) {
+    .img-gallery__thumbnail {
+        height: 90px;
+    }
 }
