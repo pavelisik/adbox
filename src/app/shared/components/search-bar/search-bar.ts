@@ -22,8 +22,9 @@ import { PopoverModule } from 'primeng/popover';
     styleUrl: './search-bar.scss',
 })
 export class SearchBar {
-    private router = inject(Router);
-    fb = inject(FormBuilder);
+    private readonly router = inject(Router);
+    private readonly fb = inject(FormBuilder);
+
     menuButtonIcon = 'list-nested';
     menuButtonActive = false;
 

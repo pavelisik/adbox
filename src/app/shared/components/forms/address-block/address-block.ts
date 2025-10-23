@@ -1,8 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LocalUserService, UserFacade } from '@app/core/auth/services';
-import { ConfirmService } from '@app/core/confirmation';
-import { NotificationService } from '@app/core/notification';
+import { UserFacade } from '@app/core/auth/services';
 import { AddressInput } from '@app/shared/components/forms/address-input/address-input';
 import { ButtonModule } from 'primeng/button';
 

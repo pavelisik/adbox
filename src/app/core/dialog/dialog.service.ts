@@ -20,9 +20,6 @@ export class DialogService {
     readonly current = signal<DialogType | null>(null);
     private skipClose = false;
 
-    userName: string = '';
-    phoneNumber: string = '';
-
     constructor() {
         // закрываем окно при навигации
         this.router.events
@@ -39,12 +36,8 @@ export class DialogService {
             .subscribe();
     }
 
-    open(type: DialogType, userName?: string, phoneNumber?: string) {
+    open(type: DialogType) {
         this.current.set(type);
-        if (type === 'info') {
-            if (userName) this.userName = userName;
-            if (phoneNumber) this.phoneNumber = phoneNumber;
-        }
     }
 
     close() {

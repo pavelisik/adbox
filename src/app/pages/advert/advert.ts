@@ -86,8 +86,8 @@ export class Advert {
         });
     }
 
-    infoDialogOpen(userName: string, phoneNumber: string) {
-        this.dialogService.open('info', userName, phoneNumber);
+    infoDialogOpen() {
+        this.dialogService.open('info');
     }
 
     mapDialogOpen() {

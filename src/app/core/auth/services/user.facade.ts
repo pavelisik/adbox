@@ -75,6 +75,25 @@ export class UserFacade {
         this.refreshAuthUserTrigger.update((v) => v + 1);
     }
 
+    deleteUser(userId: string) {
+        this.isDeleteLoading.set(true);
+
+        this.userService
+            .deleteUser(userId)
+            .pipe(
+                tap(() => {
+                    this.authService.logout();
+                }),
+                catchError((error) => {
+                    console.error(error);
+                    return of(null);
+                }),
+                finalize(() => this.isDeleteLoading.set(false)),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
+    }
+
     // проверка, добавлено ли объявление в избранное
     isAdvertInFavorites(advertId: string): boolean {
         return this.currentUser()?.favoritesAdverts?.includes(advertId) ?? false;
@@ -104,24 +123,5 @@ export class UserFacade {
         this.localUserService.updateData(user.id, {
             favoritesAdverts: Array.from(favoritesAdverts),
         });
-    }
-
-    deleteUser(userId: string) {
-        this.isDeleteLoading.set(true);
-
-        this.userService
-            .deleteUser(userId)
-            .pipe(
-                tap(() => {
-                    this.authService.logout();
-                }),
-                catchError((error) => {
-                    console.error(error);
-                    return of(null);
-                }),
-                finalize(() => this.isDeleteLoading.set(false)),
-                takeUntilDestroyed(this.destroyRef),
-            )
-            .subscribe();
     }
 }

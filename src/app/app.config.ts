@@ -17,7 +17,7 @@ import {
     httpErrorsInterceptor,
     imagesCacheInterceptor,
 } from '@app/core/interceptors';
-import { AppTitleStrategy } from '@app/core/title/title-strategy';
+import { AppTitleStrategy } from '@app/core/title';
 import { AuthFacade } from '@app/core/auth/services';
 
 export const appConfig: ApplicationConfig = {

@@ -4,14 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'dateFormat',
 })
 export class DateFormatPipe implements PipeTransform {
-    // private timeFormat = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit' });
-    // private fullFormat = new Intl.DateTimeFormat('ru-RU', {
-    //     day: 'numeric',
-    //     month: 'long',
-    //     hour: '2-digit',
-    //     minute: '2-digit',
-    // });
-
     private timeFormat = new Intl.DateTimeFormat('ru-RU', {
         hour: '2-digit',
         minute: '2-digit',
@@ -44,7 +36,6 @@ export class DateFormatPipe implements PipeTransform {
             return `Вчера ${time}`;
         }
 
-        // return this.fullFormat.format(date);
         return `${this.dateFormat.format(date)} ${time}`;
     }
 }

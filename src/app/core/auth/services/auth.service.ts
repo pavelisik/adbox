@@ -25,12 +25,6 @@ export class AuthService {
         );
     }
 
-    logout() {
-        this.authFacade.deleteToken();
-        this.router.navigate(['']);
-        this.notify.info('Авторизация', 'Вы вышли из системы');
-    }
-
     register(params: AuthRegisterRequest): Observable<string> {
         return this.apiService.register(params).pipe(
             tap(() => {
@@ -45,5 +39,11 @@ export class AuthService {
                 this.notify.success('Подтверждение', 'Проверка пароля прошла успешно');
             }),
         );
+    }
+
+    logout() {
+        this.authFacade.deleteToken();
+        this.router.navigate(['']);
+        this.notify.info('Авторизация', 'Вы вышли из системы');
     }
 }
