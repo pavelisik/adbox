@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStateService, UserFacade } from '@app/core/auth/services';
+import { AuthFacade, UserFacade } from '@app/core/auth/services';
 
 @Component({
     selector: 'app-image-buttons',
@@ -10,7 +10,7 @@ import { AuthStateService, UserFacade } from '@app/core/auth/services';
 })
 export class ImageButtons {
     private readonly router = inject(Router);
-    private readonly authStateService = inject(AuthStateService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly userFacade = inject(UserFacade);
 
     readonly advertId = input<string | null>(null);
@@ -20,7 +20,7 @@ export class ImageButtons {
 
     readonly isUpdatingFavorite = signal<boolean>(false);
 
-    readonly isAuth = this.authStateService.isAuth;
+    readonly isAuth = this.authFacade.isAuth;
 
     readonly isFavorite = computed(() => {
         const advertId = this.advertId();

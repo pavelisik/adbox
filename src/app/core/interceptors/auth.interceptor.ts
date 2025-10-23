@@ -1,4 +1,4 @@
-import { AuthService, AuthStateService } from '@app/core/auth/services';
+import { AuthFacade, AuthService } from '@app/core/auth/services';
 import { HttpErrorResponse, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
@@ -11,8 +11,9 @@ const addToken = (req: HttpRequest<any>, token: string) => {
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
     const authService = inject(AuthService);
-    const authStateService = inject(AuthStateService);
-    const token = authStateService.token();
+    const authFacade = inject(AuthFacade);
+
+    const token = authFacade.token();
 
     // игнорируем запросы
     if (

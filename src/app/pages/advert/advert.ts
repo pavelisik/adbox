@@ -5,7 +5,7 @@ import { Breadcrumbs, SvgIcon, ImageGallery, Comments } from '@app/shared/compon
 import { AdvertFacade, BreadcrumbsStateService } from '@app/shared/services';
 import { PriceFormatPipe, DateFormatPipe } from '@app/shared/pipes';
 import { ButtonModule } from 'primeng/button';
-import { AuthStateService, UserFacade } from '@app/core/auth/services';
+import { AuthFacade, UserFacade } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 import { ConfirmService } from '@app/core/confirmation';
 import { AdvertSkeleton } from '@app/shared/components/skeletons';
@@ -37,7 +37,7 @@ export class Advert {
     private readonly breadcrumbsState = inject(BreadcrumbsStateService);
     private readonly confirm = inject(ConfirmService);
     private readonly dialogService = inject(DialogService);
-    private readonly authStateService = inject(AuthStateService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly userFacade = inject(UserFacade);
     private readonly route = inject(ActivatedRoute);
     private readonly notify = inject(NotificationService);
@@ -49,7 +49,7 @@ export class Advert {
     readonly advert = this.advertFacade.advert;
     readonly breadcrumbs = this.breadcrumbsState.breadcrumbs;
     readonly currentUser = this.userFacade.currentUser;
-    readonly isAuth = this.authStateService.isAuth;
+    readonly isAuth = this.authFacade.isAuth;
     readonly isMyAdvert = this.advertFacade.isMyAdvert;
     readonly isAdvertLoading = this.advertFacade.isAdvertLoading;
     readonly isDeleteLoading = this.advertFacade.isDeleteLoading;

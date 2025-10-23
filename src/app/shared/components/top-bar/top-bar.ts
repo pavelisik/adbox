@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AuthService, AuthStateService, UserFacade } from '@app/core/auth/services';
+import { AuthFacade, AuthService, UserFacade } from '@app/core/auth/services';
 import { SvgIcon } from '@app/shared/components';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
@@ -17,12 +17,12 @@ import { DialogService } from '@app/core/dialog';
 })
 export class TopBar {
     private readonly authService = inject(AuthService);
-    private readonly authStateService = inject(AuthStateService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly userFacade = inject(UserFacade);
     private readonly dialogService = inject(DialogService);
     private readonly confirm = inject(ConfirmService);
 
-    readonly isAuth = this.authStateService.isAuth;
+    readonly isAuth = this.authFacade.isAuth;
     readonly currentUser = this.userFacade.currentUser;
 
     menuItems: MenuItem[] = [

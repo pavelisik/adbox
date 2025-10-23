@@ -1,5 +1,7 @@
 import {
     ApplicationConfig,
+    inject,
+    provideAppInitializer,
     provideBrowserGlobalErrorListeners,
     provideZoneChangeDetection,
 } from '@angular/core';
@@ -16,6 +18,7 @@ import {
     imagesCacheInterceptor,
 } from '@app/core/interceptors';
 import { AppTitleStrategy } from '@app/core/title/title-strategy';
+import { AuthFacade } from '@app/core/auth/services';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -44,5 +47,9 @@ export const appConfig: ApplicationConfig = {
         MessageService,
         ConfirmationService,
         { provide: TitleStrategy, useClass: AppTitleStrategy },
+        provideAppInitializer(() => {
+            const auth = inject(AuthFacade);
+            auth.initFromCookie();
+        }),
     ],
 };

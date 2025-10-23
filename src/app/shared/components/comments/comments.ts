@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommentsFacade } from '@app/shared/services';
 import { CommentsList } from './comments-list/comments-list';
-import { AuthStateService, UserFacade } from '@app/core/auth/services';
+import { AuthFacade, UserFacade } from '@app/core/auth/services';
 import { transformComments } from '@app/shared/utils';
 import { CommentsForm } from './comments-form/comments-form';
 import { ConfirmService } from '@app/core/confirmation';
@@ -19,13 +19,13 @@ import { CommentsSkeleton } from '@app/shared/components/skeletons';
 })
 export class Comments {
     private readonly commentsFacade = inject(CommentsFacade);
-    private readonly authStateService = inject(AuthStateService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly userFacade = inject(UserFacade);
     private readonly dialogService = inject(DialogService);
     private readonly confirm = inject(ConfirmService);
     private readonly route = inject(ActivatedRoute);
 
-    readonly isAuth = this.authStateService.isAuth;
+    readonly isAuth = this.authFacade.isAuth;
     readonly currentUser = this.userFacade.currentUser;
     readonly isCommentsLoading = this.commentsFacade.isCommentsLoading;
     readonly comments = this.commentsFacade.comments;

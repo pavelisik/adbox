@@ -1,45 +1,29 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+import { computed, Injectable, signal } from '@angular/core';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthStateService {
-    private readonly router = inject(Router);
-    private readonly cookieService = inject(CookieService);
-    readonly token = signal<string | null>(this.cookieService.get('token') || null);
-    readonly redirectUrl = signal<string | null>(null);
+    private readonly _token = signal<string | null>(null);
+    private readonly _redirectUrl = signal<string | null>(null);
 
-    readonly isAuth = computed(() => !!this.token());
+    readonly token = this._token.asReadonly();
+    readonly redirectUrl = this._redirectUrl.asReadonly();
+    readonly isAuth = computed(() => !!this._token());
 
-    saveToken(token: string, rememberMe: boolean) {
-        this.token.set(token);
-        if (rememberMe) {
-            this.cookieService.set('token', token, { expires: 30, path: '/' });
-        } else {
-            this.cookieService.set('token', token, { path: '/' });
-        }
+    setToken(token: string | null): void {
+        this._token.set(token);
     }
 
-    deleteToken() {
-        this.token.set(null);
-        this.cookieService.delete('token', '/');
+    setRedirectUrl(url: string | null) {
+        this._redirectUrl.set(url);
     }
 
-    setRedirectUrl(url: string) {
-        this.redirectUrl.set(url);
+    clearToken() {
+        this._token.set(null);
     }
 
     clearRedirectUrl() {
-        this.redirectUrl.set(null);
-    }
-
-    redirectAfterLogin() {
-        const url = this.redirectUrl();
-        if (url) {
-            this.router.navigateByUrl(url);
-            this.clearRedirectUrl();
-        }
+        this._redirectUrl.set(null);
     }
 }

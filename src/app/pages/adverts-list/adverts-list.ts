@@ -3,7 +3,7 @@ import { AdvertsListFacade } from '@app/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AuthStateService, UserFacade } from '@app/core/auth/services';
+import { AuthFacade, UserFacade } from '@app/core/auth/services';
 import { categoryNameFromId, sortAdvertsByDate } from '@app/shared/utils';
 import catWithAdverts from '@app/shared/data/cat-with-adverts.json';
 import { AdvertsBlock, AdvertsPage } from './components';
@@ -23,7 +23,7 @@ export class AdvertsList {
     private readonly advertsListFacade = inject(AdvertsListFacade);
     private readonly route = inject(ActivatedRoute);
     private readonly userFacade = inject(UserFacade);
-    private readonly authStateService = inject(AuthStateService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly notify = inject(NotificationService);
     private readonly confirm = inject(ConfirmService);
     private readonly titleService = inject(Title);
@@ -31,7 +31,7 @@ export class AdvertsList {
     readonly adverts = this.advertsListFacade.adverts;
     readonly advertsAuthor = this.advertsListFacade.advertsAuthor;
     readonly currentUser = this.userFacade.currentUser;
-    readonly isAuth = this.authStateService.isAuth;
+    readonly isAuth = this.authFacade.isAuth;
     readonly isLoading = this.advertsListFacade.isLoading;
     readonly isUserLoading = this.userFacade.isLoading;
 

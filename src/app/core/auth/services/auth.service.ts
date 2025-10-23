@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthLoginRequest, AuthRegisterRequest } from '@app/core/auth/domains';
-import { AuthStateService } from '@app/core/auth/services';
+import { AuthFacade } from '@app/core/auth/services';
 import { NotificationService } from '@app/core/notification';
 import { AuthApiService } from '@app/infrastructure/authorization/services';
 import { Observable, tap } from 'rxjs';
@@ -11,26 +11,24 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
     private readonly apiService = inject(AuthApiService);
-    private readonly authStateService = inject(AuthStateService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly notify = inject(NotificationService);
     private readonly router = inject(Router);
 
     login(params: AuthLoginRequest, rememberMe: boolean): Observable<string> {
         return this.apiService.login(params).pipe(
             tap((val) => {
-                this.authStateService.saveToken(val, rememberMe);
-                this.authStateService.redirectAfterLogin();
+                this.authFacade.saveToken(val, rememberMe);
+                this.authFacade.redirectAfterLogin();
                 this.notify.success('Авторизация', 'Вы успешно вошли в систему');
             }),
         );
     }
 
-    confirmPassword(params: AuthLoginRequest): Observable<string> {
-        return this.apiService.login(params).pipe(
-            tap(() => {
-                this.notify.success('Подтверждение', 'Проверка пароля прошла успешно');
-            }),
-        );
+    logout() {
+        this.authFacade.deleteToken();
+        this.router.navigate(['']);
+        this.notify.info('Авторизация', 'Вы вышли из системы');
     }
 
     register(params: AuthRegisterRequest): Observable<string> {
@@ -41,9 +39,11 @@ export class AuthService {
         );
     }
 
-    logout() {
-        this.authStateService.deleteToken();
-        this.router.navigate(['']);
-        this.notify.info('Авторизация', 'Вы вышли из системы');
+    confirmPassword(params: AuthLoginRequest): Observable<string> {
+        return this.apiService.login(params).pipe(
+            tap(() => {
+                this.notify.success('Подтверждение', 'Проверка пароля прошла успешно');
+            }),
+        );
     }
 }

@@ -1,19 +1,19 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthStateService } from '@app/core/auth/services';
+import { AuthFacade } from '@app/core/auth/services';
 import { DialogService } from '@app/core/dialog';
 
 export const canActivateAuth: CanActivateFn = (route, state) => {
-    const authStateService = inject(AuthStateService);
+    const authFacade = inject(AuthFacade);
     const dialogService = inject(DialogService);
     const router = inject(Router);
 
-    if (authStateService.isAuth()) {
+    if (authFacade.isAuth()) {
         return true;
     }
 
     // сохраняем url на который хотим попасть
-    authStateService.setRedirectUrl(state.url);
+    authFacade.setRedirectUrl(state.url);
 
     dialogService.skipNextClose();
     dialogService.open('login');

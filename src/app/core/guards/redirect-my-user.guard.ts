@@ -1,17 +1,17 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthStateService, UserFacade } from '@app/core/auth/services';
+import { AuthFacade, UserFacade } from '@app/core/auth/services';
 import { filter, map, take } from 'rxjs';
 
 export const redirectMyUser: CanActivateFn = (route) => {
-    const authStateService = inject(AuthStateService);
+    const authFacade = inject(AuthFacade);
     const userFacade = inject(UserFacade);
     const router = inject(Router);
 
     const userId = route.paramMap.get('id');
 
-    if (!authStateService.isAuth()) return true;
+    if (!authFacade.isAuth()) return true;
 
     return toObservable(userFacade.currentUser).pipe(
         filter(Boolean),

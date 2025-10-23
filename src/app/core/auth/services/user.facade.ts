@@ -1,8 +1,8 @@
 import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+    AuthFacade,
     AuthService,
-    AuthStateService,
     LocalUserStateService,
     UserService,
     UserStateService,
@@ -15,7 +15,7 @@ import { FullUser } from '@app/core/auth/domains';
     providedIn: 'root',
 })
 export class UserFacade {
-    private readonly authState = inject(AuthStateService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly userStateService = inject(UserStateService);
     private readonly userService = inject(UserService);
     private readonly authService = inject(AuthService);
@@ -39,7 +39,7 @@ export class UserFacade {
 
     constructor() {
         effect(() => {
-            const isAuth = this.authState.isAuth();
+            const isAuth = this.authFacade.isAuth();
             const refresh = this.refreshAuthUserTrigger();
 
             // выполняем запрос на получение текущего пользователя только если авторизованы
