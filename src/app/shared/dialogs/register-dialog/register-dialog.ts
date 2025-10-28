@@ -40,33 +40,14 @@ export class RegisterDialog {
         {
             login: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
             name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
-
-            // passwords: this.fb.group(
-            //     {
-            //         password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
-            //         confirmPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
-            //     },
-            //     { validators: passwordsMatchValidator('password', 'confirmPassword') },
-            // ),
-
             password: [
                 '',
                 [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
             ],
             confirmPassword: ['', Validators.required],
         },
-        // { validators: this.passwordsMatchValidator },
+        { validators: passwordsMatchValidator('password', 'confirmPassword') },
     );
-
-    constructor() {
-        // подключаем кастомный валидатор
-        this.registerForm.setValidators(
-            passwordsMatchValidator(
-                this.registerForm.controls.password,
-                this.registerForm.controls.confirmPassword,
-            ),
-        );
-    }
 
     // проверка на первое заполнение обязательных полей
     isAllRequiredCompleted(): boolean {
@@ -99,27 +80,6 @@ export class RegisterDialog {
         })();
         this.errorMessage.set(message);
     }
-
-    // кастомный валидатор для проверки совпадения паролей
-    // passwordsMatchValidator(control: AbstractControl) {
-    //     const formGroup = control as FormGroup<RegisterForm>;
-    //     const passwordControl = formGroup.controls.password;
-    //     const confirmPasswordControl = formGroup.controls.confirmPassword;
-
-    //     if (
-    //         passwordControl?.value &&
-    //         confirmPasswordControl?.value &&
-    //         passwordControl?.value !== confirmPasswordControl.value
-    //     ) {
-    //         confirmPasswordControl?.setErrors({ mismatch: true });
-    //     } else {
-    //         if (confirmPasswordControl?.hasError('mismatch')) {
-    //             confirmPasswordControl.setErrors(null);
-    //         }
-    //     }
-
-    //     return null;
-    // }
 
     onSubmit() {
         this.isSubmitted.set(true);

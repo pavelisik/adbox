@@ -42,22 +42,21 @@ export class PasswordForm {
     errorMessage = signal<string | null>(null);
     isPasswordVisible = signal<boolean>(false);
 
-    passwordForm: FormGroup<PasswordChangeForm> = this.fb.nonNullable.group({
-        newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
-        confirmPassword: [
-            '',
-            [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
-        ],
-    });
+    passwordForm: FormGroup<PasswordChangeForm> = this.fb.nonNullable.group(
+        {
+            newPassword: [
+                '',
+                [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
+            ],
+            confirmPassword: [
+                '',
+                [Validators.required, Validators.minLength(8), Validators.maxLength(50)],
+            ],
+        },
+        { validators: passwordsMatchValidator('password', 'confirmPassword') },
+    );
 
     constructor() {
-        // подключаем кастомный валидатор
-        this.passwordForm.setValidators(
-            passwordsMatchValidator(
-                this.passwordForm.controls.newPassword,
-                this.passwordForm.controls.confirmPassword,
-            ),
-        );
         effect(() => {
             const isPasswordConfirmed = this.passwordConfirmService.isPasswordConfirmed();
             const activeForm = this.passwordConfirmService.activeForm();
